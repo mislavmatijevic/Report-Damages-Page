@@ -1,0 +1,28 @@
+.section-login_form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: left;
+
+    position: relative;
+    margin: 0 auto;
+
+    max-width: 90%;
+    height: auto;
+}
+
+.section-login_form>input {
+    margin: 8px;
+    padding: 12px;
+    font-size: 20px;
+}
+
+.section-login_form>label {
+    margin: 8px;
+    padding: 8px;
+    font-size: 16px;
+}
+
+.section-login_form-submit {
+    max-width: 200px;
+}

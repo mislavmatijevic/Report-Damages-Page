@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords">
+    <title>Stranica za štete</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/register.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <header class="header">
+        <div class="header__inner">
+            <a href="index.html" class="header__rss-container">
+                <img src="multimedija/rss.png" alt="Rss kanal" class="header__rss">
+            </a>
+            <nav class="header__nav">
+                <a href="index.html" class="header__nav-item header__nav-item_active">Početna stranica</a>
+                <a href="login.html" class="header__nav-item header__nav-item_active">Prijava</a>
+                <a href="register.html" class="header__nav-item header__nav-item_active">Registracija</a>
+                <a href="#" class="header__nav-item header__nav-item_active">Javni pozivi</a>
+                <a href="#" class="header__nav-item header__nav-item_active">Statistika</a>
+                <a href="#" class="header__nav-item header__nav-item_active">Dokumentacija</a>
+                <a href="#" class="header__nav-item header__nav-item_active">O autoru</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="section">
+            <h1 class="section__title">Registracija</h1>
+            <form id="registracija" name="registracija" method="POST" class="section-register_form">
+                <label for="name" class="section-register_form-input">Ime: </label>
+                <input id="name" />
+                <label for="surname" class="section-register_form-password">Prezime: </label>
+                <input id="surname" />
+                <label for="email" class="section-register_form-input">Email: </label>
+                <input id="email" />
+                <label for="password" class="section-register_form-password">Lozinka: </label>
+                <input id="password" />
+                <label for="repeat" class="section-register_form-password">Ponovite lozinku: </label>
+                <input id="repeat" />
+                <input type="submit" value="Registracija" class="section-register_form-submit" />
+            </form>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-description">
+            <p>Mislav Matijević, Copyright © 2021.</p>
+        </div>
+    </footer>
+</body>
+
+</html>
