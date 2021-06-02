@@ -7,8 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="keywords">
     <title>Stranica za štete</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link type="text/css" rel="stylesheet" href="css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;600&display=swap" rel="stylesheet">
+    <script type="text/javascript" src="./js/jquery.js"></script>
+    <script type="text/javascript" src="./js/script.js"></script>
 </head>
 
 <body>
@@ -17,21 +19,18 @@
             <a href="rss.php" class="header__rss-container">
                 <img src="multimedija/rss.png" alt="Rss kanal" class="header__rss">
             </a>
-            <nav class="header__nav">
-                <button class="header__hamburger">
-                    <div class="header__hamburger-line"></div>
-                    <div class="header__hamburger-line"></div>
-                    <div class="header__hamburger-line"></div>
-                    <a href="index.html" class="header__nav-item">Početna stranica</a>
-                    <a href="login.html" class="header__nav-item header__nav-item_login">Prijava</a>
-                    <a href="register.html" class="header__nav-item">Registracija</a>
-                    <a href="#" class="header__nav-item">Javni pozivi</a>
-                    <a href="#" class="header__nav-item">Statistika</a>
-                    <a href="#" class="header__nav-item">Dokumentacija</a>
-                    <a href="#" class="header__nav-item">O autoru</a>
-                </button class="header__hamburger">
+            <nav id="hamburger_menu" class="header__nav">
+                <div class="header__nav__hamburger-line"></div>
+                <div class="header__nav__hamburger-line"></div>
+                <div class="header__nav__hamburger-line"></div>
+                <a href="index.html" class="header__nav-item">Početna stranica</a>
+                <a href="login.html" class="header__nav-item">Prijava</a>
+                <a href="register.html" class="header__nav-item">Registracija</a>
+                <a href="#" class="header__nav-item">Javni pozivi</a>
+                <a href="#" class="header__nav-item">Statistika</a>
+                <a href="#" class="header__nav-item">Dokumentacija</a>
+                <a href="#" class="header__nav-item">O autoru</a>
             </nav>
-
         </div>
     </header>
 
