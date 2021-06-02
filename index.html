@@ -7,27 +7,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="keywords">
     <title>Stranica za štete</title>
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/index.css">
-    <link rel="stylesheet" href="css/loginPopup.css">
+    <link rel="stylesheet" href="css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;600&display=swap" rel="stylesheet">
 </head>
 
 <body>
     <header class="header">
         <div class="header__inner">
-            <a href="index.html" class="header__rss-container">
+            <a href="rss.php" class="header__rss-container">
                 <img src="multimedija/rss.png" alt="Rss kanal" class="header__rss">
             </a>
             <nav class="header__nav">
-                <a href="index.html" class="header__nav-item header__nav-item_active">Početna stranica</a>
-                <a href="login.html" class="header__nav-item header__nav-item_active">Prijava</a>
-                <a href="register.html" class="header__nav-item header__nav-item_active">Registracija</a>
-                <a href="#" class="header__nav-item header__nav-item_active">Javni pozivi</a>
-                <a href="#" class="header__nav-item header__nav-item_active">Statistika</a>
-                <a href="#" class="header__nav-item header__nav-item_active">Dokumentacija</a>
-                <a href="#" class="header__nav-item header__nav-item_active">O autoru</a>
+                <button class="header__hamburger">
+                    <div class="header__hamburger-line"></div>
+                    <div class="header__hamburger-line"></div>
+                    <div class="header__hamburger-line"></div>
+                    <a href="index.html" class="header__nav-item">Početna stranica</a>
+                    <a href="login.html" class="header__nav-item header__nav-item_login">Prijava</a>
+                    <a href="register.html" class="header__nav-item">Registracija</a>
+                    <a href="#" class="header__nav-item">Javni pozivi</a>
+                    <a href="#" class="header__nav-item">Statistika</a>
+                    <a href="#" class="header__nav-item">Dokumentacija</a>
+                    <a href="#" class="header__nav-item">O autoru</a>
+                </button class="header__hamburger">
             </nav>
+
         </div>
     </header>
 
@@ -36,16 +40,12 @@
             <div class="section-hero__overlay">
                 <div class="section-hero__content">
                     <h1 class="section-hero__heading">
-                        Stranica za prijavu šteta.
+                        Prijave šteta
                     </h1>
                     <p class="section-hero__subheading">
                         Materijalna (imovinska) šteta se sastoji u uništenju neke stvari, onemogućavanju ili otežanju
                         upotrebe stvari, u nekoj smetnji zbog čijeg uklanjanja je potrebno napraviti troškove koji inače
                         ne bi bili napravljeni.
-                    </p>
-                    <p class="section-hero__subheading">
-                        Štetnik je dužan da oštećenom naknadi onaj interes koji bi ovaj imao da se nije desio štetni
-                        događaj.
                     </p>
                     <p class="section-hero__subheading">
                         Ova stranica omogućava osobama koje su doživjele ovakvu tragediju da donacijama ostvare dobit i
@@ -56,10 +56,10 @@
         </section>
         <section class="section-login">
             <form id="prijava" name="prijava" method="POST" class="section-login_popup">
-                <h1 class="section-login_popup-header">Prijava</h1>
+                <h1 class="section-login_popup-header">Prijava u sustav</h1>
                 <input id="email" placeholder="Email" />
                 <input id="password" placeholder="Password" />
-                <input type="submit" value="Prijava" class="section-login_popup-submit"/>
+                <input type="submit" value="Prijava" class="section-login_popup-submit" />
             </form>
         </section>
         <section class="section section_damages" style="display: block">
@@ -83,9 +83,7 @@
         </section>
     </main>
     <footer class="footer">
-        <div class="footer-description">
-            <p>Mislav Matijević, Copyright © 2021.</p>
-        </div>
+        Mislav Matijević, Copyright © 2021.
     </footer>
 </body>
 
