@@ -1,58 +1,103 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php
+require_once './control/_page.php';
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="keywords">
-    <title>Stranica za štete</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;600&display=swap" rel="stylesheet">
-</head>
+$newUser = null;
+$mistakeField = null;
+if (isset($_POST["register"])) {
 
-<body>
-    <header class="header">
-        <div class="header__inner">
-            <a href="index.html" class="header__rss-container">
-                <img src="multimedija/rss.png" alt="Rss kanal" class="header__rss">
-            </a>
-            <nav class="header__nav">
-                <a href="index.html" class="header__nav-item header__nav-item_active">Početna stranica</a>
-                <a href="login.html" class="header__nav-item header__nav-item_active">Prijava</a>
-                <a href="register.html" class="header__nav-item header__nav-item_active">Registracija</a>
-                <a href="#" class="header__nav-item header__nav-item_active">Javni pozivi</a>
-                <a href="#" class="header__nav-item header__nav-item_active">Statistika</a>
-                <a href="#" class="header__nav-item header__nav-item_active">Dokumentacija</a>
-                <a href="#" class="header__nav-item header__nav-item_active">O autoru</a>
-            </nav>
-        </div>
-    </header>
+    $mistakeField = array();
+    $newUser = array();
 
-    <main>
-        <section class="section">
-            <h1 class="section__title">Registracija</h1>
-            <form id="registracija" name="registracija" method="POST" class="section-register_form">
-                <label for="name" class="section-register_form-input">Ime: </label>
-                <input id="name" />
-                <label for="surname" class="section-register_form-password">Prezime: </label>
-                <input id="surname" />
-                <label for="email" class="section-register_form-input">Email: </label>
-                <input id="email" />
-                <label for="password" class="section-register_form-password">Lozinka: </label>
-                <input id="password" />
-                <label for="repeat" class="section-register_form-password">Ponovite lozinku: </label>
-                <input id="repeat" />
-                <input type="submit" value="Registracija" class="section-register_form-submit" />
-            </form>
-        </section>
-    </main>
+    foreach ($_POST as $k => $v) {
 
-    <footer class="footer">
-        <div class="footer-description">
-            <p>Mislav Matijević, Copyright © 2021.</p>
-        </div>
-    </footer>
-</body>
+        $newUser[$k] = $v;
 
-</html>
+        $mistake = "";
+
+        switch ($k) {
+            case 'name': {
+                    if (strlen($v) > 25) {
+                        $mistakeField[$k] = "Ime je predugačko!";
+                    }
+                    break;
+                }
+            case 'surname': {
+                    if (strlen($v) > 50) {
+                        $mistakeField[$k] = "Prezime je predugačko!";
+                    }
+                    break;
+                }
+            case 'username': {
+
+                    if (empty($v)) {
+                        $mistakeField[$k] = "Popunite korisničko ime!";
+                    } elseif (strlen($v) > 20) {
+                        $mistakeField[$k] = "Korisničko ime je predugačko!";
+                    }
+
+                    break;
+                }
+            case 'password': {
+
+                    if (!preg_match('/^([\w]+){5,}$/', $v)) {
+                        $mistakeField[$k] = "Lozinka mora imati više od 5 znakova!";
+                    } elseif (!preg_match('/^(?=.*[\d])([\w]+){5,}$/', $v)) {
+                        $mistakeField[$k] = "Lozinku mora činiti barem 1 broj!";
+                    } elseif (strlen($v) > 50) {
+                        $mistakeField[$k] = "Lozinka je predugačka!";
+                    } elseif (!preg_match('/^(?=.*[\D])([\w]+){5,}$/', $v)) {
+                        $mistakeField[$k] = "Lozinku mora činiti barem 1 slovo!";
+                    }
+
+                    break;
+                }
+            case 'confirm_pass': {
+
+                    if ($v !== $_POST["password"]) {
+                        $mistakeField[$k] = "Lozinke se ne poklapaju.";
+                    }
+
+                    break;
+                }
+            case 'email': {
+
+                    if (empty($v)) {
+                        $mistakeField[$k] = "Molimo unesite mail!";
+                    } elseif (strlen($v) > 45) {
+                        $mistakeField[$k] = "Email je predugačak!";
+                    } elseif (!preg_match('/^[^.]([a-z0-9A-Z.\+\"\_\-]{1,64})[^.]@[^\-\_\-](?=.{1,255}$)([a-z0-9A-Z\-\+\.)+([a-z0-9A-Z]+)$/', $v)) {
+                        $mistakeField[$k] = "Molimo unesite ispravan email!";
+                    }
+
+                    break;
+                }
+        }
+    }
+
+    if (empty($mistakeField)) {
+
+        if (!strlen($newUser["name"])) $newUser["name"] = null;
+        if (!strlen($newUser["surname"])) $newUser["surname"] = null;
+
+        $isRegistered = UserControl::RegisterUser($newUser);
+
+        switch ($isRegistered) {
+            case DBError: {
+                    $smarty->assign("message", "Problem s bazom podataka!");
+                    $smarty->assign("messageOK", ERROR_MESSAGE);
+                    break;
+                }
+            default: {
+                    $smarty->assign("message", "{$newUser["name"]}, na mail Vam je stigla obavijest. Dovršite aktivaciju preko nje!");
+                    $smarty->assign("messageOK", INFO_MESSAGE);
+                }
+        }
+    }
+}
+
+if (isset($newUser)) $smarty->assign("newUser", $newUser);
+if (!empty($mistakeField)) $smarty->assign("mistakeField", $mistakeField);
+
+$smarty->display("header.tpl");
+$smarty->display("register.tpl");
+$smarty->display("footer.tpl");

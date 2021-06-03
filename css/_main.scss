@@ -79,6 +79,7 @@ main {
         }
 
         &__hamburger {
+            overflow: scroll;
             &-active {
                 top: 25px;
                 width: 300px;
@@ -132,12 +133,17 @@ main {
             @media screen and ($desktop) {
                 display: block;
             }
-            &_login {
+
+            &-login {
                 @media screen and ($desktop) {
                     display: none;
                 }
             }
-
+            
+            &-logout {
+                color: red;
+                border-color: red;
+            }
 
             &-hambi {
                 text-align: right;
@@ -153,6 +159,10 @@ main {
 
         @media screen and ($desktop) {
             display: flex;
+
+            &:hover {
+                cursor: initial;
+            }
             
             transition: none;
             position: relative;
@@ -188,10 +198,6 @@ main {
     background-color: $blackDim;
     width: 100%;
     height: auto;
-    margin-bottom: 0;
-    padding-bottom: 0;
-    padding: 15px;
-    font-size: 100%;
     text-align: center;
     font-style: italic;
     color: white;
@@ -206,7 +212,7 @@ main {
 
 .info {
     @include message;
-    color: lightgreen;
+    color: orange;
 }
 
 .error {

@@ -1,4 +1,4 @@
-</section>
+
 </main>
 <footer class="footer">
     Mislav Matijević, Copyright © 2021.

@@ -1,0 +1,4 @@
+Prilikom uspješnog logiranja se resetira brojač neuspješnih prijava.
+Prilikom uspješnog logiranja se postavlja brojač neuspješnih prijava.
+
+Prilikom registracije šalje se korime kao GET parametar linku na uređeni html mail.

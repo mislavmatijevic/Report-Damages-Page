@@ -8,6 +8,7 @@ define("baza", "WebDiP2020x057");
 define("DBError", -3);
 define("UserError", -2);
 define("PassError", -1);
+define("DBSuccess", 0);
 
 class DB
 {
@@ -40,18 +41,17 @@ class DB
      */
     public function AuthenticateUser(string $email, string $password)
     {
-
         $prepared = $this->mysqli_object->prepare("SELECT * FROM korisnik WHERE email = ? AND lozinka_sha256 = ? LIMIT 1");
 
         $pass_sha256 = hash("sha256", $password);
 
-        if (!($prepared->bind_param("ss", $email, $pass_sha256))) {
-            return -3;
+        if ($prepared->bind_param("ss", $email, $pass_sha256) == false) {
+            return DBError;
         }
 
 
         if ($prepared->execute() == false) {
-            return -3;
+            return DBError;
         };
 
         $result = $prepared->get_result();
@@ -68,7 +68,7 @@ class DB
                 $result = $prepared->get_result();
 
                 if ($result->num_rows === 0) {
-                    return -2;
+                    return UserError;
                 }
 
                 $resultObject = $result->fetch_object();
@@ -81,7 +81,7 @@ class DB
                 $prepared->bind_param("ii", $novi_broj_neuspjesnih, $resultObject->id_korisnik);
                 $prepared->execute();
 
-                return -1;
+                return PassError;
             }
 
             $result = $prepared->get_result();
@@ -93,5 +93,57 @@ class DB
         }
 
         return $resultObject;
+    }
+
+    public function BaseGetTable($tableName) {
+        $query = "TABLE {$tableName}";
+        $result = $this->mysqli_object->query($query);
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function InsertUser($newUser) {
+
+        $pass_sha256 = hash("sha256", $newUser["password"]);
+
+        $prepared = $this->mysqli_object->prepare("INSERT INTO `korisnik` (`ime`, `prezime`, `korisnicko_ime`, `email`, `lozinka_citljiva`, `lozinka_sha256`)
+        VALUES (?, ?, ?, ?, ?, ?);");
+
+        $prepared->bind_param('ssssss', $newUser["name"], $newUser["surname"], $newUser["username"], $newUser["email"], $newUser["password"], $pass_sha256);
+
+        if ($prepared->execute() == false) {
+            echo "<br>" . $this->mysqli_object->error . "<br>";
+            return DBError;
+        };
+
+        return $prepared->insert_id;
+    }
+
+    public function ConfirmUser($id)
+    {
+        $prepared = $this->mysqli_object->prepare("SELECT `uvjeti`, `email`, `lozinka_citljiva` FROM `korisnik` WHERE `id_korisnik` = ?");
+
+        if (($prepared->bind_param("i", $id)) == false) {
+            return DBError;
+        }
+
+        if ($prepared->execute() == false) {
+            return DBError;
+        };
+
+        $result = $prepared->get_result();
+        $resultObject = $result->fetch_object();
+
+        if ($resultObject === null) {
+            return UserError;
+        }
+
+        if ($resultObject->uvjeti === null) {
+            $prepared = $this->mysqli_object->prepare("UPDATE `WebDiP2020x057`.`korisnik` SET `uvjeti` = ? WHERE (`id_korisnik` = ?)");
+            $prepared->bind_param("si",  date('Y-m-d H:i:s'), $id);
+            $prepared->execute();
+            return $resultObject;
+        }
+
+        return UserError;
     }
 }
