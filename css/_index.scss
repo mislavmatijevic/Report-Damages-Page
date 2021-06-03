@@ -1,3 +1,74 @@
+@mixin floatingForm {
+    display: none;
+
+    @media screen and ($desktop) {
+        display: flex;
+        flex-direction: column;
+
+        transition: all 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+
+        text-align: center;
+        position: absolute;
+        right: 150px;
+        top: 250px;
+        padding: 15px 25px;
+        border-radius: 15px;
+        border: 1px black solid;
+        background-color: $blackDim;
+        background-color: white;
+
+        width: 350px;
+        
+        &:hover {
+            border: 1px wheat solid;
+            box-shadow: 0 0px 5px wheat;
+        }
+
+        input {
+            margin: 8px;
+            padding: 12px;
+            font-size: 18px;
+        }
+
+        h1 {
+            font-size: 25px;
+        }
+
+        &-header {
+            grid-area: 1 / 2 / span 2 / span 2;
+            margin-bottom: 25px;
+            font-size: 16px;
+        }
+        &-submit {
+            grid-area: 6 / 2;
+            max-width: 128px;
+        }
+    }
+}
+
+#testing_form {
+    @include floatingForm;
+
+    width: 175px !important;
+    height: 175px !important;
+
+    top: 525px !important;
+    opacity: 0.25 !important;
+
+    input {
+        margin: 0;
+        opacity: 0.25;
+    }
+
+    &:hover {
+        opacity: 1 !important;        
+        input {
+            opacity: 1;
+            display: block;
+        }
+    }
+}
+
 .section {
     &-hero {
         height: 500px;
@@ -55,6 +126,10 @@
         display: grid;
         padding: 64px 15px;
         row-gap: 48px;
+    }
+    
+    &-login_popup {
+        @include floatingForm;
     }
 
     @media screen and ($tablet) {
@@ -134,25 +209,6 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
-    }
-}
-
-.button {
-    display: block;
-    text-decoration: none;
-    width: 100%;
-    line-height: 40px;
-    text-align: center;
-    border: 1px solid #d33e3e;
-    border-radius: 6px;
-    background: #d33e3e;
-    color: #ffffff;
-    transition: all 0.3s ease-out;
-
-    &:hover {
-        cursor: pointer;
-        border-color: #e4b43c;
-        background: #e4b43c;
     }
 }
 
@@ -339,47 +395,6 @@
 
         &__description {
             width: 800px;
-        }
-    }
-}
-
-.section-login_popup {
-    display: none;
-
-    @media screen and ($desktop) {
-        display: flex;
-        flex-direction: column;
-    
-        text-align: center;
-        position: absolute;
-        right: 150px;
-        top: 250px;
-        padding: 15px 25px;
-        border-radius: 15px;
-        border: 1px wheat solid;
-        background-color: $blackDim;
-    
-        width: 350px;
-    
-        input {
-            margin: 8px;
-            padding: 12px;
-            font-size: 18px;
-        }
-    
-        h1 {
-            color: white;
-            font-size: 24px;
-        }
-    
-        &-header {
-            grid-area: 1 / 2 / span 2 / span 2;
-            margin-bottom: 25px;
-            font-size: 16px;
-        }
-        &-submit {
-            grid-area: 6 / 2;
-            max-width: 128px;
         }
     }
 }

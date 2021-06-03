@@ -27,7 +27,7 @@
                 <a href="{$relativePath}index.php" class="header__nav-item">Početna stranica</a>
                 {if $smarty.session.lvl == 4}
                     <!-- Neregistrirani -->
-                    <a href="{$relativePath}login.php" class="header__nav-item header__nav-item-login">Prijava</a>
+                    <a href="{$relativePath}loginPage.php" class="header__nav-item header__nav-item-login">Prijava</a>
                     <a href="{$relativePath}register.php" class="header__nav-item">Registracija</a>
                 {/if}
                 <a href="#" class="header__nav-item">Javni pozivi</a>

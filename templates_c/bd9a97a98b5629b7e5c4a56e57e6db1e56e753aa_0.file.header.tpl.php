@@ -62,7 +62,7 @@ index.php" class="header__nav-item">Početna stranica</a>
                 <?php if ($_SESSION['lvl'] == 4) {?>
                     <!-- Neregistrirani -->
                     <a href="<?php echo $_smarty_tpl->tpl_vars['relativePath']->value;?>
-login.php" class="header__nav-item header__nav-item-login">Prijava</a>
+loginPage.php" class="header__nav-item header__nav-item-login">Prijava</a>
                     <a href="<?php echo $_smarty_tpl->tpl_vars['relativePath']->value;?>
 register.php" class="header__nav-item">Registracija</a>
                 <?php }?>

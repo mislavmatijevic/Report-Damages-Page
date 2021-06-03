@@ -1,28 +1,31 @@
 <?php
+$pageAccessLvl = 4;
 require_once './control/_page.php';
 
 $newUser = null;
 $mistakeField = null;
 if (isset($_POST["register"])) {
-
     $mistakeField = array();
     $newUser = array();
 
     foreach ($_POST as $k => $v) {
-
         $newUser[$k] = $v;
 
         $mistake = "";
 
         switch ($k) {
             case 'name': {
-                    if (strlen($v) > 25) {
+                    if (empty($v)) {
+                        $mistakeField[$k] = "Popunite ime!";
+                    } elseif (strlen($v) > 25) {
                         $mistakeField[$k] = "Ime je predugačko!";
                     }
                     break;
                 }
             case 'surname': {
-                    if (strlen($v) > 50) {
+                    if (empty($v)) {
+                        $mistakeField[$k] = "Popunite prezime!";
+                    } elseif (strlen($v) > 50) {
                         $mistakeField[$k] = "Prezime je predugačko!";
                     }
                     break;
@@ -62,22 +65,33 @@ if (isset($_POST["register"])) {
             case 'email': {
 
                     if (empty($v)) {
-                        $mistakeField[$k] = "Molimo unesite mail!";
+                        $mistakeField[$k] = "Unesite mail!";
                     } elseif (strlen($v) > 45) {
                         $mistakeField[$k] = "Email je predugačak!";
                     } elseif (!preg_match('/^[^.]([a-z0-9A-Z.\+\"\_\-]{1,64})[^.]@[^\-\_\-](?=.{1,255}$)([a-z0-9A-Z\-\+\.)+([a-z0-9A-Z]+)$/', $v)) {
-                        $mistakeField[$k] = "Molimo unesite ispravan email!";
+                        $mistakeField[$k] = "Unesite ispravan email!";
                     }
 
                     break;
                 }
+            case 'g-recaptcha-response': {
+                if (UserControl::CheckCaptcha($v) === false) {
+                    $mistakeField[$k] = "Ispunite reCaptcha obrazac";
+                    $smarty->assign("messageOK", ERROR_MESSAGE);
+                    $smarty->assign("message", $mistakeField[$k]);
+                };
+                break;
+            }
         }
     }
 
     if (empty($mistakeField)) {
-
-        if (!strlen($newUser["name"])) $newUser["name"] = null;
-        if (!strlen($newUser["surname"])) $newUser["surname"] = null;
+        if (!strlen($newUser["name"])) {
+            $newUser["name"] = null;
+        }
+        if (!strlen($newUser["surname"])) {
+            $newUser["surname"] = null;
+        }
 
         $isRegistered = UserControl::RegisterUser($newUser);
 
@@ -95,8 +109,12 @@ if (isset($_POST["register"])) {
     }
 }
 
-if (isset($newUser)) $smarty->assign("newUser", $newUser);
-if (!empty($mistakeField)) $smarty->assign("mistakeField", $mistakeField);
+if (isset($newUser)) {
+    $smarty->assign("newUser", $newUser);
+}
+if (!empty($mistakeField)) {
+    $smarty->assign("mistakeField", $mistakeField);
+}
 
 $smarty->display("header.tpl");
 $smarty->display("register.tpl");

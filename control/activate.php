@@ -15,7 +15,7 @@ if (isset($_GET["id"]) && is_numeric($_GET["id"])) {
                 $smarty->assign("message", "Dogodio se problem s bazom!");
                 break;
             }
-            case UserError: {
+            case DBUserError: {
                 $smarty->assign("message", "Račun već aktiviran. U slučaju pogreške kontaktirajte administratora.");
                 break;
             }

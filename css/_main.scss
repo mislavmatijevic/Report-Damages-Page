@@ -174,10 +174,41 @@ main {
                 margin: 0 0 0 15px;
                 padding-left: 15px;
                 border: none;
-                border-left: 1px grey solid;
+                border-left: 5px grey solid;
+                transition: all 0.4s cubic-bezier(0.075, 0.82, 0.165, 1);
+                &:last-child {
+                    padding-right: 15px;
+                    border-right: 5px grey solid;
+                }
+                &:hover {
+                    color: orange;
+                }
             }
         }    
     }
+}
+
+@mixin button {
+    display: block;
+    text-decoration: none;
+    width: 100%;
+    line-height: 40px;
+    text-align: center;
+    border-radius: 6px;
+    background: $blackDim;
+    color: #ffffff;
+    transition: all 0.3s ease-out;
+    margin-top: 15px;
+
+    &:hover {
+        cursor: pointer;
+        background: orange;
+        color: $blackDim;
+    }
+}
+
+.button {
+    @include button();
 }
 
 .section {
@@ -207,15 +238,22 @@ main {
     position: relative;
     width: 100%;
     text-align: center;
-    font-size: 16px;
+    font-size: 20px;
+    margin: 5px;
+    padding: 15px;
+    background-color: $blackDim;
+    border-top-left-radius: 25px;
+    border-bottom-right-radius: 25px;
 }
 
 .info {
     @include message;
-    color: orange;
+    color: lightgreen;
+    border: 2px green solid;
 }
 
 .error {
     @include message;
-    color: red;
+    color: salmon;
+    border: 2px red solid;
 }

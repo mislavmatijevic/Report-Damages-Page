@@ -1,29 +1,36 @@
 <?php
+
 require_once dirname(__DIR__).'/control/_page.php';
 
-if (isset($_POST['login'])) {
+$username = null;
+$smarty->assign("requestSent", false);
 
-    $isLoggedIn = UserControl::LogIn($_POST['email'], $_POST['password']);
-    $smarty->assign("messageOK", ERROR_MESSAGE);
+if (isset($_GET['username']))
+{
+    $username = $_GET["username"];
+} 
+else if (isset($_POST['submit']))
+{
+    $passwordResetStatus = UserControl::SendNewPassword($_POST['username']);
 
-    switch ($isLoggedIn) {
+    switch ($passwordResetStatus) {
         case DBError: {
                 $smarty->assign("message", "Problem s bazom podataka");
                 break;
             }
-        case UserError: {
+        case DBUserError: {
                 $smarty->assign("message", "Račun nije registriran");
                 break;
             }
         case USER_CONTROL_SUCCESS: {
-            $smarty->assign("message", "Na email vam je poslana nova lozinka!");
-            $smarty->assign("messageOK", INFO_MESSAGE);
+            $smarty->assign("message", "Na email s kojim ste se registrirali poslane su Vam upute za novu lozinku!");
+            $smarty->assign("requestSent", true);
         }
     }
 }
-
 $smarty->display("header.tpl");
 
+if (isset($username)) $smarty->assign("username", $username);
 $smarty->display("forgottenPass.tpl");
 
 $smarty->display("footer.tpl");

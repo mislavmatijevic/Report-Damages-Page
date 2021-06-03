@@ -4,31 +4,21 @@ require_once './control/_page.php';
 $isLoggedIn = false;
 $loginUser = null;
 
-if (isset($_POST['login'])) {
-
-    $loginUser = $_POST;
-
-    $isLoggedIn = UserControl::LogIn($_POST['email'], $_POST['password']);
-    $smarty->assign("messageOK", ERROR_MESSAGE);
-
-    switch ($isLoggedIn) {
-        case DBError: {
-                $smarty->assign("message", "Problem s bazom podataka");
-                break;
-            }
-        case UserError: {
-                $smarty->assign("message", "Račun nije registriran");
-                break;
-            }
-        case PassError: {
-                $smarty->assign("message", "Neispravna lozinka");
-                break;
-            }
-        case USER_CONTROL_SUCCESS: {
-            header("Location: index.php");
-            exit();
-        }
+if (isset($_POST['testing'])) {
+    
+    if (isset($_POST["admin"])) {
+        UserControl::LogIn("mmatijevi", "test1");
+    } elseif (isset($_POST["moderator"])) {
+        UserControl::LogIn("aanic2", "anica2");
+    } elseif (isset($_POST["registered"])) {
+        UserControl::LogIn("mmatijac3", "matejftw3");
     }
+    header("Location: index.php");
+    exit();
+
+} elseif (isset($_POST['login']))
+{
+    require_once("./control/login.php");
 }
 
 
