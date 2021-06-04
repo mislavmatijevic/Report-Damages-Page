@@ -1,36 +1,25 @@
 <?php
 
-$isValidCaptcha = UserControl::CheckCaptcha($_POST['g-recaptcha-response']);
+try {
+    $isValidCaptcha = UserControl::CheckCaptcha($_POST['g-recaptcha-response']);
+} catch (Exception $e) {
+    $smarty->assign("messageCaptcha", $e->getMessage());
+}
 
-if ($isValidCaptcha === true) {
+if ($isValidCaptcha) {
+
+    $isLoggedIn = false;
     
-    $loginUser = $_POST;
-
-    $isLoggedIn = UserControl::LogIn($loginUser['username'], $loginUser['password']);
-    $smarty->assign("messageOK", ERROR_MESSAGE);
-
-    switch ($isLoggedIn) {        
-        case DBError:
-            $smarty->assign("message", "Problem s bazom podataka");
-            break;
-
-        case DBUserError:
-            $smarty->assign("message", '<a style="color: white" href="./register.php">Niste registrirani?</a>');
-            break;
-
-        case USER_CONTROL_NEWPASSWORD:
-        case DBTermsError:
-            $smarty->assign("message", "Pogledajte svoj email");
-            break;
-
-        case DBPassError:
-            $smarty->assign("message", '<a style="color: white" href="./control/forgottenPass.php?username="'.$_POST['username'].'">Zaboravljena lozinka?</a>');
-            break;
-
-        case USER_CONTROL_SUCCESS:
-            header("Location: index.php");
-            exit();
+    try {
+        $isLoggedIn = UserControl::LogIn($loginUser['username'], $loginUser['password']);
+    } catch (Exception $e) {
+        $smarty->assign("message", $e->getMessage());
+        $isLoggedIn = false;
     }
-} else {
-    $smarty->assign("message", "Ispunite reCaptcha obrazac.");
+
+    if ($isLoggedIn) {
+        header("Location: index.php");
+        exit();
+    }
+
 }

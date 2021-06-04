@@ -5,8 +5,9 @@
         <input id="username" name="username" {if isset($loginUser)} value="{$loginUser["username"]}" {/if}/>
         <label for="password" class="section-login_form-password">Lozinka: </label>
         <input id="password" name="password" type="password" {if isset($loginUser)} value="{$loginUser["password"]}" {/if}/>
-        {if isset($message)}<span class={if $messageOK} "info" {else} "error" {/if}>{$message}</span>{/if}
+        {if isset($message)}<span class="error">{$message}</span>{/if}
         <div class="g-recaptcha" data-sitekey="6Lf1IQwbAAAAANr0dqL1d4BFHSNrquwodjOfunFW"></div>
+        {if isset($messageCaptcha)}<span class="error">{$messageCaptcha}</span>{/if}
         <input type="submit" name="login" value="Prijava" class="section-login_form-submit" />
     </form>
 </section>

@@ -5,15 +5,20 @@ define("LVL_MODERATOR", 2);
 define("LVL_REGISTRIRANI", 3);
 define("LVL_NEREGISTRIRANI", 4);
 
-define("USER_CONTROL_SUCCESS", 1);
+define("USER_CONTROL_ERROR", -4);
+define("USER_CONTROL_BLOCK", -3);
+define("USER_CONTROL_MAIL_ERROR", -2);
 define("USER_CONTROL_NEWPASSWORD", -1);
+define("USER_CONTROL_SUCCESS", 1);
 
-define("MAIL_WELCOME", 1);
-define("MAIL_TERMS", 2);
-define("MAIL_PASSWORD", 3);
 
 class UserControl
 {
+    private const MAIL_WELCOME = 1;
+    private const MAIL_TERMS = 2;
+    private const MAIL_PASSWORD = 3;
+    private const MAIL_BLOCK = 4;
+
     public static function startSession()
     {
         if (session_id() == "") {
@@ -34,94 +39,126 @@ class UserControl
         }
     }
 
-
-
     public static function LogIn($username, $password)
     {
         $dbObj = new DB();
-        $dbResponse = $dbObj->AuthenticateUser($username, $password);
 
-        if ($dbResponse == DBError) {
-            return DBError;
-        }
+        $fullUser = null;
+        try {
+            $fullUser = $dbObj->AuthenticateUser($username, $password);
+        } catch (Exception $e) {
+            switch ($e->getCode()) {
+                case DBTermsError: {
+                    $user = $dbObj->GetUserData($username);
+                    
+                    self::sendUserMail(self::MAIL_TERMS, $user->email, $user->id_korisnik, $username);
+                    throw new Exception("Dobili ste poštu na " . substr($user->email, 0, 3) . "..." . substr($user->email, strpos($user->email, '@'), 10));
+                }
+                case DBPassError: {
+                    $user = $dbObj->GetUserData($username);
+                    $configuration = parse_ini_file('./config/manage.conf');
 
-        if (isset($dbResponse->error)) {
-            if ($dbResponse->error === DBTermsError) {
-                self::sendUserMail(MAIL_TERMS, $dbResponse->email, $dbResponse->id_korisnik, $dbResponse->korisnicko_ime);
-                return DBTermsError;
-            } else {
-                $configuration = parse_ini_file('../config/manage.conf');
-                if ($dbResponse->error >= $configuration["maxFailedLogins"]) {
-                    self::SendNewPassword($dbResponse->korisnicko_ime, $dbResponse->email);
-                    return USER_CONTROL_NEWPASSWORD;
+                    // U ovom slučaju poruka iznimke je novi broj neuspjelih prijava.           // Ne želimo blokirati administratora.
+                    if ($e->getMessage() >= $configuration["maxFailedLogins"] && $user->id_uloga !== LVL_ADMINISTRATOR) {
+                        $dbObj->BlockUser($username);
+                        self::sendUserMail(self::MAIL_BLOCK, $user->email, settype($e->getMessage(), "integer"));
+                        throw new Exception($configuration["maxFailedLogins"]." neuspjelih prijava za redom, račun je blokiran. ", USER_CONTROL_BLOCK);
+                    } else {
+                        throw new Exception('<a style="color: white" href='."./control/forgottenPass.php?username=$username".'>Zaboravljena lozinka?</a>');
+                    }
+                }
+                default: {
+                    throw new Exception($e->getMessage(), $e->getCode());
                 }
             }
-        } else {
+        }
+
+        if (isset($fullUser)) {
             self::stopSession();
             self::startSession();
-            $_SESSION["user"] = $dbResponse;
-            $_SESSION["lvl"] = $dbResponse->id_uloga;
+            $_SESSION["user"] = $fullUser;
+            $_SESSION["lvl"] = $fullUser->id_uloga;
+            
             return USER_CONTROL_SUCCESS;
+        } else {
+            throw new Exception("Korisnik nije pronađen", USER_CONTROL_ERROR);
         }
     }
 
     public static function RegisterUser($newUser)
     {
         $dbObj = new DB();
-        $dbResponse = $dbObj->InsertUser($newUser);
-        if ($dbResponse !== DBError) {
-            $newUserId = $dbResponse;
-            self::sendUserMail(MAIL_WELCOME, $newUser["email"], $newUserId, $newUser["username"]);
-            return DBSuccess;
-        } else {
-            return DBError;
+
+        try {
+            $usernameExists = true;
+            $dbObj->GetUserData($newUser["username"]);
+        } catch (Exception $e) { // Želimo iznimku jer to znači da korisnik ne postoji!
+            if ($e->getCode() === DBUserError) {
+                $usernameExists = false;
+            } else {
+                throw new Exception($e->getMessage(), $e->getCode());
+            }
+        } finally {
+            if ($usernameExists) {
+                throw new Exception("Korisničko ime zauzeto");
+            }
         }
+
+        
+        $newUserId = $dbObj->InsertUser($newUser);
+        self::sendUserMail(self::MAIL_WELCOME, $newUser["email"], $newUserId, $newUser["username"]);
+
+        return USER_CONTROL_SUCCESS;
     }
 
-    public static function CheckCaptcha($captcha_response){
-        
-        if (!isset($captcha_response)) {
-            return false;
+    public static function CheckCaptcha($captcha_response)
+    {
+        global $relativePath;
+
+        if (empty($captcha_response)) {
+            throw new Exception("ReCaptcha nije ispunjena!");
         }
         
-        $secretKey = "6Lf1IQwbAAAAAPoDQR_It0X1h9MTvdnNTOOTqUC8";
+        $config = parse_ini_file($relativePath . "config/manage.conf");
+        $secretKey = $config["captchaSecretKey"];
         
         $url = 'https://www.google.com/recaptcha/api/siteverify?secret=' . urlencode($secretKey) .  '&response=' . urlencode($captcha_response);
         $response = file_get_contents($url);
         $responseKeys = json_decode($response, true);
 
-        return $responseKeys["success"] ? true : false;
+        if ($responseKeys["success"] == false) {
+            throw new Exception("Ponovno popunite ReCaptcha obrazac!");
+        };
+
+        return USER_CONTROL_SUCCESS;
     }
 
-    private static function SendNewPassword($username, $email = null)
+    public static function SendNewPassword($username, $email = null)
     {
         $identifier = bin2hex(random_bytes(25));
 
         $dbObj = new DB();
 
         if ($email === null) {
-            $dbResponse = $dbObj->GetUserMail($username);
-
-            // If DB error returned.
-            if (is_integer($dbResponse)) {
-                return $dbResponse;
-            }
-            $email = $dbResponse;
+            $email = $dbObj->GetUserData($username)->email;
         }
-        
-        $dbResponse = $dbObj->PrepareIdentifierForNewPassword($username, $identifier);
 
-        switch ($dbResponse) {
-            case DBSuccess:
-                sendUserMail(MAIL_PASSWORD, $email, -1, $identifier);
-                return USER_CONTROL_SUCCESS;
-                
-            case DBError:
-                return DBError;
-        }
+        // Prvo se šalje mail tako da u slučaju zapinjanja ne prebriše lozinku.
+        self::sendUserMail(self::MAIL_PASSWORD, $email, -1, $identifier);
+
+        $dbObj->PrepareIdentifierForNewPassword($username, $identifier);
+
+        return $email;
     }
 
-    private static function sendUserMail($type, $emailReceiver, $contentNumeric = -1, $contentString = '')
+    public static function SetNewPassword($identifier, $newPassword) {
+
+        $dbObj = new DB();
+        $dbObj->SetPasswordWithIdentifier($identifier, $newPassword);
+        return USER_CONTROL_SUCCESS;
+    }
+
+    private static function sendUserMail(int $type, string $emailReceiver, int $contentNumeric = -1, string $contentString = '')
     {
         $protocol = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
         $folderPath = $protocol . $_SERVER['HTTP_HOST'] . dirname($_SERVER["PHP_SELF"]);
@@ -142,10 +179,12 @@ class UserControl
             <body>';
 
         switch ($type) {
-            case MAIL_WELCOME: {
+            case self::MAIL_WELCOME: {
                 $mailTitle = 'Registracija';
                 $message .=  '
-                <h1 style="color: orange;width: 100%;text-align: center;">Dobrodošao '.$contentString.'!</h1>
+                <h1 style="color: orange;width: 100%;text-align: center;">
+                Dobrodošao '.$contentString.'!
+                </h1>
                 <br><br>
 
                 <p style="font-family: sans-serif;font-size: 16px;">
@@ -155,7 +194,7 @@ class UserControl
 
                 <p style="font-family: sans-serif;font-size: 16px;">
 
-                Ja sam Mislav Matijević i dizajnirao sam stranicu.
+                Ja sam Mislav Matijević i dizajnirao sam stranicu za prijavu šteta.
                 Nadam se da će Vam stranica pomoći i donijeti malo radosti u tragičnu situaciju, te da ćemo zajedno sve riješiti.
                 Od prikupljanja donacija i pomaganja drugim žrtvama nesreća dijeli Vas samo još jedan korak.
 
@@ -163,44 +202,49 @@ class UserControl
                 <br>';
                 break;
             }
-            case MAIL_TERMS: {
+            case self::MAIL_TERMS: {
                 $mailTitle = 'Uvjeti korištenja';
                 $message .=  '
-                <h1 style="color: orange;width: 100%;text-align: center;">Uvjeti korištenja</h1>
+                <h1 style="color: orange;width: 100%;text-align: center;">
+                Uvjeti korištenja
+                </h1>
 
                 <p style="font-family: sans-serif;font-size: 16px;">
-                Pozdrav, '.$contentString.'!
+                Pozdrav,<br>'.$contentString.'!
                 </p>
                 <br>
 
                 <p style="font-family: sans-serif;font-size: 16px;">
-                <strong>
-                Zašto dobivam ovaj mail?
-                </strong>
+                    <strong>
+                        Zašto dobivam ovaj mail? 
+                    </strong>
                 Potrebna je Vaša potvrda uvjeta korištenja stranice za prijave šteta.
 
                 <br>Jednostavno pritisnite na link u nastavku.</p>
                 <br>';
                 break;
             }
-            case MAIL_PASSWORD: {
-                $fileRoute = $folderPath . "/control/changePass.php";
+            case self::MAIL_PASSWORD: {
+                /* Ovdje ne ide "/control/changePass.php" jer se iz "control" foldera već poziva!!! */
+                $fileRoute = $folderPath . "/changePass.php";
                 $mailTitle = 'Nova lozinka';
                 $message .=  '
-                <h1 style="color: orange;width: 100%;text-align: center;">Uvjeti korištenja</h1>
+                <h1 style="color: orange;width: 100%;text-align: center;">
+                Nova lozinka
+                </h1>
 
-                <p style="font-family: sans-serif;font-size: 16px;">Pozdrav, ovaj mail dobivate jer vam je bila potrebna nova lozinka na stranici za prijavu šteta.</p>
+                <p style="font-family: sans-serif;font-size: 16px;">
+                Pozdrav,<br>ovaj mail dobivate jer Vam je bila potrebna nova lozinka na stranici za prijavu šteta.
+                </p>
                 <p style="font-family: sans-serif;font-size: 16px;">
                     <strong>
                     Preporuka je poduzeti nužne radnje na linku ispod što prije!
                     </strong>
                 </p>
-                <p style="font-family: sans-serif;font-size: 16px;">Upute u ovome mailu pomoći će Vam da obnovite lozinku.
-                </p>
                 <br>
 
                 <p style="font-family: sans-serif;font-size: 16px;">
-                    <a href="' . $fileRoute . "?id=" . $contentString . '" target="_blank">
+                    <a href="' . $fileRoute . "?identifier=" . $contentString . '" target="_blank">
                     Pritisnite ovdje za stvaranje nove lozinke.
                     </a>
                 </p>
@@ -208,16 +252,49 @@ class UserControl
                 <p style="font-family: sans-serif;font-size: 16px;">
                 Poveznica će Vas dovesti na stranicu web mjesta "Prijave šteta" na kojoj ćete imati priliku putem jednostavne forme obnoviti svoju lozinku.
                 </p>
+
                 <p style="font-family: sans-serif;font-size: 16px;">
                 Javite se administratoru u slučaju bilo kakvih pitanja ili problema.
                 </p>
+
                 <br>';
                 break;
             }
-            default: die("Neispravno postavljeno slanje mailova!");
+            case self::MAIL_BLOCK: {
+                $mailTitle = 'Račun blokiran';
+                $message .=  '
+                <h1 style="color: red;width: 100%;text-align: center;">
+                Račun blokiran
+                </h1>
+
+                <p style="font-family: sans-serif;font-size: 16px;">
+                Pozdrav,<br>ovaj mail dobivate jer je zabilježeno ' .$contentNumeric.' neuspjelih pokušaja prijave za redom.
+                </p>
+
+                <p style="font-family: sans-serif;font-size: 16px;">
+                Kako bi se izbjeglo provaljivanje Vašeg računa, on je privremeno blokiran. To znači da mu nitko ne može pristupiti.
+                </p>
+
+                <p style="font-family: sans-serif;font-size: 16px;">
+                    <strong>
+                    Molimo da se javite administratoru kako biste opet mogli koristiti svoj račun.
+                    </strong>
+                </p>
+
+                <p style="font-family: sans-serif;font-size: 16px;">
+                Isprike na neugodnostima,<br>
+                </p>
+                <p style="font-family: sans-serif;font-size: 16px;">
+                Mislav Matijević, tvorac stranice
+                </p>
+
+                <br>';
+                break;
+            }
+            default: throw new Exception("Neispravno postavljeno slanje mailova!", USER_CONTROL_MAIL_ERROR);
         }
 
-        if ($type === MAIL_WELCOME || $type === MAIL_TERMS) {
+        if ($type === self::MAIL_WELCOME || $type === self::MAIL_TERMS) {
             $fileRoute = $folderPath . "/control/activate.php";
 
             $message .=  '
@@ -248,12 +325,16 @@ class UserControl
         }
 
         $message .= '
-        <       /body>
+        </body>
             <div style="margin-top: 50px;background-color: #333333;width: 100%;height: auto;text-align: center;font-style: italic;color: white;">
             Mislav Matijević, Copyright © 2021. 
             </div>
         </html>';
 
-        mail($emailReceiver, $mailTitle .  " | Stranice štete", $message, $headers);
+        if (mail($emailReceiver, $mailTitle .  " | Stranice štete", $message, $headers) === false) {
+            throw new Exception("Mail nije mogao biti poslan!", USER_CONTROL_MAIL_ERROR);
+        };
+        
+        return USER_CONTROL_SUCCESS;
     }
 }

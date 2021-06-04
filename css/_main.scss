@@ -1,5 +1,5 @@
 $blackDim: #333333;
-$tablet: "min-width: 576px";
+$tablet: "min-width: 800px";
 $desktop: "min-width: 1300px";
 
 * {
@@ -44,6 +44,8 @@ main {
     top: 0;
     left: 0;
     z-index: 1;
+
+    user-select: none;
 
     &__inner {
         max-width: 1280px;

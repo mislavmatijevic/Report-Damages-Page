@@ -1,63 +1,77 @@
 <?php
 
-include dirname(__DIR__)."/control/_page.php";
+require_once dirname(__DIR__).'/control/_page.php';
 
+$newPassword = null;
+$smarty->assign("requestSent", false);
 
-if (isset($_GET["tempKey"]) && isset($_GET["id"]) && is_numeric($_GET["id"])) {
-    $id = $_GET["id"];
-    $tempKey = $_GET["tempKey"];
+$identifier = null;
+$smarty->assign("passChanged", false);
 
-    // Čisto za dodatnu sigurnost:
-        $dbObj = new DB();
-        $dbResponse = $dbObj->FindKey($tempKey);
+if (isset($_GET['identifier'])) {
+    $identifier = $_GET['identifier'];
+} elseif (isset($_POST['submit'])) {
+    if (empty($_POST['newPassword'])) {
+        $smarty->assign("message", "Molimo unesite novu lozinku!");
+    } else {
+        $identifier = $_POST['identifier'];
+        $newPassword = $_POST["newPassword"];
+        $newPasswordRepeat = $_POST["newPasswordRepeat"];
 
-        switch ($dbResponse) {
-            case DBError: {
-                $smarty->assign("message", "Dogodio se problem s bazom!");
-                break;
+        if (empty($newPassword) || empty($newPasswordRepeat)) {
+            $smarty->assign("message", "Unesite obje lozinke!");
+        } elseif ($newPassword !== $newPasswordRepeat) {
+            $smarty->assign("message", "Lozinke se ne podudaraju");
+        } elseif (!preg_match('/^([\w]+){5,}$/', $newPassword)) {
+            $smarty->assign("message", "Lozinka mora imati više od 5 znakova!");
+        } elseif (!preg_match('/^(?=.*[\d])([\w]+){5,}$/', $newPassword)) {
+            $smarty->assign("message", "Lozinku mora činiti barem 1 broj!");
+        } elseif (strlen($newPassword) > 50) {
+            $smarty->assign("message", "Lozinka je predugačka!");
+        } elseif (!preg_match('/^(?=.*[\D])([\w]+){5,}$/', $newPassword)) {
+            $smarty->assign("message", "Lozinku mora činiti barem 1 slovo!");
+        } else {
+            $captcha = false;
+            try {
+                $captcha = UserControl::CheckCaptcha($_POST['g-recaptcha-response']);
+            } catch (Exception $e) {
+                $smarty->assign("messageCaptcha", $e->getMessage());
             }
-            case DBUserError: {
-                $smarty->assign("message", "Ovaj link je nevažeći. U slučaju pogreške kontaktirajte administratora.");
-                break;
-            }
-            default: {
-                UserControl::LogIn($dbResponse->email, $dbResponse->lozinka_citljiva);
-                header("Location: ../index.php");
-                exit();
+    
+            if ($captcha) {
+                try {
+                    $set = UserControl::SetNewPassword($identifier, $newPassword);
+                } catch (Exception $e) {
+                    $smarty->assign("message", $e->getMessage());
+                } finally {
+                    if ($set) {
+                        $smarty->assign("passChanged", true);
+                        $smarty->assign("message", "Vaša lozinka sada je promijenjena");
+                        $smarty->assign("additionalInfo", "Ova se stranica sada može zatvoriti.");
+                    }
+                }
             }
         }
-        $smarty->display("header.tpl");
-        $smarty->display("changePass.tpl");
-        $smarty->display("footer.tpl");
-    
-} else if (isset($_POST["newPassword"])) {
-    $id = $_GET["id"];
-    $tempKey = $_GET["tempKey"];
+    }
+}
 
-    // Čisto za dodatnu sigurnost:
-        $dbObj = new DB();
-        $dbResponse = $dbObj->FindKey($tempKey);
-
-        switch ($dbResponse) {
-            case DBError: {
-                $smarty->assign("message", "Dogodio se problem s bazom!");
-                break;
-            }
-            case DBUserError: {
-                $smarty->assign("message", "Ovaj link je nevažeći. U slučaju pogreške kontaktirajte administratora.");
-                break;
-            }
-            default: {
-                UserControl::LogIn($dbResponse->email, $dbResponse->lozinka_citljiva);
-                header("Location: ../index.php");
-                exit();
-            }
-        }
-        $smarty->display("header.tpl");
-        $smarty->display("changePass.tpl");
-        $smarty->display("footer.tpl");
-    
-} else {
+if (!isset($identifier)) { // U slučaju da je netko slučajno nabasao na stranicu.
     header("Location: ../index.php");
     exit();
+} else {
+    $smarty->assign("identifier", $identifier);
 }
+
+
+$smarty->display("header.tpl");
+
+if (isset($newPassword)) {
+    $smarty->assign("newPassword", $newPassword);
+}
+if (isset($newPasswordRepeat)) {
+    $smarty->assign("newPasswordRepeat", $newPasswordRepeat);
+}
+
+$smarty->display("changePass.tpl");
+
+$smarty->display("footer.tpl");

@@ -9,7 +9,7 @@ define("DBError", -4);
 define("DBTermsError", -3);
 define("DBUserError", -2);
 define("DBPassError", -1);
-define("DBSuccess", 0);
+define("DBSuccess", 1);
 
 class DB
 {
@@ -19,7 +19,7 @@ class DB
     public function __construct()
     {
         $this->mysqli_object = new mysqli(server, korisnik, lozinka, baza);
-        error_reporting(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+        mysqli_report(MYSQLI_REPORT_ERROR);
         if ($this->mysqli_object->connect_errno) {
             $this->error .=  "Neuspješno spajanje na bazu: " . $this->mysqli_object->connect_errno . ", " . $this->mysqli_object->connect_error;
             $this->error .= $this->mysqli_object->connect_error;
@@ -41,63 +41,88 @@ class DB
      */
     public function AuthenticateUser(string $username, string $password)
     {
-        $prepared = $this->mysqli_object->prepare("SELECT * FROM korisnik WHERE korisnicko_ime = ? AND lozinka_sha256 = ? LIMIT 1");
-
-        $pass_sha256 = hash("sha256", $password);
-
-        if ($prepared->bind_param("ss", $username, $pass_sha256) == false) {
-            return DBError;
+        if (($prepared = $this->mysqli_object->prepare("SELECT * FROM korisnik WHERE korisnicko_ime = ? LIMIT 1")) == false) {
+            throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
         }
 
+        if ($prepared->bind_param("s", $username) == false) {
+            throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
+        }
 
         if ($prepared->execute() == false) {
-            return DBError;
+            throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
         };
-
+        
         $result = $prepared->get_result();
+
+        if ($result->num_rows == 0) { // Korisnik ne postoji:
+            throw new Exception('<a style="color: white" href="./register.php">Niste registrirani?</a>', DBUserError);
+        }
+
         $resultObject = $result->fetch_object();
 
-        // Postoji takav korisnik, jedino mu se moraju poništiti neuspješne prijave ili provjeriti uvjeti.
-        if ($resultObject !== null) {
-            if ($resultObject->broj_neuspjesnih_prijava !== null) {
-                $prepared = $this->mysqli_object->prepare("UPDATE `WebDiP2020x057`.`korisnik` SET `broj_neuspjesnih_prijava` = ? WHERE `id_korisnik` = ?");
-                $counterResetValue = null;
-                $prepared->bind_param("si", $counterResetValue, $resultObject->id_korisnik);
-                $prepared->execute();
+        // Korisnik postoji i mi imamo sve njegove podatke u 'resultObject'.
+
+        // Predstoje tri provjere.
+        // Za početak, je li blokiran?
+        if ($resultObject->status_blokade != null) {
+            throw new Exception("Račun blokiran", DBUserError);
+        }
+        
+        // Nije blokiran.
+        // Odgovaraju li mu lozinke?        
+        if ($resultObject->lozinka_sha256 !== hash("sha256", $password)) { // Lozinke se ne poklapaju
+            $resultObject->broj_neuspjesnih_prijava == null ? $retry_count = 1 : $retry_count = $resultObject->broj_neuspjesnih_prijava + 1;
+
+            if (($prepared = $this->mysqli_object->prepare("UPDATE `WebDiP2020x057`.`korisnik` SET `broj_neuspjesnih_prijava` = ? WHERE `id_korisnik` = ? ")) == false) {
+                throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
             }
 
-            if ($resultObject->uvjeti === null) {
-                $resultObject->error = DBTermsError;
-                return $resultObject;
+            if ($prepared->bind_param("ii", $retry_count, $resultObject->id_korisnik) == false) {
+                throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
             }
-        } else { // Ne postoji korisnik s korimenom i lozinkom, treba provjeriti je li zaboravio lozinku.
-            $prepared = $this->mysqli_object->prepare("SELECT id_korisnik, broj_neuspjesnih_prijava FROM korisnik WHERE korisnicko_ime = ? LIMIT 1");
-            $prepared->bind_param("s", $username);
+    
+            if ($prepared->execute() == false) {
+                throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
+            };
 
-            $novi_broj_neuspjesnih = 1;
+            throw new Exception($retry_count, DBPassError);
+        }
 
-            if ($prepared->execute()) {
-                $result = $prepared->get_result();
-
-                if ($result->num_rows === 0) {
-                    return DBUserError;
-                }
-
-                $resultObject = $result->fetch_object();
-
-                if (isset($resultObject->broj_neuspjesnih_prijava)) {
-                    $novi_broj_neuspjesnih = $resultObject->broj_neuspjesnih_prijava + 1;
-                }
-
-                $prepared = $this->mysqli_object->prepare("UPDATE `WebDiP2020x057`.`korisnik` SET `broj_neuspjesnih_prijava` = ? WHERE `id_korisnik` = ?");
-                $prepared->bind_param("ii", $novi_broj_neuspjesnih, $resultObject->id_korisnik);
-                $prepared->execute();
-
-                return DBPassError;
+        // Lozinke se poklapaju
+        // Trebaju se poništiti neuspješne prijave i provjeriti uvjeti.
+        if ($resultObject->broj_neuspjesnih_prijava !== null) {
+            if (($prepared = $this->mysqli_object->prepare("UPDATE `WebDiP2020x057`.`korisnik` SET `broj_neuspjesnih_prijava`=NULL WHERE `id_korisnik` = ?")) == false) {
+                throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
             }
+            $prepared->bind_param("i", $resultObject->id_korisnik);
+            $prepared->execute();
+        }
+
+        if ($resultObject->uvjeti === null) {
+            throw new Exception("Uvjeti nisu prihvaćeni", DBTermsError);
         }
 
         return $resultObject;
+    }
+
+    public function BlockUser($username, $doBlock = true) {
+
+        if (($prepared = $this->mysqli_object->prepare("UPDATE `WebDiP2020x057`.`korisnik` SET `status_blokade` = ?, `broj_neuspjesnih_prijava`=NULL WHERE korisnicko_ime = ?")) == false) {
+            throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
+        }
+
+        $newBlockStatus = $doBlock ? 1 : null;
+
+        if ($prepared->bind_param("is", $newBlockStatus, $username) == false) {
+            throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
+        }
+
+        if ($prepared->execute() == false) {
+            throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
+        };
+
+        return DBSuccess;
     }
 
     public function BaseGetTable($tableName)
@@ -111,14 +136,15 @@ class DB
     {
         $pass_sha256 = hash("sha256", $newUser["password"]);
 
-        $prepared = $this->mysqli_object->prepare("INSERT INTO `korisnik` (`ime`, `prezime`, `korisnicko_ime`, `email`, `lozinka_citljiva`, `lozinka_sha256`)
-        VALUES (?, ?, ?, ?, ?, ?);");
+        if (($prepared = $this->mysqli_object->prepare("INSERT INTO `korisnik` (`ime`, `prezime`, `korisnicko_ime`, `email`, `lozinka_citljiva`, `lozinka_sha256`) VALUES (?, ?, ?, ?, ?, ?)")) == false) {
+            throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
+        };
 
         $prepared->bind_param('ssssss', $newUser["name"], $newUser["surname"], $newUser["username"], $newUser["email"], $newUser["password"], $pass_sha256);
 
         if ($prepared->execute() == false) {
             echo "<br>" . $this->mysqli_object->error . "<br>";
-            return DBError;
+            throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
         };
 
         return $prepared->insert_id;
@@ -126,50 +152,56 @@ class DB
 
     public function ConfirmUser($id)
     {
-        $prepared = $this->mysqli_object->prepare("SELECT `uvjeti`, `email`, `lozinka_citljiva` FROM `korisnik` WHERE `id_korisnik` = ?");
+        if (($prepared = $this->mysqli_object->prepare("SELECT `uvjeti`, `email`, `lozinka_citljiva` FROM `korisnik` WHERE `id_korisnik` = ?")) == false) {
+            throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
+        }
 
         if (($prepared->bind_param("i", $id)) == false) {
-            return DBError;
+            throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
         }
 
         if ($prepared->execute() == false) {
-            return DBError;
+            throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
         };
 
         $result = $prepared->get_result();
         $resultObject = $result->fetch_object();
 
         if ($resultObject === null) {
-            return DBUserError;
+            throw new Exception("Error", DBUserError);
         }
 
         if ($resultObject->uvjeti === null) {
-            $prepared = $this->mysqli_object->prepare("UPDATE `WebDiP2020x057`.`korisnik` SET `uvjeti` = ? WHERE (`id_korisnik` = ?)");
+            if (($prepared = $this->mysqli_object->prepare("UPDATE `WebDiP2020x057`.`korisnik` SET `uvjeti` = ? WHERE (`id_korisnik` = ?)")) == false) {
+                throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
+            }
             $prepared->bind_param("si", date('Y-m-d H:i:s'), $id);
             $prepared->execute();
             return $resultObject;
         }
 
-        return DBUserError;
+        throw new Exception('Račun već aktiviran. U slučaju pogreške kontaktirajte administratora.', DBPassError);
     }
 
-    public function GetUserMail($username)
-    {
-        $prepared = $this->mysqli_object->prepare("SELECT email FROM korisnik WHERE korisnicko_ime = ? LIMIT 1");
 
-        if ($prepared->bind_param("ss", $username, $pass_sha256) == false) {
-            return DBError;
+    public function GetUserData($username)
+    {
+        if (($prepared = $this->mysqli_object->prepare("SELECT id_korisnik, email, id_uloga FROM korisnik WHERE korisnicko_ime = ? LIMIT 1")) == false) {
+            throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
         }
 
+        if ($prepared->bind_param("s", $username) == false) {
+            throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
+        }
 
         if ($prepared->execute() == false) {
-            return DBError;
+            throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
         };
 
         $result = $prepared->get_result();
 
-        if ($result->num_rows === null) {
-            return DBUserError;
+        if ($result->num_rows === 0) {
+            throw new Exception('<a style="color: white" href="./register.php">Niste registrirani?</a>', DBUserError);
         }
 
         return $result->fetch_object();
@@ -177,14 +209,35 @@ class DB
 
     public function PrepareIdentifierForNewPassword($username, $meshedIdentifier)
     {
-        $prepared = $this->mysqli_object->prepare("UPDATE `WebDiP2020x057`.`korisnik` SET `lozinka_citljiva` = ?, `lozinka_sha256` = '_' WHERE (`korisnicko_ime` = ?);");
+        if (($prepared = $this->mysqli_object->prepare("UPDATE `WebDiP2020x057`.`korisnik` SET `lozinka_citljiva` = ? WHERE `korisnicko_ime` = ?")) == false) {
+            throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
+        }
 
         if (($prepared->bind_param("ss", $meshedIdentifier, $username)) == false) {
-            return DBError;
+            throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
         }
 
         if ($prepared->execute() == false) {
-            return DBError;
+            throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
+        };
+
+        return DBSuccess;
+    }
+
+    public function SetPasswordWithIdentifier($meshedIdentifier, $newPassword)
+    {
+        if (($prepared = $this->mysqli_object->prepare("UPDATE `WebDiP2020x057`.`korisnik` SET `lozinka_citljiva` = ?, `lozinka_sha256` = ? WHERE `lozinka_citljiva` = ?")) == false) {
+            throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
+        }
+
+        $pass_sha256 = hash("sha256", $newPassword);
+
+        if (($prepared->bind_param("sss", $newPassword, $pass_sha256, $meshedIdentifier)) == false) {
+            throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
+        }
+
+        if ($prepared->execute() == false) {
+            throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
         };
 
         return DBSuccess;

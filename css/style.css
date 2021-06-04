@@ -48,6 +48,10 @@ main {
   top: 0;
   left: 0;
   z-index: 1;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 }
 
 .header__inner {
@@ -356,7 +360,7 @@ main {
   position: relative;
 }
 
-@media screen and (min-width: 576px) {
+@media screen and (min-width: 800px) {
   .section-hero {
     height: 750px;
   }
@@ -391,7 +395,7 @@ main {
   margin-bottom: 30px;
 }
 
-@media screen and (min-width: 576px) {
+@media screen and (min-width: 800px) {
   .section-hero__heading {
     font-size: 3em;
   }
@@ -470,7 +474,7 @@ main {
   }
 }
 
-@media screen and (min-width: 576px) {
+@media screen and (min-width: 800px) {
   .section_damages {
     -ms-grid-columns: (1fr)[2];
         grid-template-columns: repeat(2, 1fr);
@@ -839,7 +843,7 @@ main {
   font-size: 16px;
 }
 
-@media screen and (min-width: 576px) {
+@media screen and (min-width: 800px) {
   .section-register__form {
     display: -ms-grid;
     display: grid;

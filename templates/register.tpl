@@ -1,9 +1,3 @@
-{if $greska != ""}
-    <div class="greska" style="grid-row-end: -1; grid-column-start: 1; grid-column-end: 3;">{$greska}</div>
-{elseif $poruka != ""}
-    <div class="poruka" style="grid-row-end: -1; grid-column-start: 1; grid-column-end: 3;">{$poruka}</div>
-{/if}
-
 <section class="section">
     <h1 class="section__title">Registracija</h1>
     <form id="register" name="register" method="POST" class="section-register__form" action="{$smarty.server.PHP_SELF}">
