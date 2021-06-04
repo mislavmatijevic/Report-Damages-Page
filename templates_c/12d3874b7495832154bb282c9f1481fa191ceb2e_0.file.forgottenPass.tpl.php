@@ -11,7 +11,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
     '12d3874b7495832154bb282c9f1481fa191ceb2e' => 
     array (
-      0 => '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/forgottenPass.tpl',
+      0 => '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/forgotten-pass.tpl',
       1 => 1622761159,
       2 => 'file',
     ),

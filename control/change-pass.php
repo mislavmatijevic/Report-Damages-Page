@@ -72,6 +72,6 @@ if (isset($newPasswordRepeat)) {
     $smarty->assign("newPasswordRepeat", $newPasswordRepeat);
 }
 
-$smarty->display("changePass.tpl");
+$smarty->display("change-pass.tpl");
 
 $smarty->display("footer.tpl");

@@ -12,7 +12,7 @@
             <span class="error section-register__form-error">{$mistakeField["surname"]}</span>
         {/if}
         <label for="username">Korisničko name: </label>
-        <input id="username" name="username" type="text" {if isset($newUser)} value="{$newUser["username"]}" {/if} />
+        <input id="username" name="username" type="text" {if isset($newUser)} value="{$newUser["username"]}" {/if}/>
         {if isset($mistakeField["username"])}
             <span class="error section-register__form-error">{$mistakeField["username"]}</span>
         {/if}

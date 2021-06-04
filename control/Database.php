@@ -37,10 +37,9 @@ class DB
     }
 
     /**
-     * @return object|integer Ako je korisnik autenticiran, vraća njegov objekt iz baze, inače vraća cjelobrojnu vrijednost koja ukazuje na pogrešku.
+     * @return boolean|object Ako korisnik postoji, vraća njegov objekt iz baze, inače baca iznimku.
      */
-    public function AuthenticateUser(string $username, string $password)
-    {
+    public function CheckUserExists(string $username) {
         if (($prepared = $this->mysqli_object->prepare("SELECT * FROM korisnik WHERE korisnicko_ime = ? LIMIT 1")) == false) {
             throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
         }
@@ -53,32 +52,40 @@ class DB
             throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
         };
         
-        $result = $prepared->get_result();
+        $dbResult = $prepared->get_result();
 
-        if ($result->num_rows == 0) { // Korisnik ne postoji:
-            throw new Exception('<a style="color: white" href="./register.php">Niste registrirani?</a>', DBUserError);
+        if ($dbResult->num_rows == 0) { // Korisnik ne postoji:
+            throw new Exception(`<a style="color: white" href=//register.php">Niste registrirani?</a>`, DBUserError);
         }
 
-        $resultObject = $result->fetch_object();
+        return $dbResult->fetch_object();
+    }
+
+    /**
+     * @return object|integer Ako je korisnik autenticiran, vraća njegov objekt iz baze, inače baca iznimku.
+     */
+    public function AuthenticateUser(string $username, string $password)
+    {
+        $userObject = $this->CheckUserExists($username);
 
         // Korisnik postoji i mi imamo sve njegove podatke u 'resultObject'.
 
         // Predstoje tri provjere.
         // Za početak, je li blokiran?
-        if ($resultObject->status_blokade != null) {
+        if ($userObject->status_blokade != null) {
             throw new Exception("Račun blokiran", DBUserError);
         }
         
         // Nije blokiran.
         // Odgovaraju li mu lozinke?        
-        if ($resultObject->lozinka_sha256 !== hash("sha256", $password)) { // Lozinke se ne poklapaju
-            $resultObject->broj_neuspjesnih_prijava == null ? $retry_count = 1 : $retry_count = $resultObject->broj_neuspjesnih_prijava + 1;
+        if ($userObject->lozinka_sha256 !== hash("sha256", $password)) { // Lozinke se ne poklapaju
+            $userObject->broj_neuspjesnih_prijava == null ? $retry_count = 1 : $retry_count = $userObject->broj_neuspjesnih_prijava + 1;
 
             if (($prepared = $this->mysqli_object->prepare("UPDATE `WebDiP2020x057`.`korisnik` SET `broj_neuspjesnih_prijava` = ? WHERE `id_korisnik` = ? ")) == false) {
                 throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
             }
 
-            if ($prepared->bind_param("ii", $retry_count, $resultObject->id_korisnik) == false) {
+            if ($prepared->bind_param("ii", $retry_count, $userObject->id_korisnik) == false) {
                 throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
             }
     
@@ -91,19 +98,19 @@ class DB
 
         // Lozinke se poklapaju
         // Trebaju se poništiti neuspješne prijave i provjeriti uvjeti.
-        if ($resultObject->broj_neuspjesnih_prijava !== null) {
+        if ($userObject->broj_neuspjesnih_prijava !== null) {
             if (($prepared = $this->mysqli_object->prepare("UPDATE `WebDiP2020x057`.`korisnik` SET `broj_neuspjesnih_prijava`=NULL WHERE `id_korisnik` = ?")) == false) {
                 throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
             }
-            $prepared->bind_param("i", $resultObject->id_korisnik);
+            $prepared->bind_param("i", $userObject->id_korisnik);
             $prepared->execute();
         }
 
-        if ($resultObject->uvjeti === null) {
+        if ($userObject->uvjeti === null) {
             throw new Exception("Uvjeti nisu prihvaćeni", DBTermsError);
         }
 
-        return $resultObject;
+        return $userObject;
     }
 
     public function BlockUser($username, $doBlock = true) {
@@ -143,7 +150,6 @@ class DB
         $prepared->bind_param('ssssss', $newUser["name"], $newUser["surname"], $newUser["username"], $newUser["email"], $newUser["password"], $pass_sha256);
 
         if ($prepared->execute() == false) {
-            echo "<br>" . $this->mysqli_object->error . "<br>";
             throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
         };
 

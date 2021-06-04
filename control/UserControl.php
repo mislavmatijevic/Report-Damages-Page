@@ -11,6 +11,17 @@ define("USER_CONTROL_MAIL_ERROR", -2);
 define("USER_CONTROL_NEWPASSWORD", -1);
 define("USER_CONTROL_SUCCESS", 1);
 
+require_once dirname(__DIR__)."/control/Database.php";
+
+if (!empty($_GET['username'])) {
+    $dbObj = new DB();
+    try {
+        $dbObj->CheckUserExists($_GET['username']);
+    } catch (Exception $ex) { // Korisnik ne postoji (ili je nedajbože baza prestala raditi).
+        die(json_encode(false));
+    }
+    die(json_encode(true)); // Korisnik postoji jer nije bačena iznimka na provjeru imena.
+}
 
 class UserControl
 {
@@ -64,7 +75,7 @@ class UserControl
                         self::sendUserMail(self::MAIL_BLOCK, $user->email, settype($e->getMessage(), "integer"));
                         throw new Exception($configuration["maxFailedLogins"]." neuspjelih prijava za redom, račun je blokiran. ", USER_CONTROL_BLOCK);
                     } else {
-                        throw new Exception('<a style="color: white" href='."./control/forgottenPass.php?username=$username".'>Zaboravljena lozinka?</a>');
+                        throw new Exception('<a style="color: white" href='."./control/forgotten-pass.php?username=$username".'>Zaboravljena lozinka?</a>');
                     }
                 }
                 default: {
@@ -113,13 +124,11 @@ class UserControl
 
     public static function CheckCaptcha($captcha_response)
     {
-        global $relativePath;
-
         if (empty($captcha_response)) {
             throw new Exception("ReCaptcha nije ispunjena!");
         }
         
-        $config = parse_ini_file($relativePath . "config/manage.conf");
+        $config = parse_ini_file(dirname(__DIR__)."/config/manage.conf");
         $secretKey = $config["captchaSecretKey"];
         
         $url = 'https://www.google.com/recaptcha/api/siteverify?secret=' . urlencode($secretKey) .  '&response=' . urlencode($captcha_response);
@@ -225,8 +234,8 @@ class UserControl
                 break;
             }
             case self::MAIL_PASSWORD: {
-                /* Ovdje ne ide "/control/changePass.php" jer se iz "control" foldera već poziva!!! */
-                $fileRoute = $folderPath . "/changePass.php";
+                /* Ovdje ne ide "/control/change-pass.php" jer se iz "control" foldera već poziva!!! */
+                $fileRoute = $folderPath . "/change-pass.php";
                 $mailTitle = 'Nova lozinka';
                 $message .=  '
                 <h1 style="color: orange;width: 100%;text-align: center;">

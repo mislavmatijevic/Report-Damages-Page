@@ -39,6 +39,6 @@ $smarty->display("header.tpl");
 if (isset($username)) {
     $smarty->assign("username", $username);
 }
-$smarty->display("forgottenPass.tpl");
+$smarty->display("forgotten-pass.tpl");
 
 $smarty->display("footer.tpl");

@@ -1,5 +1,7 @@
 <?php
 
+$isValidCaptcha = false;
+
 try {
     $isValidCaptcha = UserControl::CheckCaptcha($_POST['g-recaptcha-response']);
 } catch (Exception $e) {
@@ -7,7 +9,6 @@ try {
 }
 
 if ($isValidCaptcha) {
-
     $isLoggedIn = false;
     
     try {
@@ -21,5 +22,4 @@ if ($isValidCaptcha) {
         header("Location: index.php");
         exit();
     }
-
 }

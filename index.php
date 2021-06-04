@@ -28,7 +28,7 @@ $smarty->display("index.tpl");
 
 if (isset($_SESSION["user"]) == false) {
     $smarty->assign("loginUser", $loginUser);
-    $smarty->display("login_floating.tpl");
+    $smarty->display("login-floating.tpl");
 }
 
 $smarty->display("footer.tpl");

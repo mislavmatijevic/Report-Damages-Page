@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.39, created on 2021-06-03 22:13:53
+/* Smarty version 3.1.39, created on 2021-06-04 23:01:55
   from '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/register.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.39',
-  'unifunc' => 'content_60b93801c40299_40335798',
+  'unifunc' => 'content_60ba94c3c7ee86_91370556',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '2b10d1505d7f7082c71102969a45f950f3d1b297' => 
     array (
       0 => '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/register.tpl',
-      1 => 1622746149,
+      1 => 1622824068,
       2 => 'file',
     ),
   ),
@@ -20,16 +20,8 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_60b93801c40299_40335798 (Smarty_Internal_Template $_smarty_tpl) {
-if ($_smarty_tpl->tpl_vars['greska']->value != '') {?>
-    <div class="greska" style="grid-row-end: -1; grid-column-start: 1; grid-column-end: 3;"><?php echo $_smarty_tpl->tpl_vars['greska']->value;?>
-</div>
-<?php } elseif ($_smarty_tpl->tpl_vars['poruka']->value != '') {?>
-    <div class="poruka" style="grid-row-end: -1; grid-column-start: 1; grid-column-end: 3;"><?php echo $_smarty_tpl->tpl_vars['poruka']->value;?>
-</div>
-<?php }?>
-
-<section class="section">
+function content_60ba94c3c7ee86_91370556 (Smarty_Internal_Template $_smarty_tpl) {
+?><section class="section">
     <h1 class="section__title">Registracija</h1>
     <form id="register" name="register" method="POST" class="section-register__form" action="<?php echo $_SERVER['PHP_SELF'];?>
 ">
@@ -49,7 +41,7 @@ if ($_smarty_tpl->tpl_vars['greska']->value != '') {?>
         <?php }?>
         <label for="username">Korisničko name: </label>
         <input id="username" name="username" type="text" <?php if ((isset($_smarty_tpl->tpl_vars['newUser']->value))) {?> value="<?php echo $_smarty_tpl->tpl_vars['newUser']->value["username"];?>
-" <?php }?> />
+" <?php }?>/>
         <?php if ((isset($_smarty_tpl->tpl_vars['mistakeField']->value["username"]))) {?>
             <span class="error section-register__form-error"><?php echo $_smarty_tpl->tpl_vars['mistakeField']->value["username"];?>
 </span>

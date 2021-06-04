@@ -11,7 +11,7 @@ if (isset($_POST["register"])) {
     try {
         UserControl::CheckCaptcha($_POST['g-recaptcha-response']);
     } catch (Exception $e) {
-        $mistakeField[$k] = $e->getCode();
+        $mistakeField["captcha"] = $e->getCode();
         $smarty->assign("messageOK", ERROR_MESSAGE);
         $smarty->assign("message", $e->getMessage());
     }
