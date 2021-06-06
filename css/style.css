@@ -411,7 +411,7 @@ input:focus {
 
 .section-hero {
   height: 500px;
-  background-image: url(../multimedija/naslovnaSlika.jpg);
+  background-image: url(../media/hero.jpg);
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
@@ -644,6 +644,16 @@ input:focus {
 }
 
 .damage-card {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
   border: 1px solid #d0d0d0;
   -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
           box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
@@ -723,6 +733,25 @@ input:focus {
   margin-bottom: 16px;
 }
 
+@media screen and (min-width: 800px) {
+  .damage-info__content-row {
+    margin-bottom: 32px;
+  }
+}
+
+@media screen and (min-width: 800px) {
+  .damage-info__content {
+    margin-bottom: 0;
+    width: 270px;
+  }
+}
+
+@media screen and (min-width: 1300px) {
+  .damage-info__content {
+    width: 300px;
+  }
+}
+
 .damage-info__item:last-child {
   text-align: right;
   margin-bottom: 0;
@@ -733,18 +762,59 @@ input:focus {
   margin-bottom: 4px;
 }
 
+@media screen and (min-width: 1300px) {
+  .damage-info__item-title {
+    font-size: 16px;
+  }
+}
+
 .damage-info__item-value {
   font-size: 14px;
 }
 
-.damage-info__description {
+.damage-info__item__description {
   font-size: 14px;
   line-height: 150%;
 }
 
-@media screen and (min-width: 500px) {
+@media screen and (min-width: 800px) {
+  .damage-info__item:last-child {
+    text-align: right;
+    margin-bottom: 0;
+  }
+  .damage-info__item-title {
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+  .damage-info__item__description {
+    width: 400px;
+  }
+}
+
+@media screen and (min-width: 800px) and (min-width: 1300px) {
+  .damage-info__item__description {
+    width: 600px;
+    font-size: 16px;
+  }
+}
+
+@media screen and (min-width: 1300px) {
+  .damage-info__item {
+    font-size: 16px;
+  }
+}
+
+@media screen and (min-width: 800px) {
   .damage-info__figure {
-    height: 300px;
+    height: 230px;
+    width: 400px;
+  }
+}
+
+@media screen and (min-width: 1300px) {
+  .damage-info__figure {
+    height: 350px;
+    width: 600px;
   }
 }
 
@@ -756,48 +826,6 @@ input:focus {
     -webkit-box-pack: justify;
         -ms-flex-pack: justify;
             justify-content: space-between;
-  }
-  .damage-info__figure {
-    height: 230px;
-    width: 400px;
-  }
-  .damage-info__content {
-    margin-bottom: 0;
-    width: 270px;
-  }
-  .damage-info__content-row {
-    margin-bottom: 32px;
-  }
-  .damage-info__item:last-child {
-    text-align: right;
-    margin-bottom: 0;
-  }
-  .damage-info__item-title {
-    font-size: 14px;
-    margin-bottom: 12px;
-  }
-  .damage-info__description {
-    width: 400px;
-  }
-}
-
-@media screen and (min-width: 1024px) {
-  .damage-info__figure {
-    height: 350px;
-    width: 600px;
-  }
-  .damage-info__content {
-    width: 300px;
-  }
-  .damage-info__item-title {
-    font-size: 16px;
-  }
-  .damage-info__item-value {
-    font-size: 16px;
-  }
-  .damage-info__description {
-    width: 600px;
-    font-size: 16px;
   }
 }
 

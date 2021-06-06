@@ -132,10 +132,12 @@ class DB
         return DBSuccess;
     }
 
-    public function BaseGetTable($tableName)
+    public function GetSelect($query)
     {
-        $query = "TABLE {$tableName}";
-        $result = $this->mysqli_object->query($query);
+        if (($result = $this->mysqli_object->query($query)) == false) {
+            throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
+        }
+
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 

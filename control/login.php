@@ -18,6 +18,7 @@ if ($isValidCaptcha) {
         $isLoggedIn = false;
     } finally {
         if ($isLoggedIn === USER_CONTROL_SUCCESS) {
+            
             header("Location: index.php");
             exit();
         }

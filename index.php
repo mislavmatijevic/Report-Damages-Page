@@ -31,6 +31,15 @@ if (isset($_POST['testing'])) {
 }
 
 $smarty->display("header.tpl");
+
+try {
+    $dbObj = new DB();
+    $javniPozivi = $dbObj->GetSelect("SELECT jp.id_javni_poziv, jp.naziv, jp.opis, jp.datum_otvaranja, jp.skupljeno_sredstava, jp.datum_zatvaranja, oo.korisnicko_ime as moderator, k.ilustracija as kategorija_ilustracija FROM WebDiP2020x057.javni_poziv as jp INNER JOIN korisnik oo ON jp.id_odgovorna_osoba = oo.id_korisnik INNER JOIN kategorija_stete k ON jp.id_kategorija_stete = k.id_kategorija_stete ;");
+    $smarty->assign("javniPozivi", $javniPozivi);
+} catch (Exception $e) {
+    $smarty->assign("messageGlobal", $e->getMessage());
+}
+
 $smarty->display("index.tpl");
 
 if (isset($_SESSION["user"]) == false) {

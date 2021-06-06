@@ -21,18 +21,37 @@
     <h2 class="section__title">
         Javni pozivi
     </h2>
-    <div class="damages">
-        <div class="damages__damage">
-            <figure class="damages__damage-figure">
-                <img class="damages__damage-image" src="multimedija/naslovnaSlika.jpg" alt="Design">
-            </figure>
-            <h3 class="damages__damage-title">
-                Javni poziv
-            </h3>
-            <p class="damages__damage-description">
-                Opis javnog poziva
-            </p>
-            <a class="button" href="#">Detaljnije</a>
-        </div>
+    {if isset($messageGlobal)}
+        <p>{$messageGlobal}</p>
+    {/if}
+    <div class="section_damages">
+        {foreach from=$javniPozivi item=$damage key=$key}
+            <div class="damage-card">
+                <div class="damage__damage">
+                    <figure class="damages__damage-figure">
+                        <img class="damages__damage-image" src="media/{$damage["kategorija_ilustracija"]}">
+                    </figure>
+                    <h3 class="damages__damage-title">
+                        {$damage["naziv"]}
+                    </h3>
+                    <p class="damages__damage-description">
+                        {$damage["opis"]}
+                    </p>
+                    <div class="damage-card__info">
+                        <p class="damages__damage-description">
+                            <strong>Od</strong> {$damage["datum_otvaranja"]}
+                        </p>
+                        <p class="damages__damage-description">
+                            <strong>Do</strong> {if isset($damage["datum_zatvaranja"])}
+                                {$damage["datum_zatvaranja"]}
+                            {else}
+                                <i>Još otvoren</i>
+                            {/if}
+                        </p>
+                    </div>
+                </div>
+                <a class="button" href="#">Detaljnije</a>
+            </div>
+        {/foreach}
     </div>
 </section>

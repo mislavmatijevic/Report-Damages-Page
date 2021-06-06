@@ -18,7 +18,7 @@
         background-color: white;
 
         width: 350px;
-        
+
         &:hover {
             border: 1px wheat solid;
             box-shadow: 0 0px 5px wheat;
@@ -61,7 +61,7 @@
     }
 
     &:hover {
-        opacity: 1 !important;        
+        opacity: 1 !important;
         input {
             opacity: 1;
             display: block;
@@ -72,7 +72,7 @@
 .section {
     &-hero {
         height: 500px;
-        background-image: url(../multimedija/naslovnaSlika.jpg);
+        background-image: url(../media/hero.jpg);
         background-repeat: no-repeat;
         background-size: cover;
         background-attachment: fixed;
@@ -127,7 +127,7 @@
         padding: 64px 15px;
         row-gap: 48px;
     }
-    
+
     &-login_popup {
         @include floatingForm;
     }
@@ -236,6 +236,10 @@
 }
 
 .damage-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
     border: 1px solid #d0d0d0;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -297,93 +301,86 @@
 
     &__content {
         margin-bottom: 15px;
+        &-row {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 16px;
+            @media screen and ($tablet) {
+                margin-bottom: 32px;
+            }
+        }
+        @media screen and ($tablet) {
+            margin-bottom: 0;
+            width: 270px;
+        }
+        @media screen and ($desktop) {
+            width: 300px;
+        }
     }
 
-    &__content-row {
-        display: flex;
-        justify-content: space-around;
-        margin-bottom: 16px;
+    &__item {
+        &:last-child {
+            text-align: right;
+            margin-bottom: 0;
+        }
+
+        &-title {
+            font-size: 14px;
+            margin-bottom: 4px;
+            @media screen and ($desktop) {
+                font-size: 16px;
+            }
+        }
+
+        &-value {
+            font-size: 14px;
+        }
+
+        &__description {
+            font-size: 14px;
+            line-height: 150%;
+        }
+
+        @media screen and ($tablet) {
+            &:last-child {
+                text-align: right;
+                margin-bottom: 0;
+            }
+
+            &-title {
+                font-size: 14px;
+                margin-bottom: 12px;
+            }
+
+            &__description {
+                width: 400px;
+                @media screen and ($desktop) {
+                    width: 600px;
+                    font-size: 16px;
+                }
+            }
+        }
+        @media screen and ($desktop) {
+            font-size: 16px;
+        }
     }
 
-    &__item:last-child {
-        text-align: right;
-        margin-bottom: 0;
-    }
-
-    &__item-title {
-        font-size: 14px;
-        margin-bottom: 4px;
-    }
-
-    &__item-value {
-        font-size: 14px;
-    }
-
-    &__description {
-        font-size: 14px;
-        line-height: 150%;
-    }
-
-    @media screen and (min-width: 500px) {
-        &__figure {
-            height: 300px;
+    &__figure {
+        @media screen and ($tablet) {
+            height: 230px;
+            width: 400px;
+        }
+        @media screen and ($desktop) {
+            height: 350px;
+            width: 600px;
         }
     }
 
     @media screen and (min-width: 768px) {
         display: flex;
         justify-content: space-between;
-
-        &__figure {
-            height: 230px;
-            width: 400px;
-        }
-        &__content {
-            margin-bottom: 0;
-            width: 270px;
-        }
-
-        &__content-row {
-            margin-bottom: 32px;
-        }
-
-        &__item:last-child {
-            text-align: right;
-            margin-bottom: 0;
-        }
-
-        &__item-title {
-            font-size: 14px;
-            margin-bottom: 12px;
-        }
-
-        &__description {
-            width: 400px;
-        }
     }
 
-    @media screen and (min-width: 1024px) {
-        &__figure {
-            height: 350px;
-            width: 600px;
-        }
-        &__content {
-            width: 300px;
-        }
-
-        &__item-title {
-            font-size: 16px;
-        }
-
-        &__item-value {
-            font-size: 16px;
-        }
-
-        &__description {
-            width: 600px;
-            font-size: 16px;
-        }
-    }
     @media screen and (min-width: 1300px) {
         &__figure {
             height: 450px;

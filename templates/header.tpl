@@ -18,7 +18,7 @@
     <header class="header">
         <div class="header__inner">
             <a href="rss.php" class="header__rss-container">
-                <img src="{$relativePath}multimedija/rss.png" alt="Rss kanal" class="header__rss">
+                <img src="{$relativePath}media/rss.png" alt="Rss kanal" class="header__rss">
             </a>
             <nav id="hamburger_menu" class="header__nav">
                 <div class="header__nav__hamburger-line"></div>
