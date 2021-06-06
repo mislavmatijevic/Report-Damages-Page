@@ -2,15 +2,20 @@
 
 error_reporting(E_ALL);
 
-$urlToRoot = "https://".$_SERVER['HTTP_HOST'].dirname($_SERVER["PHP_SELF"])."/";
+$urlToRoot = $_SERVER['HTTP_HOST'].dirname($_SERVER["PHP_SELF"])."/";
 
 // Uvijek preko TLS-a:
-if (empty($_SERVER['HTTPS'])) {
-    header('Location: '.$urlToRoot.substr($_SERVER["SCRIPT_NAME"],strrpos($_SERVER["SCRIPT_NAME"],"/")+1));
+if (empty($_SERVER['HTTPS']) && $_SERVER['HTTP_HOST']!=="localhost:4000") {
+    header('Location: '.$urlToRoot.substr($_SERVER["SCRIPT_NAME"], strrpos($_SERVER["SCRIPT_NAME"], "/")+1));
     exit;
+} elseif ($_SERVER['HTTP_HOST']!=="localhost:4000") { // Za lokalno testiranje.
+    $urlToRoot = "https://".$urlToRoot;
+} else { // Za lokalno testiranje.
+    $urlToRoot = "http://".$urlToRoot;
 }
-
-$relativePath = basename(dirname($_SERVER['REQUEST_URI'], 1)) === "control" ? "../" : "./";
+if (!isset($relativePath)) {
+    $relativePath = basename(dirname($_SERVER['REQUEST_URI'], 1)) === "control" ? "../" : "./";
+}
 
 define("ERROR_MESSAGE", 0);
 define("INFO_MESSAGE", 1);
@@ -19,22 +24,25 @@ require_once dirname(__DIR__)."/smarty-3.1.39/libs/Smarty.class.php";
 $smarty = new Smarty();
 $smarty->setTemplateDir(dirname(__DIR__)."/templates");
 $smarty->setCompileDir(dirname(__DIR__)."/templates_c");
+$smarty->assign("relativePath", $urlToRoot);
 
-$smarty->assign("relativePath", $relativePath);
+if (!isset($pageTitle)) {
+    $pageTitle = "";
+}
+$pageTitle .= " | Stranica za štete";
+$smarty->assign("pageTitle", $pageTitle);
 
 require_once dirname(__DIR__)."/control/UserControl.php";
 UserControl::startSession();
 
 if (isset($pageAccessLvl)) {
     if ($_SESSION["lvl"] > $pageAccessLvl) {
-        header("Location: //index.php");
+        header("Location: {$relativePath}index.php");
         exit();
     }
 }
 
-
 require_once dirname(__DIR__)."/control/Database.php";
-
 
 switch ($_SESSION["lvl"]) {
     case LVL_ADMINISTRATOR: {
@@ -54,4 +62,5 @@ switch ($_SESSION["lvl"]) {
             break;
         }
 }
+
 $smarty->assign("userHelloMessage", $userHelloMessage);

@@ -10,7 +10,7 @@ $smarty->assign("passChanged", false);
 
 if (isset($_GET['identifier'])) {
     $identifier = $_GET['identifier'];
-} elseif (isset($_POST['submit'])) {
+} elseif (isset($_POST['submit']) && isset($_POST['identifier'])) {
     if (empty($_POST['newPassword'])) {
         $smarty->assign("message", "Molimo unesite novu lozinku!");
     } else {
@@ -38,14 +38,16 @@ if (isset($_GET['identifier'])) {
                 $smarty->assign("messageCaptcha", $e->getMessage());
             }
     
+            $set = false;
             if ($captcha) {
                 try {
+                    $smarty->assign("requestDone", true);
                     $set = UserControl::SetNewPassword($identifier, $newPassword);
                 } catch (Exception $e) {
                     $smarty->assign("message", $e->getMessage());
+                    $smarty->assign("additionalInfo", "Ako niste promijenili lozinku, Vaš je račun možda ugrožen! <a href=\"mailto:mmatijevi@foi.hr\">Odmah kontaktirajte administratora.</a>");
                 } finally {
-                    if ($set) {
-                        $smarty->assign("passChanged", true);
+                    if ($set === USER_CONTROL_SUCCESS) {
                         $smarty->assign("message", "Vaša lozinka sada je promijenjena");
                         $smarty->assign("additionalInfo", "Ova se stranica sada može zatvoriti.");
                     }

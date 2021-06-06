@@ -1,5 +1,5 @@
 <?php
-$pageAccessLvl = 4;
+$pageTitle = "Stranica za registraciju";
 require_once './control/_page.php';
 
 $newUser = null;
@@ -17,7 +17,7 @@ if (isset($_POST["register"])) {
     }
 
     foreach ($_POST as $k => $v) {
-        $newUser[$k] = $v;
+        $newUser[$k] = filter_input(INPUT_POST, $k, FILTER_SANITIZE_EMAIL);
 
         $mistake = "";
 
@@ -26,7 +26,7 @@ if (isset($_POST["register"])) {
                 if (empty($v)) {
                     $mistakeField[$k] = "Popunite ime!";
                 } elseif (strlen($v) > 25) {
-                    $mistakeField[$k] = "Ime je predugačko!";
+                    $mistakeField[$k] = "Ime je predugačko";
                 }
                 break;
             }
@@ -34,7 +34,7 @@ if (isset($_POST["register"])) {
                 if (empty($v)) {
                     $mistakeField[$k] = "Popunite prezime!";
                 } elseif (strlen($v) > 50) {
-                    $mistakeField[$k] = "Prezime je predugačko!";
+                    $mistakeField[$k] = "Prezime je predugačko";
                 }
                 break;
             }
@@ -42,8 +42,10 @@ if (isset($_POST["register"])) {
 
                 if (empty($v)) {
                     $mistakeField[$k] = "Popunite korisničko ime!";
+                } elseif (strlen($v) < 3) {
+                    $mistakeField[$k] = "Korisničko ime je prekratko";
                 } elseif (strlen($v) > 20) {
-                    $mistakeField[$k] = "Korisničko ime je predugačko!";
+                    $mistakeField[$k] = "Korisničko ime je predugačko";
                 }
 
                 break;
@@ -55,7 +57,7 @@ if (isset($_POST["register"])) {
                 } elseif (!preg_match('/^(?=.*[\d])([\w]+){5,}$/', $v)) {
                     $mistakeField[$k] = "Lozinku mora činiti barem 1 broj!";
                 } elseif (strlen($v) > 50) {
-                    $mistakeField[$k] = "Lozinka je predugačka!";
+                    $mistakeField[$k] = "Lozinka je predugačka";
                 } elseif (!preg_match('/^(?=.*[\D])([\w]+){5,}$/', $v)) {
                     $mistakeField[$k] = "Lozinku mora činiti barem 1 slovo!";
                 }
@@ -65,7 +67,7 @@ if (isset($_POST["register"])) {
             case 'confirm_pass': {
 
                 if ($v !== $_POST["password"]) {
-                    $mistakeField[$k] = "Lozinke se ne poklapaju.";
+                    $mistakeField[$k] = "Lozinke se ne poklapaju";
                 }
 
                 break;
@@ -75,7 +77,7 @@ if (isset($_POST["register"])) {
                 if (empty($v)) {
                     $mistakeField[$k] = "Unesite mail!";
                 } elseif (strlen($v) > 45) {
-                    $mistakeField[$k] = "Email je predugačak!";
+                    $mistakeField[$k] = "Email je predugačak";
                 } elseif (!preg_match('/^[^.]([a-z0-9A-Z.\+\"\_\-]{1,64})[^.]@[^\-\_\-](?=.{1,255}$)([a-z0-9A-Z\-\+\.)+([a-z0-9A-Z]+)$/', $v)) {
                     $mistakeField[$k] = "Unesite ispravan email!";
                 }

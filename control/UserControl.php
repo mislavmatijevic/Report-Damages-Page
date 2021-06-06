@@ -13,10 +13,10 @@ define("USER_CONTROL_SUCCESS", 1);
 
 require_once dirname(__DIR__)."/control/Database.php";
 
-if (!empty($_GET['username'])) {
+if (!empty($_GET['checkUsername'])) {
     $dbObj = new DB();
     try {
-        $dbObj->CheckUserExists($_GET['username']);
+        $dbObj->CheckUserExists($_GET['checkUsername']);
     } catch (Exception $ex) { // Korisnik ne postoji (ili je nedajbože baza prestala raditi).
         die(json_encode(false));
     }
@@ -72,7 +72,7 @@ class UserControl
                     // U ovom slučaju poruka iznimke je novi broj neuspjelih prijava.           // Ne želimo blokirati administratora.
                     if ($e->getMessage() >= $configuration["maxFailedLogins"] && $user->id_uloga !== LVL_ADMINISTRATOR) {
                         $dbObj->BlockUser($username);
-                        self::sendUserMail(self::MAIL_BLOCK, $user->email, settype($e->getMessage(), "integer"));
+                        self::sendUserMail(self::MAIL_BLOCK, $user->email, $e->getMessage(), $username);
                         throw new Exception($configuration["maxFailedLogins"]." neuspjelih prijava za redom, račun je blokiran. ", USER_CONTROL_BLOCK);
                     } else {
                         throw new Exception('<a style="color: white" href='."./control/forgotten-pass.php?username=$username".'>Zaboravljena lozinka?</a>');
@@ -100,8 +100,9 @@ class UserControl
     {
         $dbObj = new DB();
 
+        $usernameExists = true;
+
         try {
-            $usernameExists = true;
             $dbObj->GetUserData($newUser["username"]);
         } catch (Exception $e) { // Želimo iznimku jer to znači da korisnik ne postoji!
             if ($e->getCode() === DBUserError) {
@@ -116,8 +117,8 @@ class UserControl
         }
 
         
-        $newUserId = $dbObj->InsertUser($newUser);
-        self::sendUserMail(self::MAIL_WELCOME, $newUser["email"], $newUserId, $newUser["username"]);
+        $hash = $dbObj->InsertUser($newUser);
+        self::sendUserMail(self::MAIL_WELCOME, $newUser["email"], $hash, $newUser["username"]);
 
         return USER_CONTROL_SUCCESS;
     }
@@ -153,7 +154,7 @@ class UserControl
         }
 
         // Prvo se šalje mail tako da u slučaju zapinjanja ne prebriše lozinku.
-        self::sendUserMail(self::MAIL_PASSWORD, $email, -1, $identifier);
+        self::sendUserMail(self::MAIL_PASSWORD, $email, $identifier, $username);
 
         $dbObj->PrepareIdentifierForNewPassword($username, $identifier);
 
@@ -167,11 +168,10 @@ class UserControl
         return USER_CONTROL_SUCCESS;
     }
 
-    private static function sendUserMail(int $type, string $emailReceiver, int $contentNumeric = -1, string $contentString = '')
+    private static function sendUserMail(int $type, string $emailReceiver, $infoArgument = -1, string $recepientUsername = '')
     {
         $protocol = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
         $folderPath = $protocol . $_SERVER['HTTP_HOST'] . dirname($_SERVER["PHP_SELF"]);
-        $linkRoute = $contentNumeric;
 
         $headers  = 'MIME-Version: 1.0' . "\r\n"
             . 'Content-type: text/html; charset=utf-8' . "\r\n"
@@ -192,7 +192,7 @@ class UserControl
                 $mailTitle = 'Registracija';
                 $message .=  '
                 <h1 style="color: orange;width: 100%;text-align: center;">
-                Dobrodošao '.$contentString.'!
+                Dobrodošli, '.$recepientUsername.'!
                 </h1>
                 <br><br>
 
@@ -219,7 +219,7 @@ class UserControl
                 </h1>
 
                 <p style="font-family: sans-serif;font-size: 16px;">
-                Pozdrav,<br>'.$contentString.'!
+                Pozdrav, '.$recepientUsername.'!
                 </p>
                 <br>
 
@@ -243,7 +243,10 @@ class UserControl
                 </h1>
 
                 <p style="font-family: sans-serif;font-size: 16px;">
-                Pozdrav,<br>ovaj mail dobivate jer Vam je bila potrebna nova lozinka na stranici za prijavu šteta.
+                Pozdrav, '.$recepientUsername.'!
+                </p>
+                <p style="font-family: sans-serif;font-size: 16px;">
+                Ovaj mail dobivate jer Vam je bila potrebna nova lozinka na stranici za prijavu šteta.
                 </p>
                 <p style="font-family: sans-serif;font-size: 16px;">
                     <strong>
@@ -253,7 +256,7 @@ class UserControl
                 <br>
 
                 <p style="font-family: sans-serif;font-size: 16px;">
-                    <a href="' . $fileRoute . "?identifier=" . $contentString . '" target="_blank">
+                    <a href="' . $fileRoute . "?identifier=" . $infoArgument . '" target="_blank">
                     Pritisnite ovdje za stvaranje nove lozinke.
                     </a>
                 </p>
@@ -277,7 +280,10 @@ class UserControl
                 </h1>
 
                 <p style="font-family: sans-serif;font-size: 16px;">
-                Pozdrav,<br>ovaj mail dobivate jer je zabilježeno ' .$contentNumeric.' neuspjelih pokušaja prijave za redom.
+                Pozdrav, '.$recepientUsername.'.
+                </p>
+                <p style="font-family: sans-serif;font-size: 16px;">
+                Ovaj mail dobivate jer je zabilježeno ' .$infoArgument.' neuspjelih pokušaja prijave za redom.
                 </p>
 
                 <p style="font-family: sans-serif;font-size: 16px;">
@@ -313,7 +319,7 @@ class UserControl
                 </strong>
             </p>
             <p style="font-family: sans-serif;font-size: 16px;">
-                <a href="' . $fileRoute . "?id=" . $linkRoute . '" target="_blank">
+                <a href="' . $fileRoute . "?activateId=" . $infoArgument . "&username=" . $recepientUsername . '" target="_blank">
                 Pritisnite ovdje za prihvaćanje uvjeta korištenja.
                 </a>
             </p>

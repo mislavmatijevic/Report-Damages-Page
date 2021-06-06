@@ -32,7 +32,7 @@ function content_60b95f01a8fd52_29152114 (Smarty_Internal_Template $_smarty_tpl)
         <p><strong>Ova se stranica sada može zatvoriti.</strong></p>
     <?php } else { ?>
         <h1 class="section__title">Zaboravljena lozinka</h1>
-        <form id="register" name="register" method="POST" class="section-register__form" action="<?php echo $_SERVER['PHP_SELF'];?>
+        <form id="register" name="register" method="POST" class="section-form" action="<?php echo $_SERVER['PHP_SELF'];?>
 ">
             <label for="username">Korisničko ime: </label>
             <input id="username" name="username" type="text" size="15" <?php if ((isset($_smarty_tpl->tpl_vars['username']->value))) {?> value="<?php echo $_smarty_tpl->tpl_vars['username']->value;?>

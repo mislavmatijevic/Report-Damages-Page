@@ -55,7 +55,7 @@ class DB
         $dbResult = $prepared->get_result();
 
         if ($dbResult->num_rows == 0) { // Korisnik ne postoji:
-            throw new Exception(`<a style="color: white" href=//register.php">Niste registrirani?</a>`, DBUserError);
+            throw new Exception('<a href=//register.php">Niste registrirani?</a>', DBUserError);
         }
 
         return $dbResult->fetch_object();
@@ -79,7 +79,7 @@ class DB
         // Nije blokiran.
         // Odgovaraju li mu lozinke?        
         if ($userObject->lozinka_sha256 !== hash("sha256", $password)) { // Lozinke se ne poklapaju
-            $userObject->broj_neuspjesnih_prijava == null ? $retry_count = 1 : $retry_count = $userObject->broj_neuspjesnih_prijava + 1;
+            $retry_count = $userObject->broj_neuspjesnih_prijava == null ? 1 : $userObject->broj_neuspjesnih_prijava + 1;
 
             if (($prepared = $this->mysqli_object->prepare("UPDATE `WebDiP2020x057`.`korisnik` SET `broj_neuspjesnih_prijava` = ? WHERE `id_korisnik` = ? ")) == false) {
                 throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
@@ -93,7 +93,7 @@ class DB
                 throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
             };
 
-            throw new Exception($retry_count, DBPassError);
+            throw new Exception("$retry_count", DBPassError);
         }
 
         // Lozinke se poklapaju
@@ -139,6 +139,9 @@ class DB
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    /**
+     * @return string Ako je korisnik uspješno ubačen, vraća njegovu lozinku u "sha256" obliku pomoću koje se korisnik aktivira preko maila. 
+     */
     public function InsertUser($newUser)
     {
         $pass_sha256 = hash("sha256", $newUser["password"]);
@@ -153,16 +156,19 @@ class DB
             throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
         };
 
-        return $prepared->insert_id;
+        return $pass_sha256;
     }
 
-    public function ConfirmUser($id)
+    /**
+     * @return user Ako su korisniku uspješno zabilježeni uvjeti, vraća cijeli njegov objekt iz baze.
+     */
+    public function ConfirmUser($sha256password, $username)
     {
-        if (($prepared = $this->mysqli_object->prepare("SELECT `uvjeti`, `email`, `lozinka_citljiva` FROM `korisnik` WHERE `id_korisnik` = ?")) == false) {
+        if (($prepared = $this->mysqli_object->prepare("SELECT * FROM `korisnik` WHERE `lozinka_sha256` = ? AND `korisnicko_ime` = ?")) == false) {
             throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
         }
 
-        if (($prepared->bind_param("i", $id)) == false) {
+        if (($prepared->bind_param("ss", $sha256password, $username)) == false) {
             throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
         }
 
@@ -170,20 +176,27 @@ class DB
             throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
         };
 
-        $result = $prepared->get_result();
-        $resultObject = $result->fetch_object();
+        $userResult = $prepared->get_result();
+        $userObject = $userResult->fetch_object();
 
-        if ($resultObject === null) {
-            throw new Exception("Error", DBUserError);
+        if ($userObject === null) {
+            throw new Exception("Error korisnik ne postoji", DBUserError);
         }
 
-        if ($resultObject->uvjeti === null) {
+        if ($userObject->uvjeti == null) {
             if (($prepared = $this->mysqli_object->prepare("UPDATE `WebDiP2020x057`.`korisnik` SET `uvjeti` = ? WHERE (`id_korisnik` = ?)")) == false) {
                 throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
             }
-            $prepared->bind_param("si", date('Y-m-d H:i:s'), $id);
-            $prepared->execute();
-            return $resultObject;
+            
+            if (($prepared->bind_param("si", date('Y-m-d H:i:s'), $userObject->id_korisnik)) == false) {
+                throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
+            }
+    
+            if ($prepared->execute() == false) {
+                throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
+            };
+            
+            return $userObject;
         }
 
         throw new Exception('Račun već aktiviran. U slučaju pogreške kontaktirajte administratora.', DBPassError);
@@ -207,7 +220,7 @@ class DB
         $result = $prepared->get_result();
 
         if ($result->num_rows === 0) {
-            throw new Exception('<a style="color: white" href="./register.php">Niste registrirani?</a>', DBUserError);
+            throw new Exception('<a href="./register.php">Niste registrirani?</a>', DBUserError);
         }
 
         return $result->fetch_object();
@@ -230,9 +243,15 @@ class DB
         return DBSuccess;
     }
 
-    public function SetPasswordWithIdentifier($meshedIdentifier, $newPassword)
+    /**
+     * Postavlja novu lozinku tamo gdje je čitljiva lozinka set od 50 pseudoslučajnih znakova.
+     * @param string $meshedIdentifier 50 pseudoslučajnih znakova, osiguravaju privatnost.
+     * @param string $newPassword Nova šifra u čitljivom obliku.
+     * @return string Ako je sve prošlo u redu, vraća šifru DBSuccess.
+     */
+    public function SetPasswordWithIdentifier(string $meshedIdentifier, string $newPassword)
     {
-        if (($prepared = $this->mysqli_object->prepare("UPDATE `WebDiP2020x057`.`korisnik` SET `lozinka_citljiva` = ?, `lozinka_sha256` = ? WHERE `lozinka_citljiva` = ?")) == false) {
+        if (($prepared = $this->mysqli_object->prepare("UPDATE `WebDiP2020x057`.`korisnik` SET `lozinka_citljiva` = ?, `lozinka_sha256` = ?, `broj_neuspjesnih_prijava` = NULL  WHERE `lozinka_citljiva` = ?")) == false) {
             throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
         }
 
@@ -244,6 +263,10 @@ class DB
 
         if ($prepared->execute() == false) {
             throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
+        };
+
+        if ($prepared->affected_rows === 0)  {
+            throw new Exception("Link je istekao.", DBPassError);
         };
 
         return DBSuccess;

@@ -1,5 +1,5 @@
 <?php
-$pageAccessLvl = 4;
+$pageTitle = "Stranica za prijavu";
 require_once './control/_page.php';
 
 $isLoggedIn = false;

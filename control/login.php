@@ -16,10 +16,10 @@ if ($isValidCaptcha) {
     } catch (Exception $e) {
         $smarty->assign("message", $e->getMessage());
         $isLoggedIn = false;
-    }
-
-    if ($isLoggedIn) {
-        header("Location: index.php");
-        exit();
+    } finally {
+        if ($isLoggedIn === USER_CONTROL_SUCCESS) {
+            header("Location: index.php");
+            exit();
+        }
     }
 }

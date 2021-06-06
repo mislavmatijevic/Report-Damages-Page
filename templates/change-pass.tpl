@@ -1,10 +1,10 @@
 <section class="section">
-    {if $passChanged}
+    {if isset($requestDone)}
         <h1 class="section__title">{$message}</h1>
         <p><strong>{$additionalInfo}</strong></p>
     {else}
         <h1 class="section__title">Nova lozinka</h1>
-        <form id="newPassword" name="newPassword" method="POST" class="section-register__form"
+        <form id="newPassword" name="newPassword" method="POST" class="section-form"
             action="{$smarty.server.PHP_SELF}">
 
             <input name="identifier" type="hidden" value={$identifier} />

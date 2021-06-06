@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="keywords">
-    <title>Stranica za štete</title>
+    <title>{$pageTitle}</title>
     <link type="text/css" rel="stylesheet" href="{$relativePath}css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;600&display=swap" rel="stylesheet">
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
@@ -27,7 +27,7 @@
                 <a href="{$relativePath}index.php" class="header__nav-item">Početna stranica</a>
                 {if $smarty.session.lvl == 4}
                     <!-- Neregistrirani -->
-                    <a href="{$relativePath}loginPage.php" class="header__nav-item header__nav-item-login">Prijava</a>
+                    <a href="{$relativePath}login-page.php" class="header__nav-item header__nav-item-login">Prijava</a>
                     <a href="{$relativePath}register.php" class="header__nav-item">Registracija</a>
                 {/if}
                 <a href="#" class="header__nav-item">Javni pozivi</a>
