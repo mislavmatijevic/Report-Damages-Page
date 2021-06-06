@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.39, created on 2021-06-06 13:09:28
+/* Smarty version 3.1.39, created on 2021-06-06 17:10:46
   from '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/index.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.39',
-  'unifunc' => 'content_60bcace8771019_72643039',
+  'unifunc' => 'content_60bce5762fec52_83206106',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'f5be61249919407f293ca37db1a8263d7b110c3d' => 
     array (
       0 => '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/index.tpl',
-      1 => 1622977768,
+      1 => 1622992245,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_60bcace8771019_72643039 (Smarty_Internal_Template $_smarty_tpl) {
+function content_60bce5762fec52_83206106 (Smarty_Internal_Template $_smarty_tpl) {
 ?><section class="section-hero">
     <div class="section-hero__overlay">
         <div class="section-hero__content">
@@ -72,22 +72,19 @@ $_smarty_tpl->tpl_vars['damage']->do_else = false;
                     </p>
                 </div>
                 <div class="damages__damage-info">
-                    <p <?php if ((isset($_smarty_tpl->tpl_vars['damage']->value["datum_zatvaranja"]))) {?>class="damages__damage-dates-ended"
-                        <?php } else { ?>class="damages__damage-dates" 
-                        <?php }?>>
-                        <strong>Od</strong> <?php echo htmlspecialchars($_smarty_tpl->tpl_vars['damage']->value["datum_otvaranja"]);?>
 
-                    </p>
-                    <p <?php if ((isset($_smarty_tpl->tpl_vars['damage']->value["datum_zatvaranja"]))) {?>class="damages__damage-dates-ended"
-                        <?php } else { ?>class="damages__damage-dates" 
-                        <?php }?>>
-                        <strong>Do</strong> <?php if ((isset($_smarty_tpl->tpl_vars['damage']->value["datum_zatvaranja"]))) {?>
-                            <?php echo htmlspecialchars($_smarty_tpl->tpl_vars['damage']->value["datum_zatvaranja"]);?>
+                    <?php if ((isset($_smarty_tpl->tpl_vars['damage']->value["datum_zatvaranja"]))) {?>
+                        <p class="damages__damage-dates-ended">
+                            <strong>Trajao do:</strong>
+                            <?php echo date("d.m. H:i:s",strtotime(htmlspecialchars($_smarty_tpl->tpl_vars['damage']->value["datum_zatvaranja"])));?>
 
-                        <?php } else { ?>
-                            <i>Još otvoren</i>
-                        <?php }?>
-                    </p>
+                        </p>
+                    <?php } else { ?>
+                        <p class="damages__damage-dates"> <strong>Otvoren od:</strong>
+                            <?php echo date("d.m. H:i:s",strtotime(htmlspecialchars($_smarty_tpl->tpl_vars['damage']->value["datum_zatvaranja"])));?>
+
+                        </p>
+                    <?php }?>
                 </div>
                 <a class="button" href="#">Detaljnije</a>
             </div>

@@ -40,20 +40,17 @@
                     </p>
                 </div>
                 <div class="damages__damage-info">
-                    <p {if isset($damage["datum_zatvaranja"])}class="damages__damage-dates-ended"
-                        {else}class="damages__damage-dates" 
-                        {/if}>
-                        <strong>Od</strong> {htmlspecialchars($damage["datum_otvaranja"])}
-                    </p>
-                    <p {if isset($damage["datum_zatvaranja"])}class="damages__damage-dates-ended"
-                        {else}class="damages__damage-dates" 
-                        {/if}>
-                        <strong>Do</strong> {if isset($damage["datum_zatvaranja"])}
-                            {htmlspecialchars($damage["datum_zatvaranja"])}
-                        {else}
-                            <i>Još otvoren</i>
-                        {/if}
-                    </p>
+
+                    {if isset($damage["datum_zatvaranja"])}
+                        <p class="damages__damage-dates-ended">
+                            <strong>Trajao do:</strong>
+                            {date("d.m. H:i:s", strtotime(htmlspecialchars($damage["datum_zatvaranja"])))}
+                        </p>
+                    {else}
+                        <p class="damages__damage-dates"> <strong>Otvoren od:</strong>
+                            {date("d.m. H:i:s", strtotime(htmlspecialchars($damage["datum_zatvaranja"])))}
+                        </p>
+                    {/if}
                 </div>
                 <a class="button" href="#">Detaljnije</a>
             </div>
