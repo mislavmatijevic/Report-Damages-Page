@@ -5,12 +5,12 @@ error_reporting(E_ALL);
 $urlToRoot = $_SERVER['HTTP_HOST'].dirname($_SERVER["PHP_SELF"])."/";
 
 // Uvijek preko TLS-a:
-if (empty($_SERVER['HTTPS']) && $_SERVER['HTTP_HOST']!=="localhost:4000") {
+if (empty($_SERVER['HTTPS']) && $_SERVER['HTTP_HOST'] !== "localhost:4000") {
     header('Location: '.$urlToRoot.substr($_SERVER["SCRIPT_NAME"], strrpos($_SERVER["SCRIPT_NAME"], "/")+1));
     exit;
-} elseif ($_SERVER['HTTP_HOST']!=="localhost:4000") { // Za lokalno testiranje.
+} elseif ($_SERVER['HTTP_HOST'] !== "localhost:4000") { // Zapamti ovu https putanju.
     $urlToRoot = "https://".$urlToRoot;
-} else { // Za lokalno testiranje.
+} else { // Nesiguran protokol za lokalno testiranje.
     $urlToRoot = "http://".$urlToRoot;
 }
 if (!isset($relativePath)) {

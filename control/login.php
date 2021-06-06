@@ -1,6 +1,8 @@
 <?php
 
 $isValidCaptcha = false;
+$loginUser['username'] = filter_input(INPUT_POST, "username");
+$loginUser['password'] = filter_input(INPUT_POST, "password");
 
 try {
     $isValidCaptcha = UserControl::CheckCaptcha($_POST['g-recaptcha-response']);

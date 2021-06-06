@@ -11,7 +11,6 @@ if (isset($_COOKIE["user"])) {
 }
 
 if (isset($_POST['login'])) {
-    $loginUser = $_POST;
     require_once("./control/login.php");
 }
 

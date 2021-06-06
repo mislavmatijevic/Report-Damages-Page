@@ -284,9 +284,7 @@ input {
 }
 
 .table {
-    margin-top: 128px;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 64px auto;
     
     width: auto;
     max-width: 95%;
@@ -294,14 +292,20 @@ input {
 
     transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
 
+    caption {
+        margin-bottom: 5px;
+        font-size: 32px;
+    }
+
     &__head {
         background-color: orange;
         min-width: 200px;
         height: 32px;
         font-size: 18px;
+        padding: 12px;
 
-        border-left: 2px grey inset;
-        border-right: 2px grey inset;
+        border-left: 2px grey outset;
+        border-right: 2px grey outset;
 
         &:first-child {
             border-top-left-radius: 15px;
@@ -317,20 +321,20 @@ input {
 
         &:hover {
             background-color: wheat;
-            border: 2px wheat outset;
+            border: 1px orange solid;
         }
 
         &-data {
-            border: 2px grey inset;
-            padding: 5px;
+            border: 2px grey outset;
+            padding: 10px;
             color: #120b47;
             &:first-child {
                 border-top-left-radius: 15px;
-                border-left: 1px grey inset;
+                border-left: 1px grey outset;
             }
             &:last-child {
                 border-top-right-radius: 15px;
-                border-right: 1px grey inset;
+                border-right: 1px grey outset;
             }
         }
     }

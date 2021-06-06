@@ -1,0 +1,41 @@
+.paging {
+    margin: 128px auto;
+    width: 90%;
+    max-width: 700px;
+    border: 1px #aeaeae outset;
+    border-radius: 15px;
+    padding: 16px;
+
+    &:first-of-type {
+        margin-bottom: 32px;
+    }
+    &:last-of-type {
+        margin-top: 32px;
+    }
+
+    &-info {
+        width: 90%;
+        margin: auto;
+        text-align: center;
+    }
+
+    &-controls {
+        display: flex;
+        justify-content: space-between;
+
+        button {
+            border-radius: 15px;
+            padding: 2px 25px;
+            width: 64px;
+            min-height: 32px;
+            border: 1px orange thick;
+
+            &:first-of-type {
+                width: 150px;
+            }
+            &:last-of-type {
+                width: 150px;
+            }
+        }
+    }
+}

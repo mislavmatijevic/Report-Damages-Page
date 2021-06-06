@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.39, created on 2021-06-06 18:38:25
+/* Smarty version 3.1.39, created on 2021-06-06 22:41:23
   from '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/users.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.39',
-  'unifunc' => 'content_60bcfa01676bc3_03821549',
+  'unifunc' => 'content_60bd32f3b7a831_57379886',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '0ff9ad5202eb73a5995efd1092cfaf284252bf88' => 
     array (
       0 => '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/users.tpl',
-      1 => 1622997504,
+      1 => 1623011928,
       2 => 'file',
     ),
   ),
@@ -20,9 +20,9 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_60bcfa01676bc3_03821549 (Smarty_Internal_Template $_smarty_tpl) {
+function content_60bd32f3b7a831_57379886 (Smarty_Internal_Template $_smarty_tpl) {
 ?><table class="table">
-    <?php if (!(isset($_smarty_tpl->tpl_vars['minimalniStil']->value))) {?><caption>Popis prijavljenih šteta</caption><?php }?>
+    <caption>Popis korisnika</caption>
     <thead>
         <tr>
             <th class="table__head">Korisničko ime</th>

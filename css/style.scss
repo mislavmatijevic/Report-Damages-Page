@@ -1,6 +1,9 @@
-@import './_main.scss';
+@import './main';
 
 /* Pages */
-@import './_index.scss';
-@import './_login.scss';
-@import './_form.scss';
+@import './index';
+@import './login';
+@import './form';
+
+/* Controls */
+@import './paging';

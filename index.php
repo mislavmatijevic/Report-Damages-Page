@@ -31,7 +31,6 @@ if (isset($_POST['testing'])) {
     }
 // Pravi login:
 } elseif (isset($_POST['login'])) {
-    $loginUser = $_POST;
     require_once("./control/login.php");
 }
 ///////// LOGIRANJE ZA DESKTOP KORISNIKE /////////

@@ -331,9 +331,7 @@ input:focus {
 }
 
 .table {
-  margin-top: 128px;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 64px auto;
   width: auto;
   max-width: 95%;
   border-collapse: collapse;
@@ -341,13 +339,19 @@ input:focus {
   transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
+.table caption {
+  margin-bottom: 5px;
+  font-size: 32px;
+}
+
 .table__head {
   background-color: orange;
   min-width: 200px;
   height: 32px;
   font-size: 18px;
-  border-left: 2px grey inset;
-  border-right: 2px grey inset;
+  padding: 12px;
+  border-left: 2px grey outset;
+  border-right: 2px grey outset;
 }
 
 .table__head:first-child {
@@ -366,23 +370,23 @@ input:focus {
 
 .table__row:hover {
   background-color: wheat;
-  border: 2px wheat outset;
+  border: 1px orange solid;
 }
 
 .table__row-data {
-  border: 2px grey inset;
-  padding: 5px;
+  border: 2px grey outset;
+  padding: 10px;
   color: #120b47;
 }
 
 .table__row-data:first-child {
   border-top-left-radius: 15px;
-  border-left: 1px grey inset;
+  border-left: 1px grey outset;
 }
 
 .table__row-data:last-child {
   border-top-right-radius: 15px;
-  border-right: 1px grey inset;
+  border-right: 1px grey outset;
 }
 
 /* Pages */
@@ -861,5 +865,54 @@ input:focus {
     -ms-grid-column: 7;
         grid-column-start: 7;
   }
+}
+
+/* Controls */
+.paging {
+  margin: 128px auto;
+  width: 90%;
+  max-width: 700px;
+  border: 1px #aeaeae outset;
+  border-radius: 15px;
+  padding: 16px;
+}
+
+.paging:first-of-type {
+  margin-bottom: 32px;
+}
+
+.paging:last-of-type {
+  margin-top: 32px;
+}
+
+.paging-info {
+  width: 90%;
+  margin: auto;
+  text-align: center;
+}
+
+.paging-controls {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.paging-controls button {
+  border-radius: 15px;
+  padding: 2px 25px;
+  width: 64px;
+  min-height: 32px;
+  border: 1px orange thick;
+}
+
+.paging-controls button:first-of-type {
+  width: 150px;
+}
+
+.paging-controls button:last-of-type {
+  width: 150px;
 }
 /*# sourceMappingURL=style.css.map */

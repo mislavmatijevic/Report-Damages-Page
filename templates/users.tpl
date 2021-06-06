@@ -1,5 +1,5 @@
 <table class="table">
-    {if !isset($minimalniStil)}<caption>Popis prijavljenih šteta</caption>{/if}
+    <caption>Popis korisnika</caption>
     <thead>
         <tr>
             <th class="table__head">Korisničko ime</th>
