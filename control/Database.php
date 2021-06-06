@@ -164,7 +164,7 @@ class DB
     /**
      * @return user Ako su korisniku uspješno zabilježeni uvjeti, vraća cijeli njegov objekt iz baze.
      */
-    public function ConfirmUser($sha256password, $username)
+    public function ConfirmUser(string $sha256password, string $username, int $maxHoursToAccept)
     {
         if (($prepared = $this->mysqli_object->prepare("SELECT * FROM `korisnik` WHERE `lozinka_sha256` = ? AND `korisnicko_ime` = ?")) == false) {
             throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
@@ -181,11 +181,29 @@ class DB
         $userResult = $prepared->get_result();
         $userObject = $userResult->fetch_object();
 
+        // Uopće ne postoji takav korisnik (ili je izbrisan, ili je promijenio lozinku).
         if ($userObject === null) {
-            throw new Exception("Error korisnik ne postoji", DBUserError);
-        }
+            throw new Exception("Ovaj je link nevažeći", DBUserError);
+        }        
 
+        // Ako uvjeti nisu prihvaćeni
         if ($userObject->uvjeti == null) {
+            // Ako uvjeti nisu prihvaćeni, a prošlo je više sati nego što je trebalo.
+            if ((time() - strtotime($userObject->datum_registracije))/60/60 > $maxHoursToAccept) {
+                // Izbriši nevažećeg korisnika.
+                if (($prepared = $this->mysqli_object->prepare("DELETE FROM `WebDiP2020x057`.`korisnik` WHERE `korisnicko_ime` = ?")) == false) {
+                    throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
+                }
+                if (($prepared->bind_param("s", $username)) == false) {
+                    throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
+                }
+                if ($prepared->execute() == false) {
+                    throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
+                };
+                throw new Exception("Rok za aktivaciju je istekao ({$maxHoursToAccept}h).<br>Možete otvoriti novi račun s istim korisničkim imenom.", DBError);
+            }
+
+            // Sve ok, označi da su uvjeti prihvaćeni.
             if (($prepared = $this->mysqli_object->prepare("UPDATE `WebDiP2020x057`.`korisnik` SET `uvjeti` = ? WHERE (`id_korisnik` = ?)")) == false) {
                 throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
             }

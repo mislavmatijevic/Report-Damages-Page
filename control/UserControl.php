@@ -67,7 +67,7 @@ class UserControl
                 }
                 case DBPassError: {
                     $user = $dbObj->GetUserData($username);
-                    $configuration = parse_ini_file('./config/manage.conf');
+                    $configuration = parse_ini_file('./admin/config/manage.conf');
 
                     // U ovom slučaju poruka iznimke je novi broj neuspjelih prijava.           // Ne želimo blokirati administratora.
                     if ($e->getMessage() >= $configuration["maxFailedLogins"] && $user->id_uloga !== LVL_ADMINISTRATOR) {
@@ -94,6 +94,20 @@ class UserControl
         } else {
             throw new Exception("Korisnik nije pronađen", USER_CONTROL_ERROR);
         }
+    }
+
+    /**
+     * Activates user with their sha256 hash derived from password.
+     * @param string $activateId SHA256 from password, got in mail link as GET parameter for activation.
+     * @param string $activateId SHA256 from password, got in mail link as GET parameter for activation.
+     */
+    public static function ConfirmUserAndLogin(string $activateId, string $username)
+    {
+        $config = parse_ini_file(dirname(__DIR__)."/admin/config/manage.conf");
+        $maxHoursToAccept = $config["maxHoursToAccept"];
+        $dbObj = new DB();
+        $newlyActivatedUser = $dbObj->ConfirmUser($activateId, $username, $maxHoursToAccept);
+        self::LogIn($newlyActivatedUser->korisnicko_ime, $newlyActivatedUser->lozinka_citljiva);
     }
 
     public static function RegisterUser($newUser)
@@ -129,7 +143,7 @@ class UserControl
             throw new Exception("Označice kvačicu<br>\"I'm not a robot\"!");
         }
         
-        $config = parse_ini_file(dirname(__DIR__)."/config/manage.conf");
+        $config = parse_ini_file(dirname(__DIR__)."/admin/config/manage.conf");
         $secretKey = $config["captchaSecretKey"];
         
         $url = 'https://www.google.com/recaptcha/api/siteverify?secret=' . urlencode($secretKey) .  '&response=' . urlencode($captcha_response);

@@ -11,8 +11,7 @@ if (isset($_GET["activateId"]) && isset($_GET["username"])) {
     $dbObj = new DB();
 
     try {
-        $fullUser = $dbObj->ConfirmUser($activateId, $username);
-        UserControl::LogIn($username, $fullUser->lozinka_citljiva);
+        UserControl::ConfirmUserAndLogin($activateId, $username);
     } catch (Exception $e) {
         if ($e->getCode() !== DBUserError) {
             $smarty->assign("message", $e->getMessage());
