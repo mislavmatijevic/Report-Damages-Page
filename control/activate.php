@@ -5,7 +5,7 @@ $relativePath = '../';
 
 if (isset($_GET["activateId"]) && isset($_GET["username"])) {
     $activateId = filter_input(INPUT_GET, "activateId", FILTER_SANITIZE_EMAIL);
-    $username = filter_input(INPUT_GET, "username", FILTER_SANITIZE_EMAIL);
+    $username = filter_input(INPUT_GET, "username");
 
 
     $dbObj = new DB();

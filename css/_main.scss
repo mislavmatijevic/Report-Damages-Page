@@ -19,10 +19,6 @@ html {
     height: 100%;
 }
 
-html {
-    height: 100%;
-}
-
 body {
     font-family: "Montserrat", sans-serif;
     font-size: 16px;
@@ -284,5 +280,58 @@ input {
         margin: 10px;
         padding: 15px;
         font-size: 20px;
+    }
+}
+
+.table {
+    margin-top: 128px;
+    margin-left: auto;
+    margin-right: auto;
+    
+    width: auto;
+    max-width: 95%;
+    border-collapse: collapse;
+
+    transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+
+    &__head {
+        background-color: orange;
+        min-width: 200px;
+        height: 32px;
+        font-size: 18px;
+
+        border-left: 2px grey inset;
+        border-right: 2px grey inset;
+
+        &:first-child {
+            border-top-left-radius: 15px;
+            border-left: none;
+        }
+        &:last-child {
+            border-top-right-radius: 15px;
+            border-right: none;
+        }
+    }
+    &__row {
+        background-color: #fffdf6;
+
+        &:hover {
+            background-color: wheat;
+            border: 2px wheat outset;
+        }
+
+        &-data {
+            border: 2px grey inset;
+            padding: 5px;
+            color: #120b47;
+            &:first-child {
+                border-top-left-radius: 15px;
+                border-left: 1px grey inset;
+            }
+            &:last-child {
+                border-top-right-radius: 15px;
+                border-right: 1px grey inset;
+            }
+        }
     }
 }

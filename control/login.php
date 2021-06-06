@@ -21,7 +21,7 @@ if ($isValidCaptcha) {
 
             if (isset($_POST["remember"])) {
                 setcookie("user", $loginUser['username']);
-            } else if (isset($_COOKIE["user"])) {
+            } else if (isset($_COOKIE["user"])) { // Ako nije settan cookie.
                 unset($_COOKIE["user"]);
                 setcookie("user", null, -1, '/');
             }

@@ -17,7 +17,7 @@ if (isset($_POST["register"])) {
     }
 
     foreach ($_POST as $k => $v) {
-        $newUser[$k] = filter_input(INPUT_POST, $k, FILTER_SANITIZE_EMAIL);
+        $newUser[$k] = filter_input(INPUT_POST, $k);
 
         $mistake = "";
 
@@ -52,13 +52,13 @@ if (isset($_POST["register"])) {
             }
             case 'password': {
 
-                if (!preg_match('/^([\w]+){5,}$/', $v)) {
+                if (!preg_match('/^([ -~šđčćžŠĐČĆŽ]+){5,}$/', $v)) {
                     $mistakeField[$k] = "Lozinka mora imati više od 5 znakova!";
-                } elseif (!preg_match('/^(?=.*[\d])([\w]+){5,}$/', $v)) {
+                } elseif (!preg_match('/^(?=.*[\d])([ -~šđčćžŠĐČĆŽ]+){5,}$/', $v)) {
                     $mistakeField[$k] = "Lozinku mora činiti barem 1 broj!";
                 } elseif (strlen($v) > 50) {
                     $mistakeField[$k] = "Lozinka je predugačka";
-                } elseif (!preg_match('/^(?=.*[\D])([\w]+){5,}$/', $v)) {
+                } elseif (!preg_match('/^(?=.*[\D])([ -~šđčćžŠĐČĆŽ]+){5,}$/', $v)) {
                     $mistakeField[$k] = "Lozinku mora činiti barem 1 slovo!";
                 }
 
@@ -86,7 +86,7 @@ if (isset($_POST["register"])) {
             }
         }
     }
-
+    
     if (!empty($mistakeField)) {
         $smarty->assign("messageOK", ERROR_MESSAGE);
     } else {

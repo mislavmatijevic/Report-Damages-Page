@@ -14,21 +14,23 @@ if (isset($_GET['identifier'])) {
     if (empty($_POST['newPassword'])) {
         $smarty->assign("message", "Molimo unesite novu lozinku!");
     } else {
-        $identifier = $_POST['identifier'];
-        $newPassword = $_POST["newPassword"];
-        $newPasswordRepeat = $_POST["newPasswordRepeat"];
+        $identifier = filter_input(INPUT_POST, "identifier");
+        $newPassword = filter_input(INPUT_POST, "newPassword");
+        $newPasswordRepeat = filter_input(INPUT_POST, "newPasswordRepeat");
 
         if (empty($newPassword) || empty($newPasswordRepeat)) {
             $smarty->assign("message", "Unesite obje lozinke!");
         } elseif ($newPassword !== $newPasswordRepeat) {
             $smarty->assign("message", "Lozinke se ne podudaraju");
-        } elseif (!preg_match('/^([\w]+){5,}$/', $newPassword)) {
+        } elseif (strlen($newPassword) < 5) {
             $smarty->assign("message", "Lozinka mora imati više od 5 znakova!");
-        } elseif (!preg_match('/^(?=.*[\d])([\w]+){5,}$/', $newPassword)) {
+        } elseif (!preg_match('/^([\wšđčćžŠĐČĆŽ]+){5,}$/', $newPassword)) {
+            $smarty->assign("message", "Uklonite specijalne znakove!");
+        } elseif (!preg_match('/^(?=.*[\d])([\wšđčćžŠĐČĆŽ]+){5,}$/', $newPassword)) {
             $smarty->assign("message", "Lozinku mora činiti barem 1 broj!");
         } elseif (strlen($newPassword) > 50) {
             $smarty->assign("message", "Lozinka je predugačka!");
-        } elseif (!preg_match('/^(?=.*[\D])([\w]+){5,}$/', $newPassword)) {
+        } elseif (!preg_match('/^(?=.*[\D])([\wšđčćžŠĐČĆŽ]+){5,}$/', $newPassword)) {
             $smarty->assign("message", "Lozinku mora činiti barem 1 slovo!");
         } else {
             $captcha = false;

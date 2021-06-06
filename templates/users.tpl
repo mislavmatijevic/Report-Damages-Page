@@ -10,11 +10,11 @@
     </thead>
     <tbody>
         {foreach from=$userList item=$user}
-            <tr>
-                <td class="table__row">{$user["korisnicko_ime"]}</td>
-                <td class="table__row">{$user["prezime"]}</td>
-                <td class="table__row">{$user["ime"]}</td>
-                <td class="table__row">{$user["lozinka_sha256"]}</td>
+            <tr class="table__row">
+                <td class="table__row-data">{$user["korisnicko_ime"]}</td>
+                <td class="table__row-data">{$user["prezime"]}</td>
+                <td class="table__row-data">{$user["ime"]}</td>
+                <td class="table__row-data">{$user["lozinka_sha256"]}</td>
             </tr>
         {/foreach}
     </tbody>

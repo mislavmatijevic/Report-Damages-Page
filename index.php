@@ -29,6 +29,7 @@ if (isset($_POST['testing'])) {
             exit();
         }
     }
+// Pravi login:
 } elseif (isset($_POST['login'])) {
     $loginUser = $_POST;
     require_once("./control/login.php");

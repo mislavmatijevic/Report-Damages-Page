@@ -11,7 +11,7 @@ if (isset($_GET['username'])) {
     if (empty($_POST['username'])) {
         $smarty->assign("message", "Molimo unesite Vaše korisničko ime!");
     } else {
-        $username = $_POST["username"];
+        $username = filter_input(INPUT_POST, "username");
 
         $captcha = false;
         try {

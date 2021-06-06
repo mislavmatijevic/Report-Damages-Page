@@ -120,40 +120,26 @@
 
     &-damage {
         padding: 0 15px 64px;
+        @media screen and ($tablet) {
+            padding: 0 25px 65px;
+        }
+        @media screen and ($desktop) {
+            margin: 0 auto;
+            padding: 0 0 64px;
+            max-width: 930px;
+        }
     }
 
     &_damages {
         display: grid;
         padding: 64px 15px;
         row-gap: 48px;
-    }
-
-    &-login_popup {
-        @include floatingForm;
-    }
-
-    @media screen and ($tablet) {
-        &_damages {
+        @media screen and ($tablet) {
             grid-template-columns: repeat(2, 1fr);
             gap: 32px;
             padding: 80px 32px;
         }
-    }
-
-    @media screen and (min-width: 768px) {
-        &-damage {
-            padding: 0 25px 65px;
-        }
-    }
-
-    @media screen and (min-width: 1024px) {
-        &-damage {
-            margin: 0 auto;
-            padding: 0 0 64px;
-            max-width: 930px;
-        }
-
-        &_damages {
+        @media screen and ($desktop) {
             grid-template-columns: repeat(3, 1fr);
             padding: 80px 0;
             max-width: 940px;
@@ -161,14 +147,8 @@
         }
     }
 
-    @media screen and (min-width: 1300px) {
-        &-damage {
-            max-width: 1280px;
-        }
-        &_damages {
-            grid-template-columns: repeat(4, 1fr);
-            max-width: 1280px;
-        }
+    &-login_popup {
+        @include floatingForm;
     }
 }
 
@@ -179,24 +159,23 @@
     transform: translateX(-50%);
 
     &__damage {
-
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-    
+
         border: 1px solid #aeaeae;
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
         transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         border-radius: 6px;
         padding: 10px;
-    
+
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
         transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-        
+
         &:hover {
             box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
-        }  
-    
+        }
+
         &-figure {
             width: 100%;
             height: 220px;
@@ -205,7 +184,7 @@
             border-radius: 6px;
             overflow: hidden;
         }
-    
+
         &-image {
             width: 100%;
             height: 100%;
@@ -213,17 +192,18 @@
         }
 
         &-title {
-            font-size: 14px;
-            margin-bottom: 4px;
+            font-size: 20px;
+            margin-top: 8px;
+            margin-bottom: 16px;
             @media screen and ($desktop) {
                 font-size: 16px;
             }
         }
-    
+
         &-value {
             font-size: 14px;
         }
-    
+
         &__description {
             font-size: 14px;
             line-height: 150%;
@@ -233,7 +213,7 @@
             justify-items: flex-end;
             align-items: center;
         }
-    
+
         &-dates {
             font-size: 16px;
             color: green;
@@ -243,7 +223,6 @@
             }
         }
     }
-
 }
 
 .footer {

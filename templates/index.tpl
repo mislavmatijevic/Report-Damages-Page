@@ -28,19 +28,18 @@
         {foreach from=$javniPozivi item=$damage key=$key}
             <div class="damages__damage">
                 <div>
+                    <h3 class="damages__damage-title">
+                        {htmlspecialchars($damage["naziv"])}
+                    </h3>
                     <figure class="damages__damage-figure">
                         <img class="damages__damage-image"
                             src="media/{htmlspecialchars($damage["kategorija_ilustracija"])}">
                     </figure>
-                    <h3 class="damages__damage-title">
-                        {htmlspecialchars($damage["naziv"])}
-                    </h3>
                     <p class="damages__damage-description">
                         {htmlspecialchars($damage["opis"])}
                     </p>
                 </div>
                 <div class="damages__damage-info">
-
                     {if isset($damage["datum_zatvaranja"])}
                         <p class="damages__damage-dates-ended">
                             <strong>Trajao do:</strong>
