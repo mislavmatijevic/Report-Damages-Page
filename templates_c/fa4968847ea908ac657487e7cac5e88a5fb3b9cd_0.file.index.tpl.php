@@ -1,17 +1,17 @@
 <?php
-/* Smarty version 3.1.39, created on 2021-06-06 13:09:28
-  from '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/index.tpl' */
+/* Smarty version 3.1.39, created on 2021-06-06 14:15:52
+  from '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/html/templates/index.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.39',
-  'unifunc' => 'content_60bcace8771019_72643039',
+  'unifunc' => 'content_60bcbc78c0d228_61730342',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
-    'f5be61249919407f293ca37db1a8263d7b110c3d' => 
+    'fa4968847ea908ac657487e7cac5e88a5fb3b9cd' => 
     array (
-      0 => '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/index.tpl',
+      0 => '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/html/templates/index.tpl',
       1 => 1622977768,
       2 => 'file',
     ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_60bcace8771019_72643039 (Smarty_Internal_Template $_smarty_tpl) {
+function content_60bcbc78c0d228_61730342 (Smarty_Internal_Template $_smarty_tpl) {
 ?><section class="section-hero">
     <div class="section-hero__overlay">
         <div class="section-hero__content">

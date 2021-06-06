@@ -26,29 +26,34 @@
     {/if}
     <div class="section_damages">
         {foreach from=$javniPozivi item=$damage key=$key}
-            <div class="damage-card">
-                <div class="damage__damage">
+            <div class="damages__damage">
+                <div>
                     <figure class="damages__damage-figure">
-                        <img class="damages__damage-image" src="media/{$damage["kategorija_ilustracija"]}">
+                        <img class="damages__damage-image"
+                            src="media/{htmlspecialchars($damage["kategorija_ilustracija"])}">
                     </figure>
                     <h3 class="damages__damage-title">
-                        {$damage["naziv"]}
+                        {htmlspecialchars($damage["naziv"])}
                     </h3>
                     <p class="damages__damage-description">
-                        {$damage["opis"]}
+                        {htmlspecialchars($damage["opis"])}
                     </p>
-                    <div class="damage-card__info">
-                        <p class="damages__damage-description">
-                            <strong>Od</strong> {$damage["datum_otvaranja"]}
-                        </p>
-                        <p class="damages__damage-description">
-                            <strong>Do</strong> {if isset($damage["datum_zatvaranja"])}
-                                {$damage["datum_zatvaranja"]}
-                            {else}
-                                <i>Još otvoren</i>
-                            {/if}
-                        </p>
-                    </div>
+                </div>
+                <div class="damages__damage-info">
+                    <p {if isset($damage["datum_zatvaranja"])}class="damages__damage-dates-ended"
+                        {else}class="damages__damage-dates" 
+                        {/if}>
+                        <strong>Od</strong> {htmlspecialchars($damage["datum_otvaranja"])}
+                    </p>
+                    <p {if isset($damage["datum_zatvaranja"])}class="damages__damage-dates-ended"
+                        {else}class="damages__damage-dates" 
+                        {/if}>
+                        <strong>Do</strong> {if isset($damage["datum_zatvaranja"])}
+                            {htmlspecialchars($damage["datum_zatvaranja"])}
+                        {else}
+                            <i>Još otvoren</i>
+                        {/if}
+                    </p>
                 </div>
                 <a class="button" href="#">Detaljnije</a>
             </div>

@@ -1,0 +1,4 @@
+AuthType Basic
+AuthUserFile /var/www/webdip.barka.foi.hr/2020_projekti/WebDiP2020x057/admin/users/user.txt
+AuthName "Dobar dan, administratore!"
+Require valid-user

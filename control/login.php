@@ -18,7 +18,14 @@ if ($isValidCaptcha) {
         $isLoggedIn = false;
     } finally {
         if ($isLoggedIn === USER_CONTROL_SUCCESS) {
-            
+
+            if (isset($_POST["remember"])) {
+                setcookie("user", $loginUser['username']);
+            } else if (isset($_COOKIE["user"])) {
+                unset($_COOKIE["user"]);
+                setcookie("user", null, -1, '/');
+            }
+
             header("Location: index.php");
             exit();
         }

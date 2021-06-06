@@ -126,7 +126,7 @@ class UserControl
     public static function CheckCaptcha($captcha_response)
     {
         if (empty($captcha_response)) {
-            throw new Exception("ReCaptcha nije ispunjena!");
+            throw new Exception("Označice kvačicu<br>\"I'm not a robot\"!");
         }
         
         $config = parse_ini_file(dirname(__DIR__)."/config/manage.conf");
@@ -137,7 +137,7 @@ class UserControl
         $responseKeys = json_decode($response, true);
 
         if ($responseKeys["success"] == false) {
-            throw new Exception("Ponovno popunite ReCaptcha obrazac!");
+            throw new Exception("Ponovno riješite ReCaptcha test!");
         };
 
         return USER_CONTROL_SUCCESS;

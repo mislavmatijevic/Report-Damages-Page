@@ -2,12 +2,17 @@
 $pageTitle = "Početna stranica";
 require_once './control/_page.php';
 
+///////// LOGIRANJE ZA DESKTOP KORISNIKE /////////
 $isLoggedIn = false;
 $loginUser = null;
 
-// Testno ulogiravanje direkt u uloge:
+if (isset($_COOKIE["user"])) {
+    $loginUser["username"] = $_COOKIE["user"];
+    $smarty->assign("setRemember", true);
+}
+
+// Za test:
 if (isset($_POST['testing'])) {
-    $isLoggedIn = false;
     try {
         if (isset($_POST["admin"])) {
             $isLoggedIn = UserControl::LogIn("mmatijevi", "test1");
@@ -24,11 +29,11 @@ if (isset($_POST['testing'])) {
             exit();
         }
     }
-// Pravo ulogiravanje (jedino što bi u stvarnosti ovdje trebalo biti):
 } elseif (isset($_POST['login'])) {
     $loginUser = $_POST;
     require_once("./control/login.php");
 }
+///////// LOGIRANJE ZA DESKTOP KORISNIKE /////////
 
 $smarty->display("header.tpl");
 

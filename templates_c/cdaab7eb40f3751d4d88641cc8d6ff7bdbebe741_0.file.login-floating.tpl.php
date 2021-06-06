@@ -1,17 +1,17 @@
 <?php
-/* Smarty version 3.1.39, created on 2021-06-06 12:39:32
-  from '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/login-floating.tpl' */
+/* Smarty version 3.1.39, created on 2021-06-06 14:15:52
+  from '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/html/templates/login-floating.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.39',
-  'unifunc' => 'content_60bca5e458bef7_41327748',
+  'unifunc' => 'content_60bcbc78c28f27_40489275',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
-    '889c2959d2484ac3e2f4f5d4fc9b7c742c69b7ff' => 
+    'cdaab7eb40f3751d4d88641cc8d6ff7bdbebe741' => 
     array (
-      0 => '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/login-floating.tpl',
+      0 => '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/html/templates/login-floating.tpl',
       1 => 1622975969,
       2 => 'file',
     ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_60bca5e458bef7_41327748 (Smarty_Internal_Template $_smarty_tpl) {
+function content_60bcbc78c28f27_40489275 (Smarty_Internal_Template $_smarty_tpl) {
 ?><section class="section-login">
     <form id="login" name="login" method="POST" class="section-login_popup" action="<?php echo $_SERVER['PHP_SELF'];?>
 ">

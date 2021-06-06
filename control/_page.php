@@ -24,7 +24,7 @@ require_once dirname(__DIR__)."/smarty-3.1.39/libs/Smarty.class.php";
 $smarty = new Smarty();
 $smarty->setTemplateDir(dirname(__DIR__)."/templates");
 $smarty->setCompileDir(dirname(__DIR__)."/templates_c");
-$smarty->assign("relativePath", $urlToRoot);
+$smarty->assign("relativePath", $relativePath);
 
 if (!isset($pageTitle)) {
     $pageTitle = "";

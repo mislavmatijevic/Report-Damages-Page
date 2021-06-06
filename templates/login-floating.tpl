@@ -9,6 +9,10 @@
         <span id="error-password" class="error">{if isset($message)}{$message}{/if}</span>
         <div class="g-recaptcha" data-sitekey="6Lf1IQwbAAAAANr0dqL1d4BFHSNrquwodjOfunFW"></div>
         {if isset($messageCaptcha)}<span class="error-captcha">{$messageCaptcha}</span>{/if}
+        <div style="text-align: left; margin-left: 15px;">
+            <label for="remember">Zapamti me</label>
+            <input id="remember" name="remember" type="checkbox" {if isset($setRemember)}checked value="1"{/if} />
+        </div>
         <input id="submitButton" type="submit" name="login" value="Prijava" class="section-login_popup-submit" />
     </form>
     <form id="testing_form" name="testing" method="POST" action="{$smarty.server.PHP_SELF}">
