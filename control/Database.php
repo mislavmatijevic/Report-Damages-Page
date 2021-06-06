@@ -179,12 +179,13 @@ class DB
         };
 
         $userResult = $prepared->get_result();
-        $userObject = $userResult->fetch_object();
 
         // Uopće ne postoji takav korisnik (ili je izbrisan, ili je promijenio lozinku).
-        if ($userObject === null) {
+        if ($userResult->num_rows == 0) {
             throw new Exception("Ovaj je link nevažeći", DBUserError);
-        }        
+        }
+
+        $userObject = $userResult->fetch_object();
 
         // Ako uvjeti nisu prihvaćeni
         if ($userObject->uvjeti == null) {

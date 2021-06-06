@@ -25,27 +25,75 @@ $(() => {
         }
     });
 
+    var ok = false;
+    function checker() {
+        ok = true;
+        Object.keys(formItemList).forEach((fieldName) => {
+            if (formItemList[fieldName] == true) {
+                $(`#${fieldName}`).css("border", "2px green outset");
+                $(`#error-${fieldName}`).html("");
+            } else {
+                $(`#${fieldName}`).css("border", "2px red outset");
+                $(`#error-${fieldName}`).html(formItemList[fieldName]);
+                ok = false;
+            }
+        });
+        console.log(formItemList);
+    }
+
     switch (location.pathname.split('/').slice(-1)[0]) {
-        case 'register.php': {
 
-            var ok = false;
+        case 'index.php':
+        case 'login-page.php': {
 
-            function checker() {
-                ok = true;
-                Object.keys(formItemList).forEach((fieldName) => {
-                    if (formItemList[fieldName] == true) {
-                        $(`#${fieldName}`).css("border", "2px green outset");
-                        $(`#error-${fieldName}`).html("");
-                    } else {
-                        $(`#${fieldName}`).css("border", "2px red outset");
-                        $(`#error-${fieldName}`).html(formItemList[fieldName]);
-                        ok = false;
-                    }
-                });
-                console.log(formItemList);
+            function checkUsername() {
+                value = $("#username").val();
+                if (value.length < 3 || value.length > 20) {
+                    formItemList["username"] = "Provjerite korisničko ime!";
+                }
+                else {
+                    formItemList["username"] = true;
+                }
+                checker();
+            }
+            function checkPassword() {
+                value = $("#password").val();
+                var passReg = new RegExp(/^(?=.*[\d])(?=.*[\D])([\w\d]+){5,}$/);
+                if (!passReg.test(value)) {
+                    formItemList["password"] = "Provjerite lozinku!";
+                } else {
+                    formItemList["password"] = true;
+                }
+                checker();
             }
 
-            function validateUsername(isTaken) {
+            $("#username").on("change", checkUsername);
+            $("#password").on("change", checkPassword);
+
+            $("#login").submit((e) => {
+                if (Object.keys(formItemList).length != 2) {
+                    alert("Unesite korisničko ime i lozinku!");
+                    e.preventDefault();
+                    return;
+                }
+
+                checkUsername();
+                checkPassword();
+
+                checker();
+
+                if (!ok) {
+                    alert("Provjerite Vaše podatke!");
+                    e.preventDefault();
+                    return;
+                }
+            });
+            break;
+        }
+
+        case 'register.php': {
+
+            function validateUsernameRegister(isTaken) {
                 if (isTaken) {
                     formItemList["username"] = `Korisničko ime "${value}" zauzeto`;
                     checker();
@@ -56,7 +104,7 @@ $(() => {
                 }
             }
 
-            $("#name").on("input", () => {
+            function checkName() {
                 value = $("#name").val();
                 if (value == "") {
                     formItemList["name"] = "Popunite ime!";
@@ -66,8 +114,8 @@ $(() => {
                     formItemList["name"] = true;
                 }
                 checker();
-            });
-            $("#surname").on("input", () => {
+            }
+            function checkSurname() {
                 value = $("#surname").val();
                 if (value == "") {
                     formItemList["surname"] = "Popunite prezime!";
@@ -77,30 +125,27 @@ $(() => {
                     formItemList["surname"] = true;
                 }
                 checker();
-            });
-            $("#username").on("input", () => {
+            }
+            function checkUsernameInput() {
                 value = $("#username").val();
                 if (value.length > 20) {
                     formItemList["username"] = "Korisničko ime je predugačko";
+                } else if (value == "") {
+                    formItemList["username"] = "Unesite korisničko ime!";
                 }
                 else {
-                    AJAXCall("./control/UserControl.php", { checkUsername: value }, validateUsername);
+                    AJAXCall("./control/UserControl.php", { checkUsername: value }, validateUsernameRegister);
                 }
                 checker();
-            });
-            $("#username").on("change", () => {
+            }
+            function checkUsernameChange() {
                 value = $("#username").val();
                 if (value.length < 3) {
                     formItemList["username"] = "Korisničko ime je prekratko";
                 }
                 checker();
-            });
-
-            var passRegLetters = new RegExp(/^([\w]+){5,}$/);
-            var passRegDigit = new RegExp(/^(?=.*[\d])([\w]+){5,}$/);
-            var passRegLetter = new RegExp(/^(?=.*[\D])([\w]+){5,}$/);
-
-            $("#password").on("input", () => {
+            }
+            function checkPasswordInput() {
                 value = $("#password").val();
                 if (value == "") {
                     formItemList["password"] = "Popunite lozinku!";
@@ -110,9 +155,11 @@ $(() => {
                     formItemList["password"] = true;
                 }
                 checker();
-            });
-
-            $("#password").on("change", () => {
+            }
+            function checkPasswordChange() {
+                var passRegLetters = new RegExp(/^([\w]+){5,}$/);
+                var passRegDigit = new RegExp(/^(?=.*[\d])([\w]+){5,}$/);
+                var passRegLetter = new RegExp(/^(?=.*[\D])([\w]+){5,}$/);
                 value = $("#password").val();
                 if (!passRegLetters.test(value)) {
                     formItemList["password"] = "Lozinka mora imati više od 5 znakova!";
@@ -128,9 +175,8 @@ $(() => {
                     formItemList["password"] = true;
                 }
                 checker();
-            });
-
-            $("#confirm_pass").on("change", () => {
+            }
+            function checkConfirmPassword() {
                 if ($("#confirm_pass").val() == "") {
                     formItemList["confirm_pass"] = "Ponovite lozinku!";
                 } else if ($("#confirm_pass").val() != $("#password").val()) {
@@ -139,10 +185,9 @@ $(() => {
                     formItemList["confirm_pass"] = true;
                 }
                 checker();
-            });
-
-            var mailReg = new RegExp(/^[^.]([a-z0-9A-Z.\+\"\_\-]{1,64})[^.]@[^\-\_\-](?=.{1,255}$)([a-z0-9A-Z\-\+\.)+([a-z0-9A-Z]+)$/);
-            $("#email").on("input", () => {
+            }
+            function checkEmail() {
+                var mailReg = new RegExp(/^[^.]([a-z0-9A-Z.\+\"\_\-]{1,64})[^.]@[^\-\_\-](?=.{1,255}$)([a-z0-9A-Z\-\+\.)+([a-z0-9A-Z]+)$/);
                 value = $("#email").val();
                 if (value == "") {
                     formItemList["email"] = "Unesite mail!";
@@ -154,16 +199,39 @@ $(() => {
                     formItemList["email"] = true;
                 }
                 checker();
-            });
+            }
+
+            $("#name").on("input", checkName);
+            $("#surname").on("input", checkSurname);
+            $("#username").on("input", checkUsernameInput);
+            $("#username").on("change", checkUsernameChange);
+            $("#password").on("input", checkPasswordInput);
+            $("#password").on("change", checkPasswordChange);
+            $("#confirm_pass").on("change", checkConfirmPassword);
+            $("#email").on("input", checkEmail);
 
             $("#register").submit((e) => {
-                checker();
                 if (Object.keys(formItemList).length != 6) {
-                    e.preventDefault();
                     alert("Popunite obrazac do kraja!");
-                } else if (!ok) {
                     e.preventDefault();
+                    return;
+                }
+
+                checkName();
+                checkSurname();
+                checkUsernameInput();
+                checkUsernameChange();
+                checkPasswordInput();
+                checkPasswordChange();
+                checkConfirmPassword();
+                checkEmail();
+
+                checker();
+
+                if (!ok) {
                     alert("Ispravite unose po naputcima!");
+                    e.preventDefault();
+                    return;
                 }
             });
 

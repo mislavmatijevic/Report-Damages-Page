@@ -1,6 +1,6 @@
 <section class="section">
     <h1 class="section__title">Prijava</h1>
-    <form id="prijava" name="prijava" method="POST" class="section-login_form" action="{$smarty.server.PHP_SELF}">
+    <form id="login" name="login" method="POST" class="section-login_form" action="{$smarty.server.PHP_SELF}">
         {if isset($messageCaptcha)}<span class="error-captcha">{$messageCaptcha}</span>{/if}
         <label for="username" class="section-login_form-input">Korisničko ime: </label>
         <input id="username" name="username" {if isset($loginUser)} value="{$loginUser["username"]}" {/if} />

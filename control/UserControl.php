@@ -14,10 +14,17 @@ define("USER_CONTROL_SUCCESS", 1);
 require_once dirname(__DIR__)."/control/Database.php";
 
 if (!empty($_GET['checkUsername'])) {
+    ob_clean();
+    header_remove();
+    header("Content-type: application/json; charset=utf-8");
+    http_response_code(200);
+
     $dbObj = new DB();
+
     try {
         $dbObj->CheckUserExists($_GET['checkUsername']);
     } catch (Exception $ex) { // Korisnik ne postoji (ili je nedajbože baza prestala raditi).
+        
         die(json_encode(false));
     }
     die(json_encode(true)); // Korisnik postoji jer nije bačena iznimka na provjeru imena.
@@ -175,8 +182,8 @@ class UserControl
         return $email;
     }
 
-    public static function SetNewPassword($identifier, $newPassword) {
-
+    public static function SetNewPassword($identifier, $newPassword)
+    {
         $dbObj = new DB();
         $dbObj->SetPasswordWithIdentifier($identifier, $newPassword);
         return USER_CONTROL_SUCCESS;
@@ -360,10 +367,10 @@ class UserControl
             </div>
         </html>';
 
-        if (mail($emailReceiver, $mailTitle .  " | Stranice štete", $message, $headers) === false) {
+        if (mail($emailReceiver, $mailTitle .  " | Stranice štete", $message, $headers) == false) {
             throw new Exception("Mail nije mogao biti poslan!", USER_CONTROL_MAIL_ERROR);
-        };
-        
-        return USER_CONTROL_SUCCESS;
+        } else {
+            return USER_CONTROL_SUCCESS;
+        }
     }
 }

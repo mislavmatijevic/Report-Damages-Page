@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.39, created on 2021-06-06 12:54:43
+/* Smarty version 3.1.39, created on 2021-06-06 18:07:43
   from '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/login.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.39',
-  'unifunc' => 'content_60bca9731c2eb5_81612630',
+  'unifunc' => 'content_60bcf2cfdae657_46013060',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '09ca82ccddb8cac37a9488e440776f28617998b3' => 
     array (
       0 => '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/login.tpl',
-      1 => 1622976881,
+      1 => 1622994960,
       2 => 'file',
     ),
   ),
@@ -20,10 +20,10 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_60bca9731c2eb5_81612630 (Smarty_Internal_Template $_smarty_tpl) {
+function content_60bcf2cfdae657_46013060 (Smarty_Internal_Template $_smarty_tpl) {
 ?><section class="section">
     <h1 class="section__title">Prijava</h1>
-    <form id="prijava" name="prijava" method="POST" class="section-login_form" action="<?php echo $_SERVER['PHP_SELF'];?>
+    <form id="login" name="login" method="POST" class="section-login_form" action="<?php echo $_SERVER['PHP_SELF'];?>
 ">
         <?php if ((isset($_smarty_tpl->tpl_vars['messageCaptcha']->value))) {?><span class="error-captcha"><?php echo $_smarty_tpl->tpl_vars['messageCaptcha']->value;?>
 </span><?php }?>

@@ -13,7 +13,7 @@ if (isset($_GET["activateId"]) && isset($_GET["username"])) {
     try {
         UserControl::ConfirmUserAndLogin($activateId, $username);
     } catch (Exception $e) {
-        if ($e->getCode() !== DBUserError) {
+        if ($e->getCode()) {
             $smarty->assign("message", $e->getMessage());
             $smarty->display("header.tpl");
             $smarty->display("activate.tpl");
