@@ -320,4 +320,23 @@ class DB
 
         return DBSuccess;
     }
+
+    public function MakeDonation($idJavniPoziv, $amount, $user)
+    {
+        if (($prepared = $this->mysqli_object->prepare("UPDATE javni_poziv SET skupljeno_sredstava = ? WHERE id_javni_poziv = ?")) == false) {
+            throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
+        }
+
+        if (($prepared->bind_param("id", $idJavniPoziv, $amount)) == false) {
+            throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
+        }
+
+        if ($prepared->execute() == false) {
+            throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
+        };
+
+        if (isset($user)) {
+            // TO-DO upiši u dnevnik i u tablicu "donacije" da je donirao
+        }
+    }
 }
