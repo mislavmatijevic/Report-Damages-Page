@@ -59,6 +59,11 @@ $(() => {
                 checker();
             }
 
+            $("#amount").on("input", () => { 
+                if (formItemList["amount"] != true) {
+                    checkIsMoney();
+                }
+            });
             $("#amount").on("change", () => { 
                 checkIsMoney();
             });

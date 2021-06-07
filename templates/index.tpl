@@ -41,7 +41,7 @@
                     </p>
                 </div>
                 <div class="damages__damage-info">
-                    {if isset($damage["datum_zatvaranja"])}
+                    {if $damage["datum_zatvaranja"] != ""}
                         <p class="damages__damage-dates-ended">
                             <strong>Trajao do:</strong>
                             {date("d.m. H:i:s", strtotime(htmlspecialchars($damage["datum_zatvaranja"])))}
@@ -52,7 +52,7 @@
                         </p>
                     {/if}
                 </div>
-                {if !isset($damage["datum_zatvaranja"])}
+                {if $damage["datum_zatvaranja"] == ""}
                     <a class="button" href="./donate.php?id={$damage["id_javni_poziv"]}">Detaljnije</a>
                 {/if}
             </div>

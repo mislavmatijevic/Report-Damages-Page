@@ -1219,8 +1219,13 @@ input:focus {
   }
 }
 
-.section__donation .donate-form label {
-  padding: 20px;
+.section__donation .donate-form #label-amount {
+  padding: 15px;
+  width: 250px;
+}
+
+.section__donation .donate-form input {
+  max-height: 75px;
 }
 
 .section__donation .donate-form__submit-wrapper {
@@ -1241,6 +1246,7 @@ input:focus {
   margin: 16px 0;
   border-width: 2px;
   border-radius: 5px;
+  margin-top: 50px;
 }
 
 @media screen and (min-width: 1300px) {

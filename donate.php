@@ -4,13 +4,31 @@ require_once './control/_page.php';
 
 $donationId;
 
+if (isset($_POST["donation-identifier"]) && isset($_POST["amount"])) {
+    $donationId = Prevent::Injection("POST", "donation-identifier");
+    settype($donationId, "integer");
 
-if (!isset($_GET['id'])) {
+    $amountToBeDonated = Prevent::Injection("POST", "amount");
+    settype($amountToBeDonated, "float");
+
+    if (!preg_match("/^(\d)+(\.((\d){2})+)*$/", $amountToBeDonated)) {
+        $smarty->assign("message", "Unesite ispravan iznos za donaciju.<br>Ako unosite decimalne znamenke, odvojite ih točkom.");
+    } else {
+        try {
+            $dbObj = new DB();
+            $dbObj->MakeDonation($donationId, $amountToBeDonated, $_SESSION["user"]);
+        } catch (Exception $e) {
+            $smarty->assign("messageGlobal", $e->getMessage());
+        }
+    }
+
+} else if (!isset($_GET['id'])) {
     header("Location: index.php");
     exit();
+} else {
+    $donationId = Prevent::Injection("GET", 'id');
+    settype($donationId, "integer");
 }
-$donationId = $_GET['id'];
-settype($donationId, "integer");
 
 try {
     $dbObj = new DB();
