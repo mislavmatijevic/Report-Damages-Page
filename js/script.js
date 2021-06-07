@@ -45,6 +45,35 @@ $(() => {
 
     switch (location.pathname.split('/').slice(-1)[0]) {
 
+        case 'donate.php': {
+            function checkIsMoney() {
+                var value = $("#amount").val();
+                var isNumberReg = new RegExp(/^(\d)+(\.((\d){2})+)*$/);
+                if (!isNumberReg.test(value)) {
+                    formItemList["amount"] = "Unesite ispravan iznos za donaciju.<br>Ako unosite decimalne znamenke, odvojite ih točkom.";
+                } else if (value < 10) {
+                    formItemList["amount"] = "Donirajte minimalno 10kn. Nemojte biti škrti. Neki ljudi pate, a vi cincarite. Jao. 😠";
+                } else {
+                    formItemList["amount"] = true;
+                };
+                checker();
+            }
+
+            $("#amount").on("change", () => { 
+                checkIsMoney();
+            });
+
+            $("#button-donate").on("click", (e) => {
+                if (!checkIsMoney()) {
+                    e.preventDefault();
+                } else {
+                    if (!confirm(`Jeste li sigurni da želite uplatiti ${$("#amount").val()} kuna?`)) {
+                        e.preventDefault();
+                    }
+                }
+            });
+        }
+
         case 'index.php':
         case 'login-page.php': {
 
@@ -198,7 +227,7 @@ $(() => {
                     formItemList["email"] = "Unesite mail!";
                 } else if (value.length > 45) {
                     formItemList["email"] = "Email je predugačak";
-                } else if (!mailReg.test(value)) {            
+                } else if (!mailReg.test(value)) {
                     formItemList["email"] = "Unesite ispravan email!";
                 } else {
                     formItemList["email"] = true;

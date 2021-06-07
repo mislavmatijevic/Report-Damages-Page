@@ -17,7 +17,7 @@ if (isset($_POST["register"])) {
     }
 
     foreach ($_POST as $k => $v) {
-        $newUser[$k] = filter_input(INPUT_POST, $k);
+        $newUser[$k] = Prevent::Injection("POST", $k);
 
         $mistake = "";
 
@@ -107,10 +107,10 @@ if (isset($_POST["register"])) {
 }
 
 if (isset($newUser)) {
-    $smarty->assign("newUser", $newUser);
+    $smarty->assign("newUser", Prevent::XSS($newUser));
 }
 if (!empty($mistakeField)) {
-    $smarty->assign("mistakeField", $mistakeField);
+    $smarty->assign("mistakeField", Prevent::XSS($mistakeField));
 }
 
 $smarty->display("header.tpl");

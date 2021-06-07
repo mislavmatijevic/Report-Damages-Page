@@ -11,6 +11,8 @@ define("DBUserError", -2);
 define("DBPassError", -1);
 define("DBSuccess", 1);
 
+require_once dirname(__DIR__) . "/control/OutputControl.php"; // Protiv XSS-a čim se čita iz baze.
+
 class DB
 {
     private $mysqli_object = null;
@@ -39,7 +41,8 @@ class DB
     /**
      * @return boolean|object Ako korisnik postoji, vraća njegov objekt iz baze, inače baca iznimku.
      */
-    public function CheckUserExists(string $username) {
+    public function CheckUserExists(string $username)
+    {
         if (($prepared = $this->mysqli_object->prepare("SELECT * FROM korisnik WHERE korisnicko_ime = ? LIMIT 1")) == false) {
             throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
         }
@@ -51,14 +54,14 @@ class DB
         if ($prepared->execute() == false) {
             throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
         };
-        
+
         $dbResult = $prepared->get_result();
 
         if ($dbResult->num_rows == 0) { // Korisnik ne postoji:
             throw new Exception('<a href=//register.php">Niste registrirani?</a>', DBUserError);
         }
 
-        return $dbResult->fetch_object();
+        return Prevent::XSS($dbResult->fetch_object());
     }
 
     /**
@@ -75,9 +78,9 @@ class DB
         if ($userObject->status_blokade != null) {
             throw new Exception("Račun blokiran", DBUserError);
         }
-        
+
         // Nije blokiran.
-        // Odgovaraju li mu lozinke?        
+        // Odgovaraju li mu lozinke?
         if ($userObject->lozinka_sha256 !== hash("sha256", $password)) { // Lozinke se ne poklapaju
             $retry_count = $userObject->broj_neuspjesnih_prijava == null ? 1 : $userObject->broj_neuspjesnih_prijava + 1;
 
@@ -88,7 +91,7 @@ class DB
             if ($prepared->bind_param("ii", $retry_count, $userObject->id_korisnik) == false) {
                 throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
             }
-    
+
             if ($prepared->execute() == false) {
                 throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
             };
@@ -110,10 +113,11 @@ class DB
             throw new Exception("Uvjeti nisu prihvaćeni", DBTermsError);
         }
 
-        return $userObject;
+        return Prevent::XSS($userObject);
     }
 
-    public function BlockUser($username, $doBlock = true) {
+    public function BlockUser($username, $doBlock = true)
+    {
 
         if (($prepared = $this->mysqli_object->prepare("UPDATE `WebDiP2020x057`.`korisnik` SET `status_blokade` = ?, `broj_neuspjesnih_prijava`=NULL WHERE korisnicko_ime = ?")) == false) {
             throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
@@ -138,7 +142,7 @@ class DB
             throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
         }
 
-        return $result->fetch_all(MYSQLI_ASSOC);
+        return Prevent::XSS($result->fetch_all(MYSQLI_ASSOC));
     }
 
     public function GetPrepared(string $preparedQuery, string $argumentsString, array $argumentsArray)
@@ -162,7 +166,7 @@ class DB
             throw new Exception("Neuspio dohvat iz baze!", DBError);
         }
 
-        return $userResult->fetch_all(MYSQLI_ASSOC);
+        return Prevent::XSS($userResult->fetch_all(MYSQLI_ASSOC));
     }
 
     /**
@@ -209,12 +213,14 @@ class DB
             throw new Exception("Ovaj je link nevažeći", DBUserError);
         }
 
-        $userObject = $userResult->fetch_object();
+        $userObject = Prevent::XSS($userResult->fetch_object());
 
-        // Ako uvjeti nisu prihvaćeni
-        if ($userObject->uvjeti == null) {
+        // Ako su uvjeti prihvaćeni:
+        if ($userObject->uvjeti != null) {
+            throw new Exception('Račun već aktiviran. U slučaju pogreške kontaktirajte administratora.', DBPassError);
+        } else {
             // Ako uvjeti nisu prihvaćeni, a prošlo je više sati nego što je trebalo.
-            if ((time() - strtotime($userObject->datum_registracije))/60/60 > $maxHoursToAccept) {
+            if ((time() - strtotime($userObject->datum_registracije)) / 60 / 60 > $maxHoursToAccept) {
                 // Izbriši nevažećeg korisnika.
                 if (($prepared = $this->mysqli_object->prepare("DELETE FROM `WebDiP2020x057`.`korisnik` WHERE `korisnicko_ime` = ?")) == false) {
                     throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
@@ -232,19 +238,17 @@ class DB
             if (($prepared = $this->mysqli_object->prepare("UPDATE `WebDiP2020x057`.`korisnik` SET `uvjeti` = ? WHERE (`id_korisnik` = ?)")) == false) {
                 throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
             }
-            
+
             if (($prepared->bind_param("si", date('Y-m-d H:i:s'), $userObject->id_korisnik)) == false) {
                 throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
             }
-    
+
             if ($prepared->execute() == false) {
                 throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
             };
-            
-            return $userObject;
         }
 
-        throw new Exception('Račun već aktiviran. U slučaju pogreške kontaktirajte administratora.', DBPassError);
+        return Prevent::XSS($userObject);
     }
 
 
@@ -268,7 +272,7 @@ class DB
             throw new Exception('<a href="./register.php">Niste registrirani?</a>', DBUserError);
         }
 
-        return $result->fetch_object();
+        return Prevent::XSS($result->fetch_object());
     }
 
     public function PrepareIdentifierForNewPassword($username, $meshedIdentifier)
@@ -310,7 +314,7 @@ class DB
             throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
         };
 
-        if ($prepared->affected_rows === 0)  {
+        if ($prepared->affected_rows === 0) {
             throw new Exception("Link je istekao.", DBPassError);
         };
 

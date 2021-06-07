@@ -1,4 +1,4 @@
-.section-form {
+@mixin formStyle {
     display: flex;
     flex-direction: column;
 
@@ -71,4 +71,8 @@
             grid-column-start: 7;
         }
     }
+}
+
+.section-form {
+    @include formStyle;
 }

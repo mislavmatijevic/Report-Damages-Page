@@ -14,9 +14,9 @@ if (isset($_GET['identifier'])) {
     if (empty($_POST['newPassword'])) {
         $smarty->assign("message", "Molimo unesite novu lozinku!");
     } else {
-        $identifier = filter_input(INPUT_POST, "identifier");
-        $newPassword = filter_input(INPUT_POST, "newPassword");
-        $newPasswordRepeat = filter_input(INPUT_POST, "newPasswordRepeat");
+        $identifier = Prevent::Injection("POST", "identifier");
+        $newPassword = Prevent::Injection("POST", "newPassword");
+        $newPasswordRepeat = Prevent::Injection("POST", "newPasswordRepeat");
 
         if (empty($newPassword) || empty($newPasswordRepeat)) {
             $smarty->assign("message", "Unesite obje lozinke!");
@@ -70,10 +70,10 @@ if (!isset($identifier)) { // U slučaju da je netko slučajno nabasao na strani
 $smarty->display("header.tpl");
 
 if (isset($newPassword)) {
-    $smarty->assign("newPassword", $newPassword);
+    $smarty->assign("newPassword", Prevent::XSS($newPassword));
 }
 if (isset($newPasswordRepeat)) {
-    $smarty->assign("newPasswordRepeat", $newPasswordRepeat);
+    $smarty->assign("newPasswordRepeat", Prevent::XSS($newPasswordRepeat));
 }
 
 $smarty->display("change-pass.tpl");

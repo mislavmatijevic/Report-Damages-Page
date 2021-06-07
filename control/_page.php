@@ -47,23 +47,23 @@ require_once dirname(__DIR__)."/control/Database.php";
 
 switch ($_SESSION["lvl"]) {
     case LVL_ADMINISTRATOR: {
-            $userHelloMessage = "Ugodan dan, administratore!";
+            $userHelloMessage = "Administrator";
             break;
         }
     case LVL_MODERATOR: {
-            $userHelloMessage = "Budite pažljivi u radu!";
+            $userHelloMessage = "Moderator";
             break;
         }
     case LVL_REGISTRIRANI: {
-            $userHelloMessage = "Ugodan boravak, " . (!empty($_SESSION["user"]->ime) ? $_SESSION["user"]->ime : $korisnik["user"]->korisnicko_ime) . "!";
+            $userHelloMessage = "Pozdrav, " . (!empty($_SESSION["user"]->ime) ? $_SESSION["user"]->ime : $korisnik["user"]->korisnicko_ime) . "!";
             break;
         }
     case LVL_NEREGISTRIRANI: {
-            $userHelloMessage = "Dobrodošli na stranicu!";
+            $userHelloMessage = "Dobrodošli!";
             break;
         }
 }
 
-require_once dirname(__DIR__)."/control/paging.php";
+require_once dirname(__DIR__)."/control/OutputControl.php";
 
 $smarty->assign("userHelloMessage", $userHelloMessage);

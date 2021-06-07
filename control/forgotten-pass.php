@@ -11,7 +11,7 @@ if (isset($_GET['username'])) {
     if (empty($_POST['username'])) {
         $smarty->assign("message", "Molimo unesite Vaše korisničko ime!");
     } else {
-        $username = filter_input(INPUT_POST, "username");
+        $username = Prevent::Injection("POST", "username");
 
         $captcha = false;
         try {
@@ -37,7 +37,7 @@ if (isset($_GET['username'])) {
 $smarty->display("header.tpl");
 
 if (isset($username)) {
-    $smarty->assign("username", $username);
+    $smarty->assign("username", Prevent::XSS($username));
 }
 $smarty->display("forgotten-pass.tpl");
 

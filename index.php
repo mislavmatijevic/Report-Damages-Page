@@ -58,7 +58,7 @@ $smarty->display("header.tpl");
 $smarty->display("index.tpl");
 
 if (isset($_SESSION["user"]) == false) {
-    $smarty->assign("loginUser", $loginUser);
+    $smarty->assign("loginUser", Prevent::XSS($loginUser));
     $smarty->display("login-floating.tpl");
 }
 if (isset($paging)) {

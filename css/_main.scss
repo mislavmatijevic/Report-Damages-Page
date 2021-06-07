@@ -308,9 +308,9 @@ input {
             border-radius: 50%;
             padding: 1px 6px;
             color: lightgray;
+            font-weight: 1000;
             &:hover {
                 color: red;
-                font-weight: 1000;
                 cursor: pointer;
             }
         }

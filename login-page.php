@@ -16,7 +16,7 @@ if (isset($_POST['login'])) {
 
 $smarty->display("header.tpl");
 
-$smarty->assign("loginUser", $loginUser);
+$smarty->assign("loginUser", Prevent::XSS($loginUser));
 $smarty->display("login.tpl");
 
 $smarty->display("footer.tpl");

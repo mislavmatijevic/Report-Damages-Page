@@ -9,6 +9,7 @@
         </tr>
     </thead>
     <tbody>
+    {if isset($userList)}
         {foreach from=$userList item=$user}
             <tr class="table__row">
                 <td class="table__row-data">{$user["korisnicko_ime"]}</td>
@@ -17,5 +18,6 @@
                 <td class="table__row-data">{$user["lozinka_sha256"]}</td>
             </tr>
         {/foreach}
+    {/if}
     </tbody>
 </table>

@@ -1,7 +1,39 @@
 <?php
 
-require_once dirname(__DIR__)."/control/_page.php";
-require_once dirname(__DIR__)."/control/Database.php";
+require_once dirname(__DIR__) . "/control/_page.php";
+require_once dirname(__DIR__) . "/control/Database.php";
+
+function filter(&$value) {
+    $value = htmlspecialchars($value);
+}
+
+class Prevent
+{
+    static function XSS($object)
+    {
+        array_walk_recursive($object, 'filter');
+        return $object;
+    }
+    static function Injection(string $inputSource, string $key)
+    {
+
+        switch ($inputSource) {
+            case 'GET':
+                $cleanValue = filter_input(INPUT_GET, $key);
+                break;
+
+            case 'POST':
+                $cleanValue = filter_input(INPUT_POST, $key);
+                break;
+
+            case 'COOKIE':
+                $cleanValue = filter_input(INPUT_COOKIE, $key);
+                break;
+        }
+
+        return self::XSS($cleanValue);
+    }
+}
 
 class PagingControl
 {
@@ -18,8 +50,8 @@ class PagingControl
         $this->smarty = $smarty;
         $this->tableData = $tableData;
         $this->tableName = $tableName . " " . $additional;
-        
-        $config = parse_ini_file(dirname(__DIR__)."/admin/config/manage.conf");
+
+        $config = parse_ini_file(dirname(__DIR__) . "/admin/config/manage.conf");
         $this->configItemsPerPage = $config["maxItemsPerPage"];
         $this->dbObj = new DB();
 
@@ -30,8 +62,9 @@ class PagingControl
 
         $this->currentPage = 0;
         if (isset($_GET["page"])) {
-            $this->currentPage = $_GET["page"];
-            if ($this->currentPage < 0) {
+            $this->currentPage = Prevent::Injection("GET", "page");
+            settype($this->currentPage, "integer");
+            if ($this->currentPage < 0 || !is_numeric($this->currentPage)) {
                 $this->currentPage = 0;
                 $smarty->assign("messageGlobal", "Ovo je prva stranica");
             } else if ($this->currentPage > $highestPage) {
