@@ -3,15 +3,24 @@
 require_once dirname(__DIR__) . "/control/_page.php";
 require_once dirname(__DIR__) . "/control/Database.php";
 
-function filter(&$value) {
-    $value = htmlspecialchars($value);
+function purify(&$value)
+{
+    $value = htmlspecialchars($value, ENT_NOQUOTES, "UTF-8");
 }
 
 class Prevent
 {
     static function XSS($object)
     {
-        array_walk_recursive($object, 'filter');
+        if (is_array($object)) {
+            array_walk_recursive($object, 'purify');
+        } else if (is_object($object)) {
+            foreach ($object as $key => $element) {
+                purify($element);
+            }
+        } else {
+            purify($object);
+        }
         return $object;
     }
     static function Injection(string $inputSource, string $key)
