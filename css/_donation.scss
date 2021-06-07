@@ -1,0 +1,51 @@
+.section {
+    &__damage {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        &-figure {
+            object-fit: contain;
+            max-width: 65%;
+
+            img {
+                width: 100%;
+            }
+
+            @media screen and ($tablet) {
+                width: auto;
+                margin: 16px;
+            }
+            @media screen and ($desktop) {
+                width: auto;
+                margin: 32px;
+            }
+        }
+        &-description {
+            justify-self: flex-start;
+            margin: 32px;
+            font-size: 16px;
+        }
+        &-info {
+            font-size: 20px;
+            margin: 32px;
+            border: 1px #aeaeae solid;
+            padding: 32px 16px;
+        }
+
+        padding-bottom: 32px;
+    }
+    
+    &__donation {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        &__wanna-help {
+            justify-self: center;
+            margin: 32px;
+            font-size: 32px;
+        }
+    }
+}

@@ -24,6 +24,10 @@ $(() => {
         }
     });
 
+    $("#close-button").on("click", () => {
+        $("#global-error").remove();
+    });
+
     var ok = false;
     function checker() {
         ok = true;

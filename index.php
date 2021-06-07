@@ -35,21 +35,33 @@ if (isset($_POST['testing'])) {
 }
 ///////// LOGIRANJE ZA DESKTOP KORISNIKE /////////
 
-$smarty->display("header.tpl");
+
 
 try {
     $dbObj = new DB();
-    $javniPozivi = $dbObj->GetSelect("SELECT jp.id_javni_poziv, jp.naziv, jp.opis, jp.datum_otvaranja, jp.skupljeno_sredstava, jp.datum_zatvaranja, oo.korisnicko_ime as moderator, k.ilustracija as kategorija_ilustracija FROM WebDiP2020x057.javni_poziv as jp INNER JOIN korisnik oo ON jp.id_odgovorna_osoba = oo.id_korisnik INNER JOIN kategorija_stete k ON jp.id_kategorija_stete = k.id_kategorija_stete ;");
+    $acceptanceStats = $dbObj->GetSelect("SELECT k.naziv, COUNT(*) as count, s.naziv as status FROM steta INNER JOIN kategorija_stete k ON k.id_kategorija_stete = steta.id_kategorija_stete INNER JOIN status_stete s ON steta.id_status_stete = s.id_status_stete GROUP BY k.naziv, s.id_status_stete;");
+    $smarty->assign("acceptanceStats", $acceptanceStats);
+} catch (Exception $e) {
+    $smarty->assign("messageGlobal", $e->getMessage());
+}
+
+$paging = new PagingControl("javni_poziv as jp", "jp.id_javni_poziv, jp.naziv, jp.opis, jp.datum_otvaranja, jp.datum_zatvaranja, k.ilustracija as kategorija_ilustracija", "INNER JOIN kategorija_stete k ON jp.id_kategorija_stete = k.id_kategorija_stete");
+
+try {
+    $javniPozivi = $paging->getData();
     $smarty->assign("javniPozivi", $javniPozivi);
 } catch (Exception $e) {
     $smarty->assign("messageGlobal", $e->getMessage());
 }
 
+$smarty->display("header.tpl");
 $smarty->display("index.tpl");
 
 if (isset($_SESSION["user"]) == false) {
     $smarty->assign("loginUser", $loginUser);
     $smarty->display("login-floating.tpl");
 }
-
+if (isset($paging)) {
+    $paging->displayControls();
+}
 $smarty->display("footer.tpl");

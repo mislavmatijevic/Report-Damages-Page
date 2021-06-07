@@ -132,13 +132,37 @@ class DB
         return DBSuccess;
     }
 
-    public function GetSelect($query)
+    public function GetSelect(string $query)
     {
         if (($result = $this->mysqli_object->query($query)) == false) {
             throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
         }
 
         return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function GetPrepared(string $preparedQuery, string $argumentsString, array $argumentsArray)
+    {
+        if (($prepared = $this->mysqli_object->prepare($preparedQuery)) == false) {
+            throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
+        }
+
+        if (($prepared->bind_param($argumentsString, ...$argumentsArray)) == false) {
+            throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
+        }
+
+        if ($prepared->execute() == false) {
+            throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
+        };
+
+        $userResult = $prepared->get_result();
+
+        // Uopće ne postoji takav korisnik (ili je izbrisan, ili je promijenio lozinku).
+        if ($userResult->num_rows == 0) {
+            throw new Exception("Neuspio dohvat iz baze!", DBError);
+        }
+
+        return $userResult->fetch_all(MYSQLI_ASSOC);
     }
 
     /**

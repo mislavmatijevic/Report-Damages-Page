@@ -64,4 +64,6 @@ switch ($_SESSION["lvl"]) {
         }
 }
 
+require_once dirname(__DIR__)."/control/paging.php";
+
 $smarty->assign("userHelloMessage", $userHelloMessage);

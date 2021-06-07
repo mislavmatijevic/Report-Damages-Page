@@ -1,40 +1,82 @@
 .paging {
-    margin: 128px auto;
-    width: 90%;
-    max-width: 700px;
     border: 1px #aeaeae outset;
-    border-radius: 15px;
-    padding: 16px;
+    max-width: 90%;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 32px auto;
+
+    @media screen and ($tablet) {
+        margin: 128px auto;
+        width: 700px;
+        border-radius: 15px;
+        padding: 16px;
+    }
 
     &:first-of-type {
-        margin-bottom: 32px;
-    }
-    &:last-of-type {
-        margin-top: 32px;
+        margin-top: 100px;
+        @media screen and ($tablet) {
+            margin-top: 112px;
+        }
     }
 
+    &:last-of-type {
+        margin-bottom: 32px;
+        @media screen and ($tablet) {
+            margin-bottom: 100px;
+        }
+    }
+
+
     &-info {
-        width: 90%;
         margin: auto;
         text-align: center;
+        width: 90%;
+        font-size: 12px;
+        @media screen and ($tablet) {
+            font-size: 30px;
+        }
     }
 
     &-controls {
         display: flex;
         justify-content: space-between;
 
-        button {
-            border-radius: 15px;
-            padding: 2px 25px;
-            width: 64px;
-            min-height: 32px;
-            border: 1px orange thick;
-
-            &:first-of-type {
-                width: 150px;
+        progress {
+            width: 100px;
+            @media screen and ($tablet) {
+                width: auto;
             }
-            &:last-of-type {
+        }
+
+        button {
+            border-radius: 5px;
+            padding: 1px 5px;
+            min-width: 32px;
+            min-height: 32px;
+            font-size: 10px;
+            border: 1px orange thick;
+            background-color: #f0f0f0;
+
+            @media screen and ($tablet) {
                 width: 150px;
+                border-radius: 15px;
+                padding: 2px 25px;
+                width: auto;
+                min-height: 32px;
+                font-size: 16px;
+            }
+
+            &:hover {
+                background-color: orange;
+                cursor: pointer;
+            }
+
+            &:first-of-type,
+            &:last-of-type {
+                width: auto;
+                @media screen and ($tablet) {
+                    width: 200px;
+                }
             }
         }
     }

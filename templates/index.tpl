@@ -18,12 +18,13 @@
 </section>
 
 <section class="section section_damages" style="display: block">
+    {include file='acceptanceStats.tpl'}
+</section>
+
+<section class="section section_damages" style="display: block">
     <h2 class="section__title">
         Javni pozivi
     </h2>
-    {if isset($messageGlobal)}
-        <p>{$messageGlobal}</p>
-    {/if}
     <div class="section_damages">
         {foreach from=$javniPozivi item=$damage key=$key}
             <div class="damages__damage">
@@ -51,7 +52,9 @@
                         </p>
                     {/if}
                 </div>
-                <a class="button" href="#">Detaljnije</a>
+                {if !isset($damage["datum_zatvaranja"])}
+                    <a class="button" href="./donate.php?id={$damage["id_javni_poziv"]}">Detaljnije</a>
+                {/if}
             </div>
         {/foreach}
     </div>

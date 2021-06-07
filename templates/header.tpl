@@ -38,6 +38,13 @@
             </nav>
             <span style="color: orange">{$userHelloMessage}</span>
         </div>
+        {if isset($messageGlobal)}
+            <div class="error" id="global-error">
+                {$messageGlobal}
+                <div id="close-button">X</div>
+            </div>
+        {/if}
     </header>
+
 
     <main>

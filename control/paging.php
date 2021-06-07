@@ -12,12 +12,12 @@ class PagingControl
     private $smarty;
     private $currentPage;
 
-    public function __construct(string $tableName, string $tableData)
+    public function __construct(string $tableName, string $tableData, string $additional = "")
     {
         global $smarty;
         $this->smarty = $smarty;
         $this->tableData = $tableData;
-        $this->tableName = $tableName;
+        $this->tableName = $tableName . " " . $additional;
         
         $config = parse_ini_file(dirname(__DIR__)."/admin/config/manage.conf");
         $this->configItemsPerPage = $config["maxItemsPerPage"];
@@ -33,8 +33,10 @@ class PagingControl
             $this->currentPage = $_GET["page"];
             if ($this->currentPage < 0) {
                 $this->currentPage = 0;
+                $smarty->assign("messageGlobal", "Ovo je prva stranica");
             } else if ($this->currentPage > $highestPage) {
                 $this->currentPage = $highestPage;
+                $smarty->assign("messageGlobal", "Ovo je zadnja stranica");
             }
         }
     }
