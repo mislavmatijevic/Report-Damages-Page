@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.39, created on 2021-06-06 20:30:12
+/* Smarty version 3.1.39, created on 2021-06-07 14:54:44
   from '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/login-floating.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.39',
-  'unifunc' => 'content_60bd143468f929_48344858',
+  'unifunc' => 'content_60be1714ec6d70_95038556',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '889c2959d2484ac3e2f4f5d4fc9b7c742c69b7ff' => 
     array (
       0 => '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/login-floating.tpl',
-      1 => 1623004205,
+      1 => 1623070467,
       2 => 'file',
     ),
   ),
@@ -20,16 +20,16 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_60bd143468f929_48344858 (Smarty_Internal_Template $_smarty_tpl) {
+function content_60be1714ec6d70_95038556 (Smarty_Internal_Template $_smarty_tpl) {
 ?><section class="section-login">
     <form id="login" name="login" method="POST" class="section-login_popup" action="<?php echo $_SERVER['PHP_SELF'];?>
 ">
         <h1 class="section-login_popup-header">Prijava u sustav</h1>
-        <input id="username" name="username" placeholder="Korisničko ime" <?php if ((isset($_smarty_tpl->tpl_vars['loginUser']->value))) {?> value="<?php echo $_smarty_tpl->tpl_vars['loginUser']->value["username"];?>
+        <input id="username" name="username" placeholder="Korisničko ime" <?php if ((isset($_smarty_tpl->tpl_vars['loginUser']->value["username"]))) {?> value="<?php echo $_smarty_tpl->tpl_vars['loginUser']->value["username"];?>
 "
             <?php }?> />
         <span id="error-username" class="error"></span>
-        <input id="password" name="password" type="password" placeholder="Password" <?php if ((isset($_smarty_tpl->tpl_vars['loginUser']->value))) {?>
+        <input id="password" name="password" type="password" placeholder="Password" <?php if ((isset($_smarty_tpl->tpl_vars['loginUser']->value["password"]))) {?>
             value="<?php echo $_smarty_tpl->tpl_vars['loginUser']->value["password"];?>
 " <?php }?> />
         <span id="error-password" class="error"><?php if ((isset($_smarty_tpl->tpl_vars['message']->value))) {

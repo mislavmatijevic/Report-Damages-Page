@@ -1,7 +1,7 @@
 <?php
 
 $pageTitle = "ZAŠTIĆENO - Ispis korisnika";
-$relativePath = "../../";
+$relativePath = "../";
 require_once '../control/_page.php';
 require_once '../control/paging.php';
 

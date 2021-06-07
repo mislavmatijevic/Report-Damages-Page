@@ -2,23 +2,23 @@
 
 error_reporting(E_ALL);
 
-$urlToRoot = $_SERVER['HTTP_HOST'].dirname($_SERVER["PHP_SELF"])."/";
+define("ERROR_MESSAGE", 0);
+define("INFO_MESSAGE", 1);
 
-// Uvijek preko TLS-a:
-if (empty($_SERVER['HTTPS']) && $_SERVER['HTTP_HOST'] !== "localhost:4000") {
-    header('Location: '.$urlToRoot.substr($_SERVER["SCRIPT_NAME"], strrpos($_SERVER["SCRIPT_NAME"], "/")+1));
-    exit;
-} elseif ($_SERVER['HTTP_HOST'] !== "localhost:4000") { // Zapamti ovu https putanju.
-    $urlToRoot = "https://".$urlToRoot;
-} else { // Nesiguran protokol za lokalno testiranje.
-    $urlToRoot = "http://".$urlToRoot;
-}
+$urlToRoot = $_SERVER['HTTP_HOST'].dirname($_SERVER["PHP_SELF"])."/";
 if (!isset($relativePath)) {
     $relativePath = basename(dirname($_SERVER['REQUEST_URI'], 1)) === "control" ? "../" : "./";
 }
 
-define("ERROR_MESSAGE", 0);
-define("INFO_MESSAGE", 1);
+require_once dirname(__DIR__)."/control/UserControl.php";
+UserControl::startSession();
+
+if (isset($pageAccessLvl)) {
+    if ($_SESSION["lvl"] > $pageAccessLvl) {
+        header("Location: {$relativePath}index.php");
+        exit();
+    }
+}
 
 require_once dirname(__DIR__)."/smarty-3.1.39/libs/Smarty.class.php";
 $smarty = new Smarty();
@@ -32,14 +32,15 @@ if (!isset($pageTitle)) {
 $pageTitle .= " | Stranica za štete";
 $smarty->assign("pageTitle", $pageTitle);
 
-require_once dirname(__DIR__)."/control/UserControl.php";
-UserControl::startSession();
 
-if (isset($pageAccessLvl)) {
-    if ($_SESSION["lvl"] > $pageAccessLvl) {
-        header("Location: {$relativePath}index.php");
-        exit();
-    }
+// Uvijek preko TLS-a:
+if (empty($_SERVER['HTTPS']) && $_SERVER['HTTP_HOST'] !== "localhost:4000") {
+    header('Location: '.$urlToRoot.substr($_SERVER["SCRIPT_NAME"], strrpos($_SERVER["SCRIPT_NAME"], "/")+1));
+    exit;
+} elseif ($_SERVER['HTTP_HOST'] !== "localhost:4000") { // Zapamti ovu https putanju.
+    $urlToRoot = "https://".$urlToRoot;
+} else { // Nesiguran protokol za lokalno testiranje.
+    $urlToRoot = "http://".$urlToRoot;
 }
 
 require_once dirname(__DIR__)."/control/Database.php";

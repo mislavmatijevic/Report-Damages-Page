@@ -41,7 +41,9 @@ class UserControl
     {
         if (session_id() == "") {
             session_name("UserSession");
-            session_start();
+            session_start([
+                'cookie_lifetime' => 86400,
+            ]);
         }
         if (!isset($_SESSION["lvl"])) {
             $_SESSION["lvl"] = LVL_NEREGISTRIRANI;
@@ -91,16 +93,12 @@ class UserControl
             }
         }
 
-        if (isset($fullUser)) {
-            self::stopSession();
-            self::startSession();
-            $_SESSION["user"] = $fullUser;
-            $_SESSION["lvl"] = $fullUser->id_uloga;
-            
-            return USER_CONTROL_SUCCESS;
-        } else {
-            throw new Exception("Korisnik nije pronađen", USER_CONTROL_ERROR);
-        }
+        self::stopSession();
+        self::startSession();
+        $_SESSION["user"] = $fullUser;
+        $_SESSION["lvl"] = $fullUser->id_uloga;
+        
+        return USER_CONTROL_SUCCESS;
     }
 
     /**
