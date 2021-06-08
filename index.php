@@ -39,7 +39,7 @@ if (isset($_POST['testing'])) {
 
 try {
     $dbObj = new DB();
-    $acceptanceStats = $dbObj->SelectPrepared("SELECT k.naziv, COUNT(*) as count, s.naziv as status FROM steta INNER JOIN kategorija_stete k ON k.id_kategorija_stete = steta.id_kategorija_stete INNER JOIN status_stete s ON steta.id_status_stete = s.id_status_stete GROUP BY k.naziv, s.id_status_stete;", "", []);
+    $acceptanceStats = $dbObj->SelectPrepared("SELECT k.naziv, COUNT(*) as count, s.naziv as status FROM steta INNER JOIN kategorija_stete k ON k.id_kategorija_stete = steta.id_kategorija_stete INNER JOIN status_stete s ON steta.id_status_stete = s.id_status_stete GROUP BY k.naziv, s.id_status_stete;");
     $smarty->assign("acceptanceStats", $acceptanceStats);
 } catch (Exception $e) {
     $smarty->assign("messageGlobal", $e->getMessage());

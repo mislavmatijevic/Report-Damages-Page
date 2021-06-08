@@ -44,7 +44,7 @@ class Log
     // Tipovi radnji
 
     private $dbObjLog;
-    public function __construct(DB $activeDbObj)
+    public function __construct(DB $activeDbObj) // OBJEKT NE SMIJE sadržavati objekt baze jer bi se rekurzivno sadržavali!
     {
         $this->dbObjLog = $activeDbObj;
     }
@@ -61,48 +61,30 @@ class Log
     }
 
     /**
-     * @param string $criteria prazno (sve) / user / frequency
+     * @param string $criteria prazno (sve) / "user" / "action" / "frequency"
      * @param string $arguments id_korisnik / id_radnje
      */
     public function GetLogs(string $criteria = "", string $argument = "")
     {
         switch ($criteria) {
             case '':
-                if (($prepared = $this->dbObjLog->mysqli_object->prepare("TABLE dnevnik")) == false) {
-                    throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
-                }
+                $records = $this->dbObjLog->SelectPrepared("TABLE dnevnik");
                 break;
             case 'user':
-                if (($prepared = $this->dbObjLog->mysqli_object->prepare("SELECT * dnevnik WHERE id_izvrsitelj = ?")) == false) {
-                    throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
-                }
-                if (($prepared->bind_param("i", $argument)) == false) {
-                    throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
-                }
+                $records = $this->dbObjLog->SelectPrepared("SELECT * dnevnik WHERE id_izvrsitelj = ?", "i", [$argument]);
+                break;
+            case 'action':
+                $records = $this->dbObjLog->SelectPrepared("SELECT * FROM dnevnik WHERE id_radnja = ?;", "i", [$argument]);
                 break;
             case 'frequency':
-                if (($prepared = $this->dbObjLog->mysqli_object->prepare("")) == false) {
-                    throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
-                }
-                if (($prepared->bind_param("i", $argument)) == false) {
-                    throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
-                }
+                $records = $this->dbObjLog->SelectPrepared("SELECT tr.naziv, COUNT(*) as count FROM tip_radnje as tr INNER JOIN dnevnik as d WHERE d.id_radnja = tr.id_tip GROUP BY tr.naziv ORDER BY COUNT(*) DESC;", "i", [$argument]);
                 break;
             default: {
                 throw new Exception("Nepoznat kriterij \"$criteria\" za dohvat logova iz baze!", 1);
             }
         }
 
-        if ($prepared->execute() == false) {
-            throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
-        };
-        $allLogs = $prepared->get_result();
-        
-        if ($allLogs->num_rows == 0) {
-            throw new Exception("Takvi podaci nisu pronađeni!", DBError);
-        }
-
-        return Prevent::XSS($allLogs->fetch_all(MYSQLI_ASSOC));
+        return Prevent::XSS($records);
     }
 };
 
@@ -136,13 +118,13 @@ class DB
         $this->mysqli_object->close();
     }
 
-    public function ExecutePrepared(string $preparedQuery, string $argumentsString, array $argumentsArray)
+    public function ExecutePrepared(string $preparedQuery, string $argumentsString = "", array $argumentsArray = [])
     {
         if (($prepared = $this->mysqli_object->prepare($preparedQuery)) == false) {
             throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
         }
 
-        if (!empty($argumentsArray)) {
+        if (empty($argumentsArray) === false) {
             if (($prepared->bind_param($argumentsString, ...$argumentsArray)) == false) {
                 throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
             }
@@ -155,7 +137,7 @@ class DB
         return $prepared->get_result();
     }
 
-    public function SelectPrepared(string $preparedQuery, string $argumentsString, array $argumentsArray)
+    public function SelectPrepared(string $preparedQuery, string $argumentsString = "", array $argumentsArray = [])
     {
         $userResult = $this->ExecutePrepared($preparedQuery, $argumentsString, $argumentsArray);
 
@@ -344,13 +326,17 @@ class DB
         return DBSuccess;
     }
 
-    public function MakeDonation($idJavniPoziv, $amount, $user)
+    public function MakeDonation(int $idJavniPoziv, float $amount, $user)
     {
-        $this->ExecutePrepared("UPDATE javni_poziv SET skupljeno_sredstava = ? WHERE id_javni_poziv = ?", "id", [$idJavniPoziv, $amount]);
+        $this->ExecutePrepared("UPDATE javni_poziv SET skupljeno_sredstava = ? WHERE id_javni_poziv = ?", "di", [$amount, $idJavniPoziv]);
+
+        $queryReadable = "UPDATE javni_poziv SET skupljeno_sredstava = $amount WHERE id_javni_poziv = $idJavniPoziv";
 
         if (isset($user)) { // Registrirani korisnik
-            $this->ExecutePrepared("INSERT INTO `WebDiP2020x057`.`donacije` (`iznos`, `id_steta`, `id_donator`) VALUES (?, ?, ?)", "dii", [$amount, $idJavniPoziv, $user->id_korisnik]);
-            
+            $this->ExecutePrepared("INSERT INTO `WebDiP2020x057`.`donacije` (`iznos`, `id_javni_poziv`, `id_donator`) VALUES (?, ?, ?)", "dii", [$amount, $idJavniPoziv, $user->id_korisnik]);
+            $this->logObj->New("$queryReadable; INSERT INTO `WebDiP2020x057`.`donacije` (`iznos`, `id_javni_poziv`, `id_donator`) VALUES ({$amount}, {$idJavniPoziv}, {$user->id_korisnik})", "Korisnik $user->korisnicko_ime donirao je $amount HRK za javni poziv s oznakom $idJavniPoziv.", Log::donacija, $user->id_korisnik);
+        } else {
+            $this->logObj->New($queryReadable, "Neregistrirani korisnik s IP adresom {$_SERVER['REMOTE_ADDR']} donirao je $amount HRK za javni poziv s oznakom $idJavniPoziv.", Log::donacija);
         }
     }
 }

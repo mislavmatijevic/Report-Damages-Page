@@ -37,7 +37,7 @@ CREATE TABLE `dnevnik` (
   KEY `fk_dnevnik_korisnik1_idx` (`id_izvrsitelj`),
   CONSTRAINT `fk_dnevnik_korisnik` FOREIGN KEY (`id_izvrsitelj`) REFERENCES `korisnik` (`id_korisnik`),
   CONSTRAINT `fk_dnevnik_tip_radnje` FOREIGN KEY (`id_radnja`) REFERENCES `tip_radnje` (`id_tip`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -46,6 +46,7 @@ CREATE TABLE `dnevnik` (
 
 LOCK TABLES `dnevnik` WRITE;
 /*!40000 ALTER TABLE `dnevnik` DISABLE KEYS */;
+INSERT INTO `dnevnik` VALUES (1,'/index.php','2021-06-08 22:53:08','UPDATE `WebDiP2020x057`.`korisnik` SET `broj_neuspjesnih_prijava`=NULL WHERE `id_korisnik` = 1','Prijavio se korisnik mmatijevi.',1,1),(2,'/donate.php','2021-06-08 22:57:52','UPDATE javni_poziv SET skupljeno_sredstava = 100 WHERE id_javni_poziv = 1','Neregistrirani korisnik s IP adresom 127.0.0.1 donirao je 100 HRK za javni poziv s oznakon 1.',7,1),(3,'/index.php','2021-06-08 22:57:58','UPDATE `WebDiP2020x057`.`korisnik` SET `broj_neuspjesnih_prijava`=NULL WHERE `id_korisnik` = 1','Prijavio se korisnik mmatijevi.',1,1),(4,'/donate.php','2021-06-08 23:45:32','UPDATE javni_poziv SET skupljeno_sredstava = 1500.5 WHERE id_javni_poziv = 1; INSERT INTO `WebDiP2020x057`.`donacije` (`iznos`, `id_javni_poziv`, `id_donator`) VALUES (1500.5, 1, 1)','Korisnik Mislav donirao je 1500.5 HRK za javni poziv s oznakom 1.',7,1),(5,'/logout.php','2021-06-08 23:46:50',NULL,'Korisnik mmatijevi se odjavio.',2,1);
 /*!40000 ALTER TABLE `dnevnik` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -96,7 +97,7 @@ CREATE TABLE `donacije` (
   KEY `fk_donacije_korisnik1_idx` (`id_donator`),
   CONSTRAINT `fk_donacije_korisnik` FOREIGN KEY (`id_donator`) REFERENCES `korisnik` (`id_korisnik`),
   CONSTRAINT `fk_donacije_steta` FOREIGN KEY (`id_javni_poziv`) REFERENCES `steta` (`id_steta`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -105,7 +106,7 @@ CREATE TABLE `donacije` (
 
 LOCK TABLES `donacije` WRITE;
 /*!40000 ALTER TABLE `donacije` DISABLE KEYS */;
-INSERT INTO `donacije` VALUES (1,125,2,1);
+INSERT INTO `donacije` VALUES (1,125,2,1),(2,1500.5,1,1),(3,1500.5,1,1);
 /*!40000 ALTER TABLE `donacije` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -157,7 +158,7 @@ CREATE TABLE `javni_poziv` (
 
 LOCK TABLES `javni_poziv` WRITE;
 /*!40000 ALTER TABLE `javni_poziv` DISABLE KEYS */;
-INSERT INTO `javni_poziv` VALUES (1,'Subvencija za nedavnu oluju','Nedavna oluja nanijela je mnogim našim građanima velike štete. Vjetar, gromovi, sve to nanosi materijalne štete.\r\n\r\nPomozite sugrađanima popraviti te štete!','2021-04-10 01:15:18','2021-04-13 15:50:50',0,0,1,1),(2,'Pomoć žrtvama poplave','Nedavna poplava nanijela je velike materijalne štete našim sugrađanima. Pomozite im!','2021-03-31 18:00:00','2021-09-30 18:00:00',125,0,3,2),(3,'Potres, prvi javni natječaj','Ovo je prvi javni natječaj za žrtve potresa!','2021-04-01 18:00:00','2021-04-08 18:00:00',0,0,3,4),(4,'Potres, drugi javni natječaj','Ovo je drugi javni natječaj za žrtve potresa! Pomozite im jer im je potrebno!','2021-04-11 18:00:00','2021-12-31 19:00:00',0,0,2,4),(5,'Krađe','Nedavno su naši sugrađani bili izloženi stravičnim pljačkama. Pomozite im nadomjesititi ukradenu imovinu dok policija ne odradi svoj posao.','2021-04-09 18:00:00','2022-01-15 19:00:00',0,0,3,5),(6,'Pomoć za ratna stradanja','Neki naši sugrađani još izlaze na kraj s ratnim razaranjima. Ovo je prilika da im pomognete do 13. travnja 2021.','2021-04-10 06:00:00','2021-08-12 18:00:00',0,0,1,6);
+INSERT INTO `javni_poziv` VALUES (1,'Subvencija za nedavnu oluju','Nedavna oluja nanijela je mnogim našim građanima velike štete. Vjetar, gromovi, sve to nanosi materijalne štete.\r\n\r\nPomozite sugrađanima popraviti te štete!','2021-04-10 01:15:18','2021-04-13 15:50:50',3001,0,1,1),(2,'Pomoć žrtvama poplave','Nedavna poplava nanijela je velike materijalne štete našim sugrađanima. Pomozite im!','2021-03-31 18:00:00','2021-09-30 18:00:00',125,0,3,2),(3,'Potres, prvi javni natječaj','Ovo je prvi javni natječaj za žrtve potresa!','2021-04-01 18:00:00','2021-04-08 18:00:00',0,0,3,4),(4,'Potres, drugi javni natječaj','Ovo je drugi javni natječaj za žrtve potresa! Pomozite im jer im je potrebno!','2021-04-11 18:00:00','2021-12-31 19:00:00',0,0,2,4),(5,'Krađe','Nedavno su naši sugrađani bili izloženi stravičnim pljačkama. Pomozite im nadomjesititi ukradenu imovinu dok policija ne odradi svoj posao.','2021-04-09 18:00:00','2022-01-15 19:00:00',0,0,3,5),(6,'Pomoć za ratna stradanja','Neki naši sugrađani još izlaze na kraj s ratnim razaranjima. Ovo je prilika da im pomognete do 13. travnja 2021.','2021-04-10 06:00:00','2021-08-12 18:00:00',0,0,1,6);
 /*!40000 ALTER TABLE `javni_poziv` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -440,4 +441,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-06-08 23:56:00
+-- Dump completed on 2021-06-09  1:53:59

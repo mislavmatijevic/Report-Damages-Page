@@ -50,26 +50,22 @@ $(() => {
                 var value = $("#amount").val();
                 var isNumberReg = new RegExp(/^(\d)+(\.((\d){2})+)*$/);
                 if (!isNumberReg.test(value)) {
-                    formItemList["amount"] = "Unesite ispravan iznos za donaciju.<br>Ako unosite decimalne znamenke, odvojite ih točkom.";
+                    formItemList["amount"] = "Unesite ispravan iznos za donaciju.<br>Ako unosite decimalne znamenke, unesite točno dvije odvojene točkom.";
                 } else if (value < 10) {
-                    formItemList["amount"] = "Donirajte minimalno 10kn. Nemojte biti škrti. Neki ljudi pate, a vi cincarite. Jao. 😠";
+                    formItemList["amount"] = "Donirajte minimalno 10kn.<br>Nemojte biti škrti. Neki ljudi pate, a vi cincarite. Jao. 😠";
                 } else {
                     formItemList["amount"] = true;
                 };
                 checker();
             }
 
-            $("#amount").on("input", () => { 
-                if (formItemList["amount"] != true) {
-                    checkIsMoney();
-                }
-            });
             $("#amount").on("change", () => { 
                 checkIsMoney();
             });
 
             $("#button-donate").on("click", (e) => {
-                if (!checkIsMoney()) {
+                checkIsMoney();
+                if (formItemList["amount"] !== true) {
                     e.preventDefault();
                 } else {
                     if (!confirm(`Jeste li sigurni da želite uplatiti ${$("#amount").val()} kuna?`)) {

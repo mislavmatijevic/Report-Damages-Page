@@ -7,17 +7,29 @@ $donationId;
 if (isset($_POST["donation-identifier"]) && isset($_POST["amount"])) {
     $donationId = Prevent::Injection("POST", "donation-identifier");
     settype($donationId, "integer");
-    $amountToBeDonated = Prevent::Injection("POST", "amount");
-    settype($amountToBeDonated, "float");
 
-    if (!preg_match("/^(\d)+(\.((\d){2})+)*$/", $amountToBeDonated)) {
-        $smarty->assign("message", "Unesite ispravan iznos za donaciju.<br>Ako unosite decimalne znamenke, odvojite ih točkom.");
-    } else {
-        try {
-            $dbObj = new DB();
-            $dbObj->MakeDonation($donationId, $amountToBeDonated, $_SESSION["user"]);
-        } catch (Exception $e) {
-            $smarty->assign("messageGlobal", $e->getMessage());
+    $isValidCaptcha = true;
+    try {
+        //$isValidCaptcha = UserControl::CheckCaptcha($_POST['g-recaptcha-response']);
+    } catch (Exception $e) {
+        $smarty->assign("messageCaptcha", $e->getMessage());
+    }
+    
+    if ($isValidCaptcha) {
+        $amountToBeDonated = Prevent::Injection("POST", "amount");
+        settype($amountToBeDonated, "float");
+        $amountToBeDonated = round($amountToBeDonated, 2);
+
+        if (!preg_match("/^(\d)+(\.(\d){1,2})*$/", $amountToBeDonated)) {
+            $smarty->assign("messageGlobal", "Uneseni iznos $amountToBeDonated nije ispravan!");
+            $smarty->assign("message", "Unesite ispravan iznos za donaciju.<br>Ako unosite decimalne znamenke, unesite točno dvije odvojene točkom.");
+        } else {
+            try {
+                $dbObj = new DB();
+                $dbObj->MakeDonation($donationId, $amountToBeDonated, $_SESSION["user"]);
+            } catch (Exception $e) {
+                $smarty->assign("messageGlobal", $e->getMessage());
+            }
         }
     }
 } elseif (!isset($_GET['id'])) {

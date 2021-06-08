@@ -1240,21 +1240,36 @@ input:focus {
 
 .section__donation .donate-form #button-donate {
   display: block;
+  text-decoration: none;
+  width: 100%;
+  line-height: 40px;
+  text-align: center;
+  border-radius: 6px;
+  background: #333333;
+  color: #ffffff;
+  -webkit-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
+  margin-top: 15px;
+  display: block;
   width: 100%;
   height: 50px;
   font-size: 30px;
   margin: 16px 0;
   border-width: 2px;
-  border-radius: 5px;
   margin-top: 50px;
+  border-radius: 15px;
+}
+
+.section__donation .donate-form #button-donate:hover {
+  cursor: pointer;
+  background: orange;
+  color: #333333;
 }
 
 @media screen and (min-width: 1300px) {
   .section__donation .donate-form #button-donate {
     max-width: 200px;
     height: 60px;
-    border-width: 5px;
-    border-radius: 15px;
   }
 }
 
