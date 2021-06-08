@@ -66,7 +66,7 @@ class PagingControl
         $this->configItemsPerPage = $config["maxItemsPerPage"];
         $this->dbObj = new DB();
 
-        $databaseData = $this->dbObj->GetSelect("SELECT COUNT(*) FROM $this->tableName");
+        $databaseData = $this->dbObj->SelectPrepared("SELECT COUNT(*) FROM $this->tableName", "", []);
         $numberOfRows = $databaseData[0]["COUNT(*)"];
         $highestPage = ceil($numberOfRows / $this->configItemsPerPage) - 1;
         $smarty->assign("maxPage", $highestPage);
@@ -89,7 +89,7 @@ class PagingControl
     {
         $this->smarty->assign("currentPage", $this->currentPage);
         $offset = $this->currentPage * $this->configItemsPerPage;
-        return $this->dbObj->GetSelect("SELECT $this->tableData FROM $this->tableName LIMIT {$offset}, {$this->configItemsPerPage}");
+        return $this->dbObj->SelectPrepared("SELECT $this->tableData FROM $this->tableName LIMIT {$offset}, {$this->configItemsPerPage}", "", []);
     }
 
     public function displayControls()

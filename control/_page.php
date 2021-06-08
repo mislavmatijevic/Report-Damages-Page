@@ -30,11 +30,12 @@ if (!function_exists('str_contains')) {
     }
 }
 
+
 // Uvijek preko TLS-a:
 if (empty($_SERVER['HTTPS']) && !str_contains($_SERVER['HTTP_HOST'], "localhost")) {
     header("Location: https://".$fullUrl);
     exit();
-} elseif ($_SERVER['HTTP_HOST'] !== "localhost:4000") { // Zapamti da ova putanja počinje s https.
+} elseif (!str_contains($_SERVER['HTTP_HOST'], "localhost:4000")) { // Zapamti da ova putanja počinje s https.
     $urlToRoot = "https://".$urlToRoot;
 } else { // Nesiguran protokol za lokalno testiranje.
     $urlToRoot = "http://".$urlToRoot;

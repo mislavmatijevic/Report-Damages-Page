@@ -2,5 +2,6 @@ Prilikom uspješnog logiranja se resetira brojač neuspješnih prijava.
 Prilikom uspješnog logiranja se postavlja brojač neuspješnih prijava.
 
 Prilikom registracije šalje se korime kao GET parametar linku na uređeni html mail.
+U dnevnik se ne upisuje čitljiva šifra iz upita.
 
 Prilikom resetiranja šifre, mailom se šalje poseban link koji sadržava identificirajući niz za korisnika. Identificirajući niz nastaje pretvorbom 25 pseudoslučajnih bajtova u heksadecimalnu notaciju (točno 50 znakova koliko je predviđeno za najveću *čitljivu* lozinku). Taj niz se sprema u već postojeći stupac "lozinka čitljiva" koji ionako postoji samo za potrebe testiranja. Baza preko toga niza pronalazi korisnika kada on preko maila dođe na formu za upisivanje nove šifre.
