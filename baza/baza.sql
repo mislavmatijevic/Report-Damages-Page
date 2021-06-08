@@ -1,3 +1,4 @@
+START TRANSACTION;
 -- MySQL Workbench Forward Engineering
 
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
@@ -114,8 +115,8 @@ CREATE TABLE IF NOT EXISTS `WebDiP2020x057`.`javni_poziv` (
   `naziv` VARCHAR(45) CHARACTER SET 'utf8' COLLATE 'utf8_general_ci' NOT NULL,
   `opis` TEXT CHARACTER SET 'utf8' COLLATE 'utf8_general_ci' NOT NULL,
   `datum_otvaranja` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `datum_zatvaranja` TIMESTAMP NULL,
   `skupljeno_sredstava` FLOAT NOT NULL DEFAULT 0,
-  `datum_zatvaranja` TIMESTAMP NOT NULL,
   `zatvoren` TINYINT NOT NULL DEFAULT 0,
   `id_odgovorna_osoba` INT NOT NULL,
   `id_kategorija_stete` INT NOT NULL,
@@ -301,3 +302,5 @@ DEFAULT CHARACTER SET = utf8;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+COMMIT;

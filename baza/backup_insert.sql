@@ -1,27 +1,37 @@
 START TRANSACTION;
 
+SET FOREIGN_KEY_CHECKS = 0;
 TRUNCATE TABLE `tip_radnje`;
+SET FOREIGN_KEY_CHECKS = 1;
 INSERT INTO `tip_radnje` (`id_tip`, `naziv`) VALUES(1, 'prijava/odjava');
 INSERT INTO `tip_radnje` (`id_tip`, `naziv`) VALUES(2, 'rad s bazom');
 INSERT INTO `tip_radnje` (`id_tip`, `naziv`) VALUES(3, 'ostale radnje');
 
+SET FOREIGN_KEY_CHECKS = 0;
 TRUNCATE TABLE `uloga`;
+SET FOREIGN_KEY_CHECKS = 1;
 INSERT INTO `uloga` (`id_uloga`, `naziv`) VALUES(1, 'Administrator');
 INSERT INTO `uloga` (`id_uloga`, `naziv`) VALUES(2, 'Moderator');
 INSERT INTO `uloga` (`id_uloga`, `naziv`) VALUES(3, 'Registrirani korisnik');
 INSERT INTO `uloga` (`id_uloga`, `naziv`) VALUES(4, 'Neregistrirani korisnik');
 
+SET FOREIGN_KEY_CHECKS = 0;
 TRUNCATE TABLE `vrsta_materijala`;
+SET FOREIGN_KEY_CHECKS = 1;
 INSERT INTO `vrsta_materijala` (`id_vrsta_materijala`, `naziv`, `opis`, `upute_za_upload`, `ekstenzija`, `najveca_velicina_mb`) VALUES(1, 'Fotografija', 'Fotografija materijal.', 'Uploadati.', '.jpg, .jpeg', 4);
 INSERT INTO `vrsta_materijala` (`id_vrsta_materijala`, `naziv`, `opis`, `upute_za_upload`, `ekstenzija`, `najveca_velicina_mb`) VALUES(2, 'Video', 'Video materijal.', 'Uploadati.', '.mp4', 64);
 INSERT INTO `vrsta_materijala` (`id_vrsta_materijala`, `naziv`, `opis`, `upute_za_upload`, `ekstenzija`, `najveca_velicina_mb`) VALUES(3, 'Audio', 'Audio materijal.', 'Uploadati.', '.mp3', 1);
 
+SET FOREIGN_KEY_CHECKS = 0;
 TRUNCATE TABLE `status_stete`;
+SET FOREIGN_KEY_CHECKS = 1;
 INSERT INTO `status_stete` (`id_status_stete`, `naziv`) VALUES(1, 'obrada');
 INSERT INTO `status_stete` (`id_status_stete`, `naziv`) VALUES(2, 'prihvaćeno');
 INSERT INTO `status_stete` (`id_status_stete`, `naziv`) VALUES(3, 'odbijeno');
 
+SET FOREIGN_KEY_CHECKS = 0;
 TRUNCATE TABLE `kategorija_stete`;
+SET FOREIGN_KEY_CHECKS = 1;
 INSERT INTO `kategorija_stete` (`id_kategorija_stete`, `naziv`, `opis`, `kolicina_prijava`, `kolicina_javnih_poziva`, `ilustracija`) VALUES(1, 'Oluja', 'Gromovi mogu spaliti osigurače, električne uređaje itd. Šteta je još gora kada se posjed zapali uslijed udara groma.', 1, 1, 'storm.jpg');
 INSERT INTO `kategorija_stete` (`id_kategorija_stete`, `naziv`, `opis`, `kolicina_prijava`, `kolicina_javnih_poziva`, `ilustracija`) VALUES(2, 'Poplava', 'Nema načina zaštite spremišta ispod prizemne razine od poplava. PVC stolarija, metalna vrata, ništa ne zaustavlja prodor vode pred ogromnim pritiskom. Voda uništi sav namještaj od ivice, električne uređaje. U dodiru s otvorenim instalacijama može doći i do požara.', 3, 1, 'flood.jpg');
 INSERT INTO `kategorija_stete` (`id_kategorija_stete`, `naziv`, `opis`, `kolicina_prijava`, `kolicina_javnih_poziva`, `ilustracija`) VALUES(3, 'Požar', 'Sama pomisao na požare utiskuju strah u kosti. Eksplozija cijevi od plina uslijed malene pukotine može se dogoditi bilo kome. Vatra najčešće uništi susjedne posjede, stanove itd.', 0, 0, 'arson.jpg');
@@ -29,7 +39,9 @@ INSERT INTO `kategorija_stete` (`id_kategorija_stete`, `naziv`, `opis`, `kolicin
 INSERT INTO `kategorija_stete` (`id_kategorija_stete`, `naziv`, `opis`, `kolicina_prijava`, `kolicina_javnih_poziva`, `ilustracija`) VALUES(5, 'Krađa', 'Nekada se čovjek trudi, radi svoj posao pošteno, samo da bi uočio obijenu bravu na kućnim vratima. Ponekad štete nastale krađom budu kobne i ljudi izgube svo bogatstvo što su imali.', 2, 1, 'theft.jpg');
 INSERT INTO `kategorija_stete` (`id_kategorija_stete`, `naziv`, `opis`, `kolicina_prijava`, `kolicina_javnih_poziva`, `ilustracija`) VALUES(6, 'Posljedice rata', 'Već je 30 godina od rata, no štete nastale razaranjima i pljačkom i dan danas nisu kompenzirane.', 1, 1, 'war.jpg');
 
+SET FOREIGN_KEY_CHECKS = 0;
 TRUNCATE TABLE `dokazni_materijali`;
+SET FOREIGN_KEY_CHECKS = 1;
 INSERT INTO `dokazni_materijali` (`id_materijala`, `putanja_disk`, `naziv`, `datum_postavljanja`, `opaska`, `id_vrsta_materijala`) VALUES(1, 'wall.jpg', 'Primjer dokaza 1', '2021-04-13 14:57:10', 'Pogledati gornji desni kut.', 1);
 INSERT INTO `dokazni_materijali` (`id_materijala`, `putanja_disk`, `naziv`, `datum_postavljanja`, `opaska`, `id_vrsta_materijala`) VALUES(2, 'požar.jpg', 'požar.jpg', '2021-05-23 19:36:08', NULL, 1);
 INSERT INTO `dokazni_materijali` (`id_materijala`, `putanja_disk`, `naziv`, `datum_postavljanja`, `opaska`, `id_vrsta_materijala`) VALUES(27, 'oluja.jpg', 'oluja.jpg', '2021-05-23 19:40:35', NULL, 1);
@@ -42,7 +54,9 @@ INSERT INTO `dokazni_materijali` (`id_materijala`, `putanja_disk`, `naziv`, `dat
 INSERT INTO `dokazni_materijali` (`id_materijala`, `putanja_disk`, `naziv`, `datum_postavljanja`, `opaska`, `id_vrsta_materijala`) VALUES(34, 'kuća_gori.jpg', 'kuća_gori.jpg', '2021-05-24 19:22:08', NULL, 1);
 INSERT INTO `dokazni_materijali` (`id_materijala`, `putanja_disk`, `naziv`, `datum_postavljanja`, `opaska`, `id_vrsta_materijala`) VALUES(35, 'wall.jpg', 'krađa.jpg', '2021-05-24 20:34:27', NULL, 1);
 
+SET FOREIGN_KEY_CHECKS = 0;
 TRUNCATE TABLE `kategorija_stete`;
+SET FOREIGN_KEY_CHECKS = 1;
 INSERT INTO `kategorija_stete` (`id_kategorija_stete`, `naziv`, `opis`, `kolicina_prijava`, `kolicina_javnih_poziva`, `ilustracija`) VALUES(1, 'Oluja', 'Gromovi mogu spaliti osigurače, električne uređaje itd. Šteta je još gora kada se posjed zapali uslijed udara groma.', 1, 1, 'storm.jpg');
 INSERT INTO `kategorija_stete` (`id_kategorija_stete`, `naziv`, `opis`, `kolicina_prijava`, `kolicina_javnih_poziva`, `ilustracija`) VALUES(2, 'Poplava', 'Nema načina zaštite spremišta ispod prizemne razine od poplava. PVC stolarija, metalna vrata, ništa ne zaustavlja prodor vode pred ogromnim pritiskom. Voda uništi sav namještaj od ivice, električne uređaje. U dodiru s otvorenim instalacijama može doći i do požara.', 3, 1, 'flood.jpg');
 INSERT INTO `kategorija_stete` (`id_kategorija_stete`, `naziv`, `opis`, `kolicina_prijava`, `kolicina_javnih_poziva`, `ilustracija`) VALUES(3, 'Požar', 'Sama pomisao na požare utiskuju strah u kosti. Eksplozija cijevi od plina uslijed malene pukotine može se dogoditi bilo kome. Vatra najčešće uništi susjedne posjede, stanove itd.', 0, 0, 'arson.jpg');
@@ -50,7 +64,9 @@ INSERT INTO `kategorija_stete` (`id_kategorija_stete`, `naziv`, `opis`, `kolicin
 INSERT INTO `kategorija_stete` (`id_kategorija_stete`, `naziv`, `opis`, `kolicina_prijava`, `kolicina_javnih_poziva`, `ilustracija`) VALUES(5, 'Krađa', 'Nekada se čovjek trudi, radi svoj posao pošteno, samo da bi uočio obijenu bravu na kućnim vratima. Ponekad štete nastale krađom budu kobne i ljudi izgube svo bogatstvo što su imali.', 2, 1, 'theft.jpg');
 INSERT INTO `kategorija_stete` (`id_kategorija_stete`, `naziv`, `opis`, `kolicina_prijava`, `kolicina_javnih_poziva`, `ilustracija`) VALUES(6, 'Posljedice rata', 'Već je 30 godina od rata, no štete nastale razaranjima i pljačkom i dan danas nisu kompenzirane.', 1, 1, 'war.jpg');
 
+SET FOREIGN_KEY_CHECKS = 0;
 TRUNCATE TABLE `korisnik`;
+SET FOREIGN_KEY_CHECKS = 1;
 INSERT INTO `korisnik` (`id_korisnik`, `ime`, `prezime`, `korisnicko_ime`, `email`, `lozinka_citljiva`, `lozinka_sha256`, `uvjeti`, `datum_registracije`, `status_blokade`, `broj_neuspjesnih_prijava`, `id_uloga`) VALUES(1, 'Mislav', 'Matijević', 'mmatijevi', 'mmatijevi@foi.hr', 'test1', '1b4f0e9851971998e732078544c96b36c3d01cedf7caa332359d6f1d83567014', '2021-06-04 21:56:43', '2021-04-13 12:33:51', NULL, NULL, 1);
 INSERT INTO `korisnik` (`id_korisnik`, `ime`, `prezime`, `korisnicko_ime`, `email`, `lozinka_citljiva`, `lozinka_sha256`, `uvjeti`, `datum_registracije`, `status_blokade`, `broj_neuspjesnih_prijava`, `id_uloga`) VALUES(2, 'Ana', 'Anić', 'aanic2', 'aanic@foi.hr', 'anica2', '8d58152608756c9a966cc6b529806fd4465b4ccf442b481673e957fafe8684a2', '2021-06-06 19:18:00', '2021-04-03 21:29:42', NULL, NULL, 2);
 INSERT INTO `korisnik` (`id_korisnik`, `ime`, `prezime`, `korisnicko_ime`, `email`, `lozinka_citljiva`, `lozinka_sha256`, `uvjeti`, `datum_registracije`, `status_blokade`, `broj_neuspjesnih_prijava`, `id_uloga`) VALUES(3, 'Goran', 'Gorić', 'ggoric', 'ggoric@foi.hr', 'goran2', '06480f0f268fe094bef54826f9aa64f6a6b1df8f3cf95181c3673c4b4f6fe827', NULL, '2021-04-12 01:19:30', NULL, NULL, 2);
@@ -107,7 +123,9 @@ INSERT INTO `korisnik` (`id_korisnik`, `ime`, `prezime`, `korisnicko_ime`, `emai
 INSERT INTO `korisnik` (`id_korisnik`, `ime`, `prezime`, `korisnicko_ime`, `email`, `lozinka_citljiva`, `lozinka_sha256`, `uvjeti`, `datum_registracije`, `status_blokade`, `broj_neuspjesnih_prijava`, `id_uloga`) VALUES(61, '<script>alert()</script>', '<script>alert("XSS FTW")</script>', '<br>', 'Lith1955@dayrep.com', 'hakerčina1', '44a7b40e4a2cb4a510b82636657c9fa1a8f9ba349dfcc2bf3154ec7d0226c59e', NULL, '2021-06-07 20:46:50', NULL, NULL, 3);
 INSERT INTO `korisnik` (`id_korisnik`, `ime`, `prezime`, `korisnicko_ime`, `email`, `lozinka_citljiva`, `lozinka_sha256`, `uvjeti`, `datum_registracije`, `status_blokade`, `broj_neuspjesnih_prijava`, `id_uloga`) VALUES(62, '&lt;script&gt;alert()&lt;', '&lt;script&gt;alert(', '&lt;br&gt;', 'Lith1955@dayrep.com', 'hakerčina1', '44a7b40e4a2cb4a510b82636657c9fa1a8f9ba349dfcc2bf3154ec7d0226c59e', NULL, '2021-06-07 20:59:39', NULL, NULL, 3);
 
+SET FOREIGN_KEY_CHECKS = 0;
 TRUNCATE TABLE `javni_poziv`;
+SET FOREIGN_KEY_CHECKS = 1;
 INSERT INTO `javni_poziv` (`id_javni_poziv`, `naziv`, `opis`, `datum_otvaranja`, `skupljeno_sredstava`, `datum_zatvaranja`, `id_odgovorna_osoba`, `id_kategorija_stete`) VALUES(1, 'Subvencija za nedavnu oluju', 'Nedavna oluja nanijela je mnogim našim građanima velike štete. Vjetar, gromovi, sve to nanosi materijalne štete.\r\n\r\nPomozite sugrađanima popraviti te štete!', '2021-04-10 03:15:18', 3501, '2021-04-13 17:50:50',  1, 1);
 INSERT INTO `javni_poziv` (`id_javni_poziv`, `naziv`, `opis`, `datum_otvaranja`, `skupljeno_sredstava`, `datum_zatvaranja`, `id_odgovorna_osoba`, `id_kategorija_stete`) VALUES(2, 'Pomoć žrtvama poplave', 'Nedavna poplava nanijela je velike materijalne štete našim sugrađanima. Pomozite im!', '2021-03-31 20:00:00', 4215.5, '2021-09-30 20:00:00',  3, 2);
 INSERT INTO `javni_poziv` (`id_javni_poziv`, `naziv`, `opis`, `datum_otvaranja`, `skupljeno_sredstava`, `datum_zatvaranja`, `id_odgovorna_osoba`, `id_kategorija_stete`) VALUES(3, 'Potres, prvi javni natječaj', 'Ovo je prvi javni natječaj za žrtve potresa!', '2021-04-01 20:00:00', 3500, '2021-04-08 20:00:00',  3, 4);
@@ -115,7 +133,9 @@ INSERT INTO `javni_poziv` (`id_javni_poziv`, `naziv`, `opis`, `datum_otvaranja`,
 INSERT INTO `javni_poziv` (`id_javni_poziv`, `naziv`, `opis`, `datum_otvaranja`, `skupljeno_sredstava`, `datum_zatvaranja`, `id_odgovorna_osoba`, `id_kategorija_stete`) VALUES(5, 'Krađe', 'Nedavno su naši sugrađani bili izloženi stravičnim pljačkama. Pomozite im nadomjesititi ukradenu imovinu dok policija ne odradi svoj posao.', '2021-04-09 20:00:00', 753.65, '2022-1-15 20:00:00',  3, 5);
 INSERT INTO `javni_poziv` (`id_javni_poziv`, `naziv`, `opis`, `datum_otvaranja`, `skupljeno_sredstava`, `datum_zatvaranja`, `id_odgovorna_osoba`, `id_kategorija_stete`) VALUES(6, 'Pomoć za ratna stradanja', 'Neki naši sugrađani još izlaze na kraj s ratnim razaranjima. Ovo je prilika da im pomognete do 13. travnja 2021.', '2021-04-10 08:00:00', 7500, '2021-08-12 20:00:00',  1, 6);
 
+SET FOREIGN_KEY_CHECKS = 0;
 TRUNCATE TABLE `moderator_kategorije`;
+SET FOREIGN_KEY_CHECKS = 1;
 INSERT INTO `moderator_kategorije` (`id_moderator`, `id_kategorija_stete`) VALUES(1, 1);
 INSERT INTO `moderator_kategorije` (`id_moderator`, `id_kategorija_stete`) VALUES(3, 2);
 INSERT INTO `moderator_kategorije` (`id_moderator`, `id_kategorija_stete`) VALUES(2, 4);
@@ -123,7 +143,9 @@ INSERT INTO `moderator_kategorije` (`id_moderator`, `id_kategorija_stete`) VALUE
 INSERT INTO `moderator_kategorije` (`id_moderator`, `id_kategorija_stete`) VALUES(3, 5);
 INSERT INTO `moderator_kategorije` (`id_moderator`, `id_kategorija_stete`) VALUES(1, 6);
 
+SET FOREIGN_KEY_CHECKS = 0;
 TRUNCATE TABLE `steta`;
+SET FOREIGN_KEY_CHECKS = 1;
 INSERT INTO `steta` (`id_steta`, `naziv`, `opis`, `oznake`, `datum_prijave`, `datum_potvrde`, `subvencija_hrk`, `id_status_stete`, `id_kategorija_stete`, `id_prijavitelj`, `id_javni_poziv`) VALUES(1, 'Poplava', 'Poplava uništila kuću, molim pomoć.', 'poplava pomoć', '2021-05-23 15:41:05', '2021-12-12 22:12:12', NULL, 2, 2, 1, 1);
 INSERT INTO `steta` (`id_steta`, `naziv`, `opis`, `oznake`, `datum_prijave`, `datum_potvrde`, `subvencija_hrk`, `id_status_stete`, `id_kategorija_stete`, `id_prijavitelj`, `id_javni_poziv`) VALUES(2, 'Požar', 'Vatra uništila kuću, hitno trebamo krov nad glavom! Ovo je postalo nesnošljivo. Trebamo hitno pomoć!', 'vatra vruće', '2021-05-23 19:38:41', '2021-12-12 13:14:14', NULL, 2, 3, 1, 3);
 INSERT INTO `steta` (`id_steta`, `naziv`, `opis`, `oznake`, `datum_prijave`, `datum_potvrde`, `subvencija_hrk`, `id_status_stete`, `id_kategorija_stete`, `id_prijavitelj`, `id_javni_poziv`) VALUES(23, 'Oluja', 'Grom udario u stog sijena, izgorijela štala. Hitno trebam financijsku pomoć!', 'grom sijeno', '2021-05-23 19:40:35', NULL, NULL, 1, 1, 1, 1);
@@ -136,14 +158,18 @@ INSERT INTO `steta` (`id_steta`, `naziv`, `opis`, `oznake`, `datum_prijave`, `da
 INSERT INTO `steta` (`id_steta`, `naziv`, `opis`, `oznake`, `datum_prijave`, `datum_potvrde`, `subvencija_hrk`, `id_status_stete`, `id_kategorija_stete`, `id_prijavitelj`, `id_javni_poziv`) VALUES(30, 'Požar 2', 'Izgorjela kuća. Molim pomoć...', 'gori vatra jao meni', '2021-05-24 19:22:08', '2021-01-01 22:01:01', NULL, 2, 3, 2, 3);
 INSERT INTO `steta` (`id_steta`, `naziv`, `opis`, `oznake`, `datum_prijave`, `datum_potvrde`, `subvencija_hrk`, `id_status_stete`, `id_kategorija_stete`, `id_prijavitelj`, `id_javni_poziv`) VALUES(31, 'Stravična krađa', 'Teške lopuže! Ukrali mi TV...', 'lopuže', '2021-05-24 20:34:27', '2021-12-31 22:23:23', NULL, 2, 1, 1, 1);
 
+SET FOREIGN_KEY_CHECKS = 0;
 TRUNCATE TABLE `donacije`;
+SET FOREIGN_KEY_CHECKS = 1;
 INSERT INTO `donacije` (`id_donacije`, `iznos`, `id_donator`, `id_steta`) VALUES(1, 345.25, 3, 1);
 INSERT INTO `donacije` (`id_donacije`, `iznos`, `id_donator`, `id_steta`) VALUES(2, 25, 4, 2);
 INSERT INTO `donacije` (`id_donacije`, `iznos`, `id_donator`, `id_steta`) VALUES(3, 650, 1, 1);
 INSERT INTO `donacije` (`id_donacije`, `iznos`, `id_donator`, `id_steta`) VALUES(4, 1250, 5, 2);
 INSERT INTO `donacije` (`id_donacije`, `iznos`, `id_donator`, `id_steta`) VALUES(5, 110.5, 6, 1);
 
+SET FOREIGN_KEY_CHECKS = 0;
 TRUNCATE TABLE `steta_dokazi`;
+SET FOREIGN_KEY_CHECKS = 1;
 INSERT INTO `steta_dokazi` (`id_steta`, `id_materijala`) VALUES(1, 1);
 INSERT INTO `steta_dokazi` (`id_steta`, `id_materijala`) VALUES(2, 2);
 INSERT INTO `steta_dokazi` (`id_steta`, `id_materijala`) VALUES(23, 27);
