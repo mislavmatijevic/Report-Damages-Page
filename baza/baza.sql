@@ -37,7 +37,7 @@ CREATE TABLE `dnevnik` (
   KEY `fk_dnevnik_korisnik1_idx` (`id_izvrsitelj`),
   CONSTRAINT `fk_dnevnik_korisnik` FOREIGN KEY (`id_izvrsitelj`) REFERENCES `korisnik` (`id_korisnik`),
   CONSTRAINT `fk_dnevnik_tip_radnje` FOREIGN KEY (`id_radnja`) REFERENCES `tip_radnje` (`id_tip`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -46,7 +46,6 @@ CREATE TABLE `dnevnik` (
 
 LOCK TABLES `dnevnik` WRITE;
 /*!40000 ALTER TABLE `dnevnik` DISABLE KEYS */;
-INSERT INTO `dnevnik` VALUES (1,'index.html','2021-06-08 13:40:10','INSERT INTO dnevnik VALUES (\"index.html\", \"2021-6-8 15:40:10\", \"\", \"testna radnja\", 1, 1)','testna radnja',1,1);
 /*!40000 ALTER TABLE `dnevnik` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -90,14 +89,14 @@ DROP TABLE IF EXISTS `donacije`;
 CREATE TABLE `donacije` (
   `id_donacije` int NOT NULL AUTO_INCREMENT,
   `iznos` float NOT NULL,
-  `id_steta` int NOT NULL,
+  `id_javni_poziv` int NOT NULL,
   `id_donator` int NOT NULL,
   PRIMARY KEY (`id_donacije`),
-  KEY `fk_donacije_steta1_idx` (`id_steta`),
+  KEY `fk_donacije_steta1_idx` (`id_javni_poziv`),
   KEY `fk_donacije_korisnik1_idx` (`id_donator`),
   CONSTRAINT `fk_donacije_korisnik` FOREIGN KEY (`id_donator`) REFERENCES `korisnik` (`id_korisnik`),
-  CONSTRAINT `fk_donacije_steta` FOREIGN KEY (`id_steta`) REFERENCES `steta` (`id_steta`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3;
+  CONSTRAINT `fk_donacije_steta` FOREIGN KEY (`id_javni_poziv`) REFERENCES `steta` (`id_steta`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -106,9 +105,26 @@ CREATE TABLE `donacije` (
 
 LOCK TABLES `donacije` WRITE;
 /*!40000 ALTER TABLE `donacije` DISABLE KEYS */;
-INSERT INTO `donacije` VALUES (1,345.25,1,3),(2,25,2,4),(3,650,1,1),(4,1250,2,5),(5,110.5,1,6);
+INSERT INTO `donacije` VALUES (1,125,2,1);
 /*!40000 ALTER TABLE `donacije` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `donacije_AFTER_INSERT` AFTER INSERT ON `donacije` FOR EACH ROW BEGIN
+UPDATE javni_poziv SET skupljeno_sredstava = skupljeno_sredstava + new.iznos WHERE id_javni_poziv = new.id_javni_poziv;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `javni_poziv`
@@ -141,7 +157,7 @@ CREATE TABLE `javni_poziv` (
 
 LOCK TABLES `javni_poziv` WRITE;
 /*!40000 ALTER TABLE `javni_poziv` DISABLE KEYS */;
-INSERT INTO `javni_poziv` VALUES (1,'Subvencija za nedavnu oluju','Nedavna oluja nanijela je mnogim našim građanima velike štete. Vjetar, gromovi, sve to nanosi materijalne štete.\r\n\r\nPomozite sugrađanima popraviti te štete!','2021-04-10 01:15:18','2021-04-13 15:50:50',3501,0,1,1),(2,'Pomoć žrtvama poplave','Nedavna poplava nanijela je velike materijalne štete našim sugrađanima. Pomozite im!','2021-03-31 18:00:00','2021-09-30 18:00:00',4215.5,0,3,2),(3,'Potres, prvi javni natječaj','Ovo je prvi javni natječaj za žrtve potresa!','2021-04-01 18:00:00','2021-04-08 18:00:00',3500,0,3,4),(4,'Potres, drugi javni natječaj','Ovo je drugi javni natječaj za žrtve potresa! Pomozite im jer im je potrebno!','2021-04-11 18:00:00','2021-12-31 19:00:00',1225.25,0,2,4),(5,'Krađe','Nedavno su naši sugrađani bili izloženi stravičnim pljačkama. Pomozite im nadomjesititi ukradenu imovinu dok policija ne odradi svoj posao.','2021-04-09 18:00:00','2022-01-15 19:00:00',753.65,0,3,5),(6,'Pomoć za ratna stradanja','Neki naši sugrađani još izlaze na kraj s ratnim razaranjima. Ovo je prilika da im pomognete do 13. travnja 2021.','2021-04-10 06:00:00','2021-08-12 18:00:00',7500,0,1,6);
+INSERT INTO `javni_poziv` VALUES (1,'Subvencija za nedavnu oluju','Nedavna oluja nanijela je mnogim našim građanima velike štete. Vjetar, gromovi, sve to nanosi materijalne štete.\r\n\r\nPomozite sugrađanima popraviti te štete!','2021-04-10 01:15:18','2021-04-13 15:50:50',0,0,1,1),(2,'Pomoć žrtvama poplave','Nedavna poplava nanijela je velike materijalne štete našim sugrađanima. Pomozite im!','2021-03-31 18:00:00','2021-09-30 18:00:00',125,0,3,2),(3,'Potres, prvi javni natječaj','Ovo je prvi javni natječaj za žrtve potresa!','2021-04-01 18:00:00','2021-04-08 18:00:00',0,0,3,4),(4,'Potres, drugi javni natječaj','Ovo je drugi javni natječaj za žrtve potresa! Pomozite im jer im je potrebno!','2021-04-11 18:00:00','2021-12-31 19:00:00',0,0,2,4),(5,'Krađe','Nedavno su naši sugrađani bili izloženi stravičnim pljačkama. Pomozite im nadomjesititi ukradenu imovinu dok policija ne odradi svoj posao.','2021-04-09 18:00:00','2022-01-15 19:00:00',0,0,3,5),(6,'Pomoć za ratna stradanja','Neki naši sugrađani još izlaze na kraj s ratnim razaranjima. Ovo je prilika da im pomognete do 13. travnja 2021.','2021-04-10 06:00:00','2021-08-12 18:00:00',0,0,1,6);
 /*!40000 ALTER TABLE `javni_poziv` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -406,6 +422,14 @@ LOCK TABLES `vrsta_materijala` WRITE;
 INSERT INTO `vrsta_materijala` VALUES (1,'Fotografija','Fotografija materijal.','Uploadati.','.jpg, .jpeg',4),(2,'Video','Video materijal.','Uploadati.','.mp4',64),(3,'Audio','Audio materijal.','Uploadati.','.mp3',1);
 /*!40000 ALTER TABLE `vrsta_materijala` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Dumping events for database 'WebDiP2020x057'
+--
+
+--
+-- Dumping routines for database 'WebDiP2020x057'
+--
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -416,4 +440,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-06-08 19:45:21
+-- Dump completed on 2021-06-08 23:56:00
