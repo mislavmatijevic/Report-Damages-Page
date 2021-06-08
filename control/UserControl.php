@@ -33,9 +33,8 @@ if (!empty($_GET['checkUsername'])) {
 class UserControl
 {
     private const MAIL_WELCOME = 1;
-    private const MAIL_TERMS = 2;
-    private const MAIL_PASSWORD = 3;
-    private const MAIL_BLOCK = 4;
+    private const MAIL_PASSWORD = 2;
+    private const MAIL_BLOCK = 3;
 
     public static function startSession()
     {
@@ -68,15 +67,13 @@ class UserControl
             $fullUser = $dbObj->AuthenticateUser($username, $password);
         } catch (Exception $e) {
             switch ($e->getCode()) {
-                case DBTermsError: {
+                case DBActivationError: {
                     $user = $dbObj->GetUserData($username);
-                    
-                    self::sendUserMail(self::MAIL_TERMS, $user->email, $user->id_korisnik, $username);
-                    throw new Exception("Dobili ste poštu na " . substr($user->email, 0, 3) . "..." . substr($user->email, strpos($user->email, '@'), 10));
+                    throw new Exception("Molimo aktivirajte račun!<br>Dobili ste mail na " . substr($user->email, 0, 3) . "..." . substr($user->email, strpos($user->email, '@'), 10));
                 }
                 case DBPassError: {
                     $user = $dbObj->GetUserData($username);
-                    $configuration = parse_ini_file('./admin/config/manage.conf');
+                    $configuration = parse_ini_file('./privatno/config/manage.conf');
 
                     // U ovom slučaju poruka iznimke je novi broj neuspjelih prijava.           // Ne želimo blokirati administratora.
                     if ($e->getMessage() >= $configuration["maxFailedLogins"] && $user->id_uloga !== LVL_ADMINISTRATOR) {
@@ -108,7 +105,7 @@ class UserControl
      */
     public static function ConfirmUserAndLogin(string $activateId, string $username)
     {
-        $config = parse_ini_file(dirname(__DIR__)."/admin/config/manage.conf");
+        $config = parse_ini_file(dirname(__DIR__)."/privatno/config/manage.conf");
         $maxHoursToAccept = $config["maxHoursToAccept"];
         $dbObj = new DB();
         $newlyActivatedUser = $dbObj->ConfirmUser($activateId, $username, $maxHoursToAccept);
@@ -134,9 +131,8 @@ class UserControl
                 throw new Exception("Korisničko ime zauzeto");
             }
         }
-
         
-        $hash = $dbObj->InsertUser($newUser);
+        $hash = $dbObj->InsertUser($newUser, bin2hex(random_bytes(25)));
         self::sendUserMail(self::MAIL_WELCOME, $newUser["email"], $hash, $newUser["username"]);
 
         return USER_CONTROL_SUCCESS;
@@ -148,7 +144,7 @@ class UserControl
             throw new Exception("Označice kvačicu<br>\"I'm not a robot\"!");
         }
         
-        $config = parse_ini_file(dirname(__DIR__)."/admin/config/manage.conf");
+        $config = parse_ini_file(dirname(__DIR__)."/privatno/config/manage.conf");
         $secretKey = $config["captchaSecretKey"];
         
         $url = 'https://www.google.com/recaptcha/api/siteverify?secret=' . urlencode($secretKey) .  '&response=' . urlencode($captcha_response);
@@ -162,7 +158,7 @@ class UserControl
         return USER_CONTROL_SUCCESS;
     }
 
-    public static function SendNewPassword($username, $email = null)
+    public static function SendMailAboutNewPassword($username, $email = null)
     {
         $identifier = bin2hex(random_bytes(25));
 
@@ -183,7 +179,7 @@ class UserControl
     public static function SetNewPassword($identifier, $newPassword)
     {
         $dbObj = new DB();
-        $dbObj->SetPasswordWithIdentifier($identifier, $newPassword);
+        $dbObj->SetPasswordWithIdentifier($identifier, $newPassword, bin2hex(random_bytes(25)));
         return USER_CONTROL_SUCCESS;
     }
 
@@ -209,6 +205,7 @@ class UserControl
         switch ($type) {
             case self::MAIL_WELCOME: {
                 $mailTitle = 'Registracija';
+                $fileRoute = $folderPath . "/control/activate.php";
                 $message .=  '
                 <h1 style="color: orange;width: 100%;text-align: center;">
                 Dobrodošli, '.$recepientUsername.'!
@@ -221,34 +218,36 @@ class UserControl
                 <br>
 
                 <p style="font-family: sans-serif;font-size: 16px;">
-
                 Ja sam Mislav Matijević i dizajnirao sam stranicu za prijavu šteta.
                 Nadam se da će Vam stranica pomoći i donijeti malo radosti u tragičnu situaciju, te da ćemo zajedno sve riješiti.
                 Od prikupljanja donacija i pomaganja drugim žrtvama nesreća dijeli Vas samo još jedan korak.
-
                 </p>
-                <br>';
-                break;
-            }
-            case self::MAIL_TERMS: {
-                $mailTitle = 'Uvjeti korištenja';
-                $message .=  '
-                <h1 style="color: orange;width: 100%;text-align: center;">
-                Uvjeti korištenja
-                </h1>
 
-                <p style="font-family: sans-serif;font-size: 16px;">
-                Pozdrav, '.$recepientUsername.'!
-                </p>
                 <br>
 
                 <p style="font-family: sans-serif;font-size: 16px;">
                     <strong>
-                        Zašto dobivam ovaj mail? 
+                    Pritiskom na link prihvaćate uvjete korištenja stranice koji mogu biti pregledani <a href="https://www.termsfeed.com/blog/sample-terms-and-conditions-template/">ovdje</a>!
                     </strong>
-                Potrebna je Vaša potvrda uvjeta korištenja stranice za prijave šteta.
-
-                <br>Jednostavno pritisnite na link u nastavku.</p>
+                </p>
+                <p style="font-family: sans-serif;font-size: 16px;">
+                    <a href="' . $fileRoute . "?activateId=" . $infoArgument . "&username=" . $recepientUsername . '" target="_blank">
+                    Pritisnite ovdje za prihvaćanje uvjeta korištenja i aktivaciju svojeg korisničkog računa.
+                    </a>
+                </p>
+                <p style="font-family: sans-serif;font-size: 16px;">
+                Stranicu ne možete koristiti kao registrirani korisnik bez pritiska na ovaj link.
+                </p>
+    
+                <br> <br>
+    
+                <p style="font-family: sans-serif;font-size: 16px;">
+                Srdačan pozdrav,
+                </p>
+                <p style="font-family: sans-serif;font-size: 16px;">
+                Mislav Matijević, tvorac stranice
+                </p>
+                <br>
                 <br>';
                 break;
             }
@@ -326,36 +325,6 @@ class UserControl
                 break;
             }
             default: throw new Exception("Neispravno postavljeno slanje mailova!", USER_CONTROL_MAIL_ERROR);
-        }
-
-        if ($type === self::MAIL_WELCOME || $type === self::MAIL_TERMS) {
-            $fileRoute = $folderPath . "/control/activate.php";
-
-            $message .=  '
-            <p style="font-family: sans-serif;font-size: 16px;">
-                <strong>
-                Pritiskom na link prihvaćate uvjete korištenja stranice koji mogu biti pregledani <a href="https://www.termsfeed.com/blog/sample-terms-and-conditions-template/">ovdje</a>!
-                </strong>
-            </p>
-            <p style="font-family: sans-serif;font-size: 16px;">
-                <a href="' . $fileRoute . "?activateId=" . $infoArgument . "&username=" . $recepientUsername . '" target="_blank">
-                Pritisnite ovdje za prihvaćanje uvjeta korištenja.
-                </a>
-            </p>
-            <p style="font-family: sans-serif;font-size: 16px;">
-            Stranicu ne možete koristiti kao registrirani korisnik bez pritiska na ovaj link.
-            </p>
-
-            <br> <br>
-
-            <p style="font-family: sans-serif;font-size: 16px;">
-            Srdačan pozdrav,
-            </p>
-            <p style="font-family: sans-serif;font-size: 16px;">
-            Mislav Matijević, tvorac stranice
-            </p>
-            <br>
-            <br>';
         }
 
         $message .= '

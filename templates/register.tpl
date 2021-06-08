@@ -1,6 +1,6 @@
 <section class="section">
     <h1 class="section__title">Registracija</h1>
-    <form id="register" name="register" method="POST" class="section-form" action="{$smarty.server.PHP_SELF}">
+    <form id="register" name="register" method="POST" class="section-form" action="{htmlspecialchars($smarty.server.PHP_SELF)}">
         <label for="name">Ime: </label>
         <input id="name" name="name" autofocus type="text" {if isset($newUser)} value="{$newUser["name"]}" {/if} />
 

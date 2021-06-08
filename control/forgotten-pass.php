@@ -22,7 +22,7 @@ if (isset($_GET['username'])) {
     
         if ($captcha) {
             try {
-                $sent = UserControl::SendNewPassword($_POST['username']);
+                $sent = UserControl::SendMailAboutNewPassword($_POST['username']);
             } catch (Exception $e) {
                 $smarty->assign("message", $e->getMessage());
             } finally {

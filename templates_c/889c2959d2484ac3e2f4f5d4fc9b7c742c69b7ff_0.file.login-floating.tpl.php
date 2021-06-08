@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.39, created on 2021-06-07 14:54:44
+/* Smarty version 3.1.39, created on 2021-06-08 14:39:55
   from '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/login-floating.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.39',
-  'unifunc' => 'content_60be1714ec6d70_95038556',
+  'unifunc' => 'content_60bf651b61d645_60009346',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '889c2959d2484ac3e2f4f5d4fc9b7c742c69b7ff' => 
     array (
       0 => '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/login-floating.tpl',
-      1 => 1623070467,
+      1 => 1623147244,
       2 => 'file',
     ),
   ),
@@ -20,9 +20,9 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_60be1714ec6d70_95038556 (Smarty_Internal_Template $_smarty_tpl) {
+function content_60bf651b61d645_60009346 (Smarty_Internal_Template $_smarty_tpl) {
 ?><section class="section-login">
-    <form id="login" name="login" method="POST" class="section-login_popup" action="<?php echo $_SERVER['PHP_SELF'];?>
+    <form id="login" name="login" method="POST" class="section-login_popup" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>
 ">
         <h1 class="section-login_popup-header">Prijava u sustav</h1>
         <input id="username" name="username" placeholder="Korisničko ime" <?php if ((isset($_smarty_tpl->tpl_vars['loginUser']->value["username"]))) {?> value="<?php echo $_smarty_tpl->tpl_vars['loginUser']->value["username"];?>
@@ -44,7 +44,7 @@ echo $_smarty_tpl->tpl_vars['message']->value;
         </div>
         <input id="submitButton" type="submit" name="login" value="Prijava" class="section-login_popup-submit" />
     </form>
-    <form id="testing_form" name="testing" method="POST" action="<?php echo $_SERVER['PHP_SELF'];?>
+    <form id="testing_form" name="testing" method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>
 ">
         <input name="testing" type="hidden" value="testing" />
         <input type="submit" name="admin" value="Admin" />

@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.39, created on 2021-06-06 22:41:23
+/* Smarty version 3.1.39, created on 2021-06-08 11:51:49
   from '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/users.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.39',
-  'unifunc' => 'content_60bd32f3b7a831_57379886',
+  'unifunc' => 'content_60bf3db502a117_04928870',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '0ff9ad5202eb73a5995efd1092cfaf284252bf88' => 
     array (
       0 => '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/users.tpl',
-      1 => 1623011928,
+      1 => 1623101703,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_60bd32f3b7a831_57379886 (Smarty_Internal_Template $_smarty_tpl) {
+function content_60bf3db502a117_04928870 (Smarty_Internal_Template $_smarty_tpl) {
 ?><table class="table">
     <caption>Popis korisnika</caption>
     <thead>
@@ -32,6 +32,7 @@ function content_60bd32f3b7a831_57379886 (Smarty_Internal_Template $_smarty_tpl)
         </tr>
     </thead>
     <tbody>
+    <?php if ((isset($_smarty_tpl->tpl_vars['userList']->value))) {?>
         <?php
 $_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['userList']->value, 'user');
 $_smarty_tpl->tpl_vars['user']->do_else = true;
@@ -51,6 +52,7 @@ $_smarty_tpl->tpl_vars['user']->do_else = false;
         <?php
 }
 $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
+    <?php }?>
     </tbody>
 </table><?php }
 }

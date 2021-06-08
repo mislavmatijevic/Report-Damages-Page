@@ -1,5 +1,6 @@
 <?php
 
+include "./control/constants.php";
 include "./control/Database.php";
 
 $dbObj = new DB();

@@ -1,26 +1,27 @@
 <?php
-/* Smarty version 3.1.39, created on 2021-06-06 20:31:39
+/* Smarty version 3.1.39, created on 2021-06-08 11:50:36
   from '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/index.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.39',
-  'unifunc' => 'content_60bd148b7bffb2_69209336',
+  'unifunc' => 'content_60bf3d6c3a1138_41464886',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'f5be61249919407f293ca37db1a8263d7b110c3d' => 
     array (
       0 => '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/index.tpl',
-      1 => 1623004295,
+      1 => 1623110622,
       2 => 'file',
     ),
   ),
   'includes' => 
   array (
+    'file:acceptanceStats.tpl' => 1,
   ),
 ),false)) {
-function content_60bd148b7bffb2_69209336 (Smarty_Internal_Template $_smarty_tpl) {
+function content_60bf3d6c3a1138_41464886 (Smarty_Internal_Template $_smarty_tpl) {
 ?><section class="section-hero">
     <div class="section-hero__overlay">
         <div class="section-hero__content">
@@ -41,13 +42,14 @@ function content_60bd148b7bffb2_69209336 (Smarty_Internal_Template $_smarty_tpl)
 </section>
 
 <section class="section section_damages" style="display: block">
+    <?php $_smarty_tpl->_subTemplateRender('file:acceptanceStats.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, false);
+?>
+</section>
+
+<section class="section section_damages" style="display: block">
     <h2 class="section__title">
         Javni pozivi
     </h2>
-    <?php if ((isset($_smarty_tpl->tpl_vars['messageGlobal']->value))) {?>
-        <p><?php echo $_smarty_tpl->tpl_vars['messageGlobal']->value;?>
-</p>
-    <?php }?>
     <div class="section_damages">
         <?php
 $_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['javniPozivi']->value, 'damage', false, 'key');
@@ -72,20 +74,23 @@ $_smarty_tpl->tpl_vars['damage']->do_else = false;
                     </p>
                 </div>
                 <div class="damages__damage-info">
-                    <?php if ((isset($_smarty_tpl->tpl_vars['damage']->value["datum_zatvaranja"]))) {?>
-                        <p class="damages__damage-dates-ended">
-                            <strong>Trajao do:</strong>
-                            <?php echo date("d.m. H:i:s",strtotime(htmlspecialchars($_smarty_tpl->tpl_vars['damage']->value["datum_zatvaranja"])));?>
+                    <p class="damages__damage-dates<?php if ($_smarty_tpl->tpl_vars['damage']->value["zatvoren"] == 1) {?>-ended<?php }?>">
+                        <strong>Otvoren:</strong>
+                        <?php echo date("d.m. H:i:s",strtotime(htmlspecialchars($_smarty_tpl->tpl_vars['damage']->value["datum_otvaranja"])));?>
 
-                        </p>
-                    <?php } else { ?>
-                        <p class="damages__damage-dates"> <strong>Otvoren od:</strong>
-                            <?php echo date("d.m. H:i:s",strtotime(htmlspecialchars($_smarty_tpl->tpl_vars['damage']->value["datum_zatvaranja"])));?>
+                        <br>
+                        <strong>Rok prijava:</strong>
+                        <?php echo date("d.m. H:i:s",strtotime(htmlspecialchars($_smarty_tpl->tpl_vars['damage']->value["datum_zatvaranja"])));?>
 
-                        </p>
-                    <?php }?>
+                    </p>
                 </div>
-                <a class="button" href="#">Detaljnije</a>
+                <?php if ($_smarty_tpl->tpl_vars['damage']->value["zatvoren"] == 0) {?>
+                    <a class="button" href="./donate.php?id=<?php echo $_smarty_tpl->tpl_vars['damage']->value["id_javni_poziv"];?>
+">Detaljnije</a>
+                    <?php } else { ?>
+                    <a class="button" href="./search.php?id=<?php echo $_smarty_tpl->tpl_vars['damage']->value["id_javni_poziv"];?>
+">Pretraži štete</a>
+                <?php }?>
             </div>
         <?php
 }

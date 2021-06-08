@@ -1,17 +1,114 @@
 <?php
 
+require_once dirname(__DIR__)."/control/constants.php";
+
 define("server", "localhost");
 define("korisnik", "WebDiP2020x057");
 define("lozinka", "admin_PNID");
 define("baza", "WebDiP2020x057");
 
 define("DBError", -4);
-define("DBTermsError", -3);
+define("DBActivationError", -3);
 define("DBUserError", -2);
 define("DBPassError", -1);
 define("DBSuccess", 1);
 
 require_once dirname(__DIR__) . "/control/OutputControl.php"; // Protiv XSS-a čim se čita iz baze.
+
+class Log
+{
+    // Tipovi radnji
+    public const prijava = 1;
+    public const odjava = 2;
+    public const registracija = 3;
+    public const aktivacija = 4;
+    public const pristup_stranici = 5;
+    public const prihvaćanje_uvjeta = 6;
+    public const donacija = 7;
+    public const otvaranje_javnog_poziva = 8;
+    public const zatvaranje_javnog_poziva = 9;
+    public const prijava_na_javni_poziv = 10;
+    public const novi_status_javnog_poziva = 11;
+    public const prijava_štete = 12;
+    public const neuspješna_prijava = 13;
+    public const zaključavanje_računa = 14;
+    public const zahtjev_nove_lozinke = 15;
+    public const promjena_lozinke = 16;
+    public const promjena_podataka_korisnika = 17;
+    public const poslan_mail_za_blokiranje = 18;
+    public const poslan_mail_za_lozinku = 19;
+    public const poslan_mail_za_registraciju = 20;
+    
+    // Tipovi radnji
+
+    private $dbObjLog;
+    public function __construct($activeDbObj)
+    {
+        $this->dbObjLog = $activeDbObj;
+    }
+
+    public function LogActivity($query, $description, $activity, $id_user)
+    {
+        global $fullScriptName;
+        
+        if (($prepared = $this->dbObjLog->mysqli_object->prepare("INSERT INTO dnevnik (`url`, `datum_vrijeme`, `upit`, `opis_radnje`, `id_radnja`, `id_izvrsitelj`) VALUES (?, ?, ?, ?, ?, ?)")) == false) {
+            throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
+        }
+
+        if (($prepared->bind_param("ssssii", $fullScriptName, date('Y-m-d H:i:s'), $query, $description, $activity, $id_user)) == false) {
+            throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
+        }
+
+        if ($prepared->execute() == false) {
+            throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
+        };
+    }
+
+    /**
+     * @param string $criteria prazno (sve) / user / frequency
+     * @param string $arguments id_korisnika / id_radnje
+     */
+    public function GetLogs(string $criteria = "", string $argument = "")
+    {
+        switch ($criteria) {
+            case '':
+                if (($prepared = $this->dbObjLog->mysqli_object->prepare("TABLE dnevnik")) == false) {
+                    throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
+                }
+                break;
+            case 'user':
+                if (($prepared = $this->dbObjLog->mysqli_object->prepare("SELECT * dnevnik WHERE id_izvrsitelj = ?")) == false) {
+                    throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
+                }
+                if (($prepared->bind_param("i", $argument)) == false) {
+                    throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
+                }
+                break;
+            case 'frequency':
+                if (($prepared = $this->dbObjLog->mysqli_object->prepare("")) == false) {
+                    throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
+                }
+                if (($prepared->bind_param("i", $argument)) == false) {
+                    throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
+                }
+                break;
+            default: {
+                throw new Exception("Nepoznat kriterij \"$criteria\" za dohvat logova iz baze!", 1);
+            }
+        }
+
+        if ($prepared->execute() == false) {
+            throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
+        };
+        $allLogs = $prepared->get_result();
+        
+        if ($allLogs->num_rows == 0) {
+            throw new Exception("Takvi podaci nisu pronađeni!", DBError);
+        }
+
+        return Prevent::XSS($allLogs->fetch_all(MYSQLI_ASSOC));
+    }
+};
 
 class DB
 {
@@ -81,7 +178,7 @@ class DB
 
         // Nije blokiran.
         // Odgovaraju li mu lozinke?
-        if ($userObject->lozinka_sha256 !== hash("sha256", $password)) { // Lozinke se ne poklapaju
+        if ($userObject->lozinka_sha256 != hash("sha256", $userObject->sol . $password)) { // Lozinke se ne poklapaju
             $retry_count = $userObject->broj_neuspjesnih_prijava == null ? 1 : $userObject->broj_neuspjesnih_prijava + 1;
 
             if (($prepared = $this->mysqli_object->prepare("UPDATE `WebDiP2020x057`.`korisnik` SET `broj_neuspjesnih_prijava` = ? WHERE `id_korisnik` = ? ")) == false) {
@@ -100,7 +197,7 @@ class DB
         }
 
         // Lozinke se poklapaju
-        // Trebaju se poništiti neuspješne prijave i provjeriti uvjeti.
+        // Trebaju se poništiti neuspješne prijave i provjeriti je li račun aktiviran.
         if ($userObject->broj_neuspjesnih_prijava !== null) {
             if (($prepared = $this->mysqli_object->prepare("UPDATE `WebDiP2020x057`.`korisnik` SET `broj_neuspjesnih_prijava`=NULL WHERE `id_korisnik` = ?")) == false) {
                 throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
@@ -109,8 +206,8 @@ class DB
             $prepared->execute();
         }
 
-        if ($userObject->uvjeti === null) {
-            throw new Exception("Uvjeti nisu prihvaćeni", DBTermsError);
+        if ($userObject->datum_aktivacije === null) {
+            throw new Exception("Račun nije aktiviran", DBActivationError);
         }
 
         return Prevent::XSS($userObject);
@@ -118,7 +215,6 @@ class DB
 
     public function BlockUser($username, $doBlock = true)
     {
-
         if (($prepared = $this->mysqli_object->prepare("UPDATE `WebDiP2020x057`.`korisnik` SET `status_blokade` = ?, `broj_neuspjesnih_prijava`=NULL WHERE korisnicko_ime = ?")) == false) {
             throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
         }
@@ -170,17 +266,17 @@ class DB
     }
 
     /**
-     * @return string Ako je korisnik uspješno ubačen, vraća njegovu lozinku u "sha256" obliku pomoću koje se korisnik aktivira preko maila. 
+     * @return string Ako je korisnik uspješno ubačen, vraća njegovu lozinku u "sha256" obliku pomoću koje se korisnik aktivira preko maila.
      */
-    public function InsertUser($newUser)
+    public function InsertUser($newUser, $salt)
     {
-        $pass_sha256 = hash("sha256", $newUser["password"]);
+        $pass_sha256 = hash("sha256", $salt . $newUser["password"]);
 
-        if (($prepared = $this->mysqli_object->prepare("INSERT INTO `korisnik` (`ime`, `prezime`, `korisnicko_ime`, `email`, `lozinka_citljiva`, `lozinka_sha256`) VALUES (?, ?, ?, ?, ?, ?)")) == false) {
+        if (($prepared = $this->mysqli_object->prepare("INSERT INTO `korisnik` (`ime`, `prezime`, `korisnicko_ime`, `email`, `lozinka_citljiva`, `lozinka_sha256`, `datum_registracije`) VALUES (?, ?, ?, ?, ?, ? ?)")) == false) {
             throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
         };
 
-        $prepared->bind_param('ssssss', $newUser["name"], $newUser["surname"], $newUser["username"], $newUser["email"], $newUser["password"], $pass_sha256);
+        $prepared->bind_param('sssssss', $newUser["name"], $newUser["surname"], $newUser["username"], $newUser["email"], $newUser["password"], $pass_sha256, date('Y-m-d H:i:s'));
 
         if ($prepared->execute() == false) {
             throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
@@ -190,7 +286,7 @@ class DB
     }
 
     /**
-     * @return user Ako su korisniku uspješno zabilježeni uvjeti, vraća cijeli njegov objekt iz baze.
+     * @return user Ako je korisniku uspješno zabilježena aktivacija, vraća cijeli njegov objekt iz baze.
      */
     public function ConfirmUser(string $sha256password, string $username, int $maxHoursToAccept)
     {
@@ -215,11 +311,14 @@ class DB
 
         $userObject = Prevent::XSS($userResult->fetch_object());
 
-        // Ako su uvjeti prihvaćeni:
-        if ($userObject->uvjeti != null) {
+        // Ako je aktiviran prihvaćeni:
+        if ($userObject->datum_aktivacije != null) {
             throw new Exception('Račun već aktiviran. U slučaju pogreške kontaktirajte administratora.', DBPassError);
         } else {
-            // Ako uvjeti nisu prihvaćeni, a prošlo je više sati nego što je trebalo.
+            // Ako nije aktiviran, a prošlo je više sati nego što je trebalo.
+            /*
+                date()
+            */
             if ((time() - strtotime($userObject->datum_registracije)) / 60 / 60 > $maxHoursToAccept) {
                 // Izbriši nevažećeg korisnika.
                 if (($prepared = $this->mysqli_object->prepare("DELETE FROM `WebDiP2020x057`.`korisnik` WHERE `korisnicko_ime` = ?")) == false) {
@@ -234,8 +333,8 @@ class DB
                 throw new Exception("Rok za aktivaciju je istekao ({$maxHoursToAccept}h).<br>Možete otvoriti novi račun s istim korisničkim imenom.", DBError);
             }
 
-            // Sve ok, označi da su uvjeti prihvaćeni.
-            if (($prepared = $this->mysqli_object->prepare("UPDATE `WebDiP2020x057`.`korisnik` SET `uvjeti` = ? WHERE (`id_korisnik` = ?)")) == false) {
+            // Sve ok, označi da je korisnik aktiviran.
+            if (($prepared = $this->mysqli_object->prepare("UPDATE `WebDiP2020x057`.`korisnik` SET `datum_aktivacije` = ? WHERE (`id_korisnik` = ?)")) == false) {
                 throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
             }
 
@@ -275,7 +374,7 @@ class DB
         return Prevent::XSS($result->fetch_object());
     }
 
-    public function PrepareIdentifierForNewPassword($username, $meshedIdentifier)
+    public function PrepareIdentifierForNewPassword(string $username, string $meshedIdentifier)
     {
         if (($prepared = $this->mysqli_object->prepare("UPDATE `WebDiP2020x057`.`korisnik` SET `lozinka_citljiva` = ? WHERE `korisnicko_ime` = ?")) == false) {
             throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
@@ -298,15 +397,15 @@ class DB
      * @param string $newPassword Nova šifra u čitljivom obliku.
      * @return string Ako je sve prošlo u redu, vraća šifru DBSuccess.
      */
-    public function SetPasswordWithIdentifier(string $meshedIdentifier, string $newPassword)
+    public function SetPasswordWithIdentifier(string $meshedIdentifier, string $newPassword, string $salt)
     {
-        if (($prepared = $this->mysqli_object->prepare("UPDATE `WebDiP2020x057`.`korisnik` SET `lozinka_citljiva` = ?, `lozinka_sha256` = ?, `broj_neuspjesnih_prijava` = NULL  WHERE `lozinka_citljiva` = ?")) == false) {
+        if (($prepared = $this->mysqli_object->prepare("UPDATE `WebDiP2020x057`.`korisnik` SET `lozinka_citljiva` = ?, `sol` = ?, `lozinka_sha256` = ?, `broj_neuspjesnih_prijava` = NULL  WHERE `lozinka_citljiva` = ?")) == false) {
             throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
         }
 
-        $pass_sha256 = hash("sha256", $newPassword);
+        $pass_sha256 = hash("sha256", $salt . $newPassword);
 
-        if (($prepared->bind_param("sss", $newPassword, $pass_sha256, $meshedIdentifier)) == false) {
+        if (($prepared->bind_param("ssss", $newPassword, $salt, $pass_sha256, $meshedIdentifier)) == false) {
             throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
         }
 
@@ -335,7 +434,7 @@ class DB
             throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
         };
 
-        if (isset($user)) {
+        if (isset($user)) { // Registrirani korisnik
             // TO-DO upiši u dnevnik i u tablicu "donacije" da je donirao
         }
     }

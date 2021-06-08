@@ -21,7 +21,6 @@ if (isset($_POST["donation-identifier"]) && isset($_POST["amount"])) {
             $smarty->assign("messageGlobal", $e->getMessage());
         }
     }
-
 } else if (!isset($_GET['id'])) {
     header("Location: index.php");
     exit();
@@ -32,8 +31,11 @@ if (isset($_POST["donation-identifier"]) && isset($_POST["amount"])) {
 
 try {
     $dbObj = new DB();
-    $donationInfo = $dbObj->GetPrepared("SELECT jp.id_javni_poziv, jp.naziv, jp.opis, jp.datum_otvaranja, jp.skupljeno_sredstava, jp.datum_zatvaranja, oo.korisnicko_ime as moderator, k.ilustracija as kategorija_ilustracija FROM javni_poziv as jp INNER JOIN korisnik oo ON jp.id_odgovorna_osoba = oo.id_korisnik INNER JOIN kategorija_stete k ON jp.id_kategorija_stete = k.id_kategorija_stete WHERE jp.id_javni_poziv = ?", "i", [$donationId]);
-    $smarty->assign("donationInfo", $donationInfo[0]);
+    $donationInfo = $dbObj->GetPrepared("SELECT jp.id_javni_poziv, jp.naziv, jp.opis, jp.datum_otvaranja, jp.datum_zatvaranja, jp.skupljeno_sredstava, jp.zatvoren, oo.korisnicko_ime as moderator, k.ilustracija as kategorija_ilustracija FROM javni_poziv as jp INNER JOIN korisnik oo ON jp.id_odgovorna_osoba = oo.id_korisnik INNER JOIN kategorija_stete k ON jp.id_kategorija_stete = k.id_kategorija_stete WHERE jp.id_javni_poziv = ?", "i", [$donationId])[0];
+    if ($donationId["zatvoren"] == 1) {
+        throw new Exception("Ovaj javni poziv je istekao!");
+    }
+    $smarty->assign("donationInfo", $donationInfo);
 } catch (Exception $e) {
     $smarty->assign("messageGlobal", $e->getMessage());
 }

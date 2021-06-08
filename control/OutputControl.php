@@ -5,6 +5,8 @@ require_once dirname(__DIR__) . "/control/Database.php";
 
 function purify(&$value)
 {
+    $value = trim($value);
+    $value = stripslashes($value);
     $value = htmlspecialchars($value, ENT_NOQUOTES, "UTF-8");
 }
 
@@ -60,7 +62,7 @@ class PagingControl
         $this->tableData = $tableData;
         $this->tableName = $tableName . " " . $additional;
 
-        $config = parse_ini_file(dirname(__DIR__) . "/admin/config/manage.conf");
+        $config = parse_ini_file(dirname(__DIR__) . "/privatno/config/manage.conf");
         $this->configItemsPerPage = $config["maxItemsPerPage"];
         $this->dbObj = new DB();
 

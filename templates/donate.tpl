@@ -26,7 +26,7 @@
         Želite pomoći? 🙂
     </p>
 
-    <form class="donate-form" name="donate-form" method="POST" class="section-form" action="{$smarty.server.PHP_SELF}">
+    <form class="donate-form" name="donate-form" method="POST" class="section-form" action="{htmlspecialchars($smarty.server.PHP_SELF)}">
         <input name="donation-identifier" type="hidden" value={$donationInfo["id_javni_poziv"]} />
         <label id="label-amount" for="amount">Moja donacija (HRK):</label>
         <input id="amount" name="amount" type="number" placeholder="750.50" />

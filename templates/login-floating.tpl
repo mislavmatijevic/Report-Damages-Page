@@ -1,5 +1,5 @@
 <section class="section-login">
-    <form id="login" name="login" method="POST" class="section-login_popup" action="{$smarty.server.PHP_SELF}">
+    <form id="login" name="login" method="POST" class="section-login_popup" action="{htmlspecialchars($smarty.server.PHP_SELF)}">
         <h1 class="section-login_popup-header">Prijava u sustav</h1>
         <input id="username" name="username" placeholder="Korisničko ime" {if isset($loginUser["username"])} value="{$loginUser["username"]}"
             {/if} />
@@ -15,7 +15,7 @@
         </div>
         <input id="submitButton" type="submit" name="login" value="Prijava" class="section-login_popup-submit" />
     </form>
-    <form id="testing_form" name="testing" method="POST" action="{$smarty.server.PHP_SELF}">
+    <form id="testing_form" name="testing" method="POST" action="{htmlspecialchars($smarty.server.PHP_SELF)}">
         <input name="testing" type="hidden" value="testing" />
         <input type="submit" name="admin" value="Admin" />
         <input type="submit" name="moderator" value="Moderator" />

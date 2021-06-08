@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.39, created on 2021-06-06 10:42:28
+/* Smarty version 3.1.39, created on 2021-06-08 14:55:14
   from '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/register.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.39',
-  'unifunc' => 'content_60bc8a741341a5_63622942',
+  'unifunc' => 'content_60bf68b2524fd6_27181182',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '2b10d1505d7f7082c71102969a45f950f3d1b297' => 
     array (
       0 => '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/register.tpl',
-      1 => 1622939735,
+      1 => 1623147244,
       2 => 'file',
     ),
   ),
@@ -20,10 +20,10 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_60bc8a741341a5_63622942 (Smarty_Internal_Template $_smarty_tpl) {
+function content_60bf68b2524fd6_27181182 (Smarty_Internal_Template $_smarty_tpl) {
 ?><section class="section">
     <h1 class="section__title">Registracija</h1>
-    <form id="register" name="register" method="POST" class="section-form" action="<?php echo $_SERVER['PHP_SELF'];?>
+    <form id="register" name="register" method="POST" class="section-form" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>
 ">
         <label for="name">Ime: </label>
         <input id="name" name="name" autofocus type="text" <?php if ((isset($_smarty_tpl->tpl_vars['newUser']->value))) {?> value="<?php echo $_smarty_tpl->tpl_vars['newUser']->value["name"];?>

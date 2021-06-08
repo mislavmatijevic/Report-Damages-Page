@@ -1,14 +1,5 @@
 <?php
-
-error_reporting(E_ALL);
-
-define("ERROR_MESSAGE", 0);
-define("INFO_MESSAGE", 1);
-
-$urlToRoot = $_SERVER['HTTP_HOST'].dirname($_SERVER["PHP_SELF"])."/";
-if (!isset($relativePath)) {
-    $relativePath = basename(dirname($_SERVER['REQUEST_URI'], 1)) === "control" ? "../" : "./";
-}
+require_once dirname(__DIR__)."/control/constants.php";
 
 require_once dirname(__DIR__)."/control/UserControl.php";
 UserControl::startSession();
@@ -33,11 +24,17 @@ $pageTitle .= " | Stranica za štete";
 $smarty->assign("pageTitle", $pageTitle);
 
 
+if (!function_exists('str_contains')) {
+    function str_contains($haystack, $needle) {
+        return $needle !== '' && mb_strpos($haystack, $needle) !== false;
+    }
+}
+
 // Uvijek preko TLS-a:
-if (empty($_SERVER['HTTPS']) && $_SERVER['HTTP_HOST'] !== "localhost:4000") {
-    header('Location: '.$urlToRoot.substr($_SERVER["SCRIPT_NAME"], strrpos($_SERVER["SCRIPT_NAME"], "/")+1));
-    exit;
-} elseif ($_SERVER['HTTP_HOST'] !== "localhost:4000") { // Zapamti ovu https putanju.
+if (empty($_SERVER['HTTPS']) && !str_contains($_SERVER['HTTP_HOST'], "localhost")) {
+    header("Location: https://".$fullUrl);
+    exit();
+} elseif ($_SERVER['HTTP_HOST'] !== "localhost:4000") { // Zapamti da ova putanja počinje s https.
     $urlToRoot = "https://".$urlToRoot;
 } else { // Nesiguran protokol za lokalno testiranje.
     $urlToRoot = "http://".$urlToRoot;
@@ -67,3 +64,4 @@ switch ($_SESSION["lvl"]) {
 require_once dirname(__DIR__)."/control/OutputControl.php";
 
 $smarty->assign("userHelloMessage", $userHelloMessage);
+?>

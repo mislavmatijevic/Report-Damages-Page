@@ -5,7 +5,7 @@
     {else}
         <h1 class="section__title">Nova lozinka</h1>
         <form id="newPassword" name="newPassword" method="POST" class="section-form"
-            action="{$smarty.server.PHP_SELF}">
+            action="{htmlspecialchars($smarty.server.PHP_SELF)}">
 
             <input name="identifier" type="hidden" value={$identifier} />
 
