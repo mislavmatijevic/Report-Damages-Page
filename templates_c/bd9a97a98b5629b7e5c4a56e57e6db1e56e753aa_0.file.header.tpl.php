@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.39, created on 2021-06-09 11:19:15
+/* Smarty version 3.1.39, created on 2021-06-09 13:01:18
   from '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/header.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.39',
-  'unifunc' => 'content_60c08793476450_38146149',
+  'unifunc' => 'content_60c09f7e011f98_03002841',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'bd9a97a98b5629b7e5c4a56e57e6db1e56e753aa' => 
     array (
       0 => '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/header.tpl',
-      1 => 1623230345,
+      1 => 1623236476,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_60c08793476450_38146149 (Smarty_Internal_Template $_smarty_tpl) {
+function content_60c09f7e011f98_03002841 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!DOCTYPE html>
 <html lang="hr">
 
@@ -47,6 +47,20 @@ js/script.js"><?php echo '</script'; ?>
 >
 </head>
 
+<?php if ((isset($_smarty_tpl->tpl_vars['messageCookie']->value))) {?>
+    <div id="overlay"></div>
+    <form id="global-request" method="POST" action="index.php">
+        <h4>Pozdrav i dobrodošli na stranicu za štete!</h4>
+        <p>Ovu poruku vidite jer nam treba vaše odobrenje za prikaz kolačića.</p>
+        <p>Stranica je namijenjena žrtvama nesreća u kojima su izgubili vrijednu imovinu.</p>
+        <ul>
+        <li>Kao neregistrirani korisnik imate mogućnost donirati sredstva anonimno (pamti se Vaša IP adresa).</li>
+        <li>Kao registrirani korisnik možete prijaviti štetu na donaciju.</li>
+        </ul>
+        <p>Zatvaranjem ovoga prozora prihvaćate kolačiće na ovoj stranici.</p>
+        <button class="button" type="submit" name="accept-cookies" value="true">Prihvaćam kolačiće</button>
+    </form>
+<?php } else { ?>
 <body>
     <header class="header">
         <div class="header__inner">
@@ -78,14 +92,15 @@ register.php" class="header__nav-item">Registracija</a>
 </span>
         </div>
         <?php if ((isset($_smarty_tpl->tpl_vars['messageGlobal']->value))) {?>
-            <div class="error" id="global-error">
+            <div id="global-error">
                 <?php echo $_smarty_tpl->tpl_vars['messageGlobal']->value;?>
 
-                <div id="close-button">X</div>
+                <div class="close-button">X</div>
             </div>
         <?php }?>
     </header>
 
-
-    <main><?php }
+    <main>
+<?php }
+}
 }

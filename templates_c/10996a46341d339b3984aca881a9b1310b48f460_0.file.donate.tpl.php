@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.39, created on 2021-06-09 00:58:54
+/* Smarty version 3.1.39, created on 2021-06-09 13:50:10
   from '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/donate.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.39',
-  'unifunc' => 'content_60bff62eba8577_64715525',
+  'unifunc' => 'content_60c0aaf2520f70_88754425',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '10996a46341d339b3984aca881a9b1310b48f460' => 
     array (
       0 => '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/donate.tpl',
-      1 => 1623193128,
+      1 => 1623239409,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_60bff62eba8577_64715525 (Smarty_Internal_Template $_smarty_tpl) {
+function content_60c0aaf2520f70_88754425 (Smarty_Internal_Template $_smarty_tpl) {
 ?><section class="section">
     <h1 class="section__title"><?php echo $_smarty_tpl->tpl_vars['donationInfo']->value["naziv"];?>
 </h1>
@@ -43,7 +43,7 @@ function content_60bff62eba8577_64715525 (Smarty_Internal_Template $_smarty_tpl)
         </p>
 
         <p class="section__damage-info">
-            Skupljeno sredstava do sada: <strong><?php echo $_smarty_tpl->tpl_vars['donationInfo']->value["skupljeno_sredstava"];?>
+            Skupljeno: <strong><?php echo $_smarty_tpl->tpl_vars['donationInfo']->value["skupljeno_sredstava"];?>
  HRK</strong>
         </p>
 

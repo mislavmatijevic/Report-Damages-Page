@@ -6,11 +6,17 @@
         align-items: center;
 
         &-figure {
-            object-fit: contain;
+            border-radius: 15px;
             max-width: 65%;
 
             img {
+                transition: $transitionLong;
                 width: 100%;
+                border-radius: 15px;
+                box-shadow: $shadow;
+                &:hover {
+                    box-shadow: $shadowHover;
+                }
             }
 
             @media screen and ($tablet) {

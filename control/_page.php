@@ -67,13 +67,22 @@ require_once dirname(__DIR__)."/control/OutputControl.php";
 $smarty->assign("userHelloMessage", $userHelloMessage);
 
 $termsAccepted = false;
-if (isset($_COOKIE["terms4cookies"])) {
-    var_dump($_COOKIE["terms4cookies"]);
-    die();
-}
 
+if (isset($_COOKIE["cookies"])) {
+    $termsAccepted = true;
+} else if (isset($_POST["accept-cookies"])) {
+    if ($_POST["accept-cookies"] == "true") {
+        $maxDays = parse_ini_file(dirname(__DIR__)."/privatno/config/manage.conf")["cookieDurationDays"];
+        $maxSeconds = $maxDays*24*60*60;
+        setcookie("cookies", "true", time()+$maxSeconds);
+        $termsAccepted = true;
+        header("Location: index.php");
+    }
+} 
 if (!$termsAccepted) {
-    $smarty->display("cookiesPopup.tpl");
+    $smarty->assign("messageCookie", $termsAccepted);
+    $smarty->display("header.tpl");
+    die();
 }
 
 ?>

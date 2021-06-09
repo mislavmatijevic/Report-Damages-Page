@@ -32,8 +32,8 @@ if (isset($_POST["donation-identifier"]) && isset($_POST["amount"])) {
             }
         }
     }
-} elseif (!isset($_GET['id'])) {
-    header("Location: index.php");
+} elseif (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
+    header("Location: /index.php");
     exit();
 } else {
     $donationId = Prevent::Injection("GET", 'id');

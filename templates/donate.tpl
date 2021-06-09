@@ -16,7 +16,7 @@
         </p>
 
         <p class="section__damage-info">
-            Skupljeno sredstava do sada: <strong>{$donationInfo["skupljeno_sredstava"]} HRK</strong>
+            Skupljeno: <strong>{$donationInfo["skupljeno_sredstava"]} HRK</strong>
         </p>
 
 </section>

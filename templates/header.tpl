@@ -14,6 +14,20 @@
     <script type="text/javascript" src="{$relativePath}js/script.js"></script>
 </head>
 
+{if isset($messageCookie)}
+    <div id="overlay"></div>
+    <form id="global-request" method="POST" action="index.php">
+        <h4>Pozdrav i dobrodošli na stranicu za štete!</h4>
+        <p>Ovu poruku vidite jer nam treba vaše odobrenje za prikaz kolačića.</p>
+        <p>Stranica je namijenjena žrtvama nesreća u kojima su izgubili vrijednu imovinu.</p>
+        <ul>
+        <li>Kao neregistrirani korisnik imate mogućnost donirati sredstva anonimno (pamti se Vaša IP adresa).</li>
+        <li>Kao registrirani korisnik možete prijaviti štetu na donaciju.</li>
+        </ul>
+        <p>Zatvaranjem ovoga prozora prihvaćate kolačiće na ovoj stranici.</p>
+        <button class="button" type="submit" name="accept-cookies" value="true">Prihvaćam kolačiće</button>
+    </form>
+{else}
 <body>
     <header class="header">
         <div class="header__inner">
@@ -39,12 +53,12 @@
             <span class="header__nav-message">{$userHelloMessage}</span>
         </div>
         {if isset($messageGlobal)}
-            <div class="error" id="global-error">
+            <div id="global-error">
                 {$messageGlobal}
-                <div id="close-button">X</div>
+                <div class="close-button">X</div>
             </div>
         {/if}
     </header>
 
-
     <main>
+{/if}

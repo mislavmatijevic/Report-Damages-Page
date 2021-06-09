@@ -24,8 +24,9 @@ $(() => {
         }
     });
 
-    $("#close-button").on("click", () => {
-        $("#global-error").remove();
+    $(".close-button").on("click", (e) => {
+        $(e.target).parent('div').remove();
+        $("#overlay").remove();
     });
 
     var ok = false;
@@ -127,7 +128,7 @@ $(() => {
 
             function validateUsernameRegister(isTaken) {
                 if (isTaken) {
-                    formItemList["username"] = `Korisničko ime "${value}" zauzeto`;
+                    formItemList["username"] = `Korisničko ime je zauzeto`;
                     $(`#username`).css("border", "2px orange outset");
                 } else {
                     formItemList["username"] = true;
@@ -274,7 +275,7 @@ $(() => {
         }
     }
 
-    function AJAXCall(argRelativeUrl, argData, successCallback, argType = 'GET') {
+    function AJAXCall(argRelativeUrl, argData, successCallback, argType = 'POST') {
         $.ajax({
             url: argRelativeUrl,
             type: argType,

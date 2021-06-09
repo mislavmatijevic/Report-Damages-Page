@@ -12,17 +12,20 @@ define("USER_CONTROL_NEWPASSWORD", -1);
 define("USER_CONTROL_SUCCESS", 1);
 
 require_once dirname(__DIR__)."/control/Database.php";
+require_once dirname(__DIR__)."/control/OutputControl.php";
 
-if (!empty($_GET['checkUsername'])) {
+if (!empty($_POST['checkUsername'])) {
     ob_clean();
     header_remove();
     header("Content-type: application/json; charset=utf-8");
     http_response_code(200);
 
+    $requestedUsername = Prevent::Injection("POST", "checkUsername");
+
     $dbObj = new DB();
 
     try {
-        $dbObj->CheckUserExists($_GET['checkUsername']);
+        $dbObj->CheckUserExists($requestedUsername);
     } catch (Exception $ex) { // Korisnik ne postoji (ili je nedajbože baza prestala raditi).
         
         die(json_encode(false));
@@ -40,9 +43,7 @@ class UserControl
     {
         if (session_id() == "") {
             session_name("UserSession");
-            session_start([
-                'cookie_lifetime' => 86400,
-            ]);
+            session_start();
         }
         if (!isset($_SESSION["lvl"])) {
             $_SESSION["lvl"] = LVL_NEREGISTRIRANI;
@@ -60,9 +61,11 @@ class UserControl
 
     public static function LogIn($username, $password)
     {
+        $fullUser = null;
+        $configuration = parse_ini_file('./privatno/config/manage.conf');
+
         $dbObj = new DB();
 
-        $fullUser = null;
         try {
             $fullUser = $dbObj->AuthenticateUser($username, $password);
         } catch (Exception $e) {
@@ -73,7 +76,6 @@ class UserControl
                 }
                 case DBPassError: {
                     $user = $dbObj->GetUserData($username);
-                    $configuration = parse_ini_file('./privatno/config/manage.conf');
 
                     // U ovom slučaju poruka iznimke je novi broj neuspjelih prijava.           // Ne želimo blokirati administratora.
                     if ($e->getMessage() >= $configuration["maxFailedLogins"] && $user->id_uloga !== LVL_ADMINISTRATOR) {
@@ -81,7 +83,7 @@ class UserControl
                         self::sendUserMail(self::MAIL_BLOCK, $user->email, $e->getMessage(), $username);
                         throw new Exception($configuration["maxFailedLogins"]." neuspjelih prijava za redom, račun je blokiran. ", USER_CONTROL_BLOCK);
                     } else {
-                        throw new Exception('<a style="color: white" href='."./control/forgotten-pass.php?username=$username".'>Zaboravljena lozinka?</a>');
+                        throw new Exception('<a class="warning-exception" href='."./control/forgotten-pass.php?username=$username".'>Zaboravljena lozinka?</a>');
                     }
                 }
                 default: {
@@ -91,7 +93,12 @@ class UserControl
         }
 
         self::stopSession();
+
+        $maxSessionDurationSeconds = $configuration["maxSessionLengthMinutes"]*60;
+
         self::startSession();
+        setcookie(session_name(),session_id(),time()+$maxSessionDurationSeconds);
+        
         $_SESSION["user"] = $fullUser;
         $_SESSION["lvl"] = $fullUser->id_uloga;
         

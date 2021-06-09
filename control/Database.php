@@ -157,7 +157,7 @@ class DB
         $dbResult = $this->ExecutePrepared("SELECT * FROM korisnik WHERE korisnicko_ime = ?", "s", [$username]);
 
         if ($dbResult->num_rows == 0) { // Korisnik ne postoji:
-            throw new Exception('<a href=//register.php">Niste registrirani?</a>', DBUserError);
+            throw new Exception('<a class="warning-exception" href="/register.php">Niste registrirani?</a>', DBUserError);
         }
 
         return Prevent::XSS($dbResult->fetch_object());
