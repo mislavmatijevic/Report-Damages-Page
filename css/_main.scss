@@ -1,7 +1,3 @@
-$blackDim: #333333;
-$tablet: "min-width: 800px";
-$desktop: "min-width: 1300px";
-
 * {
     box-sizing: border-box;
     margin: 0;
@@ -33,7 +29,7 @@ main {
 }
 
 .header {
-    background-color: $blackDim;
+    background-color: $secondaryColor;
     width: 100%;
     height: 80px;
     position: fixed;
@@ -67,7 +63,7 @@ main {
         width: 100px;
 
         transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
-        background-color: transparent;
+        background-color: $transparent;
         border: none;
 
         z-index: 10;
@@ -95,7 +91,7 @@ main {
 
                 width: 50px;
                 height: 3px;
-                background-color: white;
+                background-color: $primaryColor;
 
                 &:nth-child(1) {
                     margin-top: -10px;
@@ -114,7 +110,7 @@ main {
 
         &-item {
             text-decoration: none;
-            color: #ffffff;
+            color: $primaryColor;
 
             font-weight: 600px;
             font-size: 18px;
@@ -139,8 +135,8 @@ main {
             }
 
             &-logout {
-                color: red;
-                border-color: red;
+                color: $error;
+                border-color: $error;
             }
 
             &-hambi {
@@ -150,7 +146,7 @@ main {
                 left: 0;
                 top: 0;
                 display: block;
-                background-color: $blackDim;
+                background-color: $secondaryColor;
                 padding: 5px 25px;
             }
         }
@@ -179,8 +175,19 @@ main {
                     border-right: 5px grey solid;
                 }
                 &:hover {
-                    color: orange;
+                    color: $highlightColor;
                 }
+            }
+        }
+
+        &-message {
+            font-size: 12px;
+            color: $highlightColor;
+            @media screen and ($tablet) {
+                font-size: 14px;
+            }
+            @media screen and ($desktop) {
+                font-size: 16px;
             }
         }
     }
@@ -193,15 +200,15 @@ main {
     line-height: 40px;
     text-align: center;
     border-radius: 6px;
-    background: $blackDim;
-    color: #ffffff;
+    background: $secondaryColor;
+    color: $primaryColor;
     transition: all 0.3s ease-out;
     margin-top: 15px;
 
     &:hover {
         cursor: pointer;
-        background: orange;
-        color: $blackDim;
+        background: $highlightColor;
+        color: $secondaryColor;
     }
 }
 
@@ -213,11 +220,11 @@ input {
     border-radius: 5px;
     transition: all 0.2s linear;
     &:hover {
-        box-shadow: 0 0px 5px orange;
+        box-shadow: 0 0px 5px $highlightColor;
     }
     &:focus {
-        box-shadow: 0 0px 5px blue;
-        border: 2px blue inset;
+        box-shadow: 0 0px 5px $focusColor;
+        border: 2px $focusColor inset;
     }
 }
 
@@ -238,12 +245,12 @@ input {
 }
 
 .footer {
-    background-color: $blackDim;
+    background-color: $secondaryColor;
     width: 100%;
     height: auto;
     text-align: center;
     font-style: italic;
-    color: white;
+    color: $primaryColor;
 }
 
 @mixin message {
@@ -252,34 +259,34 @@ input {
     text-align: center;
     margin: 10px 0px 15px 0;
     padding: 10px;
-    color: white;
-    background-color: $blackDim;
+    color: $primaryColor;
+    background-color: $secondaryColor;
     border-top-left-radius: 25px;
     border-bottom-right-radius: 25px;
     &:empty {
         display: none;
     }
     a {
-        color: white;
+        color: $primaryColor;
     }
 }
 
 .info {
     @include message;
-    color: lightgreen;
-    border: 2px green solid;
+    color: $lightSuccess;
+    border: 2px $success solid;
 }
 
 .error {
     @include message;
-    color: lightpink;
-    border: 2px red solid;
+    color: $lightError;
+    border: 2px $error solid;
     font-size: 16px;
 
     &#global-error {
         @include message;
-        color: red;
-        border: 5px darkred double;
+        color: $error;
+        border: 5px $darkError double;
         font-size: 16px;
 
         position: fixed;
@@ -293,8 +300,8 @@ input {
         opacity: 0.8;
         &:hover {
             opacity: 1;
-            color: lightpink;
-            border: 5px red double;
+            color: $lightError;
+            border: 5px $error double;
         }
 
         text-align: center;
@@ -304,13 +311,13 @@ input {
             right: 5px;
             top: 2px;
             font-size: 20px;
-            border: 1px red solid;
+            border: 1px $error solid;
             border-radius: 50%;
             padding: 1px 6px;
-            color: lightgray;
+            color: $brightBorder;
             font-weight: 1000;
             &:hover {
-                color: red;
+                color: $error;
                 cursor: pointer;
             }
         }
@@ -332,18 +339,20 @@ input {
     border-collapse: collapse;
     transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
 
-    border-color: transparent;
-    background-color: transparent;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+
+    border-color: $transparent;
+    background-color: $transparent;
 
     display: block;
     overflow-x: auto;
     white-space: nowrap;
-    background-color: transparent;
+    background-color: $transparent;
     border-radius: 10px;
     max-width: max-content;
 
     @media screen and ($tablet) {
-        margin: 24px auto;
+        margin: 12px auto;
         overflow-x: auto;
     }
     @media screen and ($desktop) {
@@ -351,6 +360,7 @@ input {
         display: table;
         overflow-x: none;
         white-space: nowrap;
+        min-width: 500px;
         &:hover {
             box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
         }
@@ -368,9 +378,11 @@ input {
     }
 
     &__head {
-        background-color: orange;
+        border-bottom: 5px $darkBorder double;
         border-left: 2px grey outset;
         border-right: 2px grey outset;
+        background-color: $secondaryColor;
+        color: $primaryColor;
 
         width: auto;
         height: auto;
@@ -386,7 +398,7 @@ input {
         @media screen and ($desktop) {
             min-width: 200px;
             height: 32px;
-            font-size: 18px;
+            font-size: 20px;
             padding: 12px;
         }
 
@@ -414,34 +426,37 @@ input {
         }
     }
     &__row {
-        background-color: #fffdf6;
+        background-color: $brightBorder;
+
+        &:nth-child(odd) {
+            background-color: $primaryColor;
+        }
 
         &:hover {
-            background-color: wheat;
-            border: 1px orange solid;
+            background-color: $lightHighlightColor;
         }
 
         &-data {
-            border: 1px grey outset;
-            color: #120b47;
+            border: 1px lightgrey outset;
+            color: $secondaryColor;
             font-size: 14px;
             padding: 5px;
 
             @media screen and ($tablet) {
                 border-width: 2px;
                 padding: 10px;
+                font-size: 16px;
             }
             @media screen and ($desktop) {
                 padding: 15px;
-                font-size: 16px;
+                font-size: 18px;
             }
 
             &:first-child {
-                border-left: 1px grey outset;
+                border-left: 1px $darkBorder outset;
                 border-top-left-radius: 5px;
     
                 @media screen and ($tablet) {
-                    border-left-width: 2px;
                     border-top-left-radius: 10px;
                 }
                 @media screen and ($desktop) {
@@ -449,11 +464,10 @@ input {
                 }
             }
             &:last-child {
-                border-right: 1px grey outset;
+                border-right: 1px $darkBorder outset;
                 border-top-right-radius: 5px;
     
                 @media screen and ($tablet) {
-                    border-right-width: 2px;
                     border-top-right-radius: 10px;
                 }
                 @media screen and ($desktop) {
@@ -462,4 +476,8 @@ input {
             }
         }
     }
+}
+
+.warning-exception {
+    color: white;
 }

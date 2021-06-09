@@ -65,4 +65,15 @@ switch ($_SESSION["lvl"]) {
 require_once dirname(__DIR__)."/control/OutputControl.php";
 
 $smarty->assign("userHelloMessage", $userHelloMessage);
+
+$termsAccepted = false;
+if (isset($_COOKIE["terms4cookies"])) {
+    var_dump($_COOKIE["terms4cookies"]);
+    die();
+}
+
+if (!$termsAccepted) {
+    $smarty->display("cookiesPopup.tpl");
+}
+
 ?>

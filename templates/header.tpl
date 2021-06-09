@@ -36,7 +36,7 @@
                     <a href="{$relativePath}/control/logout.php" class="header__nav-item header__nav-item-logout">Odjava</a>
                 {/if}
             </nav>
-            <span style="color: orange">{$userHelloMessage}</span>
+            <span class="header__nav-message">{$userHelloMessage}</span>
         </div>
         {if isset($messageGlobal)}
             <div class="error" id="global-error">

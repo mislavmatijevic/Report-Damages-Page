@@ -207,7 +207,7 @@ class UserControl
                 $mailTitle = 'Registracija';
                 $fileRoute = $folderPath . "/control/activate.php";
                 $message .=  '
-                <h1 style="color: orange;width: 100%;text-align: center;">
+                <h1 style="color: $highlightColor;width: 100%;text-align: center;">
                 Dobrodošli, '.$recepientUsername.'!
                 </h1>
                 <br><br>
@@ -256,7 +256,7 @@ class UserControl
                 $fileRoute = $folderPath . "/change-pass.php";
                 $mailTitle = 'Nova lozinka';
                 $message .=  '
-                <h1 style="color: orange;width: 100%;text-align: center;">
+                <h1 style="color: $highlightColor;width: 100%;text-align: center;">
                 Nova lozinka
                 </h1>
 

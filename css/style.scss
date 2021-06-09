@@ -1,3 +1,24 @@
+$primaryColor: white;
+$secondaryColor: #333333;
+$highlightColor: orange;
+$lightHighlightColor: wheat;
+$focusColor: blue;
+
+$brightBorder: #fafafa;
+$darkBorder: #b6b6b6;
+
+$success: green;
+$lightSuccess: lightgreen;
+
+$lightError: lightpink;
+$error: red;
+$darkError: darkred;
+
+$overlay: rgba(0.2, 0.1, 0.1, 0.65);
+$transparent: transparent;
+$tablet: "min-width: 800px";
+$desktop: "min-width: 1300px";
+
 @import './main';
 
 /* Pages */

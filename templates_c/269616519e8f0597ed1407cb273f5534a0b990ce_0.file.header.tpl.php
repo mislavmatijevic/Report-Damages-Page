@@ -76,7 +76,7 @@ register.php" class="header__nav-item">Registracija</a>
 /control/logout.php" class="header__nav-item header__nav-item-logout">Odjava</a>
                 <?php }?>
             </nav>
-            <span style="color: orange"><?php echo $_smarty_tpl->tpl_vars['userHelloMessage']->value;?>
+            <span style="color: $highlightColor"><?php echo $_smarty_tpl->tpl_vars['userHelloMessage']->value;?>
 </span>
         </div>
     </header>

@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.39, created on 2021-06-08 11:50:36
+/* Smarty version 3.1.39, created on 2021-06-09 11:19:15
   from '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/header.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.39',
-  'unifunc' => 'content_60bf3d6c184603_13465734',
+  'unifunc' => 'content_60c08793476450_38146149',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'bd9a97a98b5629b7e5c4a56e57e6db1e56e753aa' => 
     array (
       0 => '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/header.tpl',
-      1 => 1623087736,
+      1 => 1623230345,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_60bf3d6c184603_13465734 (Smarty_Internal_Template $_smarty_tpl) {
+function content_60c08793476450_38146149 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!DOCTYPE html>
 <html lang="hr">
 
@@ -74,7 +74,7 @@ register.php" class="header__nav-item">Registracija</a>
 /control/logout.php" class="header__nav-item header__nav-item-logout">Odjava</a>
                 <?php }?>
             </nav>
-            <span style="color: orange"><?php echo $_smarty_tpl->tpl_vars['userHelloMessage']->value;?>
+            <span class="header__nav-message"><?php echo $_smarty_tpl->tpl_vars['userHelloMessage']->value;?>
 </span>
         </div>
         <?php if ((isset($_smarty_tpl->tpl_vars['messageGlobal']->value))) {?>
