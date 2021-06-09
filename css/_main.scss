@@ -193,17 +193,34 @@ main {
     }
 }
 
+@mixin input-text {
+    margin: 12px 0;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.input-text {
+    @include input-text;
+}
+
 @mixin button {
     display: block;
-    text-decoration: none;
+
+    background: $secondaryColor;
+    transition: $transitionQuick;
+
     width: 100%;
+    min-width: 30px;
+    max-width: 300px;
+
     line-height: 40px;
     text-align: center;
+    font-size: medium;
+
     border-radius: 6px;
-    background: $secondaryColor;
     color: $primaryColor;
-    transition: $transitionQuick;
     margin-top: 15px;
+    margin-bottom: 10px;
 
     &:hover {
         cursor: pointer;
@@ -214,6 +231,26 @@ main {
 
 .button {
     @include button();
+}
+
+.button-damage {
+    @include button();
+    max-width: 100%;
+}
+
+.button-unblock {
+    @include button();
+    font-size: 12px;
+    margin: 0;
+    background-color: $error;
+    font-weight: 500;
+    max-width: 64px;
+    @media screen and ($tablet) {
+        max-width: 100%;
+        font-size: 12px;
+        padding: 0 5px 0;
+        font-weight: 1000;
+    }
 }
 
 input {
@@ -229,7 +266,7 @@ input {
 }
 
 .section {
-    padding: 120px 0 0 0;
+    padding: 120px 10px 0 30px;
     max-width: 1280px;
     margin: 0 auto;
 
@@ -300,6 +337,10 @@ input {
         @media screen and (pointer: fine) {
             opacity: 1;
         }
+    }
+
+    &:empty {
+        display: none;
     }
 
     text-align: center;
@@ -537,11 +578,37 @@ input {
     }
     .button {
         max-width: 300px;
-        font-size: medium;
     }
 }
 #global-error {
     @include fixed-message;
     color: $error;
     border-color: $darkError;
+    max-width: 60%;
+
+    top: 120px;
+    left: 10px;
+
+    &:hover {
+        border: 5px $darkError solid;
+    }
+    display: none;
+    &p:first-child:not(:only-child) {
+        display: block;
+    }
+}
+#global-info {
+    @include fixed-message;
+    display: none;
+    border-color: $lightSuccess;
+
+    top: 60px;
+    left: 10px;
+
+    &:hover {
+        border-color: $success;
+    }
+    &p:first-child:not(:only-child) {
+        display: block;
+    }
 }

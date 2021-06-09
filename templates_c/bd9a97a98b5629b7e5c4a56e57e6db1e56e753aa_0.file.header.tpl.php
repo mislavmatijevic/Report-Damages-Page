@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.39, created on 2021-06-09 13:01:18
+/* Smarty version 3.1.39, created on 2021-06-09 17:31:01
   from '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/header.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.39',
-  'unifunc' => 'content_60c09f7e011f98_03002841',
+  'unifunc' => 'content_60c0deb5e92880_49246232',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'bd9a97a98b5629b7e5c4a56e57e6db1e56e753aa' => 
     array (
       0 => '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/header.tpl',
-      1 => 1623236476,
+      1 => 1623252647,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_60c09f7e011f98_03002841 (Smarty_Internal_Template $_smarty_tpl) {
+function content_60c0deb5e92880_49246232 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!DOCTYPE html>
 <html lang="hr">
 
@@ -54,53 +54,71 @@ js/script.js"><?php echo '</script'; ?>
         <p>Ovu poruku vidite jer nam treba vaše odobrenje za prikaz kolačića.</p>
         <p>Stranica je namijenjena žrtvama nesreća u kojima su izgubili vrijednu imovinu.</p>
         <ul>
-        <li>Kao neregistrirani korisnik imate mogućnost donirati sredstva anonimno (pamti se Vaša IP adresa).</li>
-        <li>Kao registrirani korisnik možete prijaviti štetu na donaciju.</li>
+            <li>Kao neregistrirani korisnik imate mogućnost donirati sredstva anonimno (pamti se Vaša IP adresa).</li>
+            <li>Kao registrirani korisnik možete prijaviti štetu na donaciju.</li>
         </ul>
         <p>Zatvaranjem ovoga prozora prihvaćate kolačiće na ovoj stranici.</p>
         <button class="button" type="submit" name="accept-cookies" value="true">Prihvaćam kolačiće</button>
     </form>
 <?php } else { ?>
-<body>
-    <header class="header">
-        <div class="header__inner">
-            <a href="rss.php" class="header__rss-container">
-                <img src="<?php echo $_smarty_tpl->tpl_vars['relativePath']->value;?>
-media/rss.png" alt="Rss kanal" class="header__rss">
-            </a>
-            <nav id="hamburger_menu" class="header__nav">
-                <div class="header__nav__hamburger-line"></div>
-                <div class="header__nav__hamburger-line"></div>
-                <div class="header__nav__hamburger-line"></div>
-                <a href="<?php echo $_smarty_tpl->tpl_vars['relativePath']->value;?>
-index.php" class="header__nav-item">Početna stranica</a>
-                <?php if ($_SESSION['lvl'] == 4) {?>
-                    <!-- Neregistrirani -->
-                    <a href="<?php echo $_smarty_tpl->tpl_vars['relativePath']->value;?>
-login-page.php" class="header__nav-item header__nav-item-login">Prijava</a>
-                    <a href="<?php echo $_smarty_tpl->tpl_vars['relativePath']->value;?>
-register.php" class="header__nav-item">Registracija</a>
-                <?php }?>
-                <a href="#" class="header__nav-item">Dokumentacija</a>
-                <a href="#" class="header__nav-item">O autoru</a>
-                <?php if ($_SESSION['lvl'] < 4) {?>
-                    <a href="<?php echo $_smarty_tpl->tpl_vars['relativePath']->value;?>
-/control/logout.php" class="header__nav-item header__nav-item-logout">Odjava</a>
-                <?php }?>
-            </nav>
-            <span class="header__nav-message"><?php echo $_smarty_tpl->tpl_vars['userHelloMessage']->value;?>
-</span>
-        </div>
-        <?php if ((isset($_smarty_tpl->tpl_vars['messageGlobal']->value))) {?>
-            <div id="global-error">
-                <?php echo $_smarty_tpl->tpl_vars['messageGlobal']->value;?>
 
+    <body>
+        <header class="header">
+            <div class="header__inner">
+                <a href="rss.php" class="header__rss-container">
+                    <img src="<?php echo $_smarty_tpl->tpl_vars['relativePath']->value;?>
+media/rss.png" alt="Rss kanal" class="header__rss">
+                </a>
+                <nav id="hamburger_menu" class="header__nav">
+                    <div class="header__nav__hamburger-line"></div>
+                    <div class="header__nav__hamburger-line"></div>
+                    <div class="header__nav__hamburger-line"></div>
+                    <a href="<?php echo $_smarty_tpl->tpl_vars['relativePath']->value;?>
+index.php" class="header__nav-item">Početna stranica</a>
+                    <?php if ($_SESSION['lvl'] == 4) {?>
+                        <!-- Neregistrirani -->
+                        <a href="<?php echo $_smarty_tpl->tpl_vars['relativePath']->value;?>
+login-page.php" class="header__nav-item header__nav-item-login">Prijava</a>
+                        <a href="<?php echo $_smarty_tpl->tpl_vars['relativePath']->value;?>
+register.php" class="header__nav-item">Registracija</a>
+                    <?php }?>
+                    <?php if ($_SESSION['lvl'] == 1) {?>
+                        <!-- Neregistrirani -->
+                        <a href="<?php echo $_smarty_tpl->tpl_vars['relativePath']->value;?>
+administration.php" class="header__nav-item">Administriranje stranice</a>
+                    <?php }?>
+                    <a href="#" class="header__nav-item">Dokumentacija</a>
+                    <a href="#" class="header__nav-item">O autoru</a>
+                    <?php if ($_SESSION['lvl'] < 4) {?>
+                        <a href="<?php echo $_smarty_tpl->tpl_vars['relativePath']->value;?>
+/control/logout.php" class="header__nav-item header__nav-item-logout">Odjava</a>
+                    <?php }?>
+                </nav>
+                <span class="header__nav-message"><?php echo $_smarty_tpl->tpl_vars['userHelloMessage']->value;?>
+</span>
+            </div>
+
+            <div id="global-error">
+                <p id="global-error-text">
+                    <?php if ((isset($_smarty_tpl->tpl_vars['messageGlobal']->value))) {?>
+                        <?php echo $_smarty_tpl->tpl_vars['messageGlobal']->value;?>
+
+                    <?php }?>
+                </p>
                 <div class="close-button">X</div>
             </div>
-        <?php }?>
-    </header>
+            <div id="global-info">
+                <p id="global-info-text">
+                    <?php if ((isset($_smarty_tpl->tpl_vars['infoGlobal']->value))) {?>
+                        <?php echo $_smarty_tpl->tpl_vars['infoGlobal']->value;?>
 
-    <main>
-<?php }
+                    <?php }?>
+                </p>
+                <div class="close-button">X</div>
+            </div>
+        </header>
+
+        <main>
+        <?php }
 }
 }

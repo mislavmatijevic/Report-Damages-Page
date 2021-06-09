@@ -12,11 +12,11 @@ function purify(&$value)
 
 class Prevent
 {
-    static function XSS($object)
+    public static function XSS($object)
     {
         if (is_array($object)) {
             array_walk_recursive($object, 'purify');
-        } else if (is_object($object)) {
+        } elseif (is_object($object)) {
             foreach ($object as $key => $element) {
                 purify($element);
             }
@@ -25,9 +25,8 @@ class Prevent
         }
         return $object;
     }
-    static function Injection(string $inputSource, string $key)
+    public static function Injection(string $inputSource, string $key)
     {
-
         switch ($inputSource) {
             case 'GET':
                 $cleanValue = filter_input(INPUT_GET, $key);
@@ -57,12 +56,13 @@ class PagingControl
 
     public function __construct(string $tableName, string $tableData, string $additional = "")
     {
+        global $conf;
         global $smarty;
         $this->smarty = $smarty;
         $this->tableData = $tableData;
         $this->tableName = $tableName . " " . $additional;
 
-        $config = parse_ini_file(dirname(__DIR__) . "/privatno/config/manage.conf");
+        $config = parse_ini_file($conf);
         $this->configItemsPerPage = $config["maxItemsPerPage"];
         $this->dbObj = new DB();
 
@@ -78,7 +78,7 @@ class PagingControl
             if ($this->currentPage < 0 || !is_numeric($this->currentPage)) {
                 $this->currentPage = 0;
                 $smarty->assign("messageGlobal", "Ovo je prva stranica");
-            } else if ($this->currentPage > $highestPage) {
+            } elseif ($this->currentPage > $highestPage) {
                 $this->currentPage = $highestPage;
                 $smarty->assign("messageGlobal", "Ovo je zadnja stranica");
             }

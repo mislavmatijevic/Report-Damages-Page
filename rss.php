@@ -15,7 +15,7 @@ echo "<webMaster>mmatijevi@foi.hr (Mislav Matijević)</webMaster>";
 
 $dbObj = new DB;
 
-$popis_steta = $dbObj->GetSelect("SELECT steta.id_steta, steta.naziv, steta.opis, steta.datum_prijave FROM steta ORDER BY steta.id_steta DESC;");
+$popis_steta = $dbObj->SelectPrepared("SELECT steta.id_steta, steta.naziv, steta.opis, steta.datum_prijave FROM steta ORDER BY steta.id_steta DESC;");
 
 $brojac = 10;
 

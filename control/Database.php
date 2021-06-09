@@ -52,12 +52,16 @@ class Log
     public function New($query, $description, $activity, $id_user = null)
     {
         global $fullScriptName;
+        global $conf;
+
         if ($id_user === null) {
             isset($_SESSION["user"]->id_korisnik) ? $executor = $_SESSION["user"]->id_korisnik : $executor = "1";
         } else {
             $executor = $id_user;
         }
-        $this->dbObjLog->ExecutePrepared("INSERT INTO dnevnik (`url`, `datum_vrijeme`, `upit`, `opis_radnje`, `id_radnja`, `id_izvrsitelj`) VALUES (?, ?, ?, ?, ?, ?)", "ssssii", [$fullScriptName, date('Y-m-d H:i:s'), $query, $description, $activity, $executor]);
+
+        $config = parse_ini_file($conf);
+        $this->dbObjLog->ExecutePrepared("INSERT INTO dnevnik (`url`, `datum_vrijeme`, `upit`, `opis_radnje`, `id_radnja`, `id_izvrsitelj`) VALUES (?, ?, ?, ?, ?, ?)", "ssssii", [$fullScriptName, date("Y-m-d H:i:s", time() + $config["virtualTimeOffsetSeconds"]), $query, $description, $activity, $executor]);
     }
 
     /**
@@ -230,8 +234,11 @@ class DB
      */
     public function InsertUser($newUser, $salt)
     {
+        global $conf;
         $pass_sha256 = hash("sha256", $salt . $newUser["password"]);
-        $currentTime = date('Y-m-d H:i:s');
+
+        $config = parse_ini_file($conf);
+        $currentTime = date("Y-m-d H:i:s", time() + $config["virtualTimeOffsetSeconds"]);
 
         $this->ExecutePrepared("INSERT INTO `korisnik` (`ime`, `prezime`, `korisnicko_ime`, `email`, `lozinka_citljiva`, `sol`, `lozinka_sha256`, `datum_registracije`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", "ssssssss", [$newUser["name"], $newUser["surname"], $newUser["username"], $newUser["email"], $newUser["password"], $salt, $pass_sha256, $currentTime]);
 
@@ -257,16 +264,16 @@ class DB
 
         $userObject = Prevent::XSS($userResult->fetch_object());
 
+        global $conf;
+        $config = parse_ini_file($conf);
+        $currentTime = date("Y-m-d H:i:s", time() + $config["virtualTimeOffsetSeconds"]);
+        
         // Ako je aktiviran prihvaćeni:
         if ($userObject->datum_aktivacije != null) {
             $this->logObj->New("SELECT * FROM `korisnik` WHERE `lozinka_sha256` = $sha256password AND `korisnicko_ime` = $username", "Prilikom pokušaja aktivacije korisnik $username je označen kao već aktiviran.", Log::registracija);
             throw new Exception('Račun već aktiviran. U slučaju pogreške kontaktirajte administratora.', DBPassError);
         } else {
-            // Ako nije aktiviran, a prošlo je više sati nego što je trebalo.
-            /*
-                date()
-            */
-            if ((time() - strtotime($userObject->datum_registracije)) / 60 / 60 > $maxHoursToAccept) {
+            if ((time() + $config["virtualTimeOffsetSeconds"] - strtotime($userObject->datum_registracije)) / 60 / 60 > $maxHoursToAccept) {
                 // Izbriši nevažećeg korisnika.
                 $this->ExecutePrepared("DELETE FROM `WebDiP2020x057`.`korisnik` WHERE `korisnicko_ime` = ?", "s", [$username]);
 
@@ -274,12 +281,13 @@ class DB
 
                 throw new Exception("Rok za aktivaciju je istekao ({$maxHoursToAccept}h).<br>Možete otvoriti novi račun s istim korisničkim imenom.", DBError);
             }
+            
 
             // Sve ok, označi da je korisnik aktiviran.
-            $this->ExecutePrepared("UPDATE `WebDiP2020x057`.`korisnik` SET `datum_aktivacije` = ? WHERE (`id_korisnik` = ?)", "si", [date('Y-m-d H:i:s'), $userObject->id_korisnik]);
+            $this->ExecutePrepared("UPDATE `WebDiP2020x057`.`korisnik` SET `datum_aktivacije` = ? WHERE (`id_korisnik` = ?)", "si", [$currentTime, $userObject->id_korisnik]);
         }
 
-        $this->logObj->New("UPDATE `WebDiP2020x057`.`korisnik` SET `datum_aktivacije` = {date('Y-m-d H:i:s')} WHERE (`id_korisnik` = {$userObject->id_korisnik})", "Aktiviran je korisnik $userObject->id_korisnik $username s identifikatorom $sha256password.", Log::registracija);
+        $this->logObj->New("UPDATE `WebDiP2020x057`.`korisnik` SET `datum_aktivacije` = {$currentTime} WHERE (`id_korisnik` = {$userObject->id_korisnik})", "Aktiviran je korisnik $userObject->id_korisnik $username s identifikatorom $sha256password.", Log::registracija);
 
         return Prevent::XSS($userObject);
     }

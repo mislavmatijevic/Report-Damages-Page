@@ -12,26 +12,6 @@ define("USER_CONTROL_NEWPASSWORD", -1);
 define("USER_CONTROL_SUCCESS", 1);
 
 require_once dirname(__DIR__)."/control/Database.php";
-require_once dirname(__DIR__)."/control/OutputControl.php";
-
-if (!empty($_POST['checkUsername'])) {
-    ob_clean();
-    header_remove();
-    header("Content-type: application/json; charset=utf-8");
-    http_response_code(200);
-
-    $requestedUsername = Prevent::Injection("POST", "checkUsername");
-
-    $dbObj = new DB();
-
-    try {
-        $dbObj->CheckUserExists($requestedUsername);
-    } catch (Exception $ex) { // Korisnik ne postoji (ili je nedajbože baza prestala raditi).
-        
-        die(json_encode(false));
-    }
-    die(json_encode(true)); // Korisnik postoji jer nije bačena iznimka na provjeru imena.
-}
 
 class UserControl
 {
@@ -61,8 +41,10 @@ class UserControl
 
     public static function LogIn($username, $password)
     {
+        global $conf;
+
         $fullUser = null;
-        $configuration = parse_ini_file('./privatno/config/manage.conf');
+        $configuration = parse_ini_file($conf);
 
         $dbObj = new DB();
 
@@ -112,7 +94,8 @@ class UserControl
      */
     public static function ConfirmUserAndLogin(string $activateId, string $username)
     {
-        $config = parse_ini_file(dirname(__DIR__)."/privatno/config/manage.conf");
+        global $conf;
+        $config = parse_ini_file($conf);
         $maxHoursToAccept = $config["maxHoursToAccept"];
         $dbObj = new DB();
         $newlyActivatedUser = $dbObj->ConfirmUser($activateId, $username, $maxHoursToAccept);
@@ -147,11 +130,12 @@ class UserControl
 
     public static function CheckCaptcha($captcha_response)
     {
+        global $conf;
         if (empty($captcha_response)) {
             throw new Exception("Označice kvačicu<br>\"I'm not a robot\"!");
         }
         
-        $config = parse_ini_file(dirname(__DIR__)."/privatno/config/manage.conf");
+        $config = parse_ini_file($conf);
         $secretKey = $config["captchaSecretKey"];
         
         $url = 'https://www.google.com/recaptcha/api/siteverify?secret=' . urlencode($secretKey) .  '&response=' . urlencode($captcha_response);

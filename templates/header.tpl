@@ -21,44 +21,60 @@
         <p>Ovu poruku vidite jer nam treba vaše odobrenje za prikaz kolačića.</p>
         <p>Stranica je namijenjena žrtvama nesreća u kojima su izgubili vrijednu imovinu.</p>
         <ul>
-        <li>Kao neregistrirani korisnik imate mogućnost donirati sredstva anonimno (pamti se Vaša IP adresa).</li>
-        <li>Kao registrirani korisnik možete prijaviti štetu na donaciju.</li>
+            <li>Kao neregistrirani korisnik imate mogućnost donirati sredstva anonimno (pamti se Vaša IP adresa).</li>
+            <li>Kao registrirani korisnik možete prijaviti štetu na donaciju.</li>
         </ul>
         <p>Zatvaranjem ovoga prozora prihvaćate kolačiće na ovoj stranici.</p>
         <button class="button" type="submit" name="accept-cookies" value="true">Prihvaćam kolačiće</button>
     </form>
 {else}
-<body>
-    <header class="header">
-        <div class="header__inner">
-            <a href="rss.php" class="header__rss-container">
-                <img src="{$relativePath}media/rss.png" alt="Rss kanal" class="header__rss">
-            </a>
-            <nav id="hamburger_menu" class="header__nav">
-                <div class="header__nav__hamburger-line"></div>
-                <div class="header__nav__hamburger-line"></div>
-                <div class="header__nav__hamburger-line"></div>
-                <a href="{$relativePath}index.php" class="header__nav-item">Početna stranica</a>
-                {if $smarty.session.lvl == 4}
-                    <!-- Neregistrirani -->
-                    <a href="{$relativePath}login-page.php" class="header__nav-item header__nav-item-login">Prijava</a>
-                    <a href="{$relativePath}register.php" class="header__nav-item">Registracija</a>
-                {/if}
-                <a href="#" class="header__nav-item">Dokumentacija</a>
-                <a href="#" class="header__nav-item">O autoru</a>
-                {if $smarty.session.lvl < 4}
-                    <a href="{$relativePath}/control/logout.php" class="header__nav-item header__nav-item-logout">Odjava</a>
-                {/if}
-            </nav>
-            <span class="header__nav-message">{$userHelloMessage}</span>
-        </div>
-        {if isset($messageGlobal)}
+
+    <body>
+        <header class="header">
+            <div class="header__inner">
+                <a href="rss.php" class="header__rss-container">
+                    <img src="{$relativePath}media/rss.png" alt="Rss kanal" class="header__rss">
+                </a>
+                <nav id="hamburger_menu" class="header__nav">
+                    <div class="header__nav__hamburger-line"></div>
+                    <div class="header__nav__hamburger-line"></div>
+                    <div class="header__nav__hamburger-line"></div>
+                    <a href="{$relativePath}index.php" class="header__nav-item">Početna stranica</a>
+                    {if $smarty.session.lvl == 4}
+                        <!-- Neregistrirani -->
+                        <a href="{$relativePath}login-page.php" class="header__nav-item header__nav-item-login">Prijava</a>
+                        <a href="{$relativePath}register.php" class="header__nav-item">Registracija</a>
+                    {/if}
+                    {if $smarty.session.lvl == 1}
+                        <!-- Neregistrirani -->
+                        <a href="{$relativePath}administration.php" class="header__nav-item">Administriranje stranice</a>
+                    {/if}
+                    <a href="#" class="header__nav-item">Dokumentacija</a>
+                    <a href="#" class="header__nav-item">O autoru</a>
+                    {if $smarty.session.lvl < 4}
+                        <a href="{$relativePath}/control/logout.php" class="header__nav-item header__nav-item-logout">Odjava</a>
+                    {/if}
+                </nav>
+                <span class="header__nav-message">{$userHelloMessage}</span>
+            </div>
+
             <div id="global-error">
-                {$messageGlobal}
+                <p id="global-error-text">
+                    {if isset($messageGlobal)}
+                        {$messageGlobal}
+                    {/if}
+                </p>
                 <div class="close-button">X</div>
             </div>
-        {/if}
-    </header>
+            <div id="global-info">
+                <p id="global-info-text">
+                    {if isset($infoGlobal)}
+                        {$infoGlobal}
+                    {/if}
+                </p>
+                <div class="close-button">X</div>
+            </div>
+        </header>
 
-    <main>
-{/if}
+        <main>
+        {/if}

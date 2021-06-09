@@ -10,3 +10,5 @@ $fullUrl = $urlToRoot . $fullScriptName;
 if (!isset($relativePath)) {
     $relativePath = basename(dirname($_SERVER['REQUEST_URI'], 1)) === "control" ? "../" : "./";
 }
+
+$conf = dirname(__DIR__)."/privatno/config/manage.conf";

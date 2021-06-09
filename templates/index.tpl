@@ -50,9 +50,9 @@
                     </p>
                 </div>
                 {if $damage["zatvoren"] == 0}
-                    <a class="button" href="./donate.php?id={$damage["id_javni_poziv"]}">Detaljnije</a>
+                    <a class="button-damage" href="./donate.php?id={$damage["id_javni_poziv"]}">Detaljnije</a>
                     {else}
-                    <a class="button" href="./search.php?id={$damage["id_javni_poziv"]}">Pretraži štete</a>
+                    <a class="button-damage" href="./search.php?id={$damage["id_javni_poziv"]}">Pretraži štete</a>
                 {/if}
             </div>
         {/foreach}

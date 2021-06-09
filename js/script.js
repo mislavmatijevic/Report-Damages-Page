@@ -25,8 +25,8 @@ $(() => {
     });
 
     $(".close-button").on("click", (e) => {
-        $(e.target).parent('div').remove();
-        $("#overlay").remove();
+        $(e.target).parent('div').hide();
+        $("#overlay").hide();
     });
 
     var ok = false;
@@ -46,6 +46,78 @@ $(() => {
 
     switch (location.pathname.split('/').slice(-1)[0]) {
 
+        case 'administration.php': {
+
+            $("#virtual-button").on("click", () => {
+                AJAXCall("https://barka.foi.hr/WebDiP/pomak_vremena/pomak.php", { format: "json" }, newHourDiff, "GET", true);
+            });
+
+            let timeDiff;
+
+            function newHourDiff(value) {
+                timeDiff = value.WebDiP.vrijeme.pomak.brojSati;
+                AJAXCall("virtual-time.php", { hoursDiff: timeDiff }, informNewTime);
+            }
+
+            function informNewTime(value) {
+                if (value === false) {
+                    $("#global-error").html("Dogodio se problem pri namještanju virtualnog vremena!");
+                } else {
+                    $("#global-info-text").html(`Vrijeme promijenjeno za ${timeDiff} sati.`);
+                    $("#global-info").show();
+                    $("#real-time").html(value.realTime);
+                    $("#virtual-time").html(value.virtualTime);
+                }
+            }
+
+
+
+            AJAXCall("block-user.php", { get_blocked: "1" }, fillTable);
+
+            function fillTable(users) {
+                tableInnerHTML = "";
+                if (users.length > 0) {
+                    users.forEach((value) => {
+                        tableInnerHTML +=
+                            `
+                        <tr class="table__row">
+                            <td class="table__row-data">${value.id_korisnik}</td>
+                            <td class="table__row-data">${value.email}</td>
+                            <td class="table__row-data">${value.korisnicko_ime}</td>
+                            <td class="table__row-data">
+                                <button class="button-unblock" username="${value.korisnicko_ime}">
+                                    Odblokiraj korisnika
+                                </button>
+                            </td>
+                        </tr>
+                    `
+                    });
+                    $("#body-blocked").html(tableInnerHTML);
+                    $(".button-unblock").on("click", (e) => {
+                        let selectedUsername = e.target.getAttribute("username");
+                        AJAXCall("block-user.php", { username: selectedUsername, action: 0 }, blockedUser);
+                    });
+                } else {
+                    $("#body-blocked").html("");
+                }
+            }
+
+            function blockedUser(value) {
+                if (value == true) {
+                    AJAXCall("block-user.php", { get_blocked: "1" }, fillTable);
+                }
+            }
+
+            $("#block-button").on("click", () => {
+                var usernameValue = $("#block-input").val();
+                if (usernameValue == "") {
+                    alert("Niste unijeli korisničko ime!");
+                } else {
+                    AJAXCall("block-user.php", { username: usernameValue, action: 1 }, blockedUser);
+                }
+            });
+        }
+
         case 'donate.php': {
             function checkIsMoney() {
                 var value = $("#amount").val();
@@ -60,7 +132,7 @@ $(() => {
                 checker();
             }
 
-            $("#amount").on("change", () => { 
+            $("#amount").on("change", () => {
                 checkIsMoney();
             });
 
@@ -168,7 +240,7 @@ $(() => {
                     checker();
                 }
                 else {
-                    AJAXCall("./control/UserControl.php", { checkUsername: value }, validateUsernameRegister);
+                    AJAXCall("check-username.php", { checkUsername: value }, validateUsernameRegister);
                 }
             }
             function checkUsernameChange() {
@@ -275,15 +347,29 @@ $(() => {
         }
     }
 
-    function AJAXCall(argRelativeUrl, argData, successCallback, argType = 'POST') {
+    /**
+     * 
+     * @param {string} scriptName Samo naziv skripte
+     * @param {string} argData Podaci koji se šalju
+     * @param {function} successCallback Callback koji se poziva na uspjeh
+     * @param {string} argType GET/POST
+     * @param {boolean} foolURL Je li prvi parametar nešto drugo umjesto naziva skripte u folderu control.
+     */
+    function AJAXCall(scriptName, argData, successCallback, argType = 'POST', fullURL = false) {
+        if (!fullURL) {
+            scriptName = "./control/" + scriptName;
+        }
         $.ajax({
-            url: argRelativeUrl,
+            url: scriptName,
             type: argType,
             data: argData,
             dataType: 'JSON',
             success: successCallback,
             error: function (xhr, status, error) {
-                console.log("xhr: " + JSON.stringify(xhr) + " status: " + status + " greška: " + error);
+                console.log("AJAX PROBLEM\nStatus: " + status + "\nError: " + error + " \nXHR: ");
+                console.log(xhr);
+                $("#global-error-text").html("AJAX: provjerite konzolu.");
+                $("#global-error").show();
             }
         });
     }

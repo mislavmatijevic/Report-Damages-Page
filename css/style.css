@@ -218,24 +218,94 @@ main {
   }
 }
 
+.input-text {
+  margin: 12px 0;
+  padding: 10px;
+  font-size: 16px;
+}
+
 .button {
   display: block;
-  text-decoration: none;
-  width: 100%;
-  line-height: 40px;
-  text-align: center;
-  border-radius: 6px;
   background: #333333;
-  color: white;
   -webkit-transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  width: 100%;
+  min-width: 30px;
+  max-width: 300px;
+  line-height: 40px;
+  text-align: center;
+  font-size: medium;
+  border-radius: 6px;
+  color: white;
   margin-top: 15px;
+  margin-bottom: 10px;
 }
 
 .button:hover {
   cursor: pointer;
   background: orange;
   color: #333333;
+}
+
+.button-damage {
+  display: block;
+  background: #333333;
+  -webkit-transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  width: 100%;
+  min-width: 30px;
+  max-width: 300px;
+  line-height: 40px;
+  text-align: center;
+  font-size: medium;
+  border-radius: 6px;
+  color: white;
+  margin-top: 15px;
+  margin-bottom: 10px;
+  max-width: 100%;
+}
+
+.button-damage:hover {
+  cursor: pointer;
+  background: orange;
+  color: #333333;
+}
+
+.button-unblock {
+  display: block;
+  background: #333333;
+  -webkit-transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  width: 100%;
+  min-width: 30px;
+  max-width: 300px;
+  line-height: 40px;
+  text-align: center;
+  font-size: medium;
+  border-radius: 6px;
+  color: white;
+  margin-top: 15px;
+  margin-bottom: 10px;
+  font-size: 12px;
+  margin: 0;
+  background-color: red;
+  font-weight: 500;
+  max-width: 64px;
+}
+
+.button-unblock:hover {
+  cursor: pointer;
+  background: orange;
+  color: #333333;
+}
+
+@media screen and (min-width: 700px) {
+  .button-unblock {
+    max-width: 100%;
+    font-size: 12px;
+    padding: 0 5px 0;
+    font-weight: 1000;
+  }
 }
 
 input {
@@ -256,7 +326,7 @@ input:focus {
 }
 
 .section {
-  padding: 120px 0 0 0;
+  padding: 120px 10px 0 30px;
   max-width: 1280px;
   margin: 0 auto;
   border-bottom: 1px #aeaeae solid;
@@ -634,6 +704,10 @@ input:focus {
   }
 }
 
+#global-request:empty {
+  display: none;
+}
+
 #global-request .close-button {
   position: absolute;
   right: 5px;
@@ -667,7 +741,6 @@ input:focus {
 
 #global-request .button {
   max-width: 300px;
-  font-size: medium;
 }
 
 #global-error {
@@ -694,6 +767,10 @@ input:focus {
   text-align: center;
   color: red;
   border-color: darkred;
+  max-width: 60%;
+  top: 120px;
+  left: 10px;
+  display: none;
 }
 
 #global-error:empty {
@@ -721,6 +798,10 @@ input:focus {
   }
 }
 
+#global-error:empty {
+  display: none;
+}
+
 #global-error .close-button {
   position: absolute;
   right: 5px;
@@ -736,6 +817,96 @@ input:focus {
 #global-error .close-button:hover {
   color: red;
   cursor: pointer;
+}
+
+#global-error:hover {
+  border: 5px darkred solid;
+}
+
+#global-errorp:first-child:not(:only-child) {
+  display: block;
+}
+
+#global-info {
+  position: relative;
+  width: 100%;
+  text-align: center;
+  margin: 10px 0px 15px 0;
+  padding: 10px;
+  color: white;
+  background-color: #333333;
+  border-top-left-radius: 25px;
+  border-bottom-right-radius: 25px;
+  font-size: 16px;
+  color: #fafafa;
+  border: 5px #333333 double;
+  position: fixed;
+  top: 100px;
+  left: 50px;
+  width: auto;
+  min-width: 300px;
+  padding-right: 50px;
+  z-index: 999;
+  opacity: 1;
+  text-align: center;
+  display: none;
+  border-color: lightgreen;
+  top: 60px;
+  left: 10px;
+}
+
+#global-info:empty {
+  display: none;
+}
+
+#global-info a {
+  color: white;
+}
+
+@media screen and (min-width: 1300px) and (pointer: fine) {
+  #global-info {
+    opacity: 0.8;
+  }
+}
+
+#global-info:hover {
+  color: white;
+  border: 5px orange solid;
+}
+
+@media screen and (pointer: fine) {
+  #global-info:hover {
+    opacity: 1;
+  }
+}
+
+#global-info:empty {
+  display: none;
+}
+
+#global-info .close-button {
+  position: absolute;
+  right: 5px;
+  top: 2px;
+  font-size: 20px;
+  border: 1px red solid;
+  border-radius: 50%;
+  padding: 1px 6px;
+  color: #fafafa;
+  font-weight: 1000;
+}
+
+#global-info .close-button:hover {
+  color: red;
+  cursor: pointer;
+}
+
+#global-info:hover {
+  border-color: green;
+}
+
+#global-infop:first-child:not(:only-child) {
+  display: block;
 }
 
 /* Pages */
@@ -824,7 +995,7 @@ input:focus {
 
 @media screen and (min-width: 700px) {
   .section-hero {
-    height: 750px;
+    height: 600px;
   }
 }
 
@@ -1412,16 +1583,19 @@ input:focus {
 
 .section__donation .donate-form #button-donate {
   display: block;
-  text-decoration: none;
-  width: 100%;
-  line-height: 40px;
-  text-align: center;
-  border-radius: 6px;
   background: #333333;
-  color: white;
   -webkit-transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  width: 100%;
+  min-width: 30px;
+  max-width: 300px;
+  line-height: 40px;
+  text-align: center;
+  font-size: medium;
+  border-radius: 6px;
+  color: white;
   margin-top: 15px;
+  margin-bottom: 10px;
   display: block;
   width: 100%;
   height: 50px;
@@ -1448,6 +1622,82 @@ input:focus {
 @media screen and (min-width: 700px) {
   .section__donation .donate-form {
     max-width: 500px;
+  }
+}
+
+.section__admin-controls {
+  margin: 0;
+  margin-top: 32px;
+  padding: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-bottom: 1px black solid;
+}
+
+.section__admin-controls .input_wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  width: 500px;
+}
+
+.section__admin-controls__title {
+  font-size: 25px;
+  margin: 0px 0 25px 0;
+}
+
+.section__admin-controls .table {
+  margin-top: 12px;
+}
+
+#admin_control_panel {
+  width: 250px;
+  height: auto;
+  padding-left: 25px;
+  line-height: 50px;
+  font-size: large;
+  border-radius: 15px;
+}
+
+@media screen and (min-width: 1300px) {
+  #admin_control_panel {
+    position: fixed;
+    line-height: 30px;
+    font-size: large;
+    border: 2px wheat solid;
+    border-radius: 15px;
+    top: 100px;
+    left: 20px;
+    background-color: #333333;
+    color: white;
+    -webkit-transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    opacity: 0.1;
+  }
+  #admin_control_panel a {
+    color: white;
+    font-weight: 1000;
+  }
+  #admin_control_panel a:hover {
+    color: orange;
+  }
+  #admin_control_panel:hover {
+    opacity: 1;
   }
 }
 
