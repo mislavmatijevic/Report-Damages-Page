@@ -40,6 +40,7 @@ class Log
     public const mail_za_lozinku = 19;
     public const mail_za_blokiranje = 20;
     public const općenit_upit = 21;
+    public const promjena_konfiguracije = 22;
     
     // Tipovi radnji
 
@@ -360,5 +361,20 @@ class DB
         } else {
             $this->logObj->New($queryReadable, "Neregistrirani korisnik s IP adresom {$_SERVER['REMOTE_ADDR']} donirao je $amount HRK za javni poziv s oznakom $idJavniPoziv.", Log::donacija);
         }
+    }
+
+    public function GetModerators()
+    {
+        $moderators = $this->SelectPrepared("SELECT id_korisnik, email, korisnicko_ime FROM WebDiP2020x057.korisnik WHERE id_uloga = 2");
+        
+        foreach ($moderators as $key => $value) {
+            try {
+                $categories = $this->SelectPrepared("SELECT mk.id_kategorija_stete, k.naziv FROM WebDiP2020x057.moderator_kategorije as mk INNER JOIN kategorija_stete k WHERE mk.id_kategorija_stete = k.id_kategorija_stete AND mk.id_moderator = ?", "i", [$value["id_korisnik"]]);
+                $moderators[$key]["categories"] = $categories;
+            } catch (Exception $e) {
+                $value["categories"] = null;
+            }
+        }
+        return $moderators;
     }
 }

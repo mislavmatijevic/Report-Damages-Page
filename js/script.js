@@ -1,5 +1,26 @@
 $(() => {
 
+    // Oblačić za pomoć:
+    var helpShown = false;
+    var razinaPomoci = 1;
+    var firstHelpText = "";
+    $("#global-help").hide();
+    $("#button-help").on("click", () => {
+        if ($("#global-help").is(":visible")) {
+            hideHelp();
+        } else {
+            $("#global-help").show();
+            $("#global-help-text").html(firstHelpText);
+            razinaPomoci = 1;
+        }
+        helpShown = !helpShown;
+    });
+    function hideHelp() {
+        $("#global-help").html();
+        $("#global-help").attr("style", "");
+        $("#global-help").hide();
+    }
+
     // 
     /* Svaki objekt polja `formItemList` ima iduću strukturu:
     ["name"] = "Popunite ime!" // NIJE OK
@@ -47,6 +68,45 @@ $(() => {
     switch (location.pathname.split('/').slice(-1)[0]) {
 
         case 'administration.php': {
+            firstHelpText = "Nakon ovoliko puta korisniku se račun blokira i na ovoj stranici treba ga se odblokirati.";
+
+            $("#button-help__next").on("click", () => {
+                switch (++razinaPomoci) {
+                    case 2: {
+                        $("#global-help-text").html("U danima. Ovoliko dana vrijedi link na e-mailu novoregistriranog korisnika. Nakon toga korisnik se briše iz baze.");
+                        $("#global-help").attr("style", "top: 1280px");
+                        break;
+                    }
+                    case 3: {
+                        $("#global-help-text").html("Vezano uz straničenje. Koliko podataka određenog ispisa dohvatiti iz baze u jednom zahtjevu.");
+                        $("#global-help").attr("style", "top: 1370px");
+                        break;
+                    }
+                    case 4: {
+                        $("#global-help-text").html("U danima. Nakon nestanka kolačića, potrebno je ponovno prihvatiti uvjete. Nemoguće je koristiti stranicu bez prihvaćanja.");
+                        $("#global-help").attr("style", "top: 1410px");
+                        break;
+                    }
+                    case 5: {
+                        $("#global-help-text").html("U minutama trajanje sesije. Nakon tog vremena neaktivnosti, sesija prestaje i korisnik se opet mora ulogirati u sustav.");
+                        $("#global-help").attr("style", "top: 1480px");
+                        break;
+                    }
+                    default: {
+                        hideHelp();
+                    }
+                }
+            });
+
+            var damageCategories = "";
+
+            AJAXCall("config.php", { get_categories: "1" }, fillCategories);
+            AJAXCall("block-user.php", { get_blocked: "1" }, fillTableBlocked);
+
+            function fillCategories(value) {
+                damageCategories = value;
+                AJAXCall("config.php", { get_moderators: "1" }, fillTableModerators);
+            }
 
             $("#virtual-button").on("click", () => {
                 AJAXCall("https://barka.foi.hr/WebDiP/pomak_vremena/pomak.php", { format: "json" }, newHourDiff, "GET", true);
@@ -56,7 +116,7 @@ $(() => {
 
             function newHourDiff(value) {
                 timeDiff = value.WebDiP.vrijeme.pomak.brojSati;
-                AJAXCall("virtual-time.php", { hoursDiff: timeDiff }, informNewTime);
+                AJAXCall("virtual-time.php", { newConfig: JSON.stringify({ virtualTimeOffsetSeconds: timeDiff }) }, informNewTime);
             }
 
             function informNewTime(value) {
@@ -70,12 +130,10 @@ $(() => {
                 }
             }
 
+            let zadnjaRadnjaBlokiranja = 0;
 
-
-            AJAXCall("block-user.php", { get_blocked: "1" }, fillTable);
-
-            function fillTable(users) {
-                tableInnerHTML = "";
+            function fillTableBlocked(users) {
+                let tableInnerHTML = "";
                 if (users.length > 0) {
                     users.forEach((value) => {
                         tableInnerHTML +=
@@ -95,6 +153,7 @@ $(() => {
                     $("#body-blocked").html(tableInnerHTML);
                     $(".button-unblock").on("click", (e) => {
                         let selectedUsername = e.target.getAttribute("username");
+                        zadnjaRadnjaBlokiranja = 0;
                         AJAXCall("block-user.php", { username: selectedUsername, action: 0 }, blockedUser);
                     });
                 } else {
@@ -102,20 +161,143 @@ $(() => {
                 }
             }
 
+            function changeModerator(value) {
+                if (value == true) {
+                    AJAXCall("config.php", { get_categories: "1" }, fillCategories);
+                    $("#global-info-text").html("Situacija promijenjena!");
+                    $("#global-info").show();
+                    $("#moderator-input").val("");
+                } else {
+                    $("#global-error").html("Dogodio se problem pri promjeni moderatora!");
+                }
+            }
+
+            function fillTableModerators(moderators) {
+                let tableInnerHTML = "";
+                if (moderators.length > 0) {
+                    moderators.forEach((moderator) => {
+
+                        let categoriesOptions;
+                        damageCategories.forEach((value) => {
+                            let manages = "";
+                            if ('categories' in moderator) {
+                                if (moderator.categories !== null && moderator.categories.find(category => category.id_kategorija_stete == value.id_kategorija_stete)) {
+                                    manages = "selected";
+                                }
+                            }
+                            categoriesOptions += `
+                            <option value="${value.id_kategorija_stete}" ${manages}>
+                            ${value.naziv}
+                            </option>
+                            `;
+                        });
+
+                        tableInnerHTML +=
+                            `
+                        <tr class="table__row">
+                            <td class="table__row-data">${moderator.id_korisnik}</td>
+                            <td class="table__row-data">${moderator.email}</td>
+                            <td class="table__row-data">${moderator.korisnicko_ime}</td>
+                            <td class="table__row-data">
+                                <select id="select-categories-${moderator.id_korisnik}" multiple>
+                                    ${categoriesOptions}
+                                </select>
+                                <button class="button-add-moderator-to-category" identificator="${moderator.id_korisnik}">
+                                    Promijeni stanje
+                                </button>
+                            </td>
+                            <td class="table__row-data">
+                                <button class="button-remove-moderator" identificator="${moderator.korisnicko_ime}">
+                                    Skini s pozicije
+                                </button>
+                            </td>
+                        </tr>
+                    `
+                    });
+                    $("#body-moderators").html(tableInnerHTML);
+                    $(".button-remove-moderator").on("click", (e) => {
+                        let identificator = e.target.getAttribute("identificator");
+                        AJAXCall("config.php", { username: identificator, action: 0 }, changeModerator);
+                    });
+                    $(".button-add-moderator-to-category").on("click", (e) => {
+                        let identificator = e.target.getAttribute("identificator");
+                        let selectedCategories = $(`#select-categories-${identificator}`).val();
+                        AJAXCall("config.php", { id_moderator: identificator, new_categories: selectedCategories }, changeModerator);
+                    });
+                } else {
+                    $("#body-moderators").html("");
+                }
+            }
+
+            $("#moderator-button").on("click", () => {
+                usernameValue = $("#moderator-input").val();
+                if (usernameValue == "") {
+                    alert("Unesite korisničko ime novog administratora!");
+                } else {
+                    AJAXCall("config.php", { username: usernameValue, action: 1 }, changeModerator);
+                }
+            });
+
             function blockedUser(value) {
                 if (value == true) {
-                    AJAXCall("block-user.php", { get_blocked: "1" }, fillTable);
+                    AJAXCall("block-user.php", { get_blocked: "1" }, fillTableBlocked);
+                    $("#global-info-text").html(zadnjaRadnjaBlokiranja ? `Korisnik blokiran!` : `Korisnik odblokiran!`);
+                    $("#global-info").show();
+                    $("#block-input").val("");
+                } else {
+                    $("#global-error").html("Dogodio se problem pri blokiranju korisnika!");
+                }
+            }
+
+            function preformBlock(isTaken) {
+                var usernameValue = $("#block-input").val();
+                if (!isTaken) {
+                    $("#global-error-text").html(`Korisnik s korisničkim imenom ${usernameValue} ne postoji!`);
+                    $("#global-error").show();
+                } else {
+                    if (usernameValue == "") {
+                        alert("Niste unijeli korisničko ime!");
+                    } else {
+                        zadnjaRadnjaBlokiranja = 1;
+                        AJAXCall("block-user.php", { username: usernameValue, action: 1 }, blockedUser);
+                    }
                 }
             }
 
             $("#block-button").on("click", () => {
                 var usernameValue = $("#block-input").val();
-                if (usernameValue == "") {
-                    alert("Niste unijeli korisničko ime!");
-                } else {
-                    AJAXCall("block-user.php", { username: usernameValue, action: 1 }, blockedUser);
-                }
+                AJAXCall("check-username.php", { checkUsername: usernameValue }, preformBlock);
             });
+
+            AJAXCall("config.php", { get_current_config: "1" }, displayCurrentConfig);
+
+            function displayCurrentConfig(value) {
+                $("#maxFailedLogins").val(value.maxFailedLogins);
+                $("#maxHoursToAccept").val(value.maxHoursToAccept);
+                $("#maxItemsPerPage").val(value.maxItemsPerPage);
+                $("#cookieDurationDays").val(value.cookieDurationDays);
+                $("#maxSessionLengthMinutes").val(value.maxSessionLengthMinutes);
+                $("#virtualTimeOffsetSeconds").val(value.virtualTimeOffsetSeconds);
+                $("#captchaSecretKey").val(value.captchaSecretKey);
+            }
+
+            function appliedNewConfig(value) {
+                AJAXCall("config.php", { get_current_config: "1" }, displayCurrentConfig);
+            }
+
+            $("#config-button").on("click", () => {
+                newConfigJSON = JSON.stringify({
+                    maxFailedLogins: $("#maxFailedLogins").val(),
+                    maxHoursToAccept: $("#maxHoursToAccept").val(),
+                    maxItemsPerPage: $("#maxItemsPerPage").val(),
+                    cookieDurationDays: $("#cookieDurationDays").val(),
+                    maxSessionLengthMinutes: $("#maxSessionLengthMinutes").val(),
+                    virtualTimeOffsetSeconds: $("#virtualTimeOffsetSeconds").val(),
+                    captchaSecretKey: $("#captchaSecretKey").val()
+                });
+                AJAXCall("config.php", { newConfig: newConfigJSON }, appliedNewConfig);
+            });
+
         }
 
         case 'donate.php': {

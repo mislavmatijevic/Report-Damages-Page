@@ -9,10 +9,24 @@
         align-items: center;
         border-bottom: 1px black solid;
 
-        .input_wrapper {
+        .input-wrapper {
+            margin: auto;
+            margin-left: 10px;
             display: flex;
             flex-direction: column;
             width: 500px;
+            .input-text {
+                max-width: 50%;
+            }
+            @media screen and ($tablet) {
+                margin-left: auto;
+                flex-direction: row;
+                justify-content: space-between;
+                label {
+                    margin-top: auto;
+                    margin-bottom: auto;
+                }
+            }
         }
         &__title {
             font-size: 25px;
@@ -21,7 +35,57 @@
         .table {
             margin-top: 12px;
         }
+        #block-input {
+            text-align: center;
+            color: $darkError;
+        }
+        #global-help {
+            display: inline;
+            position: absolute;
+            top: 1230px;
+            @media screen and ($tablet) {
+            }
+            @media screen and ($desktop) {
+                margin-left: 900px;
+            }
+        }
+        #log-input {
+            text-align: center;
+            color: $success;
+        }
+        #moderator-input {
+            text-align: center;
+            color: $success;
+        }
     }
+}
+
+@mixin button-do-something-big-on-table {
+    @include button();
+    font-size: 12px;
+    margin: 0;
+    background-color: $error;
+    font-weight: 500;
+    max-width: 64px;
+    @media screen and ($tablet) {
+        max-width: 100%;
+        font-size: 12px;
+        padding: 0 5px 0;
+        font-weight: 1000;
+    }
+}
+
+.button-unblock {
+    @include button-do-something-big-on-table;
+}
+
+.button-remove-moderator {
+    @include button-do-something-big-on-table;
+}
+
+.button-add-moderator-to-category {
+    @include button-do-something-big-on-table;
+    background-color: $success;
 }
 
 #admin_control_panel {
@@ -33,13 +97,13 @@
     font-size: large;
 
     border-radius: 15px;
-    
+
     @media screen and ($desktop) {
         position: fixed;
         line-height: 30px;
         font-size: large;
         border: 2px $lightHighlightColor solid;
-        
+
         border-radius: 15px;
 
         top: 100px;
