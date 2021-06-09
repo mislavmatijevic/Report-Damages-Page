@@ -203,14 +203,26 @@ class DB
         return Prevent::XSS($userObject);
     }
 
+    /**
+     * Blokira korisnika.
+     */
     public function BlockUser($username, $doBlock = true)
     {
         $newBlockStatus = $doBlock ? 1 : null;
         
-        $this->ExecutePrepared("UPDATE `WebDiP2020x057`.`korisnik` SET `status_blokade` = ?, `broj_neuspjesnih_prijava`=NULL WHERE korisnicko_ime = ?", "is", [$newBlockStatus, $username]);
+        $this->ExecutePrepared("UPDATE `WebDiP2020x057`.`korisnik` SET `status_blokade` = ?, `broj_neuspjesnih_prijava` = NULL WHERE korisnicko_ime = ?", "is", [$newBlockStatus, $username]);
 
         $this->logObj->New("UPDATE `WebDiP2020x057`.`korisnik` SET `status_blokade` = $newBlockStatus, `broj_neuspjesnih_prijava`=NULL WHERE korisnicko_ime = $username", "Blokiran je korisnik $username.", Log::blokiranje);
+        
         return DBSuccess;
+    }
+
+    /**
+     * Vraća popis svih blokiranih.
+     */
+    public function GetAllWithBlockedStatus($status)
+    {
+        return $this->SelectPrepared("SELECT id_korisnik, email, korisnicko_ime FROM `WebDiP2020x057`.`korisnik` WHERE `status_blokade` = ?", "i", [$status]);
     }
 
     /**
@@ -328,7 +340,9 @@ class DB
 
     public function MakeDonation(int $idJavniPoziv, float $amount, $user)
     {
-        $this->ExecutePrepared("UPDATE javni_poziv SET skupljeno_sredstava = ? WHERE id_javni_poziv = ?", "di", [$amount, $idJavniPoziv]);
+        $currentFunding = $this->SelectPrepared("SELECT skupljeno_sredstava FROM javni_poziv WHERE id_javni_poziv = ?", "i", [$idJavniPoziv]);
+        $newFunding = $currentFunding["skupljeno_sredstava"] + $amount;
+        $this->ExecutePrepared("UPDATE javni_poziv SET skupljeno_sredstava = ? WHERE id_javni_poziv = ?", "di", [$newFunding, $idJavniPoziv]);
 
         $queryReadable = "UPDATE javni_poziv SET skupljeno_sredstava = $amount WHERE id_javni_poziv = $idJavniPoziv";
 

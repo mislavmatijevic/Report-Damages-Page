@@ -37,7 +37,7 @@ CREATE TABLE `dnevnik` (
   KEY `fk_dnevnik_korisnik1_idx` (`id_izvrsitelj`),
   CONSTRAINT `fk_dnevnik_korisnik` FOREIGN KEY (`id_izvrsitelj`) REFERENCES `korisnik` (`id_korisnik`),
   CONSTRAINT `fk_dnevnik_tip_radnje` FOREIGN KEY (`id_radnja`) REFERENCES `tip_radnje` (`id_tip`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -46,7 +46,7 @@ CREATE TABLE `dnevnik` (
 
 LOCK TABLES `dnevnik` WRITE;
 /*!40000 ALTER TABLE `dnevnik` DISABLE KEYS */;
-INSERT INTO `dnevnik` VALUES (1,'/index.php','2021-06-08 22:53:08','UPDATE `WebDiP2020x057`.`korisnik` SET `broj_neuspjesnih_prijava`=NULL WHERE `id_korisnik` = 1','Prijavio se korisnik mmatijevi.',1,1),(2,'/donate.php','2021-06-08 22:57:52','UPDATE javni_poziv SET skupljeno_sredstava = 100 WHERE id_javni_poziv = 1','Neregistrirani korisnik s IP adresom 127.0.0.1 donirao je 100 HRK za javni poziv s oznakon 1.',7,1),(3,'/index.php','2021-06-08 22:57:58','UPDATE `WebDiP2020x057`.`korisnik` SET `broj_neuspjesnih_prijava`=NULL WHERE `id_korisnik` = 1','Prijavio se korisnik mmatijevi.',1,1),(4,'/donate.php','2021-06-08 23:45:32','UPDATE javni_poziv SET skupljeno_sredstava = 1500.5 WHERE id_javni_poziv = 1; INSERT INTO `WebDiP2020x057`.`donacije` (`iznos`, `id_javni_poziv`, `id_donator`) VALUES (1500.5, 1, 1)','Korisnik Mislav donirao je 1500.5 HRK za javni poziv s oznakom 1.',7,1),(5,'/logout.php','2021-06-08 23:46:50',NULL,'Korisnik mmatijevi se odjavio.',2,1);
+INSERT INTO `dnevnik` VALUES (1,'/index.php','2021-06-08 22:53:08','UPDATE `WebDiP2020x057`.`korisnik` SET `broj_neuspjesnih_prijava`=NULL WHERE `id_korisnik` = 1','Prijavio se korisnik mmatijevi.',1,1),(2,'/donate.php','2021-06-08 22:57:52','UPDATE javni_poziv SET skupljeno_sredstava = 100 WHERE id_javni_poziv = 1','Neregistrirani korisnik s IP adresom 127.0.0.1 donirao je 100 HRK za javni poziv s oznakon 1.',7,1),(3,'/index.php','2021-06-08 22:57:58','UPDATE `WebDiP2020x057`.`korisnik` SET `broj_neuspjesnih_prijava`=NULL WHERE `id_korisnik` = 1','Prijavio se korisnik mmatijevi.',1,1),(4,'/donate.php','2021-06-08 23:45:32','UPDATE javni_poziv SET skupljeno_sredstava = 1500.5 WHERE id_javni_poziv = 1; INSERT INTO `WebDiP2020x057`.`donacije` (`iznos`, `id_javni_poziv`, `id_donator`) VALUES (1500.5, 1, 1)','Korisnik Mislav donirao je 1500.5 HRK za javni poziv s oznakom 1.',7,1),(5,'/logout.php','2021-06-08 23:46:50',NULL,'Korisnik mmatijevi se odjavio.',2,1),(6,'/index.php','2021-06-09 09:51:39','UPDATE `WebDiP2020x057`.`korisnik` SET `broj_neuspjesnih_prijava`=NULL WHERE `id_korisnik` = 1','Prijavio se korisnik mmatijevi.',1,1),(7,'/logout.php','2021-06-09 09:51:41',NULL,'Korisnik mmatijevi se odjavio.',2,1),(8,'/index.php','2021-06-09 11:39:55','UPDATE `WebDiP2020x057`.`korisnik` SET `broj_neuspjesnih_prijava`=NULL WHERE `id_korisnik` = 1','Prijavio se korisnik mmatijevi.',1,1),(9,'/logout.php','2021-06-09 11:40:24',NULL,'Korisnik mmatijevi se odjavio.',2,1),(10,'/index.php','2021-06-09 11:40:36','UPDATE `WebDiP2020x057`.`korisnik` SET `broj_neuspjesnih_prijava`=NULL WHERE `id_korisnik` = 1','Prijavio se korisnik mmatijevi.',1,1),(11,'/logout.php','2021-06-09 11:43:49',NULL,'Korisnik mmatijevi se odjavio.',2,1),(12,'/index.php','2021-06-09 11:46:37','UPDATE `WebDiP2020x057`.`korisnik` SET `broj_neuspjesnih_prijava`=NULL WHERE `id_korisnik` = 1','Prijavio se korisnik mmatijevi.',1,1),(13,'/logout.php','2021-06-09 11:57:39',NULL,'Korisnik mmatijevi se odjavio.',2,1),(14,'/index.php','2021-06-09 11:57:46','UPDATE `WebDiP2020x057`.`korisnik` SET `broj_neuspjesnih_prijava`=NULL WHERE `id_korisnik` = 1','Prijavio se korisnik mmatijevi.',1,1),(15,'/index.php','2021-06-09 11:59:21','UPDATE `WebDiP2020x057`.`korisnik` SET `broj_neuspjesnih_prijava`=NULL WHERE `id_korisnik` = 1','Prijavio se korisnik mmatijevi.',1,1),(16,'/logout.php','2021-06-09 11:59:32',NULL,'Korisnik mmatijevi se odjavio.',2,1),(17,'/index.php','2021-06-09 11:59:34','UPDATE `WebDiP2020x057`.`korisnik` SET `broj_neuspjesnih_prijava`=NULL WHERE `id_korisnik` = 1','Prijavio se korisnik mmatijevi.',1,1),(18,'/logout.php','2021-06-09 11:59:38',NULL,'Korisnik mmatijevi se odjavio.',2,1),(19,'/index.php','2021-06-09 11:59:39','UPDATE `WebDiP2020x057`.`korisnik` SET `broj_neuspjesnih_prijava`=NULL WHERE `id_korisnik` = 1','Prijavio se korisnik mmatijevi.',1,1),(20,'/logout.php','2021-06-09 11:59:43',NULL,'Korisnik mmatijevi se odjavio.',2,1),(21,'/index.php','2021-06-09 12:22:08','UPDATE `WebDiP2020x057`.`korisnik` SET `broj_neuspjesnih_prijava`=NULL WHERE `id_korisnik` = 1','Prijavio se korisnik mmatijevi.',1,1),(22,'/logout.php','2021-06-09 12:42:02',NULL,'Korisnik mmatijevi se odjavio.',2,1),(23,'/index.php','2021-06-09 12:44:13','UPDATE `WebDiP2020x057`.`korisnik` SET `broj_neuspjesnih_prijava`=NULL WHERE `id_korisnik` = 1','Prijavio se korisnik mmatijevi.',1,1),(24,'/logout.php','2021-06-09 12:44:15',NULL,'Korisnik mmatijevi se odjavio.',2,1),(25,'/index.php','2021-06-09 12:44:23','UPDATE `WebDiP2020x057`.`korisnik` SET `broj_neuspjesnih_prijava`=NULL WHERE `id_korisnik` = 1','Prijavio se korisnik mmatijevi.',1,1),(26,'/logout.php','2021-06-09 13:15:33',NULL,'Korisnik mmatijevi se odjavio.',2,1),(27,'/index.php','2021-06-09 13:15:41','UPDATE `WebDiP2020x057`.`korisnik` SET `broj_neuspjesnih_prijava`=NULL WHERE `id_korisnik` = 1','Prijavio se korisnik mmatijevi.',1,1);
 /*!40000 ALTER TABLE `dnevnik` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -109,23 +109,6 @@ LOCK TABLES `donacije` WRITE;
 INSERT INTO `donacije` VALUES (1,125,2,1),(2,1500.5,1,1),(3,1500.5,1,1);
 /*!40000 ALTER TABLE `donacije` ENABLE KEYS */;
 UNLOCK TABLES;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `donacije_AFTER_INSERT` AFTER INSERT ON `donacije` FOR EACH ROW BEGIN
-UPDATE javni_poziv SET skupljeno_sredstava = skupljeno_sredstava + new.iznos WHERE id_javni_poziv = new.id_javni_poziv;
-END */;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `javni_poziv`
@@ -423,14 +406,6 @@ LOCK TABLES `vrsta_materijala` WRITE;
 INSERT INTO `vrsta_materijala` VALUES (1,'Fotografija','Fotografija materijal.','Uploadati.','.jpg, .jpeg',4),(2,'Video','Video materijal.','Uploadati.','.mp4',64),(3,'Audio','Audio materijal.','Uploadati.','.mp3',1);
 /*!40000 ALTER TABLE `vrsta_materijala` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Dumping events for database 'WebDiP2020x057'
---
-
---
--- Dumping routines for database 'WebDiP2020x057'
---
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -441,4 +416,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-06-09  1:53:59
+-- Dump completed on 2021-06-09 15:41:26
