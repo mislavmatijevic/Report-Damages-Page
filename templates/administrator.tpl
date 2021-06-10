@@ -11,7 +11,6 @@
             <li><a href="#statistika_sustava">Statistika sustava</a></li>
         </ul>
     </nav>
-
 </section>
 <section id="virtualno_vrijeme" class="section__admin-controls">
     <h2 class="section__admin-controls__title">Virtualno vrijeme</h2>
@@ -89,11 +88,26 @@
 
 <section id="pregled_dnevnika" class="section__admin-controls">
     <h2 class="section__admin-controls__title">Pregled dnevnika</h2>
-    <table class="table">
+    <table id="log-freq" class="table" style="display: none">
+        <caption>Frekvencija akcija i korisnika</caption>
         <thead>
             <tr>
-                <th class="table__head">Šifra u dnevniku</th>
-                <th class="table__head">url</th>
+                <th class="table__head">Korisničko ime</th>
+                <th class="table__head">Naziv radnje</th>
+                <th class="table__head">Količina radnje</th>
+            </tr>
+        </thead>
+        <tbody id="body-log-freq">
+        </tbody>
+    </table>
+    <p>Držati miš nad url-om ili akcijom za pregled detalja.</p>
+    <table id="log-entire" class="table">
+        <caption>Cijeli dnevnik</caption>
+        <thead>
+            <tr>
+                <th class="table__head">Br.</th>
+                <th class="table__head">Datum</th>
+                <th class="table__head">Datoteka</th>
                 <th class="table__head">Korisničko ime</th>
                 <th class="table__head">Akcija</th>
             </tr>
@@ -101,10 +115,22 @@
         <tbody id="body-log">
         </tbody>
     </table>
-
-    <label for="log-input">Korisničko ime za filtrirati dnevnik:</label>
-    <input id="log-input" name="log-input" type="text" class="input-text" />
-    <button id="log-button" class="button">Filtriraj po korisniku</button>
+    <div class="paging-log">
+        <p class="paging-info"></p>
+        <div class="paging-log-controls">
+            <button id="first-log">Prva stranica</button>
+            <button id="back-log">⏮️</button>
+            <progress id="progress-log">
+                currentPage/maxPage
+            </progress>
+            <button id="next-log">⏭️</button>
+            <button id="last-log">Zadnja stranica</button>
+        </div>
+    </div>
+    <input id="input-log" type="text" class="input-text" placeholder="Filtriraj po korisniku..." />
+    <button id="button-filter-user" class="button">Filtriraj po korisniku</button>
+    <button id="button-filter-freq" class="button">Pregledaj frekvenciju rada</button>
+    <button id="button-filter-reset" class="button">Resetiraj filter</button>
 
 </section>
 
@@ -133,10 +159,12 @@
 
 <section id="sigurnosna_kopija" class="section__admin-controls">
     <h2 class="section__admin-controls__title">Sigurnosna kopija</h2>
-
+    <button id="copy_create" class="button">Izradi sigurnosnu kopiju</button>
+    <button id="copy_retrieve" class="button">Vrati sigurnosnu kopiju</button>
 </section>
 
 <section id="statistika_sustava" class="section__admin-controls">
     <h2 class="section__admin-controls__title">Statistika sustava</h2>
-
+    <canvas id="statisticsCanvas" width="300px" height="100px" style="border:1px solid #d3d3d3;">
+Vaš preglednik ne podržava HTML canvas.</canvas>
 </section>

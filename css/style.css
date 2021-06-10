@@ -1748,12 +1748,8 @@ input:focus {
   display: inline;
   position: absolute;
   top: 1230px;
-}
-
-@media screen and (min-width: 1300px) {
-  .section__admin-controls #global-help {
-    margin-left: 900px;
-  }
+  left: auto;
+  right: 225px;
 }
 
 .section__admin-controls #log-input {
@@ -1911,6 +1907,90 @@ input:focus {
   }
   #admin_control_panel:hover {
     opacity: 1;
+  }
+}
+
+.paging-log {
+  border: 1px #aeaeae outset;
+  max-width: 90%;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 32px auto;
+}
+
+@media screen and (min-width: 700px) {
+  .paging-log {
+    width: 700px;
+    border-radius: 15px;
+    padding: 16px;
+  }
+}
+
+.paging-log-info {
+  margin: auto;
+  text-align: center;
+  width: 90%;
+  font-size: 12px;
+}
+
+@media screen and (min-width: 700px) {
+  .paging-log-info {
+    font-size: 30px;
+  }
+}
+
+.paging-log-controls {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.paging-log-controls progress {
+  width: 100px;
+}
+
+@media screen and (min-width: 700px) {
+  .paging-log-controls progress {
+    width: auto;
+  }
+}
+
+.paging-log-controls button {
+  border-radius: 5px;
+  padding: 1px 5px;
+  min-width: 32px;
+  min-height: 32px;
+  font-size: 10px;
+  border: 1px orange thick;
+  background-color: #fafafa;
+}
+
+@media screen and (min-width: 700px) {
+  .paging-log-controls button {
+    width: 150px;
+    border-radius: 15px;
+    padding: 2px 25px;
+    width: auto;
+    min-height: 32px;
+    font-size: 16px;
+  }
+}
+
+.paging-log-controls button:hover {
+  background-color: orange;
+  cursor: pointer;
+}
+
+.paging-log-controls button:first-of-type, .paging-log-controls button:last-of-type {
+  width: auto;
+}
+
+@media screen and (min-width: 700px) {
+  .paging-log-controls button:first-of-type, .paging-log-controls button:last-of-type {
+    width: 200px;
   }
 }
 

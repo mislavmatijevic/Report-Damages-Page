@@ -43,10 +43,11 @@
             display: inline;
             position: absolute;
             top: 1230px;
+            left: auto;
+            right: 225px;
             @media screen and ($tablet) {
             }
             @media screen and ($desktop) {
-                margin-left: 900px;
             }
         }
         #log-input {
@@ -124,6 +125,74 @@
         opacity: 0.1;
         &:hover {
             opacity: 1;
+        }
+    }
+}
+
+.paging-log {
+    border: 1px #aeaeae outset;
+    max-width: 90%;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 32px auto;
+
+    @media screen and ($tablet) {
+        width: 700px;
+        border-radius: 15px;
+        padding: 16px;
+    }
+
+    &-info {
+        margin: auto;
+        text-align: center;
+        width: 90%;
+        font-size: 12px;
+        @media screen and ($tablet) {
+            font-size: 30px;
+        }
+    }
+
+    &-controls {
+        display: flex;
+        justify-content: space-between;
+
+        progress {
+            width: 100px;
+            @media screen and ($tablet) {
+                width: auto;
+            }
+        }
+
+        button {
+            border-radius: 5px;
+            padding: 1px 5px;
+            min-width: 32px;
+            min-height: 32px;
+            font-size: 10px;
+            border: 1px $highlightColor thick;
+            background-color: $brightBorder;
+
+            @media screen and ($tablet) {
+                width: 150px;
+                border-radius: 15px;
+                padding: 2px 25px;
+                width: auto;
+                min-height: 32px;
+                font-size: 16px;
+            }
+
+            &:hover {
+                background-color: $highlightColor;
+                cursor: pointer;
+            }
+
+            &:first-of-type,
+            &:last-of-type {
+                width: auto;
+                @media screen and ($tablet) {
+                    width: 200px;
+                }
+            }
         }
     }
 }

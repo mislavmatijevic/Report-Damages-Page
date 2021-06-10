@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.39, created on 2021-06-10 01:14:28
+/* Smarty version 3.1.39, created on 2021-06-10 20:34:40
   from '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/administrator.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.39',
-  'unifunc' => 'content_60c14b542380b9_13255268',
+  'unifunc' => 'content_60c25b404061b7_51989873',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '65f568e62aa2002d6ff971dc00c148edb9526300' => 
     array (
       0 => '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/administrator.tpl',
-      1 => 1623280463,
+      1 => 1623349256,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_60c14b542380b9_13255268 (Smarty_Internal_Template $_smarty_tpl) {
+function content_60c25b404061b7_51989873 (Smarty_Internal_Template $_smarty_tpl) {
 ?><section class="section">
     <h1 class="section__title">Administriranje stranice</h1>
     <nav id="admin_control_panel">
@@ -34,7 +34,6 @@ function content_60c14b542380b9_13255268 (Smarty_Internal_Template $_smarty_tpl)
             <li><a href="#statistika_sustava">Statistika sustava</a></li>
         </ul>
     </nav>
-
 </section>
 <section id="virtualno_vrijeme" class="section__admin-controls">
     <h2 class="section__admin-controls__title">Virtualno vrijeme</h2>
@@ -114,11 +113,26 @@ function content_60c14b542380b9_13255268 (Smarty_Internal_Template $_smarty_tpl)
 
 <section id="pregled_dnevnika" class="section__admin-controls">
     <h2 class="section__admin-controls__title">Pregled dnevnika</h2>
-    <table class="table">
+    <table id="log-freq" class="table" style="display: none">
+        <caption>Frekvencija akcija i korisnika</caption>
         <thead>
             <tr>
-                <th class="table__head">Šifra u dnevniku</th>
-                <th class="table__head">url</th>
+                <th class="table__head">Korisničko ime</th>
+                <th class="table__head">Naziv radnje</th>
+                <th class="table__head">Količina radnje</th>
+            </tr>
+        </thead>
+        <tbody id="body-log-freq">
+        </tbody>
+    </table>
+    <p>Držati miš nad url-om ili akcijom za pregled detalja.</p>
+    <table id="log-entire" class="table">
+        <caption>Cijeli dnevnik</caption>
+        <thead>
+            <tr>
+                <th class="table__head">Br.</th>
+                <th class="table__head">Datum</th>
+                <th class="table__head">Datoteka</th>
                 <th class="table__head">Korisničko ime</th>
                 <th class="table__head">Akcija</th>
             </tr>
@@ -126,10 +140,22 @@ function content_60c14b542380b9_13255268 (Smarty_Internal_Template $_smarty_tpl)
         <tbody id="body-log">
         </tbody>
     </table>
-
-    <label for="log-input">Korisničko ime za filtrirati dnevnik:</label>
-    <input id="log-input" name="log-input" type="text" class="input-text" />
-    <button id="log-button" class="button">Filtriraj po korisniku</button>
+    <div class="paging-log">
+        <p class="paging-info"></p>
+        <div class="paging-log-controls">
+            <button id="first-log">Prva stranica</button>
+            <button id="back-log">⏮️</button>
+            <progress id="progress-log">
+                currentPage/maxPage
+            </progress>
+            <button id="next-log">⏭️</button>
+            <button id="last-log">Zadnja stranica</button>
+        </div>
+    </div>
+    <input id="input-log" type="text" class="input-text" placeholder="Filtriraj po korisniku..." />
+    <button id="button-filter-user" class="button">Filtriraj po korisniku</button>
+    <button id="button-filter-freq" class="button">Pregledaj frekvenciju rada</button>
+    <button id="button-filter-reset" class="button">Resetiraj filter</button>
 
 </section>
 
@@ -158,11 +184,11 @@ function content_60c14b542380b9_13255268 (Smarty_Internal_Template $_smarty_tpl)
 
 <section id="sigurnosna_kopija" class="section__admin-controls">
     <h2 class="section__admin-controls__title">Sigurnosna kopija</h2>
-
+    <button id="copy_create" class="button">Izradi sigurnosnu kopiju</button>
+    <button id="copy_retrieve" class="button">Vrati sigurnosnu kopiju</button>
 </section>
 
 <section id="statistika_sustava" class="section__admin-controls">
     <h2 class="section__admin-controls__title">Statistika sustava</h2>
-
 </section><?php }
 }

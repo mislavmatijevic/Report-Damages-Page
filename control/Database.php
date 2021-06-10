@@ -82,7 +82,7 @@ class Log
                 $records = $this->dbObjLog->SelectPrepared("SELECT * FROM dnevnik WHERE id_radnja = ?;", "i", [$argument]);
                 break;
             case 'frequency':
-                $records = $this->dbObjLog->SelectPrepared("SELECT tr.naziv, COUNT(*) as count FROM tip_radnje as tr INNER JOIN dnevnik as d WHERE d.id_radnja = tr.id_tip GROUP BY tr.naziv ORDER BY COUNT(*) DESC;", "i", [$argument]);
+                $records = $this->dbObjLog->SelectPrepared("SELECT tr.naziv, COUNT(*) as count FROM tip_radnje as tr INNER JOIN dnevnik as d WHERE d.id_radnja = tr.id_tip GROUP BY tr.naziv ORDER BY COUNT(*) DESC;");
                 break;
             default: {
                 throw new Exception("Nepoznat kriterij \"$criteria\" za dohvat logova iz baze!", 1);

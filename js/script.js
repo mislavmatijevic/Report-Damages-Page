@@ -68,45 +68,6 @@ $(() => {
     switch (location.pathname.split('/').slice(-1)[0]) {
 
         case 'administration.php': {
-            firstHelpText = "Nakon ovoliko puta korisniku se račun blokira i na ovoj stranici treba ga se odblokirati.";
-
-            $("#button-help__next").on("click", () => {
-                switch (++razinaPomoci) {
-                    case 2: {
-                        $("#global-help-text").html("U danima. Ovoliko dana vrijedi link na e-mailu novoregistriranog korisnika. Nakon toga korisnik se briše iz baze.");
-                        $("#global-help").attr("style", "top: 1280px");
-                        break;
-                    }
-                    case 3: {
-                        $("#global-help-text").html("Vezano uz straničenje. Koliko podataka određenog ispisa dohvatiti iz baze u jednom zahtjevu.");
-                        $("#global-help").attr("style", "top: 1370px");
-                        break;
-                    }
-                    case 4: {
-                        $("#global-help-text").html("U danima. Nakon nestanka kolačića, potrebno je ponovno prihvatiti uvjete. Nemoguće je koristiti stranicu bez prihvaćanja.");
-                        $("#global-help").attr("style", "top: 1410px");
-                        break;
-                    }
-                    case 5: {
-                        $("#global-help-text").html("U minutama trajanje sesije. Nakon tog vremena neaktivnosti, sesija prestaje i korisnik se opet mora ulogirati u sustav.");
-                        $("#global-help").attr("style", "top: 1480px");
-                        break;
-                    }
-                    default: {
-                        hideHelp();
-                    }
-                }
-            });
-
-            var damageCategories = "";
-
-            AJAXCall("config.php", { get_categories: "1" }, fillCategories);
-            AJAXCall("block-user.php", { get_blocked: "1" }, fillTableBlocked);
-
-            function fillCategories(value) {
-                damageCategories = value;
-                AJAXCall("config.php", { get_moderators: "1" }, fillTableModerators);
-            }
 
             $("#virtual-button").on("click", () => {
                 AJAXCall("https://barka.foi.hr/WebDiP/pomak_vremena/pomak.php", { format: "json" }, newHourDiff, "GET", true);
@@ -121,7 +82,8 @@ $(() => {
 
             function informNewTime(value) {
                 if (value === false) {
-                    $("#global-error").html("Dogodio se problem pri namještanju virtualnog vremena!");
+                    $("#global-error-text").html("Dogodio se problem pri namještanju virtualnog vremena!");
+                    $("#global-error").show();
                 } else {
                     $("#global-info-text").html(`Vrijeme promijenjeno za ${timeDiff} sati.`);
                     $("#global-info").show();
@@ -130,7 +92,47 @@ $(() => {
                 }
             }
 
+
+
+
+
+
+
+            AJAXCall("block-user.php", { get_blocked: "1" }, fillTableBlocked);
+
             let zadnjaRadnjaBlokiranja = 0;
+
+            function blockedUser(value) {
+                if (value == true) {
+                    AJAXCall("block-user.php", { get_blocked: "1" }, fillTableBlocked);
+                    $("#global-info-text").html(zadnjaRadnjaBlokiranja ? `Korisnik blokiran!` : `Korisnik odblokiran!`);
+                    $("#global-info").show();
+                    $("#block-input").val("");
+                } else {
+                    $("#global-error-text").html("Dogodio se problem pri blokiranju korisnika!");
+                    $("#global-error").show();
+                }
+            }
+
+            function preformBlock(isTaken) {
+                var usernameValue = $("#block-input").val();
+                if (!isTaken) {
+                    $("#global-error-text").html(`Korisnik s korisničkim imenom ${usernameValue} ne postoji!`);
+                    $("#global-error").show();
+                } else {
+                    if (usernameValue == "") {
+                        alert("Niste unijeli korisničko ime!");
+                    } else {
+                        zadnjaRadnjaBlokiranja = 1;
+                        AJAXCall("block-user.php", { username: usernameValue, action: 1 }, blockedUser);
+                    }
+                }
+            }
+
+            $("#block-button").on("click", () => {
+                var usernameValue = $("#block-input").val();
+                AJAXCall("check-username.php", { checkUsername: usernameValue }, preformBlock);
+            });
 
             function fillTableBlocked(users) {
                 let tableInnerHTML = "";
@@ -161,6 +163,222 @@ $(() => {
                 }
             }
 
+
+
+
+
+            firstHelpText = "Nakon ovoliko puta neuspješnih unosa lozinke korisniku se račun blokira i na ovoj stranici treba ga se odblokirati.";
+
+            AJAXCall("config.php", { get_current_config: "1" }, displayCurrentConfig);
+
+            function displayCurrentConfig(value) {
+                $("#maxFailedLogins").val(value.maxFailedLogins);
+                $("#maxHoursToAccept").val(value.maxHoursToAccept);
+                $("#maxItemsPerPage").val(value.maxItemsPerPage);
+                $("#cookieDurationDays").val(value.cookieDurationDays);
+                $("#maxSessionLengthMinutes").val(value.maxSessionLengthMinutes);
+                $("#virtualTimeOffsetSeconds").val(value.virtualTimeOffsetSeconds);
+                $("#captchaSecretKey").val(value.captchaSecretKey);
+            }
+
+            function appliedNewConfig(value) {
+                AJAXCall("config.php", { get_current_config: "1" }, displayCurrentConfig);
+            }
+
+            $("#config-button").on("click", () => {
+                newConfigJSON = JSON.stringify({
+                    maxFailedLogins: $("#maxFailedLogins").val(),
+                    maxHoursToAccept: $("#maxHoursToAccept").val(),
+                    maxItemsPerPage: $("#maxItemsPerPage").val(),
+                    cookieDurationDays: $("#cookieDurationDays").val(),
+                    maxSessionLengthMinutes: $("#maxSessionLengthMinutes").val(),
+                    virtualTimeOffsetSeconds: $("#virtualTimeOffsetSeconds").val(),
+                    captchaSecretKey: $("#captchaSecretKey").val()
+                });
+                AJAXCall("config.php", { newConfig: newConfigJSON }, appliedNewConfig);
+                AJAXCall("retrieve-logs.php", { all: 1, max_page: 1 }, getLogData); // Novo učitavnje dnevnika.
+            });
+
+            $("#button-help__next").on("click", () => {
+                switch (++razinaPomoci) {
+                    case 2: {
+                        $("#global-help-text").html("U danima. Ovoliko dana vrijedi link na e-mailu novoregistriranog korisnika. Nakon toga korisnik se briše iz baze.");
+                        $("#global-help").attr("style", "top: 1280px");
+                        break;
+                    }
+                    case 3: {
+                        $("#global-help-text").html("Vezano uz straničenje. Koliko podataka određenog ispisa dohvatiti iz baze u jednom zahtjevu.");
+                        $("#global-help").attr("style", "top: 1370px");
+                        break;
+                    }
+                    case 4: {
+                        $("#global-help-text").html("U danima. Nakon nestanka kolačića, potrebno je ponovno prihvatiti uvjete. Nemoguće je koristiti stranicu bez prihvaćanja.");
+                        $("#global-help").attr("style", "top: 1410px");
+                        break;
+                    }
+                    case 5: {
+                        $("#global-help-text").html("U minutama trajanje sesije. Nakon tog vremena neaktivnosti, sesija prestaje i korisnik se opet mora ulogirati u sustav.");
+                        $("#global-help").attr("style", "top: 1480px");
+                        break;
+                    }
+                    default: {
+                        hideHelp();
+                    }
+                }
+            });
+
+
+
+
+
+
+
+            var logMaxNumberOfPages = 0;
+            var logCurrentPage = 1;
+            var filter = { all: 1 };
+
+            getLogData(); // Dohvati dnevnik odmah po učitavanju.
+
+            function getLogData() {
+                AJAXCall("retrieve-logs.php", { ...filter, max_page: 1 }, newNumberOfPages);
+            }
+
+            function newNumberOfPages(numberOfPages) {
+                if (numberOfPages == -1) {
+                    $("#global-error-text").html("Dogodio se problem pri dohvatu broja stranica dnevnika!");
+                    $("#global-error").show();
+                    return;
+                } else if (numberOfPages != undefined) {
+                    logMaxNumberOfPages = numberOfPages + 1;
+                }
+                if (logCurrentPage < 1) logCurrentPage = 1;
+                AJAXCall("retrieve-logs.php", { ...filter, page: (logCurrentPage - 1) }, logDataReceived);
+            }
+
+            function logDataReceived(logData) {
+                if (logData == -1) {
+                    $("#global-error-text").html("Dogodio se problem pri dohvatu sadržaja dnevnika!");
+                    $("#global-error").show();
+                    return;
+                }
+                if (logCurrentPage > logMaxNumberOfPages) {
+                    logCurrentPage = logMaxNumberOfPages;
+                }
+                $("#progress-log").attr("value", logCurrentPage + 1);
+                $("#progress-log").attr("max", logMaxNumberOfPages + 1);
+                $(".paging-info").html(`${logCurrentPage}/${logMaxNumberOfPages}`);
+
+                let tableInnerHTML = "";
+
+                if (filter?.frequency === undefined) {
+                    if (logData.length > 0) {
+                        logData.forEach((value) => {
+                            tableInnerHTML +=
+                                `
+                            <tr class="table__row">
+                                <td class="table__row-data">${value.id_dnevnik}</td>
+                                <td class="table__row-data">${value.datum_vrijeme}</td>
+                                <td class="table__row-data" title="${value.upit}">${value.url}</td>
+                                <td class="table__row-data">${value.korisnicko_ime}</td>
+                                <td class="table__row-data" title="${value.opis_radnje}">${value.naziv_radnje}</td>
+                            </tr>
+                        `
+                        });
+                        $("#log-freq").hide();
+                        $("#log-entire").show();
+                        $("#body-log").html(tableInnerHTML);
+                    } else {
+                        $("#body-log").html("");
+                    }
+                } else {
+                    if (logData.length > 0) {
+                        logData.forEach((value) => {
+                            tableInnerHTML +=
+                                `
+                            <tr class="table__row">
+                                <td class="table__row-data">${value.korisnicko_ime}</td>
+                                <td class="table__row-data">${value.naziv}</td>
+                                <td class="table__row-data">${value.akcije}</td>
+                            </tr>
+                        `
+                        });
+                        $("#log-entire").hide();
+                        $("#log-freq").show();
+                        $("#body-log-freq").html(tableInnerHTML);
+                    } else {
+                        $("#body-log-freq").html("");
+                    }
+                }
+
+
+            }
+
+            /* --- UPRAVLJANJE STRANIČENJEM DNEVNIKA --- */
+
+            $("#first-log").on("click", () => {
+                logCurrentPage = 1;
+                newNumberOfPages();
+            });
+
+            $("#back-log").on("click", () => {
+                if (logCurrentPage <= 1) {
+                    alert("Na prvoj ste stranici!");
+                    logCurrentPage = 1;
+                } else {
+                    logCurrentPage--;
+                    newNumberOfPages();
+                }
+            });
+
+            $("#next-log").on("click", () => {
+                if (logCurrentPage >= logMaxNumberOfPages) {
+                    alert("Na zadnjoj ste stranici!");
+                    logCurrentPage = logMaxNumberOfPages;
+                } else {
+                    logCurrentPage++;
+                    newNumberOfPages();
+                }
+            });
+
+            $("#last-log").on("click", () => {
+                logCurrentPage = logMaxNumberOfPages;
+                newNumberOfPages();
+            });
+
+            /* ~~~ UPRAVLJANJE STRANIČENJEM DNEVNIKA ~~~ */
+
+            $("#button-filter-user").on("click", () => {
+                selectedUsername = $("#input-log").val();
+                if (selectedUsername == "") {
+                    alert("Unesite korisnika za filtriranje!");
+                } else {
+                    filter = { username: selectedUsername };
+                    getLogData();
+                }
+            });
+
+            $("#button-filter-freq").on("click", () => {
+                filter = { frequency: 1 };
+                getLogData();
+            });
+
+            $("#button-filter-reset").on("click", () => {
+                filter = { all: 1 };
+                getLogData();
+            });
+
+
+
+
+            AJAXCall("config.php", { get_categories: "1" }, fillCategories);
+
+            function fillCategories(value) {
+                damageCategories = value;
+                AJAXCall("config.php", { get_moderators: "1" }, fillTableModerators);
+            }
+
+            var damageCategories = "";
+
             function changeModerator(value) {
                 if (value == true) {
                     AJAXCall("config.php", { get_categories: "1" }, fillCategories);
@@ -168,7 +386,8 @@ $(() => {
                     $("#global-info").show();
                     $("#moderator-input").val("");
                 } else {
-                    $("#global-error").html("Dogodio se problem pri promjeni moderatora!");
+                    $("#global-error-text").html("Dogodio se problem pri promjeni moderatora!");
+                    $("#global-error").show();
                 }
             }
 
@@ -232,71 +451,56 @@ $(() => {
             $("#moderator-button").on("click", () => {
                 usernameValue = $("#moderator-input").val();
                 if (usernameValue == "") {
-                    alert("Unesite korisničko ime novog administratora!");
+                    alert("Unesite korisničko ime novog moderatora!");
                 } else {
                     AJAXCall("config.php", { username: usernameValue, action: 1 }, changeModerator);
                 }
             });
 
-            function blockedUser(value) {
-                if (value == true) {
-                    AJAXCall("block-user.php", { get_blocked: "1" }, fillTableBlocked);
-                    $("#global-info-text").html(zadnjaRadnjaBlokiranja ? `Korisnik blokiran!` : `Korisnik odblokiran!`);
-                    $("#global-info").show();
-                    $("#block-input").val("");
-                } else {
-                    $("#global-error").html("Dogodio se problem pri blokiranju korisnika!");
-                }
+
+
+            function backupCreated(value) {
+                $("#global-info-text").html(`Sigurnosna kopija stvorena (${value / 1024} KB)!`);
+                $("#global-info").show();
             }
 
-            function preformBlock(isTaken) {
-                var usernameValue = $("#block-input").val();
-                if (!isTaken) {
-                    $("#global-error-text").html(`Korisnik s korisničkim imenom ${usernameValue} ne postoji!`);
+            function backupRestored(value) {
+                if (value == -1) {
+                    $("#global-error-text").html("Kopija ne postoji!");
                     $("#global-error").show();
-                } else {
-                    if (usernameValue == "") {
-                        alert("Niste unijeli korisničko ime!");
-                    } else {
-                        zadnjaRadnjaBlokiranja = 1;
-                        AJAXCall("block-user.php", { username: usernameValue, action: 1 }, blockedUser);
-                    }
+                    return;
+                } else if (value === false) {
+                    $("#global-error-text").html("Dogodio se problem pri vraćanju kopije!");
+                    $("#global-error").show();
+                    return;
                 }
+                $("#global-info-text").html(`Baza obnovljena s ${value} SQL naredbi!`);
+                $("#global-info").show();
             }
 
-            $("#block-button").on("click", () => {
-                var usernameValue = $("#block-input").val();
-                AJAXCall("check-username.php", { checkUsername: usernameValue }, preformBlock);
+
+            $("#copy_create").on("click", () => {
+                AJAXCall("config.php", { backupCreate: 1 }, backupCreated);
             });
 
-            AJAXCall("config.php", { get_current_config: "1" }, displayCurrentConfig);
-
-            function displayCurrentConfig(value) {
-                $("#maxFailedLogins").val(value.maxFailedLogins);
-                $("#maxHoursToAccept").val(value.maxHoursToAccept);
-                $("#maxItemsPerPage").val(value.maxItemsPerPage);
-                $("#cookieDurationDays").val(value.cookieDurationDays);
-                $("#maxSessionLengthMinutes").val(value.maxSessionLengthMinutes);
-                $("#virtualTimeOffsetSeconds").val(value.virtualTimeOffsetSeconds);
-                $("#captchaSecretKey").val(value.captchaSecretKey);
-            }
-
-            function appliedNewConfig(value) {
-                AJAXCall("config.php", { get_current_config: "1" }, displayCurrentConfig);
-            }
-
-            $("#config-button").on("click", () => {
-                newConfigJSON = JSON.stringify({
-                    maxFailedLogins: $("#maxFailedLogins").val(),
-                    maxHoursToAccept: $("#maxHoursToAccept").val(),
-                    maxItemsPerPage: $("#maxItemsPerPage").val(),
-                    cookieDurationDays: $("#cookieDurationDays").val(),
-                    maxSessionLengthMinutes: $("#maxSessionLengthMinutes").val(),
-                    virtualTimeOffsetSeconds: $("#virtualTimeOffsetSeconds").val(),
-                    captchaSecretKey: $("#captchaSecretKey").val()
-                });
-                AJAXCall("config.php", { newConfig: newConfigJSON }, appliedNewConfig);
+            $("#copy_retrieve").on("click", () => {
+                AJAXCall("config.php", { backupRestore: 1 }, backupRestored);
             });
+
+
+
+            
+
+            var c = document.getElementById("statisticsCanvas");
+            var ctx = c.getContext("2d");
+            // Create gradient
+            var grd = ctx.createLinearGradient(0,0,200,0);
+            grd.addColorStop(0,"#333333");
+            grd.addColorStop(1,"orange");
+            // Fill with gradient
+            ctx.fillStyle = grd;
+            ctx.fillRect(10,10,200,80);
+
 
         }
 

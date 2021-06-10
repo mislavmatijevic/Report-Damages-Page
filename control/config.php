@@ -20,6 +20,8 @@ if (isset($_POST['get_current_config'])) {
     die(json_encode($config));
 }
 
+$dbObj = new DB;
+
 if (isset($_POST['newConfig'])) {
     $newConfig = json_decode($_POST['newConfig']);
 
@@ -81,7 +83,6 @@ if (isset($_POST['newConfig'])) {
             'virtualTime' => date("d.m.Y H:i:s", time() + $config["virtualTimeOffsetSeconds"]),
         ];
 
-        $dbObj = new DB;
         $logObj = new Log($dbObj);
         $logObj->New("", $changesMessage, Log::promjena_konfiguracije);
 
@@ -93,7 +94,6 @@ if (isset($_POST['newConfig'])) {
 
 if (isset($_POST['get_moderators'])) {
     try {
-        $dbObj = new DB;
         $allModerators = $dbObj->GetModerators();
         die(json_encode($allModerators));
     } catch (Exception $e) {
@@ -103,7 +103,6 @@ if (isset($_POST['get_moderators'])) {
 
 if (isset($_POST['get_categories'])) {
     try {
-        $dbObj = new DB;
         die(json_encode($dbObj->SelectPrepared("SELECT id_kategorija_stete, naziv FROM kategorija_stete")));
     } catch (Exception $e) {
         die(json_encode(false));
@@ -116,7 +115,6 @@ if (isset($_POST["username"]) && isset($_POST["action"])) {
     settype($action, "integer");
 
     try {
-        $dbObj = new DB;
         $newLvl = ($action == 0 ? 3 : 2);
         $dbObj->ExecutePrepared("UPDATE `WebDiP2020x057`.`korisnik` SET `id_uloga` = ? WHERE `korisnicko_ime` = ?", "is", [$newLvl, $username]);
         die(json_encode(true));
@@ -129,7 +127,6 @@ if (isset($_POST["id_moderator"]) && isset($_POST["new_categories"])) {
     $id_moderator = Prevent::Injection("POST", "id_moderator");
 
     try {
-        $dbObj = new DB;
         $dbObj->ExecutePrepared("DELETE FROM `WebDiP2020x057`.`moderator_kategorije` WHERE (`id_moderator` = ?)", "i", [$id_moderator]);
         foreach ($_POST["new_categories"] as $key => $value) {
             $dbObj->ExecutePrepared("INSERT INTO `WebDiP2020x057`.`moderator_kategorije` (`id_moderator`, `id_kategorija_stete`) VALUES (?, ?)", "ii", [$id_moderator, $value]);
@@ -137,5 +134,41 @@ if (isset($_POST["id_moderator"]) && isset($_POST["new_categories"])) {
         die(json_encode(true));
     } catch (Exception $e) {
         die(json_encode(false));
+    }
+}
+
+$fullBackupFileLocation = "../baza/WebDiP2020x57.sql";
+
+// Vraća veličinu datoteke.
+if (isset($_POST["backupCreate"])) {
+    shell_exec("mysqldump -u" . korisnik . " -p" . lozinka . " " . baza . " --opt > " . $fullBackupFileLocation);
+    die(json_encode(filesize($fullBackupFileLocation)));
+}
+
+// Vraća broj dodanih naredbi.
+if (isset($_POST["backupRestore"])) {
+    $counter = 0;
+
+    try {
+        $backupFile = fopen($fullBackupFileLocation, "r");
+        if ($backupFile == false) {
+            throw new Exception("Error", -1);
+        }
+
+        $entireBackupFile = fread($backupFile, filesize($punaLokacija));
+
+        $orderList = explode(';', $entireBackupFile);
+
+        while (($line = fgets($backupFile)) !== false) {
+            if ($line[0] !== "-") {
+                $counter++;
+            }
+        }
+        fclose($backupFile);
+
+        shell_exec("mysql -u" . korisnik . " -p" . lozinka . " " . baza . " < " . $fullBackupFileLocation);
+        die(json_encode($counter));
+    } catch (Exception $e) {
+        die(json_encode($e->getCode()));
     }
 }
