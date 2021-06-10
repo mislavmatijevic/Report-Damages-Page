@@ -232,7 +232,7 @@ CREATE TABLE `moderator_kategorije` (
 
 LOCK TABLES `moderator_kategorije` WRITE;
 /*!40000 ALTER TABLE `moderator_kategorije` DISABLE KEYS */;
-INSERT INTO `moderator_kategorije` VALUES (1,1),(1,6),(2,4),(3,2),(3,4),(3,5),(4,1),(4,2),(4,3),(4,4),(4,5),(4,6);
+INSERT INTO `moderator_kategorije` VALUES (1,1),(1,6),(2,4),(3,2),(3,4),(3,5),(4,2);
 /*!40000 ALTER TABLE `moderator_kategorije` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -414,4 +414,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-06-10 21:33:20
+-- Dump completed on 2021-06-10 23:52:50

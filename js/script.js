@@ -459,6 +459,10 @@ $(() => {
 
 
 
+
+
+
+
             function backupCreated(value) {
                 $("#global-info-text").html(`Sigurnosna kopija stvorena (${value / 1024} KB)!`);
                 $("#global-info").show();
@@ -476,6 +480,11 @@ $(() => {
                 }
                 $("#global-info-text").html(`Baza obnovljena s ${value} SQL naredbi!`);
                 $("#global-info").show();
+
+                // Novo učitavnje svega.
+                AJAXCall("config.php", { get_categories: "1" }, fillCategories);
+                AJAXCall("block-user.php", { get_blocked: "1" }, fillTableBlocked);
+                AJAXCall("retrieve-logs.php", { all: 1, max_page: 1 }, getLogData);
             }
 
 
@@ -489,18 +498,67 @@ $(() => {
 
 
 
-            
 
-            var c = document.getElementById("statisticsCanvas");
-            var ctx = c.getContext("2d");
-            // Create gradient
-            var grd = ctx.createLinearGradient(0,0,200,0);
-            grd.addColorStop(0,"#333333");
-            grd.addColorStop(1,"orange");
-            // Fill with gradient
-            ctx.fillStyle = grd;
-            ctx.fillRect(10,10,200,80);
 
+
+
+            AJAXCall("config.php", { stats: 1 }, displayStats);
+            var urlsByUsage = null;
+
+            function displayStats(urlsByUsageArg) {
+                urlsByUsage = urlsByUsageArg;
+                let oneCountGraphValue = 280 / urlsByUsage[0].count; // Koliko jedan count point vrijedi u pikselima grafa.
+
+                for (let index = 0; index < 6 && index < urlsByUsage.length; index++) {
+                    const urlByUsage = urlsByUsage[index];
+                    $(`#statistics-text__${index + 1}`).html(`${urlByUsage.url} (${urlByUsage.count} korisnika)`);
+                    var c = document.getElementById(`statistics-canvas__${index + 1}`);
+                    var ctx = c.getContext("2d");
+                    var grd = ctx.createLinearGradient(0, 0, 200, 0);
+                    grd.addColorStop(0, "#333333");
+                    grd.addColorStop(1, "orange");
+                    ctx.fillStyle = grd;
+                    ctx.fillRect(10, 10, oneCountGraphValue * urlByUsage.count, 55);
+                }
+            }
+
+            $("#button-stats__print").on("click", () => {
+                if (urlsByUsage) {
+                    var win1 = window.open('', '', 'left=0,top=0,width=384,height=900,toolbar=0,scrollbars=0,status=0');
+                    win1.document.write(`<p style="margin-top: 32px">${$("#statistics-text__1").html()}</p>`)
+                    win1.document.write("<br><img src = '" + document.getElementById(`statistics-canvas__1`).toDataURL() + "'/>");
+                    win1.document.write(`<p style="margin-top: 32px">${$("#statistics-text__2").html()}</p>`)
+                    win1.document.write("<br><img src = '" + document.getElementById(`statistics-canvas__2`).toDataURL() + "'/>");
+                    win1.document.write(`<p style="margin-top: 32px">${$("#statistics-text__3").html()}</p>`)
+                    win1.document.write("<br><img src = '" + document.getElementById(`statistics-canvas__3`).toDataURL() + "'/>");
+                    win1.document.write(`<p style="margin-top: 32px">${$("#statistics-text__4").html()}</p>`)
+                    win1.document.write("<br><img src = '" + document.getElementById(`statistics-canvas__4`).toDataURL() + "'/>");
+                    win1.document.write(`<p style="margin-top: 32px">${$("#statistics-text__5").html()}</p>`)
+                    win1.document.write("<br><img src = '" + document.getElementById(`statistics-canvas__5`).toDataURL() + "'/>");
+                    win1.document.write(`<p style="margin-top: 32px">${$("#statistics-text__6").html()}</p>`)
+                    win1.document.write("<br><img src = '" + document.getElementById(`statistics-canvas__6`).toDataURL() + "'/>");
+                    win1.print();
+                    win1.location.reload();
+                }
+            });
+
+            $("#button-stats__pdf").on("click", () => {
+                if (urlsByUsage) {
+                    var doc = new jsPDF();
+                    doc.setDrawColor(235, 186, 52);
+                    doc.setFontSize(22);
+
+                    let oneCountGraphValue = 280 / urlsByUsage[0].count; // Koliko jedan count point vrijedi u pikselima grafa.
+
+                    for (let index = 0; index < 6 && index < urlsByUsage.length; index++) {
+                        const urlByUsage = urlsByUsage[index];
+                        doc.text(20, (index+1)*25, `${urlByUsage.url} (${urlByUsage.count} korisnika)`);
+                        doc.roundedRect(20, (index+1)*26, (oneCountGraphValue * urlByUsage.count * 0.5), 10, 3, 3, 'FD');
+                    }
+
+                    doc.save('Test.pdf');
+                }
+            });
 
         }
 

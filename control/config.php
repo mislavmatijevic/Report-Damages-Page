@@ -172,3 +172,11 @@ if (isset($_POST["backupRestore"])) {
         die(json_encode($e->getCode()));
     }
 }
+
+if (isset($_POST["stats"])) {
+    try {
+        die(json_encode($dbObj->SelectPrepared("SELECT url, COUNT(id_radnja) as count FROM dnevnik GROUP BY url ORDER BY COUNT(id_radnja) DESC")));
+    } catch (\Throwable $th) {
+        die(json_encode(false));
+    } 
+}

@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.39, created on 2021-06-10 20:34:40
+/* Smarty version 3.1.39, created on 2021-06-11 00:33:04
   from '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/administrator.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.39',
-  'unifunc' => 'content_60c25b404061b7_51989873',
+  'unifunc' => 'content_60c29320eca6c9_76210970',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '65f568e62aa2002d6ff971dc00c148edb9526300' => 
     array (
       0 => '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/administrator.tpl',
-      1 => 1623349256,
+      1 => 1623364384,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_60c25b404061b7_51989873 (Smarty_Internal_Template $_smarty_tpl) {
+function content_60c29320eca6c9_76210970 (Smarty_Internal_Template $_smarty_tpl) {
 ?><section class="section">
     <h1 class="section__title">Administriranje stranice</h1>
     <nav id="admin_control_panel">
@@ -190,5 +190,37 @@ function content_60c25b404061b7_51989873 (Smarty_Internal_Template $_smarty_tpl)
 
 <section id="statistika_sustava" class="section__admin-controls">
     <h2 class="section__admin-controls__title">Statistika sustava</h2>
+    <div style="height: 25px;"></div>
+    <p id="statistics-text__1" class="statistics-text"></p>
+    <canvas id="statistics-canvas__1" class="statistics-canvas" width="300px" height="75px"
+        style="border:1px solid #d3d3d3;">
+        Vaš preglednik ne podržava HTML canvas.</canvas>
+    <div style="height: 25px;"></div>
+    <p id="statistics-text__2" class="statistics-text"></p>
+    <canvas id="statistics-canvas__2" class="statistics-canvas" width="300px" height="75px"
+        style="border:1px solid #d3d3d3;">
+        Vaš preglednik ne podržava HTML canvas.</canvas>
+    <div style="height: 25px;"></div>
+    <p id="statistics-text__3" class="statistics-text"></p>
+    <canvas id="statistics-canvas__3" class="statistics-canvas" width="300px" height="75px"
+        style="border:1px solid #d3d3d3;">
+        Vaš preglednik ne podržava HTML canvas.</canvas>
+    <div style="height: 25px;"></div>
+    <p id="statistics-text__4" class="statistics-text"></p>
+    <canvas id="statistics-canvas__4" class="statistics-canvas" width="300px" height="75px"
+        style="border:1px solid #d3d3d3;">
+        Vaš preglednik ne podržava HTML canvas.</canvas>
+    <div style="height: 25px;"></div>
+    <p id="statistics-text__5" class="statistics-text"></p>
+    <canvas id="statistics-canvas__5" class="statistics-canvas" width="300px" height="75px"
+        style="border:1px solid #d3d3d3;">
+        Vaš preglednik ne podržava HTML canvas.</canvas>
+    <div style="height: 25px;"></div>
+    <p id="statistics-text__6" class="statistics-text"></p>
+    <canvas id="statistics-canvas__6" class="statistics-canvas" width="300px" height="75px"
+        style="border:1px solid #d3d3d3;">
+        Vaš preglednik ne podržava HTML canvas.</canvas>
+    <button id="button-stats__print" class="button">Isprintaj</button>
+    <button id="button-stats__pdf" class="button">PDF</button>
 </section><?php }
 }

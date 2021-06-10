@@ -165,6 +165,36 @@
 
 <section id="statistika_sustava" class="section__admin-controls">
     <h2 class="section__admin-controls__title">Statistika sustava</h2>
-    <canvas id="statisticsCanvas" width="300px" height="100px" style="border:1px solid #d3d3d3;">
-Vaš preglednik ne podržava HTML canvas.</canvas>
+    <div style="height: 25px;"></div>
+    <p id="statistics-text__1" class="statistics-text"></p>
+    <canvas id="statistics-canvas__1" class="statistics-canvas" width="300px" height="75px"
+        style="border:1px solid #d3d3d3;">
+        Vaš preglednik ne podržava HTML canvas.</canvas>
+    <div style="height: 25px;"></div>
+    <p id="statistics-text__2" class="statistics-text"></p>
+    <canvas id="statistics-canvas__2" class="statistics-canvas" width="300px" height="75px"
+        style="border:1px solid #d3d3d3;">
+        Vaš preglednik ne podržava HTML canvas.</canvas>
+    <div style="height: 25px;"></div>
+    <p id="statistics-text__3" class="statistics-text"></p>
+    <canvas id="statistics-canvas__3" class="statistics-canvas" width="300px" height="75px"
+        style="border:1px solid #d3d3d3;">
+        Vaš preglednik ne podržava HTML canvas.</canvas>
+    <div style="height: 25px;"></div>
+    <p id="statistics-text__4" class="statistics-text"></p>
+    <canvas id="statistics-canvas__4" class="statistics-canvas" width="300px" height="75px"
+        style="border:1px solid #d3d3d3;">
+        Vaš preglednik ne podržava HTML canvas.</canvas>
+    <div style="height: 25px;"></div>
+    <p id="statistics-text__5" class="statistics-text"></p>
+    <canvas id="statistics-canvas__5" class="statistics-canvas" width="300px" height="75px"
+        style="border:1px solid #d3d3d3;">
+        Vaš preglednik ne podržava HTML canvas.</canvas>
+    <div style="height: 25px;"></div>
+    <p id="statistics-text__6" class="statistics-text"></p>
+    <canvas id="statistics-canvas__6" class="statistics-canvas" width="300px" height="75px"
+        style="border:1px solid #d3d3d3;">
+        Vaš preglednik ne podržava HTML canvas.</canvas>
+    <button id="button-stats__print" class="button">Isprintaj</button>
+    <button id="button-stats__pdf" class="button">PDF</button>
 </section>
