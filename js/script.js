@@ -21,6 +21,18 @@ $(() => {
         $("#global-help").hide();
     }
 
+    if ($("#global-error-text").html().trim().length > 1) {
+        $("#global-error").show();
+    }
+    if ($("#global-info-text").html().trim().length > 1) {
+        $("#global-info").show();
+    }
+
+    $(".close-button").on("click", (e) => {
+        $(e.target).parent('div').hide();
+        $("#overlay").hide();
+    });
+
     // 
     /* Svaki objekt polja `formItemList` ima iduću strukturu:
     ["name"] = "Popunite ime!" // NIJE OK
@@ -43,11 +55,6 @@ $(() => {
                 }, 50);
             }
         }
-    });
-
-    $(".close-button").on("click", (e) => {
-        $(e.target).parent('div').hide();
-        $("#overlay").hide();
     });
 
     var ok = false;

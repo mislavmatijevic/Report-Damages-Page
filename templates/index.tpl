@@ -37,23 +37,32 @@
                             src="media/{htmlspecialchars($damage["kategorija_ilustracija"])}">
                     </figure>
                     <p class="damages__damage-description">
+                        <strong>Kategorija: {htmlspecialchars($damage["kategorija_naziv"])}</strong>
+                    </p>
+                    <p class="damages__damage-description">
                         {htmlspecialchars($damage["opis"])}
                     </p>
                 </div>
-                <div class="damages__damage-info">
-                    <p class="damages__damage-dates{if $damage["zatvoren"] == 1}-ended{/if}">
-                        <strong>Otvoren:</strong>
-                        {date("d.m. H:i:s", strtotime(htmlspecialchars($damage["datum_otvaranja"])))}
-                        <br>
-                        <strong>Rok prijava:</strong>
-                        {date("d.m. H:i:s", strtotime(htmlspecialchars($damage["datum_zatvaranja"])))}
-                    </p>
-                </div>
-                {if $damage["zatvoren"] == 0}
-                    <a class="button-damage" href="./donate.php?id={$damage["id_javni_poziv"]}">Detaljnije</a>
+                <div>
+                    <div class="damages__damage-info">
+                        <p class="damages__damage-dates{if $damage["zatvoren"] == 1}-ended{/if}">
+                            <strong>Otvoren:</strong>
+                            {date("d.m.y. H:i:s", strtotime(htmlspecialchars($damage["datum_otvaranja"])))}
+                            <br>
+                            <strong>Rok prijava:</strong>
+                            {date("d.m.y. H:i:s", strtotime(htmlspecialchars($damage["datum_zatvaranja"])))}
+                        </p>
+                    </div>
+                    {if $damage["zatvoren"] == 0}
+                        <a class="button-damage" href="./donate.php?id={$damage["id_javni_poziv"]}">Detaljnije</a>
+                        {if $smarty.session.lvl < 4}
+                            <!-- Registrirani može prijaviti štetu -->
+                            <a class="button-damage" href="./report-damage.php?id={$damage["id_javni_poziv"]}">Prijavi štetu</a>
+                        {/if}
                     {else}
-                    <a class="button-damage" href="./search.php?id={$damage["id_javni_poziv"]}">Pretraži štete</a>
-                {/if}
+                        <a class="button-damage" href="./search.php?id={$damage["id_javni_poziv"]}">Pretraži štete</a>
+                    {/if}
+                </div>
             </div>
         {/foreach}
     </div>

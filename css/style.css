@@ -452,7 +452,7 @@ input:focus {
   border-collapse: collapse;
   -webkit-transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
   border-color: transparent;
   background-color: transparent;
   overflow-x: auto;
@@ -768,9 +768,9 @@ input:focus {
   color: red;
   border-color: darkred;
   max-width: 60%;
+  display: none;
   top: 120px;
   left: 10px;
-  display: none;
 }
 
 #global-error:empty {
@@ -804,10 +804,6 @@ input:focus {
 
 #global-error:hover {
   border: 5px darkred solid;
-}
-
-#global-errorp:first-child:not(:only-child) {
-  display: block;
 }
 
 #global-info {
@@ -869,10 +865,6 @@ input:focus {
 
 #global-info:hover {
   border-color: green;
-}
-
-#global-infop:first-child:not(:only-child) {
-  display: block;
 }
 
 #global-help {
@@ -958,6 +950,15 @@ input:focus {
   cursor: pointer;
   background: orange;
   color: #333333;
+}
+
+textarea {
+  -ms-grid-column: 3;
+  -ms-grid-column-span: 3;
+  grid-column: 3 / span 3;
+  max-width: 600px;
+  font-family: Consolas, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
+  font-size: large;
 }
 
 /* Pages */
@@ -1130,7 +1131,7 @@ input:focus {
     -ms-grid-columns: (1fr)[3];
         grid-template-columns: repeat(3, 1fr);
     padding: 80px 0;
-    max-width: 940px;
+    max-width: 85%;
     margin: 0 auto;
   }
 }

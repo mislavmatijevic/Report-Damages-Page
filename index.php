@@ -6,6 +6,11 @@ require_once './control/_page.php';
 $isLoggedIn = false;
 $loginUser = null;
 
+if (isset($_SESSION["infoGlobal"])) {
+    $smarty->assign("infoGlobal", $_SESSION["infoGlobal"]);
+    unset($_SESSION["infoGlobal"]);
+}
+
 if (isset($_COOKIE["user"])) {
     $loginUser["username"] = $_COOKIE["user"];
     $smarty->assign("setRemember", true);
@@ -42,16 +47,16 @@ try {
     $acceptanceStats = $dbObj->SelectPrepared("SELECT k.naziv, COUNT(*) as count, s.naziv as status FROM steta INNER JOIN kategorija_stete k ON k.id_kategorija_stete = steta.id_kategorija_stete INNER JOIN status_stete s ON steta.id_status_stete = s.id_status_stete GROUP BY k.naziv, s.id_status_stete;");
     $smarty->assign("acceptanceStats", $acceptanceStats);
 } catch (Exception $e) {
-    $smarty->assign("messageGlobal", $e->getMessage());
+    $smarty->assign("errorGlobal", $e->getMessage());
 }
 
-$paging = new PagingControl("javni_poziv as jp", "jp.id_javni_poziv, jp.naziv, jp.opis, jp.datum_otvaranja, jp.datum_zatvaranja, jp.zatvoren, k.ilustracija as kategorija_ilustracija", "INNER JOIN kategorija_stete k ON jp.id_kategorija_stete = k.id_kategorija_stete");
+$paging = new PagingControl("javni_poziv as jp", "jp.id_javni_poziv, jp.naziv, jp.opis, jp.datum_otvaranja, jp.datum_zatvaranja, jp.zatvoren, k.ilustracija as kategorija_ilustracija, k.naziv as kategorija_naziv", "INNER JOIN kategorija_stete k ON jp.id_kategorija_stete = k.id_kategorija_stete ORDER BY jp.datum_zatvaranja ASC");
 
 try {
     $javniPozivi = $paging->getData();
     $smarty->assign("javniPozivi", $javniPozivi);
 } catch (Exception $e) {
-    $smarty->assign("messageGlobal", $e->getMessage());
+    $smarty->assign("errorGlobal", $e->getMessage());
 }
 
 $smarty->display("header.tpl");

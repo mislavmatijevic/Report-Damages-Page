@@ -44,8 +44,8 @@ function content_60bcbc78c0d228_61730342 (Smarty_Internal_Template $_smarty_tpl)
     <h2 class="section__title">
         Javni pozivi
     </h2>
-    <?php if ((isset($_smarty_tpl->tpl_vars['messageGlobal']->value))) {?>
-        <p><?php echo $_smarty_tpl->tpl_vars['messageGlobal']->value;?>
+    <?php if ((isset($_smarty_tpl->tpl_vars['errorGlobal']->value))) {?>
+        <p><?php echo $_smarty_tpl->tpl_vars['errorGlobal']->value;?>
 </p>
     <?php }?>
     <div class="section_damages">

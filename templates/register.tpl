@@ -37,7 +37,7 @@
         <div class="section-form__submit-wrapper">
             <div class="g-recaptcha" data-sitekey="6Lf1IQwbAAAAANr0dqL1d4BFHSNrquwodjOfunFW"></div>
             {if isset($message)}<span class={if $messageOK} "info" {else} "error-captcha" {/if}>{$message}</span>{/if}
-            <input id="registerButton" class="form_button" name="register" type="submit" value="Registriraj me!" />
+            <input id="registerButton" class="form_button button" name="register" type="submit" value="Registriraj me!" />
         </div>
     </form>
 </section>

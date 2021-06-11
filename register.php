@@ -89,6 +89,7 @@ if (isset($_POST["register"])) {
     
     if (!empty($mistakeField)) {
         $smarty->assign("messageOK", ERROR_MESSAGE);
+        $smarty->assign("mistakeField", Prevent::XSS($mistakeField));
     } else {
         $isRegistered = false;
 
@@ -100,17 +101,15 @@ if (isset($_POST["register"])) {
         }
 
         if ($isRegistered) {
-            $smarty->assign("message", "{$newUser["name"]}, provjerite mail.");
             $smarty->assign("messageOK", INFO_MESSAGE);
+            $smarty->assign("message", "<strong>{$newUser["name"]}, provjerite mail.</strong>");
+            $smarty->assign("infoGlobal", "Dobrodošli!");
         }
     }
 }
 
 if (isset($newUser)) {
     $smarty->assign("newUser", Prevent::XSS($newUser));
-}
-if (!empty($mistakeField)) {
-    $smarty->assign("mistakeField", Prevent::XSS($mistakeField));
 }
 
 $smarty->display("header.tpl");

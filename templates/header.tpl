@@ -64,8 +64,8 @@
 
             <div id="global-error">
                 <p id="global-error-text">
-                    {if isset($messageGlobal)}
-                        {$messageGlobal}
+                    {if isset($errorGlobal)}
+                        {$errorGlobal}
                     {/if}
                 </p>
                 <div class="close-button">X</div>

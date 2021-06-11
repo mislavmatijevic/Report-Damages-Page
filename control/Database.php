@@ -9,7 +9,7 @@ define("baza", "WebDiP2020x057");
 
 define("DBError", -5);
 define("DBEmpty", -4);
-define("DBActivationError", -3);
+define("DBLogicError", -3);
 define("DBUserError", -2);
 define("DBPassError", -1);
 define("DBSuccess", 1);
@@ -123,7 +123,7 @@ class DB
         $this->mysqli_object->close();
     }
 
-    public function ExecutePrepared(string $preparedQuery, string $argumentsString = "", array $argumentsArray = [])
+    public function ExecutePrepared(string $preparedQuery, string $argumentsString = "", array $argumentsArray = [], bool $returnLastIndex = false)
     {
         if (($prepared = $this->mysqli_object->prepare($preparedQuery)) == false) {
             throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
@@ -136,8 +136,14 @@ class DB
         }
 
         if ($prepared->execute() == false) {
+            var_dump($preparedQuery, $argumentsString, $argumentsArray);
+            exit();
             throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
         };
+
+        if ($returnLastIndex) {
+            return $prepared->insert_id;
+        }
 
         return $prepared->get_result();
     }
@@ -201,7 +207,7 @@ class DB
         }
 
         if ($userObject->datum_aktivacije === null) {
-            throw new Exception("Račun nije aktiviran", DBActivationError);
+            throw new Exception("Račun nije aktiviran", DBLogicError);
         }
 
         $this->logObj->New("UPDATE `WebDiP2020x057`.`korisnik` SET `broj_neuspjesnih_prijava`=NULL WHERE `id_korisnik` = $userObject->id_korisnik", "Prijavio se korisnik $userObject->korisnicko_ime.", Log::prijava, $userObject->id_korisnik);
@@ -349,8 +355,12 @@ class DB
 
     public function MakeDonation(int $idJavniPoziv, float $amount, $user)
     {
-        $currentFunding = $this->SelectPrepared("SELECT skupljeno_sredstava FROM javni_poziv WHERE id_javni_poziv = ?", "i", [$idJavniPoziv]);
-        $newFunding = $currentFunding["skupljeno_sredstava"] + $amount;
+        $currentFunding = $this->SelectPrepared("SELECT skupljeno_sredstava, zatvoren FROM javni_poziv WHERE id_javni_poziv = ?", "i", [$idJavniPoziv]);
+        $isClosed = $currentFunding[0]["zatvoren"];
+        if ($isClosed == 1) {
+            throw new Exception("Ovaj javni poziv je zatvoren!", DBLogicError);
+        }
+        $newFunding = $currentFunding[0]["skupljeno_sredstava"] + $amount;
         $this->ExecutePrepared("UPDATE javni_poziv SET skupljeno_sredstava = ? WHERE id_javni_poziv = ?", "di", [$newFunding, $idJavniPoziv]);
 
         $queryReadable = "UPDATE javni_poziv SET skupljeno_sredstava = $amount WHERE id_javni_poziv = $idJavniPoziv";
@@ -361,6 +371,33 @@ class DB
         } else {
             $this->logObj->New($queryReadable, "Neregistrirani korisnik s IP adresom {$_SERVER['REMOTE_ADDR']} donirao je $amount HRK za javni poziv s oznakom $idJavniPoziv.", Log::donacija);
         }
+    }
+
+
+    /**
+     * Vraća šifru novododane štete.
+     */
+    public function InsertDamage(int $idJavniPoziv, int $idUser, int $idCategory, $newDamageInfo)
+    {
+        $currentPublicCallStatus = $this->SelectPrepared("SELECT zatvoren FROM javni_poziv WHERE id_javni_poziv = ?", "i", [$idJavniPoziv]);
+        $isClosed = $currentPublicCallStatus["zatvoren"];
+        if ($isClosed == 1) {
+            throw new Exception("Ovaj javni poziv je zatvoren!", DBLogicError);
+        }
+
+        $argArray = [$newDamageInfo["name"], $newDamageInfo["description"], $newDamageInfo["tags"], $idCategory, $idUser, $idJavniPoziv];
+
+        $newDamageId = $this->ExecutePrepared("INSERT INTO steta (naziv, opis, oznake, id_kategorija_stete, id_prijavitelj, id_javni_poziv) VALUES (?, ?, ?, ?, ?, ?)", "sssiii", $argArray, true);
+
+
+        foreach ($newDamageInfo["files"] as $key => $thisFile) {            
+            $lastEvidenceIndex = $this->ExecutePrepared("INSERT INTO `WebDiP2020x057`.`dokazni_materijali` (`naziv`, `id_vrsta_materijala`) VALUES (?, ?)", "si", [$thisFile->fileName, $thisFile->fileType], true);
+            $this->ExecutePrepared("INSERT INTO `WebDiP2020x057`.`steta_dokazi` (`id_steta`, `id_materijala`) VALUES (?, ?)", "ii", [$newDamageId, $lastEvidenceIndex]);
+        }
+
+        $this->logObj->New("INSERT INTO `WebDiP2020x057`.`steta` (`naziv`, `opis`, `oznake`, `id_kategorija_stete`, `id_prijavitelj`, `id_javni_poziv`) VALUES ({$newDamageInfo["name"]}, {$newDamageInfo["description"]}, {$newDamageInfo["tags"]}, $idCategory, $idUser, $idJavniPoziv); INSERT INTO `WebDiP2020x057`.`dokazni_materijali` (`naziv`, `id_vrsta_materijala`) VALUES ({$newDamageInfo["files"]->fileName}, {$newDamageInfo["files"]->fileType}); INSERT INTO `WebDiP2020x057`.`steta_dokazi` (`id_steta`, `id_materijala`) VALUES ({$newDamageId}, {$lastEvidenceIndex})", "Prijavljena je nova šteta!", Log::prijava_štete);
+
+        return $newDamageId;
     }
 
     public function GetModerators()

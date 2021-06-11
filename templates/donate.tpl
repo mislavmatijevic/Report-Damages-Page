@@ -1,22 +1,22 @@
 <section class="section">
-    <h1 class="section__title">{$donationInfo["naziv"]}</h1>
+    <h1 class="section__title">{$publicCallInfo["naziv"]}</h1>
 
     <div class="section__damage">
 
         <p>
-            <strong>Moderator: </strong>{$donationInfo["moderator"]}
+            <strong>Moderator: </strong>{$publicCallInfo["moderator"]}
         </p>
 
         <figure class="section__damage-figure">
-            <img src="media/{$donationInfo["kategorija_ilustracija"]}" />
+            <img src="media/{$publicCallInfo["kategorija_ilustracija"]}" />
         </figure>
 
         <p class="section__damage-description">
-            {$donationInfo["opis"]}
+            {$publicCallInfo["opis"]}
         </p>
 
         <p class="section__damage-info">
-            Skupljeno: <strong>{$donationInfo["skupljeno_sredstava"]} HRK</strong>
+            Skupljeno: <strong>{$publicCallInfo["skupljeno_sredstava"]} HRK</strong>
         </p>
 
 </section>
@@ -27,7 +27,7 @@
     </p>
 
     <form class="donate-form" name="donate-form" method="POST" class="section-form" action="{htmlspecialchars($smarty.server.PHP_SELF)}">
-        <input name="donation-identifier" type="hidden" value={$donationInfo["id_javni_poziv"]} />
+        <input name="public-call-identifier" type="hidden" value={$publicCallInfo["id_javni_poziv"]} />
         <label id="label-amount" for="amount">Moja donacija (HRK):</label>
         <input id="amount" name="amount" type="text" placeholder="750.50" />
         <div class="donate-form__submit-wrapper">

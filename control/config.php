@@ -7,6 +7,7 @@ http_response_code(200);
 
 require_once dirname(__DIR__)."/control/Database.php";
 require_once dirname(__DIR__)."/control/OutputControl.php";
+require_once dirname(__DIR__)."/control/UserControl.php";
 
 session_start();
 if ($_SESSION["lvl"] != 1) {
@@ -165,8 +166,20 @@ if (isset($_POST["backupRestore"])) {
             }
         }
         fclose($backupFile);
-
         shell_exec("mysql -u" . korisnik . " -p" . lozinka . " " . baza . " < " . $fullBackupFileLocation);
+
+        // Provjera postoje li sve datoteke.
+        try {
+            $images = scandir(dirname(__DIR__)."/media/evidence/");
+            $allDamages = $dbObj->SelectPrepared("SELECT st.naziv, st.datum_prijave, k.korisnicko_ime, k.email, dm.putanja_disk FROM steta st INNER JOIN korisnik k ON k.id_korisnik = st.id_prijavitelj INNER JOIN steta_dokazi sd ON sd.id_steta = st.id_steta INNER JOIN dokazni_materijali dm WHERE dm.id_materijala = sd.id_materijala");
+            foreach ($allDamages as $key => $damage) {
+                if (!in_array($damage["putanja_disk"], $images)) {
+                    UserControl::SendMailAboutMissingDamageFiles($damage["korisnicko_ime"], $damage["naziv"], $damage["datum_prijave"], $damage["email"], $damage["putanja_disk"]);
+                }
+            }
+        } catch (Exception $e){}
+
+
         die(json_encode($counter));
     } catch (Exception $e) {
         die(json_encode($e->getCode()));

@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.39, created on 2021-06-08 14:55:14
+/* Smarty version 3.1.39, created on 2021-06-11 11:46:26
   from '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/register.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.39',
-  'unifunc' => 'content_60bf68b2524fd6_27181182',
+  'unifunc' => 'content_60c330f2d926c0_95336059',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '2b10d1505d7f7082c71102969a45f950f3d1b297' => 
     array (
       0 => '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/register.tpl',
-      1 => 1623147244,
+      1 => 1623404785,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_60bf68b2524fd6_27181182 (Smarty_Internal_Template $_smarty_tpl) {
+function content_60c330f2d926c0_95336059 (Smarty_Internal_Template $_smarty_tpl) {
 ?><section class="section">
     <h1 class="section__title">Registracija</h1>
     <form id="register" name="register" method="POST" class="section-form" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>
@@ -80,7 +80,7 @@ echo $_smarty_tpl->tpl_vars['mistakeField']->value["email"];
             <div class="g-recaptcha" data-sitekey="6Lf1IQwbAAAAANr0dqL1d4BFHSNrquwodjOfunFW"></div>
             <?php if ((isset($_smarty_tpl->tpl_vars['message']->value))) {?><span class=<?php if ($_smarty_tpl->tpl_vars['messageOK']->value) {?> "info" <?php } else { ?> "error-captcha" <?php }?>><?php echo $_smarty_tpl->tpl_vars['message']->value;?>
 </span><?php }?>
-            <input id="registerButton" class="form_button" name="register" type="submit" value="Registriraj me!" />
+            <input id="registerButton" class="form_button button" name="register" type="submit" value="Registriraj me!" />
         </div>
     </form>
 </section><?php }

@@ -10,7 +10,7 @@ try {
     $userList = $paging->getData();
     $smarty->assign("userList", $userList);
 } catch (Exception $e) {
-    $smarty->assign("messageGlobal", $e->getMessage());
+    $smarty->assign("errorGlobal", $e->getMessage());
 }
 
 $smarty->display("header.tpl");

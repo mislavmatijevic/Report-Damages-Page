@@ -13,7 +13,7 @@
             <label for="remember">Zapamti me</label>
             <input id="remember" name="remember" type="checkbox" {if isset($setRemember)}checked value="1"{/if} />
         </div>
-        <input id="submitButton" type="submit" name="login" value="Prijava" class="section-login_popup-submit" />
+        <input id="submitButton" type="submit" name="login" value="Prijava" class="section-login_popup-submit button" />
     </form>
     <form id="testing_form" name="testing" method="POST" action="{htmlspecialchars($smarty.server.PHP_SELF)}">
         <input name="testing" type="hidden" value="testing" />

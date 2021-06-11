@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.39, created on 2021-06-09 18:38:21
+/* Smarty version 3.1.39, created on 2021-06-11 11:45:06
   from '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/login.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.39',
-  'unifunc' => 'content_60c0ee7d193865_86930571',
+  'unifunc' => 'content_60c330a27ab537_84511889',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '09ca82ccddb8cac37a9488e440776f28617998b3' => 
     array (
       0 => '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/login.tpl',
-      1 => 1623147244,
+      1 => 1623404702,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_60c0ee7d193865_86930571 (Smarty_Internal_Template $_smarty_tpl) {
+function content_60c330a27ab537_84511889 (Smarty_Internal_Template $_smarty_tpl) {
 ?><section class="section">
     <h1 class="section__title">Prijava</h1>
     <form id="login" name="login" method="POST" class="section-login_form" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>
@@ -43,7 +43,7 @@ echo $_smarty_tpl->tpl_vars['message']->value;
             <label for="remember">Zapamti me</label>
             <input id="remember" name="remember" type="checkbox" <?php if ((isset($_smarty_tpl->tpl_vars['setRemember']->value))) {?>checked value="1" <?php }?> />
         </div>
-        <input id="submitButton" type="submit" name="login" value="Prijava" class="section-login_form-submit" />
+        <input id="submitButton" type="submit" name="login" value="Prijava" class="section-login_form-submit button" />
     </form>
 </section><?php }
 }

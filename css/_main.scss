@@ -254,7 +254,6 @@ main {
     font-size: larger;
 }
 
-
 input {
     border-radius: 5px;
     transition: $transitionQuick;
@@ -396,7 +395,7 @@ input {
     border-collapse: collapse;
     transition: $transitionQuick;
 
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
 
     border-color: $transparent;
     background-color: $transparent;
@@ -511,7 +510,7 @@ input {
             &:first-child {
                 border-left: 1px $darkBorder outset;
                 border-top-left-radius: 5px;
-    
+
                 @media screen and ($tablet) {
                     border-top-left-radius: 10px;
                 }
@@ -522,7 +521,7 @@ input {
             &:last-child {
                 border-right: 1px $darkBorder outset;
                 border-top-right-radius: 5px;
-    
+
                 @media screen and ($tablet) {
                     border-top-right-radius: 10px;
                 }
@@ -569,7 +568,6 @@ input {
     max-width: 700px;
     padding: 50px 10px 50px 30px;
 
-
     @media screen and ($tablet) {
         font-size: large;
         padding: 75px 40px;
@@ -587,16 +585,13 @@ input {
     color: $error;
     border-color: $darkError;
     max-width: 60%;
+    display: none;
 
     top: 120px;
     left: 10px;
-
+    
     &:hover {
         border: 5px $darkError solid;
-    }
-    display: none;
-    &p:first-child:not(:only-child) {
-        display: block;
     }
 }
 #global-info {
@@ -609,9 +604,6 @@ input {
 
     &:hover {
         border-color: $success;
-    }
-    &p:first-child:not(:only-child) {
-        display: block;
     }
 }
 
@@ -628,4 +620,12 @@ input {
         width: 100px;
         padding: 0;
     }
+}
+
+textarea {
+    grid-column: 3 / span 3;
+    max-width: 600px;
+    font-family: Consolas, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono,
+        Courier New, monospace;
+    font-size: large;
 }

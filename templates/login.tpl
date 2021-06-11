@@ -14,6 +14,6 @@
             <label for="remember">Zapamti me</label>
             <input id="remember" name="remember" type="checkbox" {if isset($setRemember)}checked value="1" {/if} />
         </div>
-        <input id="submitButton" type="submit" name="login" value="Prijava" class="section-login_form-submit" />
+        <input id="submitButton" type="submit" name="login" value="Prijava" class="section-login_form-submit button" />
     </form>
 </section>

@@ -18,6 +18,7 @@ class UserControl
     private const MAIL_WELCOME = 1;
     private const MAIL_PASSWORD = 2;
     private const MAIL_BLOCK = 3;
+    private const MAIL_FILE_MISSING = 4;
 
     public static function startSession()
     {
@@ -52,7 +53,7 @@ class UserControl
             $fullUser = $dbObj->AuthenticateUser($username, $password);
         } catch (Exception $e) {
             switch ($e->getCode()) {
-                case DBActivationError: {
+                case DBLogicError: {
                     $user = $dbObj->GetUserData($username);
                     throw new Exception("Molimo aktivirajte račun!<br>Dobili ste mail na " . substr($user->email, 0, 3) . "..." . substr($user->email, strpos($user->email, '@'), 10));
                 }
@@ -165,6 +166,16 @@ class UserControl
         $dbObj->PrepareIdentifierForNewPassword($username, $identifier);
 
         return $email;
+    }
+
+    public static function SendMailAboutMissingDamageFiles($username, $damageName, $damageDateReported, $email, $missingFilename)
+    {
+        $message = `
+        <p><strong>
+        Molimo ponovno priložite datoteku $missingFilename za štetu $damageName prijavljenu $damageDateReported.
+        </strong></p>
+        `;
+        self::sendUserMail(self::MAIL_FILE_MISSING, $email, $message, $username);
     }
 
     public static function SetNewPassword($identifier, $newPassword)
@@ -314,6 +325,35 @@ class UserControl
 
                 <br>';
                 break;
+            }
+            case self::MAIL_FILE_MISSING: {
+                $mailTitle = 'Zamolba';
+                $message .=  '
+                <h1 style="color: red;width: 100%;text-align: center;">
+                Zamolba za ponovnim dizanjem datoteka
+                </h1>
+
+                <p style="font-family: sans-serif;font-size: 16px;">
+                Pozdrav, '.$recepientUsername.'.
+                </p>
+                <p style="font-family: sans-serif;font-size: 16px;">
+                Isprike na neugodnosti. Ovaj mail dobivate jer smo imali poteškoća s bazom podataka.
+                </p>
+
+                '.$infoArgument.'
+
+                <p style="font-family: sans-serif;font-size: 16px;">
+                Hvala na razumijevanju.
+                </p>
+
+                <p style="font-family: sans-serif;font-size: 16px;">
+                Srdačan pozdrav,<br>
+                </p>
+                <p style="font-family: sans-serif;font-size: 16px;">
+                Mislav Matijević, tvorac stranice
+                </p>
+
+                <br>';
             }
             default: throw new Exception("Neispravno postavljeno slanje mailova!", USER_CONTROL_MAIL_ERROR);
         }

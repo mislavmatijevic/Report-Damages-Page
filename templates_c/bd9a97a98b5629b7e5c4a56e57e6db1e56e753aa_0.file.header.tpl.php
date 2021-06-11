@@ -108,8 +108,8 @@ administration.php" class="header__nav-item">Administriranje stranice</a>
 
             <div id="global-error">
                 <p id="global-error-text">
-                    <?php if ((isset($_smarty_tpl->tpl_vars['messageGlobal']->value))) {?>
-                        <?php echo $_smarty_tpl->tpl_vars['messageGlobal']->value;?>
+                    <?php if ((isset($_smarty_tpl->tpl_vars['errorGlobal']->value))) {?>
+                        <?php echo $_smarty_tpl->tpl_vars['errorGlobal']->value;?>
 
                     <?php }?>
                 </p>

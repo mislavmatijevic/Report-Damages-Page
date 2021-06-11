@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.39, created on 2021-06-09 13:50:10
+/* Smarty version 3.1.39, created on 2021-06-11 12:43:08
   from '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/donate.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.39',
-  'unifunc' => 'content_60c0aaf2520f70_88754425',
+  'unifunc' => 'content_60c33e3ceed127_46939058',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '10996a46341d339b3984aca881a9b1310b48f460' => 
     array (
       0 => '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/donate.tpl',
-      1 => 1623239409,
+      1 => 1623408164,
       2 => 'file',
     ),
   ),
@@ -20,30 +20,30 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_60c0aaf2520f70_88754425 (Smarty_Internal_Template $_smarty_tpl) {
+function content_60c33e3ceed127_46939058 (Smarty_Internal_Template $_smarty_tpl) {
 ?><section class="section">
-    <h1 class="section__title"><?php echo $_smarty_tpl->tpl_vars['donationInfo']->value["naziv"];?>
+    <h1 class="section__title"><?php echo $_smarty_tpl->tpl_vars['publicCallInfo']->value["naziv"];?>
 </h1>
 
     <div class="section__damage">
 
         <p>
-            <strong>Moderator: </strong><?php echo $_smarty_tpl->tpl_vars['donationInfo']->value["moderator"];?>
+            <strong>Moderator: </strong><?php echo $_smarty_tpl->tpl_vars['publicCallInfo']->value["moderator"];?>
 
         </p>
 
         <figure class="section__damage-figure">
-            <img src="media/<?php echo $_smarty_tpl->tpl_vars['donationInfo']->value["kategorija_ilustracija"];?>
+            <img src="media/<?php echo $_smarty_tpl->tpl_vars['publicCallInfo']->value["kategorija_ilustracija"];?>
 " />
         </figure>
 
         <p class="section__damage-description">
-            <?php echo $_smarty_tpl->tpl_vars['donationInfo']->value["opis"];?>
+            <?php echo $_smarty_tpl->tpl_vars['publicCallInfo']->value["opis"];?>
 
         </p>
 
         <p class="section__damage-info">
-            Skupljeno: <strong><?php echo $_smarty_tpl->tpl_vars['donationInfo']->value["skupljeno_sredstava"];?>
+            Skupljeno: <strong><?php echo $_smarty_tpl->tpl_vars['publicCallInfo']->value["skupljeno_sredstava"];?>
  HRK</strong>
         </p>
 
@@ -56,7 +56,7 @@ function content_60c0aaf2520f70_88754425 (Smarty_Internal_Template $_smarty_tpl)
 
     <form class="donate-form" name="donate-form" method="POST" class="section-form" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>
 ">
-        <input name="donation-identifier" type="hidden" value=<?php echo $_smarty_tpl->tpl_vars['donationInfo']->value["id_javni_poziv"];?>
+        <input name="public-call-identifier" type="hidden" value=<?php echo $_smarty_tpl->tpl_vars['publicCallInfo']->value["id_javni_poziv"];?>
  />
         <label id="label-amount" for="amount">Moja donacija (HRK):</label>
         <input id="amount" name="amount" type="text" placeholder="750.50" />

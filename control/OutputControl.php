@@ -77,10 +77,10 @@ class PagingControl
             settype($this->currentPage, "integer");
             if ($this->currentPage < 0 || !is_numeric($this->currentPage)) {
                 $this->currentPage = 0;
-                $smarty->assign("messageGlobal", "Ovo je prva stranica");
+                $smarty->assign("errorGlobal", "Ovo je prva stranica");
             } elseif ($this->currentPage > $highestPage) {
                 $this->currentPage = $highestPage;
-                $smarty->assign("messageGlobal", "Ovo je zadnja stranica");
+                $smarty->assign("errorGlobal", "Ovo je zadnja stranica");
             }
         }
     }
