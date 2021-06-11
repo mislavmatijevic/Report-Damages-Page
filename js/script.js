@@ -367,6 +367,19 @@ $(() => {
                 getLogData();
             });
 
+            $("#log-entire__button-filter-date").on("click", () => {
+                selectedDate = $("#log-entire__input-date").val();
+                if (selectedDate == "") {
+                    alert("Unesite datum za filtriranje!");
+                } else {
+                    filter = { date: selectedDate };
+                    getLogData();
+                }
+            });
+
+
+
+
 
 
 
@@ -511,7 +524,7 @@ $(() => {
 
                 for (let index = 0; index < 6 && index < urlsByUsage.length; index++) {
                     const urlByUsage = urlsByUsage[index];
-                    $(`#statistics-text__${index + 1}`).html(`${urlByUsage.url} (${urlByUsage.count} korisnika)`);
+                    $(`#statistics-text__${index + 1}`).html(`${urlByUsage.url} (${urlByUsage.count} korištenja)`);
                     var c = document.getElementById(`statistics-canvas__${index + 1}`);
                     var ctx = c.getContext("2d");
                     var grd = ctx.createLinearGradient(0, 0, 200, 0);
@@ -552,7 +565,7 @@ $(() => {
 
                     for (let index = 0; index < 6 && index < urlsByUsage.length; index++) {
                         const urlByUsage = urlsByUsage[index];
-                        doc.text(20, (index+1)*25, `${urlByUsage.url} (${urlByUsage.count} korisnika)`);
+                        doc.text(20, (index+1)*25, `${urlByUsage.url} (${urlByUsage.count} korištenja)`);
                         doc.roundedRect(20, (index+1)*26, (oneCountGraphValue * urlByUsage.count * 0.5), 10, 3, 3, 'FD');
                     }
 

@@ -100,8 +100,10 @@
         <tbody id="body-log-freq">
         </tbody>
     </table>
-    <p>Držati miš nad url-om ili akcijom za pregled detalja.</p>
     <table id="log-entire" class="table">
+        <input id="log-entire__input-date" type="date" class="input-text" placeholder="Filtriraj po datumu..." />
+        <button id="log-entire__button-filter-date" class="button">Filtriraj po datumu</button>
+        <p>Držati miš nad url-om ili akcijom za pregled detalja.</p>
         <caption>Cijeli dnevnik</caption>
         <thead>
             <tr>
