@@ -9,6 +9,62 @@
         align-items: center;
         border-bottom: 1px black solid;
 
+        &__table-controls {
+            table {
+                border: 2px $highlightColor solid;
+                border-collapse: collapse;
+                margin-left: auto;
+                margin-right: auto;
+                transition: $transitionQuick;
+                margin-top: 20px;
+                display: inline-block;
+                overflow: auto;
+                width: 100%;
+            }
+            caption {
+                font-size: $largeFontSize;
+            }
+            th {
+                font-size: $smallFontSize;
+                border: 2px $highlightColor solid;
+                @media screen and ($desktop) {
+                    font-size: $defaultFontSize;
+                }
+            }
+            tr {
+                transition: $transitionQuick;
+                &:hover {
+                    background-color: $lightHighlightColor;
+                }
+            }
+            td {
+                display: table-cell;
+                font-size: $smallFontSize;
+                border: 1px $secondaryColor solid;
+                max-width: 100px;
+                @media screen and ($desktop) {
+                    font-size: $defaultFontSize;
+                }
+                transition: $transitionQuick;
+                &:hover {
+                    background-color: $highlightColor;
+                }
+            }
+            input {
+                text-align: center;
+                max-width: 100%;
+                min-height: 25px;
+                font-size: $smallFontSize;
+                min-width: 75px;
+            }
+            button {
+                width: 100%;
+                &:hover{
+                    color: $primaryColor;
+                }
+            }
+        }
+
         .input-wrapper {
             margin: auto;
             margin-left: 10px;

@@ -126,6 +126,10 @@ class DB
     public function ExecutePrepared(string $preparedQuery, string $argumentsString = "", array $argumentsArray = [], bool $returnLastIndex = false)
     {
         if (($prepared = $this->mysqli_object->prepare($preparedQuery)) == false) {
+            var_dump($preparedQuery);
+            var_dump($argumentsString);
+            var_dump($argumentsArray);
+            die();
             throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
         }
 

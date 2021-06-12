@@ -19,7 +19,7 @@ html {
 
 body {
   font-family: "Montserrat", sans-serif;
-  font-size: 30px;
+  font-size: 20px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -67,7 +67,7 @@ main {
     -webkit-box-pack: center;
         -ms-flex-pack: center;
             justify-content: center;
-    max-width: 90%;
+    max-width: 100%;
   }
 }
 
@@ -150,7 +150,7 @@ main {
   text-decoration: none;
   color: white;
   font-weight: 600px;
-  font-size: 30px;
+  font-size: 20px;
   line-height: 50px;
   margin: 15px 0;
   margin-right: 60px;
@@ -226,26 +226,26 @@ main {
 
 @media screen and (min-width: 700px) {
   .header__nav-message {
-    font-size: 30px;
+    font-size: 20px;
   }
 }
 
 @media screen and (min-width: 1300px) {
   .header__nav-message {
-    font-size: 30px;
+    font-size: 20px;
   }
 }
 
 .input-text {
   margin: 12px 0;
   padding: 10px;
-  font-size: 30px;
+  font-size: 20px;
 }
 
 .input-number {
   margin: 12px 0;
   padding: 10px;
-  font-size: 30px;
+  font-size: 20px;
   max-width: 125px;
 }
 
@@ -259,7 +259,7 @@ main {
   max-width: 300px;
   line-height: 40px;
   text-align: center;
-  font-size: 30px;
+  font-size: 20px;
   border-radius: 6px;
   color: white;
   margin-top: 15px;
@@ -282,7 +282,7 @@ main {
   max-width: 300px;
   line-height: 40px;
   text-align: center;
-  font-size: 30px;
+  font-size: 20px;
   border-radius: 6px;
   color: white;
   margin-top: 15px;
@@ -306,7 +306,7 @@ main {
   max-width: 300px;
   line-height: 40px;
   text-align: center;
-  font-size: 30px;
+  font-size: 20px;
   border-radius: 6px;
   color: white;
   margin-top: 15px;
@@ -316,7 +316,7 @@ main {
   height: 50px;
   width: 50px;
   border-radius: 50%;
-  font-size: 35px;
+  font-size: 30px;
 }
 
 #button-help:hover {
@@ -351,7 +351,7 @@ input:focus {
 
 .section__title {
   text-align: center;
-  font-size: 35px;
+  font-size: 30px;
   margin-bottom: 16px;
   font-weight: 600;
 }
@@ -375,7 +375,7 @@ input:focus {
   position: absolute;
   right: 5px;
   top: 2px;
-  font-size: 30px;
+  font-size: 20px;
   border: 1px lightgrey solid;
   border-radius: 50%;
   padding: 1px 6px;
@@ -428,7 +428,7 @@ input:focus {
   border-bottom-right-radius: 25px;
   color: black;
   border: 2px lightgrey solid;
-  font-size: 30px;
+  font-size: 20px;
 }
 
 .error:empty {
@@ -452,7 +452,7 @@ input:focus {
   border: 2px orange solid;
   margin: 10px;
   padding: 15px;
-  font-size: 30px;
+  font-size: 20px;
 }
 
 .error-captcha:empty {
@@ -472,13 +472,11 @@ input:focus {
   font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
   border-color: black;
   background-color: black;
-  overflow-x: auto;
+  overflow-y: scroll;
+  display: block;
   white-space: nowrap;
   background-color: black;
   border-radius: 10px;
-  max-width: -webkit-max-content;
-  max-width: -moz-max-content;
-  max-width: max-content;
 }
 
 @media screen and (min-width: 700px) {
@@ -494,7 +492,6 @@ input:focus {
     display: table;
     overflow-x: none;
     white-space: nowrap;
-    min-width: 500px;
   }
   .table:hover {
     -webkit-box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
@@ -504,12 +501,12 @@ input:focus {
 
 .table caption {
   margin-bottom: 15px;
-  font-size: 30px;
+  font-size: 20px;
 }
 
 @media screen and (min-width: 700px) {
   .table caption {
-    font-size: 35px;
+    font-size: 30px;
   }
 }
 
@@ -527,7 +524,7 @@ input:focus {
   color: white;
   width: auto;
   height: auto;
-  font-size: 30px;
+  font-size: 20px;
   padding: 5px;
 }
 
@@ -535,7 +532,7 @@ input:focus {
   .table__head {
     min-width: 100px;
     height: 25px;
-    font-size: 30px;
+    font-size: 20px;
     padding: 7px;
   }
 }
@@ -544,7 +541,7 @@ input:focus {
   .table__head {
     min-width: 200px;
     height: 32px;
-    font-size: 30px;
+    font-size: 20px;
     padding: 12px;
   }
 }
@@ -606,14 +603,14 @@ input:focus {
   .table__row-data {
     border-width: 2px;
     padding: 10px;
-    font-size: 30px;
+    font-size: 20px;
   }
 }
 
 @media screen and (min-width: 1300px) {
   .table__row-data {
     padding: 15px;
-    font-size: 30px;
+    font-size: 20px;
   }
 }
 
@@ -674,7 +671,7 @@ input:focus {
   background-color: black;
   border-top-left-radius: 25px;
   border-bottom-right-radius: 25px;
-  font-size: 30px;
+  font-size: 20px;
   color: #fafafa;
   border: 5px black double;
   position: fixed;
@@ -704,7 +701,7 @@ input:focus {
   right: 10px;
   left: 10px;
   bottom: 0px;
-  font-size: 30px;
+  font-size: 20px;
   border: 5px white double;
   opacity: 1;
   margin-left: auto;
@@ -744,7 +741,7 @@ input:focus {
 
 @media screen and (min-width: 700px) {
   #global-request {
-    font-size: 35px;
+    font-size: 30px;
     padding: 75px 40px;
   }
 }
@@ -770,7 +767,7 @@ input:focus {
   background-color: black;
   border-top-left-radius: 25px;
   border-bottom-right-radius: 25px;
-  font-size: 30px;
+  font-size: 20px;
   color: #fafafa;
   border: 5px black double;
   position: fixed;
@@ -833,7 +830,7 @@ input:focus {
   background-color: black;
   border-top-left-radius: 25px;
   border-bottom-right-radius: 25px;
-  font-size: 30px;
+  font-size: 20px;
   color: #fafafa;
   border: 5px black double;
   position: fixed;
@@ -894,7 +891,7 @@ input:focus {
   background-color: black;
   border-top-left-radius: 25px;
   border-bottom-right-radius: 25px;
-  font-size: 30px;
+  font-size: 20px;
   color: #fafafa;
   border: 5px black double;
   position: fixed;
@@ -954,7 +951,7 @@ input:focus {
   max-width: 300px;
   line-height: 40px;
   text-align: center;
-  font-size: 30px;
+  font-size: 20px;
   border-radius: 6px;
   color: white;
   margin-top: 15px;
@@ -975,7 +972,7 @@ textarea {
   grid-column: 3 / span 3;
   max-width: 600px;
   font-family: Consolas, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
-  font-size: 35px;
+  font-size: 30px;
 }
 
 /* Pages */
@@ -1017,10 +1014,10 @@ textarea {
   #testing_form input {
     margin: 8px;
     padding: 12px;
-    font-size: 30px;
+    font-size: 20px;
   }
   #testing_form h1 {
-    font-size: 35px;
+    font-size: 30px;
   }
   #testing_form-header {
     -ms-grid-row: 1;
@@ -1029,7 +1026,7 @@ textarea {
     -ms-grid-column-span: 2;
     grid-area: 1 / 2 / span 2 / span 2;
     margin-bottom: 25px;
-    font-size: 30px;
+    font-size: 20px;
   }
   #testing_form-submit {
     -ms-grid-row: 6;
@@ -1099,7 +1096,7 @@ textarea {
 
 @media screen and (min-width: 700px) {
   .section-hero__heading {
-    font-size: 30px;
+    font-size: 20px;
   }
 }
 
@@ -1187,10 +1184,10 @@ textarea {
   .section-login_popup input {
     margin: 8px;
     padding: 12px;
-    font-size: 30px;
+    font-size: 20px;
   }
   .section-login_popup h1 {
-    font-size: 35px;
+    font-size: 30px;
   }
   .section-login_popup-header {
     -ms-grid-row: 1;
@@ -1199,7 +1196,7 @@ textarea {
     -ms-grid-column-span: 2;
     grid-area: 1 / 2 / span 2 / span 2;
     margin-bottom: 25px;
-    font-size: 30px;
+    font-size: 20px;
   }
   .section-login_popup-submit {
     -ms-grid-row: 6;
@@ -1261,23 +1258,23 @@ textarea {
 }
 
 .damages__damage-title {
-  font-size: 35px;
+  font-size: 30px;
   margin-top: 8px;
   margin-bottom: 16px;
 }
 
 @media screen and (min-width: 1300px) {
   .damages__damage-title {
-    font-size: 30px;
+    font-size: 20px;
   }
 }
 
 .damages__damage-value {
-  font-size: 30px;
+  font-size: 20px;
 }
 
 .damages__damage__description {
-  font-size: 30px;
+  font-size: 20px;
   line-height: 150%;
 }
 
@@ -1289,7 +1286,7 @@ textarea {
 }
 
 .damages__damage-dates {
-  font-size: 30px;
+  font-size: 20px;
   color: black;
   margin: auto;
 }
@@ -1304,13 +1301,13 @@ textarea {
   margin-bottom: 0;
   padding-bottom: 0;
   padding: 10px;
-  font-size: 30px;
+  font-size: 20px;
   text-align: center;
   font-style: italic;
 }
 
 .footer-description {
-  font-size: 30px;
+  font-size: 20px;
   color: #fafafa;
   margin: 0 auto;
 }
@@ -1338,13 +1335,13 @@ textarea {
 .section-login_form input {
   margin: 8px;
   padding: 12px;
-  font-size: 30px;
+  font-size: 20px;
 }
 
 .section-login_form label {
   margin: 8px;
   padding: 8px;
-  font-size: 30px;
+  font-size: 20px;
 }
 
 .section-login_form-submit {
@@ -1400,13 +1397,13 @@ textarea {
 .section-form label {
   margin: 8px;
   padding: 8px;
-  font-size: 30px;
+  font-size: 20px;
 }
 
 .section-form input {
   margin: 8px;
   padding: 12px;
-  font-size: 30px;
+  font-size: 20px;
 }
 
 @media screen and (min-width: 700px) {
@@ -1501,11 +1498,11 @@ textarea {
 .section__damage-description {
   justify-self: flex-start;
   margin: 32px;
-  font-size: 30px;
+  font-size: 20px;
 }
 
 .section__damage-info {
-  font-size: 30px;
+  font-size: 20px;
   margin: 32px;
   border: 1px #aeaeae solid;
   padding: 32px 16px;
@@ -1583,13 +1580,13 @@ textarea {
 .section__donation .donate-form label {
   margin: 8px;
   padding: 8px;
-  font-size: 30px;
+  font-size: 20px;
 }
 
 .section__donation .donate-form input {
   margin: 8px;
   padding: 12px;
-  font-size: 30px;
+  font-size: 20px;
 }
 
 @media screen and (min-width: 700px) {
@@ -1660,7 +1657,7 @@ textarea {
   max-width: 300px;
   line-height: 40px;
   text-align: center;
-  font-size: 30px;
+  font-size: 20px;
   border-radius: 6px;
   color: white;
   margin-top: 15px;
@@ -1714,6 +1711,78 @@ textarea {
   border-bottom: 1px black solid;
 }
 
+.section__admin-controls__table-controls table {
+  border: 2px white solid;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  -webkit-transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  margin-top: 20px;
+  display: inline-block;
+  overflow: auto;
+  width: 100%;
+}
+
+.section__admin-controls__table-controls caption {
+  font-size: 30px;
+}
+
+.section__admin-controls__table-controls th {
+  font-size: 25px;
+  border: 2px white solid;
+}
+
+@media screen and (min-width: 1300px) {
+  .section__admin-controls__table-controls th {
+    font-size: 20px;
+  }
+}
+
+.section__admin-controls__table-controls tr {
+  -webkit-transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.section__admin-controls__table-controls tr:hover {
+  background-color: white;
+}
+
+.section__admin-controls__table-controls td {
+  display: table-cell;
+  font-size: 25px;
+  border: 1px black solid;
+  max-width: 100px;
+  -webkit-transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+@media screen and (min-width: 1300px) {
+  .section__admin-controls__table-controls td {
+    font-size: 20px;
+  }
+}
+
+.section__admin-controls__table-controls td:hover {
+  background-color: white;
+}
+
+.section__admin-controls__table-controls input {
+  text-align: center;
+  max-width: 100%;
+  min-height: 25px;
+  font-size: 25px;
+  min-width: 75px;
+}
+
+.section__admin-controls__table-controls button {
+  width: 100%;
+}
+
+.section__admin-controls__table-controls button:hover {
+  color: white;
+}
+
 .section__admin-controls .input-wrapper {
   margin: auto;
   margin-left: 10px;
@@ -1749,7 +1818,7 @@ textarea {
 }
 
 .section__admin-controls__title {
-  font-size: 35px;
+  font-size: 30px;
   margin: 0px 0 25px 0;
 }
 
@@ -1790,7 +1859,7 @@ textarea {
   max-width: 300px;
   line-height: 40px;
   text-align: center;
-  font-size: 30px;
+  font-size: 20px;
   border-radius: 6px;
   color: white;
   margin-top: 15px;
@@ -1827,7 +1896,7 @@ textarea {
   max-width: 300px;
   line-height: 40px;
   text-align: center;
-  font-size: 30px;
+  font-size: 20px;
   border-radius: 6px;
   color: white;
   margin-top: 15px;
@@ -1864,7 +1933,7 @@ textarea {
   max-width: 300px;
   line-height: 40px;
   text-align: center;
-  font-size: 30px;
+  font-size: 20px;
   border-radius: 6px;
   color: white;
   margin-top: 15px;
@@ -1897,7 +1966,7 @@ textarea {
   height: auto;
   padding-left: 25px;
   line-height: 50px;
-  font-size: 35px;
+  font-size: 30px;
   border-radius: 15px;
 }
 
@@ -1905,7 +1974,7 @@ textarea {
   #admin_control_panel {
     position: fixed;
     line-height: 30px;
-    font-size: 35px;
+    font-size: 30px;
     border: 2px white solid;
     border-radius: 15px;
     top: 100px;
@@ -1993,7 +2062,7 @@ textarea {
     padding: 2px 25px;
     width: auto;
     min-height: 32px;
-    font-size: 30px;
+    font-size: 20px;
   }
 }
 
@@ -2035,7 +2104,7 @@ textarea {
   -ms-grid-column: 3;
   -ms-grid-column-span: 3;
   grid-column: 3 / span 3;
-  font-size: 35px;
+  font-size: 30px;
   min-height: 50px;
   border-radius: 25px;
   text-align: center;
@@ -2081,7 +2150,7 @@ textarea {
 #fund-damages__form input {
   margin-bottom: 5px;
   height: 40px;
-  font-size: 30px;
+  font-size: 20px;
   width: 400px;
   text-align: center;
 }
@@ -2184,7 +2253,7 @@ textarea {
     padding: 2px 25px;
     width: auto;
     min-height: 32px;
-    font-size: 30px;
+    font-size: 20px;
   }
 }
 

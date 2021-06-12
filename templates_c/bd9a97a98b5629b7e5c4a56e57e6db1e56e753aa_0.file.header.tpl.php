@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.39, created on 2021-06-12 04:23:26
+/* Smarty version 3.1.39, created on 2021-06-12 11:43:19
   from '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/header.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.39',
-  'unifunc' => 'content_60c41a9e5006a2_30295525',
+  'unifunc' => 'content_60c481b767ee60_55164902',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'bd9a97a98b5629b7e5c4a56e57e6db1e56e753aa' => 
     array (
       0 => '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/header.tpl',
-      1 => 1623464367,
+      1 => 1623490983,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_60c41a9e5006a2_30295525 (Smarty_Internal_Template $_smarty_tpl) {
+function content_60c481b767ee60_55164902 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!DOCTYPE html>
 <html lang="hr">
 
@@ -101,6 +101,8 @@ moderation.php" class="header__nav-item">Moderiranje kategorija</a>
                         <!-- Neregistrirani -->
                         <a href="<?php echo $_smarty_tpl->tpl_vars['relativePath']->value;?>
 administration.php" class="header__nav-item">Administriranje stranice</a>
+                        <a href="<?php echo $_smarty_tpl->tpl_vars['relativePath']->value;?>
+admin-table-management.php" class="header__nav-item">Upravljanje tablicama</a>
                     <?php }?>
                     <a href="<?php echo $_smarty_tpl->tpl_vars['relativePath']->value;?>
 dokumentacija.html" class="header__nav-item">Dokumentacija</a>

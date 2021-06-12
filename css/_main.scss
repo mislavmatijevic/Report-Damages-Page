@@ -47,7 +47,7 @@ main {
         align-items: center;
         @media screen and ($desktop) {
             justify-content: center;
-            max-width: 90%;
+            max-width: 100%;
         }
     }
 
@@ -411,11 +411,11 @@ input {
     border-color: $transparent;
     background-color: $transparent;
 
-    overflow-x: auto;
+    overflow-y:scroll;
+    display:block;
     white-space: nowrap;
     background-color: $transparent;
     border-radius: 10px;
-    max-width: max-content;
 
     @media screen and ($tablet) {
         margin: 12px auto;
@@ -426,7 +426,6 @@ input {
         display: table;
         overflow-x: none;
         white-space: nowrap;
-        min-width: 500px;
         &:hover {
             box-shadow: $shadowHover;
         }

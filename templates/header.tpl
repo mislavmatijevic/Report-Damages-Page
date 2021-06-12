@@ -57,6 +57,7 @@
                     {if $smarty.session.lvl == 1}
                         <!-- Neregistrirani -->
                         <a href="{$relativePath}administration.php" class="header__nav-item">Administriranje stranice</a>
+                        <a href="{$relativePath}admin-table-management.php" class="header__nav-item">Upravljanje tablicama</a>
                     {/if}
                     <a href="{$relativePath}dokumentacija.html" class="header__nav-item">Dokumentacija</a>
                     <a href="{$relativePath}author.html" class="header__nav-item">O autoru</a>
