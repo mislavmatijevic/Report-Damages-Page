@@ -1,0 +1,30 @@
+.date-time__wrapper {
+    display: flex;
+    width: 100%;
+    @media screen and ($tablet) {
+        min-width: 600px;
+    }
+}
+
+#submit_button {
+    grid-column: 4 / span 6;
+}
+
+.select_pubCall_category {
+    grid-column: 3 / span 3;
+    font-size: large;
+    min-height: 50px;
+    border-radius: 25px;
+    text-align: center;
+}
+
+textarea {
+    padding: 15px;
+    border-radius: 15px;
+    line-height: 1.5em;
+}
+
+.table__row-data__text {
+    white-space: normal;
+    max-width: 100px;
+}

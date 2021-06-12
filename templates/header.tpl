@@ -49,12 +49,16 @@
                         <a href="{$relativePath}login-page.php" class="header__nav-item header__nav-item-login">Prijava</a>
                         <a href="{$relativePath}register.php" class="header__nav-item">Registracija</a>
                     {/if}
+                    {if $smarty.session.lvl <= 2}
+                        <!-- Neregistrirani -->
+                        <a href="{$relativePath}moderation.php" class="header__nav-item">Moderiranje kategorija</a>
+                    {/if}
                     {if $smarty.session.lvl == 1}
                         <!-- Neregistrirani -->
                         <a href="{$relativePath}administration.php" class="header__nav-item">Administriranje stranice</a>
                     {/if}
-                    <a href="#" class="header__nav-item">Dokumentacija</a>
-                    <a href="#" class="header__nav-item">O autoru</a>
+                    <a href="{$relativePath}dokumentacija.html" class="header__nav-item">Dokumentacija</a>
+                    <a href="{$relativePath}author.html" class="header__nav-item">O autoru</a>
                     {if $smarty.session.lvl < 4}
                         <a href="{$relativePath}/control/logout.php" class="header__nav-item header__nav-item-logout">Odjava</a>
                     {/if}

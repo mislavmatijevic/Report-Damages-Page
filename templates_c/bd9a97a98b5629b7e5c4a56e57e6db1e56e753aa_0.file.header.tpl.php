@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.39, created on 2021-06-11 00:35:20
+/* Smarty version 3.1.39, created on 2021-06-11 22:03:54
   from '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/header.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.39',
-  'unifunc' => 'content_60c293a8734c54_72356531',
+  'unifunc' => 'content_60c3c1aaedb319_68778563',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'bd9a97a98b5629b7e5c4a56e57e6db1e56e753aa' => 
     array (
       0 => '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/header.tpl',
-      1 => 1623364476,
+      1 => 1623441834,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_60c293a8734c54_72356531 (Smarty_Internal_Template $_smarty_tpl) {
+function content_60c3c1aaedb319_68778563 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!DOCTYPE html>
 <html lang="hr">
 
@@ -90,13 +90,20 @@ login-page.php" class="header__nav-item header__nav-item-login">Prijava</a>
                         <a href="<?php echo $_smarty_tpl->tpl_vars['relativePath']->value;?>
 register.php" class="header__nav-item">Registracija</a>
                     <?php }?>
+                    <?php if ($_SESSION['lvl'] <= 2) {?>
+                        <!-- Neregistrirani -->
+                        <a href="<?php echo $_smarty_tpl->tpl_vars['relativePath']->value;?>
+moderation.php" class="header__nav-item">Moderiranje kategorija</a>
+                    <?php }?>
                     <?php if ($_SESSION['lvl'] == 1) {?>
                         <!-- Neregistrirani -->
                         <a href="<?php echo $_smarty_tpl->tpl_vars['relativePath']->value;?>
 administration.php" class="header__nav-item">Administriranje stranice</a>
                     <?php }?>
-                    <a href="#" class="header__nav-item">Dokumentacija</a>
-                    <a href="#" class="header__nav-item">O autoru</a>
+                    <a href="<?php echo $_smarty_tpl->tpl_vars['relativePath']->value;?>
+dokumentacija.html" class="header__nav-item">Dokumentacija</a>
+                    <a href="<?php echo $_smarty_tpl->tpl_vars['relativePath']->value;?>
+author.html" class="header__nav-item">O autoru</a>
                     <?php if ($_SESSION['lvl'] < 4) {?>
                         <a href="<?php echo $_smarty_tpl->tpl_vars['relativePath']->value;?>
 /control/logout.php" class="header__nav-item header__nav-item-logout">Odjava</a>

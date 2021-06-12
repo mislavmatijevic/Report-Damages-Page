@@ -52,7 +52,6 @@ main {
 }
 
 .header__inner {
-  max-width: 1280px;
   height: 80px;
   margin: 0 auto;
   display: -webkit-box;
@@ -61,6 +60,15 @@ main {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+}
+
+@media screen and (min-width: 1300px) {
+  .header__inner {
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    max-width: 90%;
+  }
 }
 
 .header__rss {
@@ -327,7 +335,7 @@ input:focus {
 
 .section {
   padding: 120px 10px 0 30px;
-  max-width: 1280px;
+  max-width: 1400px;
   margin: 0 auto;
   border-bottom: 1px #aeaeae solid;
 }
@@ -1993,6 +2001,46 @@ textarea {
   .paging-log-controls button:first-of-type, .paging-log-controls button:last-of-type {
     width: 200px;
   }
+}
+
+.date-time__wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+}
+
+@media screen and (min-width: 700px) {
+  .date-time__wrapper {
+    min-width: 600px;
+  }
+}
+
+#submit_button {
+  -ms-grid-column: 4;
+  -ms-grid-column-span: 6;
+  grid-column: 4 / span 6;
+}
+
+.select_pubCall_category {
+  -ms-grid-column: 3;
+  -ms-grid-column-span: 3;
+  grid-column: 3 / span 3;
+  font-size: large;
+  min-height: 50px;
+  border-radius: 25px;
+  text-align: center;
+}
+
+textarea {
+  padding: 15px;
+  border-radius: 15px;
+  line-height: 1.5em;
+}
+
+.table__row-data__text {
+  white-space: normal;
+  max-width: 100px;
 }
 
 /* Controls */

@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.39, created on 2021-06-11 17:47:30
+/* Smarty version 3.1.39, created on 2021-06-11 22:50:52
   from '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/report-damage.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.39',
-  'unifunc' => 'content_60c38592ea05b8_29586292',
+  'unifunc' => 'content_60c3ccacd54647_83150824',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'aa6b46b5b9aba7da2bfa92daa8ca9a24b2acd6d3' => 
     array (
       0 => '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/report-damage.tpl',
-      1 => 1623426449,
+      1 => 1623444650,
       2 => 'file',
     ),
   ),
@@ -20,20 +20,16 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_60c38592ea05b8_29586292 (Smarty_Internal_Template $_smarty_tpl) {
+function content_60c3ccacd54647_83150824 (Smarty_Internal_Template $_smarty_tpl) {
 ?><section class="section">
     <h1 class="section__title">Prijava na javni poziv "<?php echo $_smarty_tpl->tpl_vars['publicCallInfo']->value["naziv"];?>
 "</h1>
-
-    <div class="section__damage">
-
-        <p>
-            <strong>Moderira </strong><a
-                href="mailto:<?php echo $_smarty_tpl->tpl_vars['publicCallInfo']->value["moderator_email"];?>
+    <p style="text-align: center;">
+        <strong>Moderira </strong><a
+            href="mailto:<?php echo $_smarty_tpl->tpl_vars['publicCallInfo']->value["moderator_email"];?>
 "><?php echo $_smarty_tpl->tpl_vars['publicCallInfo']->value["moderator"];?>
 </a>
-        </p>
-
+    </p>
 </section>
 
 <section class="section" style="padding-top: 64px;">

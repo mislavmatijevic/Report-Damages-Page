@@ -41,11 +41,14 @@ main {
     user-select: none;
 
     &__inner {
-        max-width: 1280px;
         height: 80px;
         margin: 0 auto;
         display: flex;
         align-items: center;
+        @media screen and ($desktop) {
+            justify-content: center;
+            max-width: 90%;
+        }
     }
 
     &__rss {
@@ -268,7 +271,7 @@ input {
 
 .section {
     padding: 120px 10px 0 30px;
-    max-width: 1280px;
+    max-width: 1400px;
     margin: 0 auto;
 
     &__title {
@@ -589,7 +592,7 @@ input {
 
     top: 120px;
     left: 10px;
-    
+
     &:hover {
         border: 5px $darkError solid;
     }

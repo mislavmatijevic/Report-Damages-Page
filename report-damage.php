@@ -1,4 +1,5 @@
 <?php
+$pageAccessLvl = 3;
 $pageTitle = "Prijava štete";
 require_once './control/_page.php';
 
@@ -11,7 +12,7 @@ try {
     $dbObj = new DB();
     $materialTypes = $dbObj->SelectPrepared("SELECT * FROM vrsta_materijala");
     $smarty->assign("materialTypes", $materialTypes);
-} catch (\Throwable $th) {
+} catch (Exception $e) {
     $smarty->assign("errorGlobal", $e->getMessage());
 }
 
@@ -19,10 +20,9 @@ if (isset($_POST["public-call-identifier"]) && isset($_POST["submit"])) {
     $publicCallId = Prevent::Injection("POST", "public-call-identifier");
     settype($publicCallId, "integer");
 
-    //$isValidCaptcha = false;
+    $isValidCaptcha = false;
     try {
-        $isValidCaptcha = true;
-        //$isValidCaptcha = UserControl::CheckCaptcha($_POST['g-recaptcha-response']);
+        $isValidCaptcha = UserControl::CheckCaptcha($_POST['g-recaptcha-response']);
     } catch (Exception $e) {
         $smarty->assign("messageCaptcha", $e->getMessage());
     }

@@ -136,8 +136,6 @@ class DB
         }
 
         if ($prepared->execute() == false) {
-            var_dump($preparedQuery, $argumentsString, $argumentsArray);
-            exit();
             throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
         };
 
@@ -154,7 +152,7 @@ class DB
 
         // Uopće ne postoji takav korisnik (ili je izbrisan, ili je promijenio lozinku).
         if ($userResult->num_rows == 0) {
-            throw new Exception("Neuspio dohvat iz baze!", DBEmpty);
+            throw new Exception("Neuspio dohvat iz baze! (" . __LINE__ . ")", DBEmpty);
         }
 
         return Prevent::XSS($userResult->fetch_all(MYSQLI_ASSOC));

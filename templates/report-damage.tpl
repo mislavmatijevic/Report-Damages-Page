@@ -1,13 +1,9 @@
 <section class="section">
     <h1 class="section__title">Prijava na javni poziv "{$publicCallInfo["naziv"]}"</h1>
-
-    <div class="section__damage">
-
-        <p>
-            <strong>Moderira </strong><a
-                href="mailto:{$publicCallInfo["moderator_email"]}">{$publicCallInfo["moderator"]}</a>
-        </p>
-
+    <p style="text-align: center;">
+        <strong>Moderira </strong><a
+            href="mailto:{$publicCallInfo["moderator_email"]}">{$publicCallInfo["moderator"]}</a>
+    </p>
 </section>
 
 <section class="section" style="padding-top: 64px;">

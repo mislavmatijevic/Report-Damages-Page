@@ -1,0 +1,102 @@
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords">
+    <title>Dokumentacija</title>
+    <link type="text/css" rel="stylesheet" href="./css/style.css">
+    <style>
+        p {
+            line-height: 1.5em;
+        }
+        h4 {
+            margin: 16px;
+        }
+        .section {
+            padding: 64px;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <div class="header__inner">
+            <nav id="hamburger_menu" class="header__nav">
+                <div class="header__nav__hamburger-line"></div>
+                <div class="header__nav__hamburger-line"></div>
+                <div class="header__nav__hamburger-line"></div>
+                <a href="index.php" class="header__nav-item">Početna stranica</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="section" style="display: block;padding-top: 128px">
+            <h1 class="section__title">
+                Dokumentacija projekta
+            </h1>
+            <h2>
+                Opis projektnog zadatka
+            </h2>
+            <p>
+                <h4>Općenito</h4>
+                Ovaj projektni zadatak bavi se problematikom stranice za prijavu šteta. Nužno je kreirati web mjesto koje omogućava otvaranje javnih poziva za prijave nastalih šteta. Registrirani korisnici se prijavljuju sa svojim štetama na te javne pozive u nadi da će dobiti subvenciju za oporavak. Javne pozive stvaraju održavaju moderatori. Moderatori su također zaduženi za kontrolu prijava za štete.
+                <h4>Javni poziv</h4>
+                Svaki javni poziv nudi mogućnost donacije kako registriranim, tako i neregistriranim korisnicima, za vrijeme svojeg trajanja. Kada mu prođe rok, nisu više moguće donacije. Kada moderatori raspodijele sredstva na prijave šteta, javni poziv se zatvara. Svojim zatvaranjem javni poziv omogućuje i neregistriranim korisnicima pregled prijavljenih šteta.
+                <h4>Prijava štete</h4>
+                Prijavljene štete opisuju podaci "naziv", "opis" i "oznake". Naziv je korisnikov naziv svoje štete, u opisu detaljnije opisuje zašto mu je subvencija potrebna, a oznake su riječi odvojene razmakom koje omogućuju neregistriranim korisnicima jednostavnije pretraživanje već gotovih šteta.
+                <h4>Administriranje</h4>
+                Administrator je samo jedan i ima mogućnost upravljanja cijelim sustavom.
+                Njegove najveće ovlasti su upravljanje moderatorima, blokiranim korisnicima i konfiguracijom cijelog sustava.
+                Konfiguracija uključuje broj stavki po ispisu/tablici, trajanje kolačića, trajanje sesije itd.
+            </p>
+        </section>
+        <section class="section" style="display: block;">
+            <h2>
+                Opis projektnog rješenja
+            </h2>
+            <p>
+                <h4>Dizajn</h4>
+                Dizajn rješenja uvelike je potpomognut korištenjem "scss" skriptni jezik. Odabrao sam ovaj jezik jer mi je <strong>uvelike</strong> olakšao rad s medija querijima. Također, "scss" mi je omogućio jednostavno korištenje varijabli u "css" kodu. Tim varijablama sam ostvario jednakost boja na svim pogledima.
+                <br>
+                Dizajn je uglavnom izrađivan po "mobile-first" pristupu, odnosno (s)css kod je definiran za mobitele, a medija querijima prilagođen tabletima/desktopima. Uglavnom jer sam na par mjesta "pribjegao" inline stylingu.
+                <br>
+                <br>
+                Odabrao sam primarnu boju bijelu i sekundarnu boju crnu kako bih stvorio ugodan kontrast na svakom pogledu. Kao naglašenu boju koristim narančastu jer ukazuje na problematiku (štete, problematična situacija, nije sve u redu, odnosno "zeleno"), a ipak za razliku od npr. crvene boje narančasta je boja koja je ugodna oku (aludira na naranču kao na ukusno voće).
+                <h4>Baza podataka</h4>
+                Kičmu rješenja čini pomno osmišljena i dobro organizirana bazi podataka. Temelje za bazu postavio sam tijekom 2. zadaće na kolegiju, no od tada sam ju mnogo puta promijenio i prilagodio baš ovome rješenju. Koristeći alat MySQL Workbench generirao sam sve upite 
+                <h4>Programski kod na strani poslužitelja</h4>
+                U PHP-u sam napravio tri osnovne PHP datoteke:
+                <ol style="margin-left: 30px;">
+                    <li>Database.php</li>
+                    <li>UserControl.php</li>
+                    <li>OutputControl.php</li>
+                </ol>
+                <br>
+                Implementacija ovih klasa detaljnije je opisana u poglavlju ispod. One kontroliraju i diktiraju tokove podataka i programsku logiku iza cijelog rješenja.
+                <br>
+                Postoje PHP datoteke koje generiraju sučelje i one se nalaze u "root" direktoriju rješenja. PHP datoteke koje se bave nekom specifičnom funkcionalnosti koja ne spada pod upraviteljstvo niti jedne od gornjih triju datoteka nalaze se u "control" direktoriju.
+                <h4>Programski kod na strani klijenta</h4>
+                Web mjesto ne bi funkcioniralo u potpunosti bez programskog koda na strani klijenta. Ovaj kod bavi se osnovnim provjerama unesenih podataka i animacijama, a ono najbitnije - sadrži brojne funkcije koje AJAX pozivima omogućavaju jednostavno i direktno funkcioniranje administratorskog panela. 
+                <h4>Sigurnost</h4>
+                Posebna pažnja posvećena je sigurnosti sustava. U datoteci "OutputControl.php" postoji posebna klasa "Prevent" (implementacija objašnjena ispod) koja osigurava da su <strong>SVI</strong> podaci koji idu na ekran očišćeni od posebnih HTML znakova i time učinkovito (rekurzivno za PHP polja) onemogućava XSS tip napada. Također osigurava da podaci koji idu u bazu budu potpuno sigurni za bazu (iako svi podaci prolaze kroz "prepared" MySQL funkcije).
+            </p>
+        </section>
+        <section class="section" style="display: block;">
+            <h2>
+                ERA model
+            </h2>
+        </section>
+        <section class="section" style="display: block;">
+            <h2>
+                Navigacijski dijagram
+            </h2>
+        </section>
+    </main>
+    <footer class="footer">
+        <p>Stranica za prijavu šteta</p>
+        <p>Mislav Matijević | 2021.</p>
+    </footer>
+</body>
+
+</html>
