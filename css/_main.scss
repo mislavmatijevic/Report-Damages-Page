@@ -362,15 +362,20 @@ input {
     position: absolute;
     right: 5px;
     top: 2px;
-    font-size: $defaultFontSize;
+    font-size: $largeFontSize;
     border: 1px $error solid;
     border-radius: 50%;
-    padding: 1px 6px;
     color: $brightBorder;
     font-weight: 1000;
+    padding: 6px 12px;
     &:hover {
         color: $error;
         cursor: pointer;
+    }
+    @media screen and ($desktop) {
+        font-size: $defaultFontSize;
+        padding: 1px 6px;
+        top: 2px;
     }
 }
 

@@ -375,17 +375,25 @@ input:focus {
   position: absolute;
   right: 5px;
   top: 2px;
-  font-size: 16px;
+  font-size: 25px;
   border: 1px red solid;
   border-radius: 50%;
-  padding: 1px 6px;
   color: #fafafa;
   font-weight: 1000;
+  padding: 6px 12px;
 }
 
 .close-button:hover {
   color: red;
   cursor: pointer;
+}
+
+@media screen and (min-width: 1300px) {
+  .close-button {
+    font-size: 16px;
+    padding: 1px 6px;
+    top: 2px;
+  }
 }
 
 .info {
@@ -1711,8 +1719,13 @@ textarea {
   border-bottom: 1px black solid;
 }
 
+.section__admin-controls__table-controls {
+  margin-left: 20px;
+  margin-right: 20px;
+  border: none;
+}
+
 .section__admin-controls__table-controls table {
-  border: 2px orange solid;
   border-collapse: collapse;
   margin-left: auto;
   margin-right: auto;
@@ -1731,6 +1744,7 @@ textarea {
 .section__admin-controls__table-controls th {
   font-size: 12px;
   border: 2px orange solid;
+  border-top: none;
 }
 
 @media screen and (min-width: 1300px) {
@@ -1740,6 +1754,8 @@ textarea {
 }
 
 .section__admin-controls__table-controls tr {
+  border-right: 2px orange solid;
+  border-left: 2px orange solid;
   -webkit-transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
@@ -1847,6 +1863,10 @@ textarea {
 .section__admin-controls #moderator-input {
   text-align: center;
   color: green;
+}
+
+.floating-table-menu {
+  display: fixed;
 }
 
 .button-unblock {
@@ -2079,6 +2099,35 @@ textarea {
   .paging-log-controls button:first-of-type, .paging-log-controls button:last-of-type {
     width: 200px;
   }
+}
+
+.table-list__name {
+  background-color: transparent;
+  border: none;
+  color: blue;
+  font-size: 16px;
+}
+
+.table-row__new {
+  background-color: green;
+  color: white;
+  height: 100%;
+  width: 100%;
+  padding: 15px;
+  font-size: 25px;
+}
+
+.table-row__change {
+  background-color: orange;
+}
+
+.table-row__delete {
+  background-color: red;
+}
+
+.searchButton {
+  border-radius: 15px;
+  height: 30px;
 }
 
 .date-time__wrapper {

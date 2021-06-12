@@ -10,8 +10,10 @@
         border-bottom: 1px black solid;
 
         &__table-controls {
+            margin-left: 20px;
+            margin-right: 20px;
+            border: none;
             table {
-                border: 2px $highlightColor solid;
                 border-collapse: collapse;
                 margin-left: auto;
                 margin-right: auto;
@@ -27,11 +29,14 @@
             th {
                 font-size: $smallFontSize;
                 border: 2px $highlightColor solid;
+                border-top: none;
                 @media screen and ($desktop) {
                     font-size: $defaultFontSize;
                 }
             }
             tr {
+                border-right: 2px $highlightColor solid;
+                border-left: 2px $highlightColor solid;
                 transition: $transitionQuick;
                 &:hover {
                     background-color: $lightHighlightColor;
@@ -130,6 +135,11 @@
         padding: 0 5px 0;
         font-weight: 1000;
     }
+}
+
+.floating-table-menu {
+    display: fixed;
+
 }
 
 .button-unblock {
@@ -251,4 +261,31 @@
             }
         }
     }
+}
+
+.table-list__name {
+    background-color: transparent;
+    border: none;
+    color: $focusColor;
+    font-size: $defaultFontSize;
+}
+
+.table-row__new {
+    background-color: $success;
+    color: $primaryColor;
+    height: 100%;
+    width: 100%;
+    padding: 15px;
+    font-size: $largeFontSize;
+}
+.table-row__change {
+    background-color: $highlightColor;
+}
+.table-row__delete {
+    background-color: $error;
+}
+
+.searchButton {
+    border-radius: 15px;
+    height: 30px;
 }

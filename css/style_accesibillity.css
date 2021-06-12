@@ -312,7 +312,7 @@ main {
   margin-top: 15px;
   margin-bottom: 10px;
   color: black;
-  background-color: white;
+  background-color: black;
   height: 50px;
   width: 50px;
   border-radius: 50%;
@@ -337,9 +337,9 @@ input:hover {
 }
 
 input:focus {
-  -webkit-box-shadow: 0 0px 5px white;
-          box-shadow: 0 0px 5px white;
-  border: 2px white inset;
+  -webkit-box-shadow: 0 0px 5px black;
+          box-shadow: 0 0px 5px black;
+  border: 2px black inset;
 }
 
 .section {
@@ -375,17 +375,25 @@ input:focus {
   position: absolute;
   right: 5px;
   top: 2px;
-  font-size: 20px;
+  font-size: 30px;
   border: 1px lightgrey solid;
   border-radius: 50%;
-  padding: 1px 6px;
   color: #fafafa;
   font-weight: 1000;
+  padding: 6px 12px;
 }
 
 .close-button:hover {
   color: lightgrey;
   cursor: pointer;
+}
+
+@media screen and (min-width: 1300px) {
+  .close-button {
+    font-size: 20px;
+    padding: 1px 6px;
+    top: 2px;
+  }
 }
 
 .info {
@@ -1711,8 +1719,13 @@ textarea {
   border-bottom: 1px black solid;
 }
 
+.section__admin-controls__table-controls {
+  margin-left: 20px;
+  margin-right: 20px;
+  border: none;
+}
+
 .section__admin-controls__table-controls table {
-  border: 2px white solid;
   border-collapse: collapse;
   margin-left: auto;
   margin-right: auto;
@@ -1731,6 +1744,7 @@ textarea {
 .section__admin-controls__table-controls th {
   font-size: 25px;
   border: 2px white solid;
+  border-top: none;
 }
 
 @media screen and (min-width: 1300px) {
@@ -1740,6 +1754,8 @@ textarea {
 }
 
 .section__admin-controls__table-controls tr {
+  border-right: 2px white solid;
+  border-left: 2px white solid;
   -webkit-transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
@@ -1847,6 +1863,10 @@ textarea {
 .section__admin-controls #moderator-input {
   text-align: center;
   color: black;
+}
+
+.floating-table-menu {
+  display: fixed;
 }
 
 .button-unblock {
@@ -2079,6 +2099,35 @@ textarea {
   .paging-log-controls button:first-of-type, .paging-log-controls button:last-of-type {
     width: 200px;
   }
+}
+
+.table-list__name {
+  background-color: transparent;
+  border: none;
+  color: black;
+  font-size: 20px;
+}
+
+.table-row__new {
+  background-color: black;
+  color: white;
+  height: 100%;
+  width: 100%;
+  padding: 15px;
+  font-size: 30px;
+}
+
+.table-row__change {
+  background-color: white;
+}
+
+.table-row__delete {
+  background-color: lightgrey;
+}
+
+.searchButton {
+  border-radius: 15px;
+  height: 30px;
 }
 
 .date-time__wrapper {

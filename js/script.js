@@ -5,7 +5,7 @@ $(() => {
     if (cookieStart != -1) {
         $("#stylesheet-element").attr("href", $("#stylesheet-element").attr("href").replace(/(.*)\/.*(\.css$)/i, '$1/style_accesibillity$2'));
     }
-    
+
     $("#header__access").on("click", () => {
         AJAXCall("config.php", { getCookieDuration: "1" }, changeAccessibility);
     });
@@ -20,14 +20,14 @@ $(() => {
             currentAccessValue = true;
             $("#stylesheet-element").attr("href", $("#stylesheet-element").attr("href").replace(/(.*)\/.*(\.css$)/i, '$1/style_accesibillity$2'));
             var date = new Date();
-            date.setTime(date.getTime() + (value*24*60*60*1000));
+            date.setTime(date.getTime() + (value * 24 * 60 * 60 * 1000));
             document.cookie = `accessibility=${currentAccessValue}; expires=${date.toUTCString()}; path=/`;
         } else {
             document.cookie = `accessibility=; expires=; path=`;
             $("#stylesheet-element").attr("href", $("#stylesheet-element").attr("href").replace(/(.*)\/.*(\.css$)/i, '$1/style$2'));
         }
     }
-    
+
 
     // Oblačić za pomoć:
     var helpShown = false;
@@ -102,6 +102,298 @@ $(() => {
     }
 
     switch (location.pathname.split('/').slice(-1)[0]) {
+
+        case 'admin-table-management.php': {
+
+            var TableHeader;
+            var TableData;
+            var SelectedTable;
+
+            var tableMaxNumberOfPages = 0;
+            var tableCurrentPage = 1;
+
+            var filter = {};
+
+            AJAXCall("table-management.php", { getTableList: "1" }, tableListReceived);
+
+            function tableListReceived(tableList) {
+                if (tableList === false) {
+                    $("#global-error-text").html("Dogodio se problem pri dohvaćanju naziva tablica!");
+                    $("#global-error").show();
+                    return;
+                }
+
+                let tableListHTML = "";
+                tableList.forEach(table => {
+                    tableListHTML += `
+                    <li class="table__row">
+                        <button class="table-list__name"
+                            tableName="${table.TABLE_NAME}">${table.TABLE_NAME}</button>
+                    </li>
+                `
+                });
+                $("#table-list").html(tableListHTML);
+
+                $(".table-list__name").on("click", (e) => {
+                    SelectedTable = e.target.getAttribute("tableName");
+                    requestEntireTable();
+                });
+            }
+
+            function requestEntireTable() {
+                filter = {};
+                AJAXCall("table-management.php", { dataManipulation: 1, max_page: 1 }, newNumberOfPagesTable)
+                AJAXCall("table-management.php", { getTableHeader: SelectedTable }, tableHeaderReceived);
+            }
+
+            function tableHeaderReceived(tableHeader) {
+                if (tableHeader === false) {
+                    $("#global-error-text").html("Dogodio se problem pri vraćanju zaglavlja tablice!");
+                    $("#global-error").show();
+                    return;
+                }
+                TableHeader = tableHeader;
+                // ZAGLAVLJE //
+
+                let tableHeaderHTML = "";
+                TableHeader.forEach((table, index) => {
+                    tableHeaderHTML += `<th class="table__head" rowName="${table.Field}" rowType="${table.Type}">`;
+                    if (index == 0) {
+                        tableHeaderHTML += `ID`; // Za kraću prvu kolonu, samo upiši "ID".
+                    } else {
+                        tableHeaderHTML += `${table.Field} (${table.Type})`;
+                    }
+                    tableHeaderHTML += `
+                                    <input id="search-${table.Field}" />
+                                    <button class="searchButton" rowName="${table.Field}">Pretraži</button>
+                                    <p id="sort-dir-${table.Field}" sorted="false" rowName="${table.Field}" rowType="${table.Type}" class="clickable">Sortiraj me</p>
+                                    </th>
+                                    `;
+                });
+                $("#table-header").html(tableHeaderHTML);
+                $(".clickable").on("click", (e) => {
+                    var sortRowName = e.target.getAttribute("rowName");
+                    var sortDirection;
+                    switch (e.target.getAttribute("sorted")) {
+                        case "false":
+                        case "DESC": {
+                            e.target.setAttribute("sorted", "ASC");
+                            sortDirection = "ASC";
+                            break;
+                        }
+                        case "ASC": {
+                            e.target.setAttribute("sorted", "DESC");
+                            sortDirection = "DESC";
+                            break;
+                        }
+                    }
+                    filter = {dataManipulation: 1, rowName: sortRowName, sortDir: sortDirection};
+                    AJAXCall("table-management.php", {page: 0, ...filter}, tableDataReceived);
+                    tableCurrentPage = 1;
+                    $(e.target).html(sortDirection);
+                });
+                $(".searchButton").on("click", (e) => {
+                    var currentSearchRow = e.target.getAttribute("rowName");
+                    var currentSearchString = $(`#search-${currentSearchRow}`).val();
+                    filter = {dataManipulation: 1, searchString: currentSearchString, searchRow: currentSearchRow};
+                    AJAXCall("table-management.php", {page: 0, ...filter }, tableDataReceived);
+                });
+
+                // ZAGLAVLJE //
+            }
+
+            function tableDataReceived(tableData) {
+                if (tableData === 0) {
+                    $("#global-error-text").html("Nema traženih podataka!");
+                    $("#global-error").show();
+                    return;
+                }
+                if (tableData === -1) {
+                    $("#global-error-text").html("Dogodio se problem s bazom!");
+                    $("#global-error").show();
+                    return;
+                }
+                if (tableData === false) {
+                    $("#global-error-text").html("Dogodio se problem pri vraćanju sadržaja tablice!");
+                    $("#global-error").show();
+                    return;
+                }
+                TableData = tableData;
+                FillOutTable();
+            }
+
+            var TableDataArray = [];
+
+            function FillOutTable() {
+                $("#table-caption").html(SelectedTable);
+
+                // --------- //
+
+                // TIJELO //
+
+                var tableBodyHTML;
+                TableData.forEach((tableDataInfo) => {
+                    var tableRowHTML;
+                    var currentRowId;
+                    TableHeader.forEach((tableHeaderInfo, index) => {
+                        if (index == 0) {
+                            currentRowId = tableDataInfo[tableHeaderInfo.Field];
+                            TableDataArray[parseInt(currentRowId)] = new Array();
+                        }
+                        TableDataArray[currentRowId].push(`${tableHeaderInfo.Field}-${currentRowId}`);
+                        tableRowHTML += `
+                        <td class="table__row-data">
+                            <input ${index == 0 ? "disabled" : ``}
+                                id="${tableHeaderInfo.Field}-${currentRowId}"
+                                type="${tableHeaderInfo.Type == "timestamp" && "datetime-local" ||
+                            tableHeaderInfo.Type == "int" && "number" || "text"}"
+                                placeholder="${tableHeaderInfo.Null == 'NO' ? "ERROR" : "NULL"}"
+                                value="${tableDataInfo[tableHeaderInfo.Field]}"/>
+                                ${index == 0 ? `
+                                <button type="submit" class="table-row__change"
+                                    value="${tableDataInfo[tableHeaderInfo.Field]}">Promijeni</button>
+                                <button type="submit" class="table-row__delete"
+                                    value="${tableDataInfo[tableHeaderInfo.Field]}">Ukloni</button>` : ``}
+                        </td>`;
+                    });
+                    tableBodyHTML += `<tr id="row-${currentRowId}">${tableRowHTML}</tr>`;
+                });
+
+                var tableRowNewHTML;
+                TableDataArray["new"] = new Array();
+                TableHeader.forEach((tableHeaderInfo, index) => {
+                    TableDataArray["new"].push(`new-${tableHeaderInfo.Field}`);
+                    tableRowNewHTML += `
+                    <td>
+                        ${index ?
+                            `<input style="color: darkgreen" placeholder="${tableHeaderInfo.Null == 'NO' ? "ERROR" : "NULL"}"
+                                id="new-${tableHeaderInfo.Field}"
+                                value="Unesite ${tableHeaderInfo.Field}" />` :
+                            `<input type="submit" class="table-row__new" value="Dodaj" />`
+                        }
+                    </td>`;
+                });
+                tableBodyHTML += `
+                <tr id="CreateNew">${tableRowNewHTML}
+                </tr>`;
+                $("#table-body").html(tableBodyHTML);
+
+                // TIJELO //
+
+                $(".table-row__change").on("click", (e) => {
+                    requestDataChange(TableDataArray[e.target.getAttribute("value")]);
+                });
+                $(".table-row__delete").on("click", (e) => {
+                    requestDataDelete(TableDataArray[e.target.getAttribute("value")][0]);
+                });
+                $(".table-row__new").on("click", (e) => {
+                    requestDataCreate();
+                });
+            }
+
+            function requestDataCreate() {
+                var newRowData = new Object();
+
+                TableDataArray["new"].forEach((rowElement) => {
+                    thisRowRealName = rowElement.split("new-")[1];
+                    newRowData[thisRowRealName] = $(`#${rowElement}`).val();
+                });
+                let preparedJSONData = JSON.stringify(newRowData);
+                AJAXCall("table-management.php", { newRowData: preparedJSONData }, tableDataChanged);
+            }
+
+            function requestDataChange(row) {
+                var thisRowData = new Object();
+                var thisRowIdValue;
+
+                row.forEach((rowElement, index) => {
+                    if (index == 0) {
+                        thisRowIdValue = parseInt($(`#${rowElement}`).val());
+                    } else {
+                        thisRowRealName = rowElement.split("-")[0];
+                        thisRowData[thisRowRealName] = $(`#${rowElement}`).val();
+                    }
+                });
+                let preparedJSONData = JSON.stringify(thisRowData);
+                AJAXCall("table-management.php", { rowId: thisRowIdValue, updateRow: preparedJSONData }, tableDataChanged);
+            }
+
+            function requestDataDelete(firstElement) {
+                let identifier = firstElement.split("-")[0];
+                let id = firstElement.split("-")[1];
+                if (confirm(`Potvrdite brisanje retka sa šifrom ${id}?`)) {
+                    AJAXCall("table-management.php", { deleteFieldIdentifier: identifier, deleteRowId: id }, tableDataChanged);
+                }
+            }
+
+            // Funkcija koja hendla odgovore za sve promjene u tablici.
+            function tableDataChanged(answer) {
+                if (answer == false) {
+                    $("#global-error-text").html("Dogodio se problem pri mijenjanju sadržaja tablice! Provjerite još jednom sve vrijednosti");
+                    $("#global-error").show();
+                } else {
+                    $("#global-info-text").html(answer);
+                    $("#global-info").show();
+                }
+                requestEntireTable();
+            }
+            /* --- UPRAVLJANJE STRANIČENJEM OPĆENITE TABLICE --- */
+
+            // Čeka odgovor servera o najvećem broju stranica.
+            function newNumberOfPagesTable(numberOfPages) {
+                if (numberOfPages == -1) {
+                    $("#global-error-text").html("Dogodio se problem pri dohvatu broja stranica!");
+                    $("#global-error").show();
+                    return;
+                } else if (numberOfPages != undefined) {
+                    tableMaxNumberOfPages = numberOfPages + 1;
+                }
+                if (tableCurrentPage < 1) tableCurrentPage = 1;
+                AJAXCall("table-management.php", { dataManipulation: 1, page: (tableCurrentPage - 1) }, tableDataReceived, "POST");
+                
+                if (tableCurrentPage > tableMaxNumberOfPages) {
+                    tableCurrentPage = tableMaxNumberOfPages;
+                }
+                $("#progress-log").attr("value", tableCurrentPage + 1);
+                $("#progress-log").attr("max", tableMaxNumberOfPages + 1);
+                $(".paging-info").html(`${tableCurrentPage}/${tableMaxNumberOfPages}`);
+            }
+
+            $("#first-log").on("click", () => {
+                tableCurrentPage = 1;
+                newNumberOfPagesTable();
+            });
+
+            $("#back-log").on("click", () => {
+                if (tableCurrentPage <= 1) {
+                    alert("Na prvoj ste stranici!");
+                    tableCurrentPage = 1;
+                } else {
+                    tableCurrentPage--;
+                    newNumberOfPagesTable();
+                }
+            });
+
+            $("#next-log").on("click", () => {
+                if (tableCurrentPage >= tableMaxNumberOfPages) {
+                    alert("Na zadnjoj ste stranici!");
+                    tableCurrentPage = tableMaxNumberOfPages;
+                } else {
+                    tableCurrentPage++;
+                    newNumberOfPagesTable();
+                }
+            });
+
+            $("#last-log").on("click", () => {
+                tableCurrentPage = tableMaxNumberOfPages;
+                newNumberOfPagesTable();
+            });
+
+            /* ~~~ UPRAVLJANJE STRANIČENJEM OPĆENITE TABLICE ~~~ */
+
+
+            break;
+        }
 
         case 'administration.php': {
 
@@ -276,10 +568,10 @@ $(() => {
             getLogData(); // Dohvati dnevnik odmah po učitavanju.
 
             function getLogData() {
-                AJAXCall("retrieve-logs.php", { ...filter, max_page: 1 }, newNumberOfPages);
+                AJAXCall("retrieve-logs.php", { ...filter, max_page: 1 }, newNumberOfPagesLog);
             }
 
-            function newNumberOfPages(numberOfPages) {
+            function newNumberOfPagesLog(numberOfPages) {
                 if (numberOfPages == -1) {
                     $("#global-error-text").html("Dogodio se problem pri dohvatu broja stranica dnevnika!");
                     $("#global-error").show();
@@ -353,7 +645,7 @@ $(() => {
 
             $("#first-log").on("click", () => {
                 logCurrentPage = 1;
-                newNumberOfPages();
+                newNumberOfPagesLog();
             });
 
             $("#back-log").on("click", () => {
@@ -362,7 +654,7 @@ $(() => {
                     logCurrentPage = 1;
                 } else {
                     logCurrentPage--;
-                    newNumberOfPages();
+                    newNumberOfPagesLog();
                 }
             });
 
@@ -372,13 +664,13 @@ $(() => {
                     logCurrentPage = logMaxNumberOfPages;
                 } else {
                     logCurrentPage++;
-                    newNumberOfPages();
+                    newNumberOfPagesLog();
                 }
             });
 
             $("#last-log").on("click", () => {
                 logCurrentPage = logMaxNumberOfPages;
-                newNumberOfPages();
+                newNumberOfPagesLog();
             });
 
             /* ~~~ UPRAVLJANJE STRANIČENJEM DNEVNIKA ~~~ */
@@ -601,8 +893,8 @@ $(() => {
 
                     for (let index = 0; index < 6 && index < urlsByUsage.length; index++) {
                         const urlByUsage = urlsByUsage[index];
-                        doc.text(20, (index+1)*25, `${urlByUsage.url} (${urlByUsage.count} korištenja)`);
-                        doc.roundedRect(20, (index+1)*26, (oneCountGraphValue * urlByUsage.count * 0.5), 10, 3, 3, 'FD');
+                        doc.text(20, (index + 1) * 25, `${urlByUsage.url} (${urlByUsage.count} korištenja)`);
+                        doc.roundedRect(20, (index + 1) * 26, (oneCountGraphValue * urlByUsage.count * 0.5), 10, 3, 3, 'FD');
                     }
 
                     doc.save('Test.pdf');
@@ -848,20 +1140,20 @@ $(() => {
      * @param {string} argType GET/POST
      * @param {boolean} foolURL Je li prvi parametar nešto drugo umjesto naziva skripte u folderu control.
      */
-    function AJAXCall(scriptName, argData, successCallback, argType = 'POST', fullURL = false) {
+    function AJAXCall(scriptName, argData, successCallback, method = 'POST', fullURL = false) {
         if (!fullURL) {
             scriptName = "./control/" + scriptName;
         }
         $.ajax({
             url: scriptName,
-            type: argType,
+            type: method,
             data: argData,
             dataType: 'JSON',
             success: successCallback,
             error: function (xhr, status, error) {
                 console.log("AJAX PROBLEM\nStatus: " + status + "\nError: " + error + " \nXHR: ");
                 console.log(xhr);
-                $("#global-error-text").html("AJAX: provjerite konzolu.");
+                $("#global-error-text").html("AJAX problem: provjerite konzolu.");
                 $("#global-error").show();
             }
         });
