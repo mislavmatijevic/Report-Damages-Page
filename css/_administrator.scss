@@ -29,7 +29,7 @@
             }
         }
         &__title {
-            font-size: 25px;
+            font-size: $largeFontSize;
             margin: 0px 0 25px 0;
         }
         .table {
@@ -63,14 +63,14 @@
 
 @mixin button-do-something-big-on-table {
     @include button();
-    font-size: 12px;
+    font-size: $smallFontSize;
     margin: 0;
     background-color: $error;
     font-weight: 500;
     max-width: 64px;
     @media screen and ($tablet) {
         max-width: 100%;
-        font-size: 12px;
+        font-size: $smallFontSize;
         padding: 0 5px 0;
         font-weight: 1000;
     }
@@ -95,14 +95,14 @@
     padding-left: 25px;
 
     line-height: 50px;
-    font-size: large;
+    font-size: $largeFontSize;
 
     border-radius: 15px;
 
     @media screen and ($desktop) {
         position: fixed;
         line-height: 30px;
-        font-size: large;
+        font-size: $largeFontSize;
         border: 2px $lightHighlightColor solid;
 
         border-radius: 15px;
@@ -146,9 +146,9 @@
         margin: auto;
         text-align: center;
         width: 90%;
-        font-size: 12px;
+        font-size: $smallFontSize;
         @media screen and ($tablet) {
-            font-size: 30px;
+            font-size: $extraFontSize;
         }
     }
 
@@ -168,7 +168,7 @@
             padding: 1px 5px;
             min-width: 32px;
             min-height: 32px;
-            font-size: 10px;
+            font-size: $smallFontSize;
             border: 1px $highlightColor thick;
             background-color: $brightBorder;
 
@@ -178,7 +178,7 @@
                 padding: 2px 25px;
                 width: auto;
                 min-height: 32px;
-                font-size: 16px;
+                font-size: $defaultFontSize;
             }
 
             &:hover {

@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="keywords">
     <title>{$pageTitle}</title>
-    <link type="text/css" rel="stylesheet" href="{$relativePath}css/style.css">
+    <link id="stylesheet-element" type="text/css" rel="stylesheet" href="{$relativePath}css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;600&display=swap" rel="stylesheet">
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script type="text/javascript" src="{$relativePath}js/jquery.js"></script>
@@ -36,9 +36,10 @@
     <body>
         <header class="header">
             <div class="header__inner">
-                <a href="rss.php" class="header__rss-container">
-                    <img src="{$relativePath}media/rss.png" alt="Rss kanal" class="header__rss">
+                <a href="rss.php" class="header__icons-container">
+                    <img src="{$relativePath}media/rss.png" alt="Rss kanal" id="header__rss">
                 </a>
+                <img src="{$relativePath}media/accessibility-icon.png" alt="Pristupačnost" id="header__access">
                 <nav id="hamburger_menu" class="header__nav">
                     <div class="header__nav__hamburger-line"></div>
                     <div class="header__nav__hamburger-line"></div>

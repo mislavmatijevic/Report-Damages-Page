@@ -29,13 +29,13 @@
     label {
         margin: 8px;
         padding: 8px;
-        font-size: 16px;
+        font-size: $defaultFontSize;
     }
 
     input {
         margin: 8px;
         padding: 12px;
-        font-size: 20px;
+        font-size: $defaultFontSize;
     }
 
     @media screen and ($tablet) {

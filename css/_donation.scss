@@ -31,10 +31,10 @@
         &-description {
             justify-self: flex-start;
             margin: 32px;
-            font-size: 16px;
+            font-size: $defaultFontSize;
         }
         &-info {
-            font-size: 20px;
+            font-size: $defaultFontSize;
             margin: 32px;
             border: 1px #aeaeae solid;
             padding: 32px 16px;
@@ -53,7 +53,7 @@
         &__wanna-help {
             justify-self: center;
             margin: 32px;
-            font-size: 32px;
+            font-size: $extraFontSize;
         }
 
         .donate-form {
@@ -78,7 +78,7 @@
                 display: block;
                 width: 100%;
                 height: 50px;
-                font-size: 30px;
+                font-size: $extraFontSize;
                 margin: 16px 0;
                 border-width: 2px;
                 margin-top: 50px;

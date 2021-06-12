@@ -27,17 +27,17 @@
         input {
             margin: 8px;
             padding: 12px;
-            font-size: 18px;
+            font-size: $defaultFontSize;
         }
 
         h1 {
-            font-size: 25px;
+            font-size: $largeFontSize;
         }
 
         &-header {
             grid-area: 1 / 2 / span 2 / span 2;
             margin-bottom: 25px;
-            font-size: 16px;
+            font-size: $defaultFontSize;
         }
         &-submit {
             grid-area: 6 / 2;
@@ -108,7 +108,7 @@
         margin-bottom: 30px;
 
         @media screen and ($tablet) {
-            font-size: 3em;
+            font-size: $defaultFontSize;
         }
     }
 
@@ -189,20 +189,20 @@
         }
 
         &-title {
-            font-size: 20px;
+            font-size: $largeFontSize;
             margin-top: 8px;
             margin-bottom: 16px;
             @media screen and ($desktop) {
-                font-size: 16px;
+                font-size: $defaultFontSize;
             }
         }
 
         &-value {
-            font-size: 14px;
+            font-size: $defaultFontSize;
         }
 
         &__description {
-            font-size: 14px;
+            font-size: $defaultFontSize;
             line-height: 150%;
         }
 
@@ -212,7 +212,7 @@
         }
 
         &-dates {
-            font-size: 16px;
+            font-size: $defaultFontSize;
             color: $success;
             margin: auto;
             &-ended {
@@ -228,12 +228,12 @@
     margin-bottom: 0;
     padding-bottom: 0;
     padding: 10px;
-    font-size: 100%;
+    font-size: $defaultFontSize;
     text-align: center;
     font-style: italic;
 
     &-description {
-        font-size: 20px;
+        font-size: $defaultFontSize;
         color: $brightBorder;
         margin: 0 auto;
     }

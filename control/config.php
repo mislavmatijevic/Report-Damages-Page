@@ -9,13 +9,17 @@ require_once dirname(__DIR__)."/control/Database.php";
 require_once dirname(__DIR__)."/control/OutputControl.php";
 require_once dirname(__DIR__)."/control/UserControl.php";
 
+$conf = dirname(__DIR__)."/privatno/config/manage.conf";
+$config = parse_ini_file($conf);
+
+if (isset($_POST["getCookieDuration"])) {
+    die(json_encode($config["cookieDurationDays"]));
+}
+
 session_start();
 if ($_SESSION["lvl"] != 1) {
     die(json_encode("Nedovoljne ovlasti!"));
 }
-
-$conf = dirname(__DIR__)."/privatno/config/manage.conf";
-$config = parse_ini_file($conf);
 
 if (isset($_POST['get_current_config'])) {
     die(json_encode($config));

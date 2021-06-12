@@ -18,7 +18,7 @@ html {
 
 body {
     font-family: "Montserrat", sans-serif;
-    font-size: 16px;
+    font-size: $defaultFontSize;
     display: flex;
     height: 100%;
     flex-direction: column;
@@ -51,11 +51,19 @@ main {
         }
     }
 
-    &__rss {
+    #header__rss {
         width: 100px;
         height: 60px;
         float: left;
         object-fit: contain;
+    }
+
+    #header__access {
+        width: 100px;
+        height: 60px;
+        float: left;
+        object-fit: contain;
+        cursor: pointer;
     }
 
     &__nav {
@@ -117,7 +125,7 @@ main {
             color: $primaryColor;
 
             font-weight: 600px;
-            font-size: 18px;
+            font-size: $defaultFontSize;
             line-height: 50px;
 
             margin: 15px 0;
@@ -185,13 +193,13 @@ main {
         }
 
         &-message {
-            font-size: 12px;
+            font-size: $smallFontSize;
             color: $highlightColor;
             @media screen and ($tablet) {
-                font-size: 14px;
+                font-size: $defaultFontSize;
             }
             @media screen and ($desktop) {
-                font-size: 16px;
+                font-size: $defaultFontSize;
             }
         }
     }
@@ -200,7 +208,7 @@ main {
 @mixin input {
     margin: 12px 0;
     padding: 10px;
-    font-size: 16px;
+    font-size: $defaultFontSize;
 }
 
 .input-text {
@@ -224,7 +232,7 @@ main {
 
     line-height: 40px;
     text-align: center;
-    font-size: medium;
+    font-size: $defaultFontSize;
 
     border-radius: 6px;
     color: $primaryColor;
@@ -254,7 +262,7 @@ main {
     height: 50px;
     width: 50px;
     border-radius: 50%;
-    font-size: larger;
+    font-size: $largeFontSize;
 }
 
 input {
@@ -276,11 +284,11 @@ input {
 
     &__title {
         text-align: center;
-        font-size: 25px;
+        font-size: $largeFontSize;
         margin-bottom: 16px;
         font-weight: 600;
         @media screen and ($tablet) {
-            font-size: 32px;
+            font-size: $extraFontSize;
         }
     }
 
@@ -316,7 +324,7 @@ input {
 
 @mixin fixed-message {
     @include message;
-    font-size: 16px;
+    font-size: $defaultFontSize;
     color: $brightBorder;
     border: 5px $secondaryColor double;
 
@@ -354,7 +362,7 @@ input {
     position: absolute;
     right: 5px;
     top: 2px;
-    font-size: 20px;
+    font-size: $defaultFontSize;
     border: 1px $error solid;
     border-radius: 50%;
     padding: 1px 6px;
@@ -381,14 +389,14 @@ input {
     @include message;
     color: $lightError;
     border: 2px $error solid;
-    font-size: 16px;
+    font-size: $defaultFontSize;
 
     &-captcha {
         @include message;
         border: 2px orange solid;
         margin: 10px;
         padding: 15px;
-        font-size: 20px;
+        font-size: $defaultFontSize;
     }
 }
 
@@ -426,12 +434,12 @@ input {
 
     caption {
         margin-bottom: 15px;
-        font-size: 20px;
+        font-size: $defaultFontSize;
         @media screen and ($tablet) {
-            font-size: 25px;
+            font-size: $largeFontSize;
         }
         @media screen and ($desktop) {
-            font-size: 32px;
+            font-size: $extraFontSize;
         }
     }
 
@@ -444,19 +452,19 @@ input {
 
         width: auto;
         height: auto;
-        font-size: 16px;
+        font-size: $defaultFontSize;
         padding: 5px;
 
         @media screen and ($tablet) {
             min-width: 100px;
             height: 25px;
-            font-size: 16px;
+            font-size: $defaultFontSize;
             padding: 7px;
         }
         @media screen and ($desktop) {
             min-width: 200px;
             height: 32px;
-            font-size: 20px;
+            font-size: $defaultFontSize;
             padding: 12px;
         }
 
@@ -497,17 +505,17 @@ input {
         &-data {
             border: 1px lightgrey outset;
             color: $secondaryColor;
-            font-size: 14px;
+            font-size: $smallFontSize;
             padding: 5px;
 
             @media screen and ($tablet) {
                 border-width: 2px;
                 padding: 10px;
-                font-size: 16px;
+                font-size: $defaultFontSize;
             }
             @media screen and ($desktop) {
                 padding: 15px;
-                font-size: 18px;
+                font-size: $defaultFontSize;
             }
 
             &:first-child {
@@ -562,7 +570,7 @@ input {
     left: 10px;
     bottom: 0px;
 
-    font-size: medium;
+    font-size: $defaultFontSize;
     border: 5px $highlightColor double;
     opacity: 1;
 
@@ -572,11 +580,11 @@ input {
     padding: 50px 10px 50px 30px;
 
     @media screen and ($tablet) {
-        font-size: large;
+        font-size: $largeFontSize;
         padding: 75px 40px;
     }
     @media screen and ($desktop) {
-        font-size: x-large;
+        font-size: $extraFontSize;
         padding: 75px 40px;
     }
     .button {
@@ -630,5 +638,5 @@ textarea {
     max-width: 600px;
     font-family: Consolas, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono,
         Courier New, monospace;
-    font-size: large;
+    font-size: $largeFontSize;
 }

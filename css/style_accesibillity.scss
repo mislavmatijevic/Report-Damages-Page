@@ -1,32 +1,31 @@
 $primaryColor: white;
-$secondaryColor: #333333;
-$highlightColor: orange;
-$lightHighlightColor: wheat;
-$focusColor: blue;
+$secondaryColor: black;
+$highlightColor: white;
+$lightHighlightColor: white;
+$focusColor: white;
 
 $brightBorder: #fafafa;
 $darkBorder: #b6b6b6;
 
-$success: green;
-$lightSuccess: lightgreen;
+$success: black;
+$lightSuccess: black;
 
-$lightError: lightpink;
-$error: red;
-$darkError: darkred;
+$lightError: black;
+$error: lightgrey;
+$darkError: black;
 
-$overlay: rgba(0.2, 0.1, 0.1, 0.65);
+$overlay: black;
 $shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 $shadowHover: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 $transitionQuick: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 $transitionLong: all 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
 
-$extraFontSize: 32px;
-$largeFontSize: 25px;
-$defaultFontSize: 16px;
-$smallFontSize: 12px;
+$extraFontSize: 40px;
+$largeFontSize: 35px;
+$defaultFontSize: 30px;
+$smallFontSize: 25px;
 
-
-$transparent: transparent;
+$transparent: black;
 $tablet: "min-width: 700px";
 $desktop: "min-width: 1300px";
 
@@ -42,3 +41,19 @@ $desktop: "min-width: 1300px";
 
 /* Controls */
 @import './paging';
+
+
+* {
+    line-height: 50px;
+    word-spacing: 15px;
+}
+
+section, form {
+    display: flex;
+    flex-direction: row;
+}
+
+input[type="checkbox"] {
+    width: 35px;
+    height: 25px;
+}

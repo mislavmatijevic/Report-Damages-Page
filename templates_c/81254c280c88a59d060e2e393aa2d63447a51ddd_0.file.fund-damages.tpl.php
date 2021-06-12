@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.39, created on 2021-06-12 02:43:42
+/* Smarty version 3.1.39, created on 2021-06-12 03:06:47
   from '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/fund-damages.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.39',
-  'unifunc' => 'content_60c4033e2b5593_37288683',
+  'unifunc' => 'content_60c408a79c4572_78885807',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '81254c280c88a59d060e2e393aa2d63447a51ddd' => 
     array (
       0 => '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/fund-damages.tpl',
-      1 => 1623458621,
+      1 => 1623459954,
       2 => 'file',
     ),
   ),
@@ -20,25 +20,35 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_60c4033e2b5593_37288683 (Smarty_Internal_Template $_smarty_tpl) {
+function content_60c408a79c4572_78885807 (Smarty_Internal_Template $_smarty_tpl) {
 ?><section class="section" style="display: block">
     <h2 class="section__title">
-        Subvencioniranje korisnika
+        <?php echo $_smarty_tpl->tpl_vars['callName']->value;?>
+
     </h2>
+    <h3 class="section__title">
+        Preostalo sredstava: <?php echo $_smarty_tpl->tpl_vars['remainingSubvention']->value;?>
+ HRK
+    </h3>
 </section>
-<section class="section" style="display: block;">
+<section class="section" style="display: block; padding-top: 16px">
     <h2 class="section__title">
         Kontrola
     </h2>
-    <form id="edit-call" method="POST" class="section-form" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>
+    <form method="POST" id="fund-damages__form" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>
 ">
-        <input placeholder="šifra" />
-        <input placeholder="iznos subvencije" />
+        <div class="input-wrapper">
+            <input hidden name="current-call" value=<?php echo $_smarty_tpl->tpl_vars['currentCallId']->value;?>
+ />
+            <input name="damageId" type="number" placeholder="šifra" />
+            <input name="amount" placeholder="iznos subvencije" />
+        </div>
+        <button class="button" name="fund" type="submit" value="1">Subvencioniraj i zatvori prijavu</button>
     </form>
 </section>
 <section class="section_damages" style="display: flex;justify-content: center;">
 
-    <table class="table" style="table-layout: fixed;">
+    <table class="table">
         <caption>Popis prijavljenih šteta na ovom javnom pozivu</caption>
         <thead>
             <tr>
@@ -73,9 +83,12 @@ $_smarty_tpl->tpl_vars['damage']->do_else = false;
                         <td class="table__row-data"><?php echo $_smarty_tpl->tpl_vars['damage']->value["datum_prijave"];?>
 </td>
                         <td class="table__row-data">
-                            <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>
+                            <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>
 ">
-                            <button class="button">Odbij</button>
+                                <input hidden name="current-call" value=<?php echo $_smarty_tpl->tpl_vars['currentCallId']->value;?>
+ />
+                                <button name="remove" class="button" type="submit" value=<?php echo $_smarty_tpl->tpl_vars['damage']->value["id_steta"];?>
+>Odbij</button>
                             </form>
                         </td>
                     </tr>

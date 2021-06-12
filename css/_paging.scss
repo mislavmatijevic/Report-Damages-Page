@@ -31,9 +31,9 @@
         margin: auto;
         text-align: center;
         width: 90%;
-        font-size: 12px;
+        font-size: $smallFontSize;
         @media screen and ($tablet) {
-            font-size: 30px;
+            font-size: $extraFontSize;
         }
     }
 
@@ -53,7 +53,7 @@
             padding: 1px 5px;
             min-width: 32px;
             min-height: 32px;
-            font-size: 10px;
+            font-size: $smallFontSize;
             border: 1px $highlightColor thick;
             background-color: $brightBorder;
 
@@ -63,7 +63,7 @@
                 padding: 2px 25px;
                 width: auto;
                 min-height: 32px;
-                font-size: 16px;
+                font-size: $defaultFontSize;
             }
 
             &:hover {

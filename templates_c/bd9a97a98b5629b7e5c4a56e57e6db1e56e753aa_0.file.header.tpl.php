@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.39, created on 2021-06-11 22:03:54
+/* Smarty version 3.1.39, created on 2021-06-12 04:23:26
   from '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/header.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.39',
-  'unifunc' => 'content_60c3c1aaedb319_68778563',
+  'unifunc' => 'content_60c41a9e5006a2_30295525',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'bd9a97a98b5629b7e5c4a56e57e6db1e56e753aa' => 
     array (
       0 => '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/header.tpl',
-      1 => 1623441834,
+      1 => 1623464367,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_60c3c1aaedb319_68778563 (Smarty_Internal_Template $_smarty_tpl) {
+function content_60c41a9e5006a2_30295525 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!DOCTYPE html>
 <html lang="hr">
 
@@ -31,7 +31,7 @@ function content_60c3c1aaedb319_68778563 (Smarty_Internal_Template $_smarty_tpl)
     <meta name="keywords">
     <title><?php echo $_smarty_tpl->tpl_vars['pageTitle']->value;?>
 </title>
-    <link type="text/css" rel="stylesheet" href="<?php echo $_smarty_tpl->tpl_vars['relativePath']->value;?>
+    <link id="stylesheet-element" type="text/css" rel="stylesheet" href="<?php echo $_smarty_tpl->tpl_vars['relativePath']->value;?>
 css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;600&display=swap" rel="stylesheet">
     <?php echo '<script'; ?>
@@ -73,10 +73,12 @@ js/script.js"><?php echo '</script'; ?>
     <body>
         <header class="header">
             <div class="header__inner">
-                <a href="rss.php" class="header__rss-container">
+                <a href="rss.php" class="header__icons-container">
                     <img src="<?php echo $_smarty_tpl->tpl_vars['relativePath']->value;?>
-media/rss.png" alt="Rss kanal" class="header__rss">
+media/rss.png" alt="Rss kanal" id="header__rss">
                 </a>
+                <img src="<?php echo $_smarty_tpl->tpl_vars['relativePath']->value;?>
+media/accessibility-icon.png" alt="Pristupačnost" id="header__access">
                 <nav id="hamburger_menu" class="header__nav">
                     <div class="header__nav__hamburger-line"></div>
                     <div class="header__nav__hamburger-line"></div>

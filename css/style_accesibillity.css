@@ -19,7 +19,7 @@ html {
 
 body {
   font-family: "Montserrat", sans-serif;
-  font-size: 16px;
+  font-size: 30px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -38,7 +38,7 @@ main {
 }
 
 .header {
-  background-color: #333333;
+  background-color: black;
   width: 100%;
   height: 80px;
   position: fixed;
@@ -96,7 +96,7 @@ main {
   width: 100px;
   -webkit-transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  background-color: transparent;
+  background-color: black;
   border: none;
   z-index: 10;
 }
@@ -150,7 +150,7 @@ main {
   text-decoration: none;
   color: white;
   font-weight: 600px;
-  font-size: 16px;
+  font-size: 30px;
   line-height: 50px;
   margin: 15px 0;
   margin-right: 60px;
@@ -172,8 +172,8 @@ main {
 }
 
 .header__nav-item-logout {
-  color: red;
-  border-color: red;
+  color: lightgrey;
+  border-color: lightgrey;
 }
 
 .header__nav-item-hambi {
@@ -183,7 +183,7 @@ main {
   left: 0;
   top: 0;
   display: block;
-  background-color: #333333;
+  background-color: black;
   padding: 5px 25px;
 }
 
@@ -215,43 +215,43 @@ main {
     border-right: 5px grey solid;
   }
   .header__nav a:hover {
-    color: orange;
+    color: white;
   }
 }
 
 .header__nav-message {
-  font-size: 12px;
-  color: orange;
+  font-size: 25px;
+  color: white;
 }
 
 @media screen and (min-width: 700px) {
   .header__nav-message {
-    font-size: 16px;
+    font-size: 30px;
   }
 }
 
 @media screen and (min-width: 1300px) {
   .header__nav-message {
-    font-size: 16px;
+    font-size: 30px;
   }
 }
 
 .input-text {
   margin: 12px 0;
   padding: 10px;
-  font-size: 16px;
+  font-size: 30px;
 }
 
 .input-number {
   margin: 12px 0;
   padding: 10px;
-  font-size: 16px;
+  font-size: 30px;
   max-width: 125px;
 }
 
 .button {
   display: block;
-  background: #333333;
+  background: black;
   -webkit-transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   width: 100%;
@@ -259,7 +259,7 @@ main {
   max-width: 300px;
   line-height: 40px;
   text-align: center;
-  font-size: 16px;
+  font-size: 30px;
   border-radius: 6px;
   color: white;
   margin-top: 15px;
@@ -268,13 +268,13 @@ main {
 
 .button:hover {
   cursor: pointer;
-  background: orange;
-  color: #333333;
+  background: white;
+  color: black;
 }
 
 .button-damage {
   display: block;
-  background: #333333;
+  background: black;
   -webkit-transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   width: 100%;
@@ -282,7 +282,7 @@ main {
   max-width: 300px;
   line-height: 40px;
   text-align: center;
-  font-size: 16px;
+  font-size: 30px;
   border-radius: 6px;
   color: white;
   margin-top: 15px;
@@ -292,13 +292,13 @@ main {
 
 .button-damage:hover {
   cursor: pointer;
-  background: orange;
-  color: #333333;
+  background: white;
+  color: black;
 }
 
 #button-help {
   display: block;
-  background: #333333;
+  background: black;
   -webkit-transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   width: 100%;
@@ -306,23 +306,23 @@ main {
   max-width: 300px;
   line-height: 40px;
   text-align: center;
-  font-size: 16px;
+  font-size: 30px;
   border-radius: 6px;
   color: white;
   margin-top: 15px;
   margin-bottom: 10px;
-  color: lightgreen;
-  background-color: blue;
+  color: black;
+  background-color: white;
   height: 50px;
   width: 50px;
   border-radius: 50%;
-  font-size: 25px;
+  font-size: 35px;
 }
 
 #button-help:hover {
   cursor: pointer;
-  background: orange;
-  color: #333333;
+  background: white;
+  color: black;
 }
 
 input {
@@ -332,14 +332,14 @@ input {
 }
 
 input:hover {
-  -webkit-box-shadow: 0 0px 5px orange;
-          box-shadow: 0 0px 5px orange;
+  -webkit-box-shadow: 0 0px 5px white;
+          box-shadow: 0 0px 5px white;
 }
 
 input:focus {
-  -webkit-box-shadow: 0 0px 5px blue;
-          box-shadow: 0 0px 5px blue;
-  border: 2px blue inset;
+  -webkit-box-shadow: 0 0px 5px white;
+          box-shadow: 0 0px 5px white;
+  border: 2px white inset;
 }
 
 .section {
@@ -351,19 +351,19 @@ input:focus {
 
 .section__title {
   text-align: center;
-  font-size: 25px;
+  font-size: 35px;
   margin-bottom: 16px;
   font-weight: 600;
 }
 
 @media screen and (min-width: 700px) {
   .section__title {
-    font-size: 32px;
+    font-size: 40px;
   }
 }
 
 .footer {
-  background-color: #333333;
+  background-color: black;
   width: 100%;
   height: auto;
   text-align: center;
@@ -375,8 +375,8 @@ input:focus {
   position: absolute;
   right: 5px;
   top: 2px;
-  font-size: 16px;
-  border: 1px red solid;
+  font-size: 30px;
+  border: 1px lightgrey solid;
   border-radius: 50%;
   padding: 1px 6px;
   color: #fafafa;
@@ -384,7 +384,7 @@ input:focus {
 }
 
 .close-button:hover {
-  color: red;
+  color: lightgrey;
   cursor: pointer;
 }
 
@@ -395,11 +395,11 @@ input:focus {
   margin: 10px 0px 15px 0;
   padding: 10px;
   color: white;
-  background-color: #333333;
+  background-color: black;
   border-top-left-radius: 25px;
   border-bottom-right-radius: 25px;
-  color: lightgreen;
-  border-color: green;
+  color: black;
+  border-color: black;
 }
 
 .info:empty {
@@ -412,8 +412,8 @@ input:focus {
 
 .info:hover {
   opacity: 1;
-  color: lightpink;
-  border-color: red;
+  color: black;
+  border-color: lightgrey;
 }
 
 .error {
@@ -423,12 +423,12 @@ input:focus {
   margin: 10px 0px 15px 0;
   padding: 10px;
   color: white;
-  background-color: #333333;
+  background-color: black;
   border-top-left-radius: 25px;
   border-bottom-right-radius: 25px;
-  color: lightpink;
-  border: 2px red solid;
-  font-size: 16px;
+  color: black;
+  border: 2px lightgrey solid;
+  font-size: 30px;
 }
 
 .error:empty {
@@ -446,13 +446,13 @@ input:focus {
   margin: 10px 0px 15px 0;
   padding: 10px;
   color: white;
-  background-color: #333333;
+  background-color: black;
   border-top-left-radius: 25px;
   border-bottom-right-radius: 25px;
   border: 2px orange solid;
   margin: 10px;
   padding: 15px;
-  font-size: 16px;
+  font-size: 30px;
 }
 
 .error-captcha:empty {
@@ -470,11 +470,11 @@ input:focus {
   -webkit-transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
-  border-color: transparent;
-  background-color: transparent;
+  border-color: black;
+  background-color: black;
   overflow-x: auto;
   white-space: nowrap;
-  background-color: transparent;
+  background-color: black;
   border-radius: 10px;
   max-width: -webkit-max-content;
   max-width: -moz-max-content;
@@ -504,18 +504,18 @@ input:focus {
 
 .table caption {
   margin-bottom: 15px;
-  font-size: 16px;
+  font-size: 30px;
 }
 
 @media screen and (min-width: 700px) {
   .table caption {
-    font-size: 25px;
+    font-size: 35px;
   }
 }
 
 @media screen and (min-width: 1300px) {
   .table caption {
-    font-size: 32px;
+    font-size: 40px;
   }
 }
 
@@ -523,11 +523,11 @@ input:focus {
   border-bottom: 5px #b6b6b6 double;
   border-left: 2px grey outset;
   border-right: 2px grey outset;
-  background-color: #333333;
+  background-color: black;
   color: white;
   width: auto;
   height: auto;
-  font-size: 16px;
+  font-size: 30px;
   padding: 5px;
 }
 
@@ -535,7 +535,7 @@ input:focus {
   .table__head {
     min-width: 100px;
     height: 25px;
-    font-size: 16px;
+    font-size: 30px;
     padding: 7px;
   }
 }
@@ -544,7 +544,7 @@ input:focus {
   .table__head {
     min-width: 200px;
     height: 32px;
-    font-size: 16px;
+    font-size: 30px;
     padding: 12px;
   }
 }
@@ -592,13 +592,13 @@ input:focus {
 }
 
 .table__row:hover {
-  background-color: wheat;
+  background-color: white;
 }
 
 .table__row-data {
   border: 1px lightgrey outset;
-  color: #333333;
-  font-size: 12px;
+  color: black;
+  font-size: 25px;
   padding: 5px;
 }
 
@@ -606,14 +606,14 @@ input:focus {
   .table__row-data {
     border-width: 2px;
     padding: 10px;
-    font-size: 16px;
+    font-size: 30px;
   }
 }
 
 @media screen and (min-width: 1300px) {
   .table__row-data {
     padding: 15px;
-    font-size: 16px;
+    font-size: 30px;
   }
 }
 
@@ -660,7 +660,7 @@ input:focus {
   width: 100%;
   height: 100%;
   z-index: 200;
-  background-color: #333333;
+  background-color: black;
   pointer-events: none;
 }
 
@@ -671,12 +671,12 @@ input:focus {
   margin: 10px 0px 15px 0;
   padding: 10px;
   color: white;
-  background-color: #333333;
+  background-color: black;
   border-top-left-radius: 25px;
   border-bottom-right-radius: 25px;
-  font-size: 16px;
+  font-size: 30px;
   color: #fafafa;
-  border: 5px #333333 double;
+  border: 5px black double;
   position: fixed;
   top: 100px;
   left: 50px;
@@ -704,8 +704,8 @@ input:focus {
   right: 10px;
   left: 10px;
   bottom: 0px;
-  font-size: 16px;
-  border: 5px orange double;
+  font-size: 30px;
+  border: 5px white double;
   opacity: 1;
   margin-left: auto;
   margin-right: auto;
@@ -729,7 +729,7 @@ input:focus {
 
 #global-request:hover {
   color: white;
-  border: 5px orange solid;
+  border: 5px white solid;
 }
 
 @media screen and (pointer: fine) {
@@ -744,14 +744,14 @@ input:focus {
 
 @media screen and (min-width: 700px) {
   #global-request {
-    font-size: 25px;
+    font-size: 35px;
     padding: 75px 40px;
   }
 }
 
 @media screen and (min-width: 1300px) {
   #global-request {
-    font-size: 32px;
+    font-size: 40px;
     padding: 75px 40px;
   }
 }
@@ -767,12 +767,12 @@ input:focus {
   margin: 10px 0px 15px 0;
   padding: 10px;
   color: white;
-  background-color: #333333;
+  background-color: black;
   border-top-left-radius: 25px;
   border-bottom-right-radius: 25px;
-  font-size: 16px;
+  font-size: 30px;
   color: #fafafa;
-  border: 5px #333333 double;
+  border: 5px black double;
   position: fixed;
   top: 100px;
   left: 50px;
@@ -782,8 +782,8 @@ input:focus {
   z-index: 999;
   opacity: 1;
   text-align: center;
-  color: red;
-  border-color: darkred;
+  color: lightgrey;
+  border-color: black;
   max-width: 60%;
   display: none;
   top: 120px;
@@ -806,7 +806,7 @@ input:focus {
 
 #global-error:hover {
   color: white;
-  border: 5px orange solid;
+  border: 5px white solid;
 }
 
 @media screen and (pointer: fine) {
@@ -820,7 +820,7 @@ input:focus {
 }
 
 #global-error:hover {
-  border: 5px darkred solid;
+  border: 5px black solid;
 }
 
 #global-info {
@@ -830,12 +830,12 @@ input:focus {
   margin: 10px 0px 15px 0;
   padding: 10px;
   color: white;
-  background-color: #333333;
+  background-color: black;
   border-top-left-radius: 25px;
   border-bottom-right-radius: 25px;
-  font-size: 16px;
+  font-size: 30px;
   color: #fafafa;
-  border: 5px #333333 double;
+  border: 5px black double;
   position: fixed;
   top: 100px;
   left: 50px;
@@ -846,7 +846,7 @@ input:focus {
   opacity: 1;
   text-align: center;
   display: none;
-  border-color: lightgreen;
+  border-color: black;
   top: 60px;
   left: 10px;
 }
@@ -867,7 +867,7 @@ input:focus {
 
 #global-info:hover {
   color: white;
-  border: 5px orange solid;
+  border: 5px white solid;
 }
 
 @media screen and (pointer: fine) {
@@ -881,7 +881,7 @@ input:focus {
 }
 
 #global-info:hover {
-  border-color: green;
+  border-color: black;
 }
 
 #global-help {
@@ -891,12 +891,12 @@ input:focus {
   margin: 10px 0px 15px 0;
   padding: 10px;
   color: white;
-  background-color: #333333;
+  background-color: black;
   border-top-left-radius: 25px;
   border-bottom-right-radius: 25px;
-  font-size: 16px;
+  font-size: 30px;
   color: #fafafa;
-  border: 5px #333333 double;
+  border: 5px black double;
   position: fixed;
   top: 100px;
   left: 50px;
@@ -931,7 +931,7 @@ input:focus {
 
 #global-help:hover {
   color: white;
-  border: 5px orange solid;
+  border: 5px white solid;
 }
 
 @media screen and (pointer: fine) {
@@ -946,7 +946,7 @@ input:focus {
 
 #global-help #button-help__next {
   display: block;
-  background: #333333;
+  background: black;
   -webkit-transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   width: 100%;
@@ -954,7 +954,7 @@ input:focus {
   max-width: 300px;
   line-height: 40px;
   text-align: center;
-  font-size: 16px;
+  font-size: 30px;
   border-radius: 6px;
   color: white;
   margin-top: 15px;
@@ -965,8 +965,8 @@ input:focus {
 
 #global-help #button-help__next:hover {
   cursor: pointer;
-  background: orange;
-  color: #333333;
+  background: white;
+  color: black;
 }
 
 textarea {
@@ -975,7 +975,7 @@ textarea {
   grid-column: 3 / span 3;
   max-width: 600px;
   font-family: Consolas, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
-  font-size: 25px;
+  font-size: 35px;
 }
 
 /* Pages */
@@ -1005,7 +1005,7 @@ textarea {
     padding: 15px 25px;
     border-radius: 15px;
     border: 1px black solid;
-    background-color: #333333;
+    background-color: black;
     background-color: white;
     width: 350px;
   }
@@ -1017,10 +1017,10 @@ textarea {
   #testing_form input {
     margin: 8px;
     padding: 12px;
-    font-size: 16px;
+    font-size: 30px;
   }
   #testing_form h1 {
-    font-size: 25px;
+    font-size: 35px;
   }
   #testing_form-header {
     -ms-grid-row: 1;
@@ -1029,7 +1029,7 @@ textarea {
     -ms-grid-column-span: 2;
     grid-area: 1 / 2 / span 2 / span 2;
     margin-bottom: 25px;
-    font-size: 16px;
+    font-size: 30px;
   }
   #testing_form-submit {
     -ms-grid-row: 6;
@@ -1069,7 +1069,7 @@ textarea {
 }
 
 .section-hero__overlay {
-  background-color: rgba(0, 0, 0, 0.65);
+  background-color: black;
   width: 100%;
   height: 100%;
 }
@@ -1099,7 +1099,7 @@ textarea {
 
 @media screen and (min-width: 700px) {
   .section-hero__heading {
-    font-size: 16px;
+    font-size: 30px;
   }
 }
 
@@ -1175,7 +1175,7 @@ textarea {
     padding: 15px 25px;
     border-radius: 15px;
     border: 1px black solid;
-    background-color: #333333;
+    background-color: black;
     background-color: white;
     width: 350px;
   }
@@ -1187,10 +1187,10 @@ textarea {
   .section-login_popup input {
     margin: 8px;
     padding: 12px;
-    font-size: 16px;
+    font-size: 30px;
   }
   .section-login_popup h1 {
-    font-size: 25px;
+    font-size: 35px;
   }
   .section-login_popup-header {
     -ms-grid-row: 1;
@@ -1199,7 +1199,7 @@ textarea {
     -ms-grid-column-span: 2;
     grid-area: 1 / 2 / span 2 / span 2;
     margin-bottom: 25px;
-    font-size: 16px;
+    font-size: 30px;
   }
   .section-login_popup-submit {
     -ms-grid-row: 6;
@@ -1261,23 +1261,23 @@ textarea {
 }
 
 .damages__damage-title {
-  font-size: 25px;
+  font-size: 35px;
   margin-top: 8px;
   margin-bottom: 16px;
 }
 
 @media screen and (min-width: 1300px) {
   .damages__damage-title {
-    font-size: 16px;
+    font-size: 30px;
   }
 }
 
 .damages__damage-value {
-  font-size: 16px;
+  font-size: 30px;
 }
 
 .damages__damage__description {
-  font-size: 16px;
+  font-size: 30px;
   line-height: 150%;
 }
 
@@ -1289,28 +1289,28 @@ textarea {
 }
 
 .damages__damage-dates {
-  font-size: 16px;
-  color: green;
+  font-size: 30px;
+  color: black;
   margin: auto;
 }
 
 .damages__damage-dates-ended {
-  color: orange;
+  color: white;
 }
 
 .footer {
-  background-color: #333333;
+  background-color: black;
   width: 100%;
   margin-bottom: 0;
   padding-bottom: 0;
   padding: 10px;
-  font-size: 16px;
+  font-size: 30px;
   text-align: center;
   font-style: italic;
 }
 
 .footer-description {
-  font-size: 16px;
+  font-size: 30px;
   color: #fafafa;
   margin: 0 auto;
 }
@@ -1338,13 +1338,13 @@ textarea {
 .section-login_form input {
   margin: 8px;
   padding: 12px;
-  font-size: 16px;
+  font-size: 30px;
 }
 
 .section-login_form label {
   margin: 8px;
   padding: 8px;
-  font-size: 16px;
+  font-size: 30px;
 }
 
 .section-login_form-submit {
@@ -1400,13 +1400,13 @@ textarea {
 .section-form label {
   margin: 8px;
   padding: 8px;
-  font-size: 16px;
+  font-size: 30px;
 }
 
 .section-form input {
   margin: 8px;
   padding: 12px;
-  font-size: 16px;
+  font-size: 30px;
 }
 
 @media screen and (min-width: 700px) {
@@ -1501,11 +1501,11 @@ textarea {
 .section__damage-description {
   justify-self: flex-start;
   margin: 32px;
-  font-size: 16px;
+  font-size: 30px;
 }
 
 .section__damage-info {
-  font-size: 16px;
+  font-size: 30px;
   margin: 32px;
   border: 1px #aeaeae solid;
   padding: 32px 16px;
@@ -1531,7 +1531,7 @@ textarea {
   -ms-grid-column-align: center;
       justify-self: center;
   margin: 32px;
-  font-size: 32px;
+  font-size: 40px;
 }
 
 .section__donation .donate-form {
@@ -1583,13 +1583,13 @@ textarea {
 .section__donation .donate-form label {
   margin: 8px;
   padding: 8px;
-  font-size: 16px;
+  font-size: 30px;
 }
 
 .section__donation .donate-form input {
   margin: 8px;
   padding: 12px;
-  font-size: 16px;
+  font-size: 30px;
 }
 
 @media screen and (min-width: 700px) {
@@ -1652,7 +1652,7 @@ textarea {
 
 .section__donation .donate-form #button-donate {
   display: block;
-  background: #333333;
+  background: black;
   -webkit-transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   width: 100%;
@@ -1660,7 +1660,7 @@ textarea {
   max-width: 300px;
   line-height: 40px;
   text-align: center;
-  font-size: 16px;
+  font-size: 30px;
   border-radius: 6px;
   color: white;
   margin-top: 15px;
@@ -1668,7 +1668,7 @@ textarea {
   display: block;
   width: 100%;
   height: 50px;
-  font-size: 32px;
+  font-size: 40px;
   margin: 16px 0;
   border-width: 2px;
   margin-top: 50px;
@@ -1677,8 +1677,8 @@ textarea {
 
 .section__donation .donate-form #button-donate:hover {
   cursor: pointer;
-  background: orange;
-  color: #333333;
+  background: white;
+  color: black;
 }
 
 @media screen and (min-width: 1300px) {
@@ -1749,7 +1749,7 @@ textarea {
 }
 
 .section__admin-controls__title {
-  font-size: 25px;
+  font-size: 35px;
   margin: 0px 0 25px 0;
 }
 
@@ -1759,7 +1759,7 @@ textarea {
 
 .section__admin-controls #block-input {
   text-align: center;
-  color: darkred;
+  color: black;
 }
 
 .section__admin-controls #global-help {
@@ -1772,17 +1772,17 @@ textarea {
 
 .section__admin-controls #log-input {
   text-align: center;
-  color: green;
+  color: black;
 }
 
 .section__admin-controls #moderator-input {
   text-align: center;
-  color: green;
+  color: black;
 }
 
 .button-unblock {
   display: block;
-  background: #333333;
+  background: black;
   -webkit-transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   width: 100%;
@@ -1790,28 +1790,28 @@ textarea {
   max-width: 300px;
   line-height: 40px;
   text-align: center;
-  font-size: 16px;
+  font-size: 30px;
   border-radius: 6px;
   color: white;
   margin-top: 15px;
   margin-bottom: 10px;
-  font-size: 12px;
+  font-size: 25px;
   margin: 0;
-  background-color: red;
+  background-color: lightgrey;
   font-weight: 500;
   max-width: 64px;
 }
 
 .button-unblock:hover {
   cursor: pointer;
-  background: orange;
-  color: #333333;
+  background: white;
+  color: black;
 }
 
 @media screen and (min-width: 700px) {
   .button-unblock {
     max-width: 100%;
-    font-size: 12px;
+    font-size: 25px;
     padding: 0 5px 0;
     font-weight: 1000;
   }
@@ -1819,7 +1819,7 @@ textarea {
 
 .button-remove-moderator {
   display: block;
-  background: #333333;
+  background: black;
   -webkit-transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   width: 100%;
@@ -1827,28 +1827,28 @@ textarea {
   max-width: 300px;
   line-height: 40px;
   text-align: center;
-  font-size: 16px;
+  font-size: 30px;
   border-radius: 6px;
   color: white;
   margin-top: 15px;
   margin-bottom: 10px;
-  font-size: 12px;
+  font-size: 25px;
   margin: 0;
-  background-color: red;
+  background-color: lightgrey;
   font-weight: 500;
   max-width: 64px;
 }
 
 .button-remove-moderator:hover {
   cursor: pointer;
-  background: orange;
-  color: #333333;
+  background: white;
+  color: black;
 }
 
 @media screen and (min-width: 700px) {
   .button-remove-moderator {
     max-width: 100%;
-    font-size: 12px;
+    font-size: 25px;
     padding: 0 5px 0;
     font-weight: 1000;
   }
@@ -1856,7 +1856,7 @@ textarea {
 
 .button-add-moderator-to-category {
   display: block;
-  background: #333333;
+  background: black;
   -webkit-transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   width: 100%;
@@ -1864,29 +1864,29 @@ textarea {
   max-width: 300px;
   line-height: 40px;
   text-align: center;
-  font-size: 16px;
+  font-size: 30px;
   border-radius: 6px;
   color: white;
   margin-top: 15px;
   margin-bottom: 10px;
-  font-size: 12px;
+  font-size: 25px;
   margin: 0;
-  background-color: red;
+  background-color: lightgrey;
   font-weight: 500;
   max-width: 64px;
-  background-color: green;
+  background-color: black;
 }
 
 .button-add-moderator-to-category:hover {
   cursor: pointer;
-  background: orange;
-  color: #333333;
+  background: white;
+  color: black;
 }
 
 @media screen and (min-width: 700px) {
   .button-add-moderator-to-category {
     max-width: 100%;
-    font-size: 12px;
+    font-size: 25px;
     padding: 0 5px 0;
     font-weight: 1000;
   }
@@ -1897,7 +1897,7 @@ textarea {
   height: auto;
   padding-left: 25px;
   line-height: 50px;
-  font-size: 25px;
+  font-size: 35px;
   border-radius: 15px;
 }
 
@@ -1905,12 +1905,12 @@ textarea {
   #admin_control_panel {
     position: fixed;
     line-height: 30px;
-    font-size: 25px;
-    border: 2px wheat solid;
+    font-size: 35px;
+    border: 2px white solid;
     border-radius: 15px;
     top: 100px;
     left: 20px;
-    background-color: #333333;
+    background-color: black;
     color: white;
     -webkit-transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -1921,7 +1921,7 @@ textarea {
     font-weight: 1000;
   }
   #admin_control_panel a:hover {
-    color: orange;
+    color: white;
   }
   #admin_control_panel:hover {
     opacity: 1;
@@ -1948,12 +1948,12 @@ textarea {
   margin: auto;
   text-align: center;
   width: 90%;
-  font-size: 12px;
+  font-size: 25px;
 }
 
 @media screen and (min-width: 700px) {
   .paging-log-info {
-    font-size: 32px;
+    font-size: 40px;
   }
 }
 
@@ -1981,8 +1981,8 @@ textarea {
   padding: 1px 5px;
   min-width: 32px;
   min-height: 32px;
-  font-size: 12px;
-  border: 1px orange thick;
+  font-size: 25px;
+  border: 1px white thick;
   background-color: #fafafa;
 }
 
@@ -1993,12 +1993,12 @@ textarea {
     padding: 2px 25px;
     width: auto;
     min-height: 32px;
-    font-size: 16px;
+    font-size: 30px;
   }
 }
 
 .paging-log-controls button:hover {
-  background-color: orange;
+  background-color: white;
   cursor: pointer;
 }
 
@@ -2035,7 +2035,7 @@ textarea {
   -ms-grid-column: 3;
   -ms-grid-column-span: 3;
   grid-column: 3 / span 3;
-  font-size: 25px;
+  font-size: 35px;
   min-height: 50px;
   border-radius: 25px;
   text-align: center;
@@ -2081,7 +2081,7 @@ textarea {
 #fund-damages__form input {
   margin-bottom: 5px;
   height: 40px;
-  font-size: 16px;
+  font-size: 30px;
   width: 400px;
   text-align: center;
 }
@@ -2139,12 +2139,12 @@ textarea {
   margin: auto;
   text-align: center;
   width: 90%;
-  font-size: 12px;
+  font-size: 25px;
 }
 
 @media screen and (min-width: 700px) {
   .paging-info {
-    font-size: 32px;
+    font-size: 40px;
   }
 }
 
@@ -2172,8 +2172,8 @@ textarea {
   padding: 1px 5px;
   min-width: 32px;
   min-height: 32px;
-  font-size: 12px;
-  border: 1px orange thick;
+  font-size: 25px;
+  border: 1px white thick;
   background-color: #fafafa;
 }
 
@@ -2184,12 +2184,12 @@ textarea {
     padding: 2px 25px;
     width: auto;
     min-height: 32px;
-    font-size: 16px;
+    font-size: 30px;
   }
 }
 
 .paging-controls button:hover {
-  background-color: orange;
+  background-color: white;
   cursor: pointer;
 }
 
@@ -2202,4 +2202,24 @@ textarea {
     width: 200px;
   }
 }
-/*# sourceMappingURL=style.css.map */
+
+* {
+  line-height: 50px;
+  word-spacing: 15px;
+}
+
+section, form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+}
+
+input[type="checkbox"] {
+  width: 35px;
+  height: 25px;
+}
+/*# sourceMappingURL=style_accesibillity.css.map */

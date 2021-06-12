@@ -12,7 +12,7 @@
 
 .select_pubCall_category {
     grid-column: 3 / span 3;
-    font-size: large;
+    font-size: $largeFontSize;
     min-height: 50px;
     border-radius: 25px;
     text-align: center;
@@ -27,4 +27,29 @@ textarea {
 .table__row-data__text {
     white-space: normal;
     max-width: 100px;
+}
+
+#fund-damages__form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .input-wrapper {
+        display: flex;
+        flex-direction: column;
+    }
+    input {
+        margin-bottom: 5px;
+        height: 40px;
+        font-size: $defaultFontSize;
+        width: 400px;
+        text-align: center;
+        &[type=number] {
+            max-width: 128px;
+            align-self: center;
+        }
+    }
+    .button {
+        width: 400px;
+    }
 }

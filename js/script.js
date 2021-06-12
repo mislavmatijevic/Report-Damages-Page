@@ -1,5 +1,34 @@
 $(() => {
 
+    let cookies = document.cookie;
+    let cookieStart = cookies.indexOf("accessibility=true");
+    if (cookieStart != -1) {
+        $("#stylesheet-element").attr("href", $("#stylesheet-element").attr("href").replace(/(.*)\/.*(\.css$)/i, '$1/style_accesibillity$2'));
+    }
+    
+    $("#header__access").on("click", () => {
+        AJAXCall("config.php", { getCookieDuration: "1" }, changeAccessibility);
+    });
+
+    function changeAccessibility(value) {
+        let cookies = document.cookie;
+        let currentAccessValue;
+
+        let cookieStart = cookies.indexOf("accessibility=true");
+
+        if (cookieStart == -1) {
+            currentAccessValue = true;
+            $("#stylesheet-element").attr("href", $("#stylesheet-element").attr("href").replace(/(.*)\/.*(\.css$)/i, '$1/style_accesibillity$2'));
+            var date = new Date();
+            date.setTime(date.getTime() + (value*24*60*60*1000));
+            document.cookie = `accessibility=${currentAccessValue}; expires=${date.toUTCString()}; path=/`;
+        } else {
+            document.cookie = `accessibility=; expires=; path=`;
+            $("#stylesheet-element").attr("href", $("#stylesheet-element").attr("href").replace(/(.*)\/.*(\.css$)/i, '$1/style$2'));
+        }
+    }
+    
+
     // Oblačić za pomoć:
     var helpShown = false;
     var razinaPomoci = 1;
