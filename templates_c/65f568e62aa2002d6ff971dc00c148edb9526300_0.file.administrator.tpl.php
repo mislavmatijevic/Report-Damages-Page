@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.39, created on 2021-06-11 10:24:37
+/* Smarty version 3.1.39, created on 2021-06-13 19:52:03
   from '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/administrator.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.39',
-  'unifunc' => 'content_60c31dc5ada491_51337232',
+  'unifunc' => 'content_60c645c3a4da94_96616328',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '65f568e62aa2002d6ff971dc00c148edb9526300' => 
     array (
       0 => '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/administrator.tpl',
-      1 => 1623399871,
+      1 => 1623606723,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_60c31dc5ada491_51337232 (Smarty_Internal_Template $_smarty_tpl) {
+function content_60c645c3a4da94_96616328 (Smarty_Internal_Template $_smarty_tpl) {
 ?><section class="section">
     <h1 class="section__title">Administriranje stranice</h1>
     <nav id="admin_control_panel">
@@ -72,7 +72,7 @@ function content_60c31dc5ada491_51337232 (Smarty_Internal_Template $_smarty_tpl)
     <h2 class="section__admin-controls__title">Konfiguracija sustava</h2>
 
     <button id="button-help" title="Pomoć pri korištenju">?</button>
-    <div id="global-help">
+    <div id="global-help" style="display: none;">
         <p id="global-help-text">Nakon ovoliko puta korisniku se račun blokira i na ovoj stranici treba ga se
             odblokirati.</p>
         <button id="button-help__next">Nastavi</button>

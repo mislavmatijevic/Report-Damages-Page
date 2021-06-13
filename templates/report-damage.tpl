@@ -8,12 +8,21 @@
 
 <section class="section" style="padding-top: 64px;">
     <h1 class="section__title">Prijavi svoju štetu</h1>
+
+    <button id="button-help" title="Pomoć pri korištenju">?</button>
+    <div id="global-help" style="display:none; margin-top:200px;left:30%;right:100px;">
+        <p id="global-help-text"></p>
+        <button id="button-help__next">Nastavi</button>
+    </div>
+    
     <form id="register" name="register" method="POST" class="section-form"
         action="{htmlspecialchars($smarty.server.PHP_SELF)}" enctype="multipart/form-data">
         <input name="public-call-identifier" type="hidden" value={$publicCallInfo["id_javni_poziv"]} />
 
+
         <label for="name">Naslov prijave: </label>
-        <input id="name" name="name" autofocus type="text" {if isset($newDamage)} value="{htmlspecialchars($newDamage["name"])}" {/if} />
+        <input id="name" name="name" autofocus type="text" {if isset($newDamage)}
+            value="{htmlspecialchars($newDamage["name"])}" {/if} />
 
         <span id="error-name" class="error">{if isset($mistakeField["name"])}{$mistakeField["name"]}{/if}</span>
 

@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.39, created on 2021-06-13 16:21:39
+/* Smarty version 3.1.39, created on 2021-06-13 19:32:25
   from '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/acceptanceStats.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.39',
-  'unifunc' => 'content_60c6147358ac33_46689627',
+  'unifunc' => 'content_60c64129391251_65845966',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '82dd7793a3b2583ab88f92b35aad5656f7ff2bbe' => 
     array (
       0 => '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/acceptanceStats.tpl',
-      1 => 1623593977,
+      1 => 1623602077,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_60c6147358ac33_46689627 (Smarty_Internal_Template $_smarty_tpl) {
+function content_60c64129391251_65845966 (Smarty_Internal_Template $_smarty_tpl) {
 ?><table class="table" style="display: table;">
     <caption>Stanje kategorija</caption>
     <thead>
@@ -43,11 +43,11 @@ $_smarty_tpl->tpl_vars['row']->do_else = false;
                             <?php if ((isset($_smarty_tpl->tpl_vars['acceptanceStats']->value[$_smarty_tpl->tpl_vars['key']->value+2]["naziv"])) && $_smarty_tpl->tpl_vars['acceptanceStats']->value[$_smarty_tpl->tpl_vars['key']->value+2]["naziv"] == $_smarty_tpl->tpl_vars['row']->value["naziv"]) {?>
                             rowspan="3" <?php } else { ?> rowspan="2" 
                             <?php }?> 
-                        <?php }?>><?php echo $_smarty_tpl->tpl_vars['row']->value["naziv"];?>
+                        <?php }?>><?php echo htmlspecialchars($_smarty_tpl->tpl_vars['row']->value["naziv"]);?>
 </td>
                 <?php }?>
-                <td class="table__row-data"><?php echo $_smarty_tpl->tpl_vars['row']->value["count"];?>
- <?php echo $_smarty_tpl->tpl_vars['row']->value["status"];?>
+                <td class="table__row-data"><?php echo htmlspecialchars($_smarty_tpl->tpl_vars['row']->value["count"]);?>
+ <?php echo htmlspecialchars($_smarty_tpl->tpl_vars['row']->value["status"]);?>
 </td>
             </tr>
         <?php

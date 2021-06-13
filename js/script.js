@@ -29,29 +29,13 @@ $(() => {
         }
     }
 
-    
+
     var lastAjax;
 
     // Oblačić za pomoć:
     var helpShown = false;
     var razinaPomoci = 1;
     var firstHelpText = "";
-    $("#global-help").hide();
-    $("#button-help").on("click", () => {
-        if ($("#global-help").is(":visible")) {
-            hideHelp();
-        } else {
-            $("#global-help").show();
-            $("#global-help-text").html(firstHelpText);
-            razinaPomoci = 1;
-        }
-        helpShown = !helpShown;
-    });
-    function hideHelp() {
-        $("#global-help").html();
-        $("#global-help").attr("style", "");
-        $("#global-help").hide();
-    }
 
     if ($("#global-error-text").html().trim().length > 1) {
         $("#global-error").show();
@@ -105,6 +89,96 @@ $(() => {
     }
 
     switch (location.pathname.split('/').slice(-1)[0]) {
+
+        case 'create-public-call.php': {
+            $("#button-help").on("click", () => {
+                if ($("#global-help").is(":visible")) {
+                    hideHelp();
+                } else {
+                    $("#global-help").show();
+                    $("#global-help-text").html(firstHelpText);
+                    razinaPomoci = 1;
+                }
+                helpShown = !helpShown;
+            });
+            function hideHelp() {
+                $("#global-help").html();
+                $("#global-help").attr("style", "display:none; margin-top:100px;left:40%;right:100px;");
+                $("#global-help").hide();
+            }
+
+            firstHelpText = "U što manje riječi što efektivnije opišite vašu motivaciju za prijavom štete.";
+
+            $("#button-help__next").on("click", () => {
+                switch (++razinaPomoci) {
+                    case 2: {
+                        $("#global-help-text").html("Ovdje su popisane kategorije koje su vam dodijeljene na moderiranje.");
+                        $("#global-help").attr("style", "margin-top:150px;left:40%;right:100px;");
+                        break;
+                    }
+                    case 3: {
+                        $("#global-help-text").html("Nazivom pokušajte opisati korisnicima za što se točno prijavljuju.");
+                        $("#global-help").attr("style", "margin-top:280px;left:40%;right:100px;");
+                        break;
+                    }
+                    case 4: {
+                        $("#global-help-text").html("Označite rok da korisnici znaju do kada mogu postavljati materijale.");
+                        $("#global-help").attr("style", "margin-top:725px;left:40%;right:100px;");
+                        break;
+                    }
+                    default: {
+                        hideHelp();
+                    }
+                }
+            });
+
+            break;
+        }
+
+        case 'report-damage.php': {
+
+            $("#button-help").on("click", () => {
+                if ($("#global-help").is(":visible")) {
+                    hideHelp();
+                } else {
+                    $("#global-help").show();
+                    $("#global-help-text").html(firstHelpText);
+                    razinaPomoci = 1;
+                }
+                helpShown = !helpShown;
+            });
+            function hideHelp() {
+                $("#global-help").html();
+                $("#global-help").attr("style", "display:none; margin-top:200px;left:30%;right:100px;");
+                $("#global-help").hide();
+            }
+
+            firstHelpText = "U što manje riječi što efektivnije opišite vašu motivaciju za prijavom štete.";
+
+            $("#button-help__next").on("click", () => {
+                switch (++razinaPomoci) {
+                    case 2: {
+                        $("#global-help-text").html("Detaljno opišite zašto je baš Vaša prijava zaslužila dobiti visoku subvenciju. Ako ne date detaljan opis, moguće je da će moderatori odbiti vašu prijavu.");
+                        $("#global-help").attr("style", "margin-top: 320px;left:30%;right:100px;");
+                        break;
+                    }
+                    case 3: {
+                        $("#global-help-text").html("Oznake će omogućiti drugim korisnicima da pretragom dođu do vaše prijave. Upisujte oznake odvojene razmakom! Najveća dužina je 100 znakova.");
+                        $("#global-help").attr("style", "margin-top: 750px;left:30%;right:100px;");
+                        break;
+                    }
+                    case 4: {
+                        $("#global-help-text").html("Možete priložiti neogarničenu količinu fotografija (jpg), videa (mp4) ili zvučnih materijala (mp3).");
+                        $("#global-help").attr("style", "margin-top: 900px;left:30%;right:100px;");
+                        break;
+                    }
+                    default: {
+                        hideHelp();
+                    }
+                }
+            });
+            break;
+        }
 
         case 'admin-table-management.php': {
 
@@ -554,6 +628,21 @@ $(() => {
                 AJAXCall("retrieve-logs.php", { all: 1, max_page: 1 }, getLogData); // Novo učitavnje dnevnika.
             });
 
+            $("#button-help").on("click", () => {
+                if ($("#global-help").is(":visible")) {
+                    hideHelp();
+                } else {
+                    $("#global-help").show();
+                    $("#global-help-text").html(firstHelpText);
+                    razinaPomoci = 1;
+                }
+                helpShown = !helpShown;
+            });
+            function hideHelp() {
+                $("#global-help").html();
+                $("#global-help").attr("style", "");
+                $("#global-help").hide();
+            }
             $("#button-help__next").on("click", () => {
                 switch (++razinaPomoci) {
                     case 2: {

@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.39, created on 2021-06-11 22:50:52
+/* Smarty version 3.1.39, created on 2021-06-13 19:50:02
   from '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/report-damage.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.39',
-  'unifunc' => 'content_60c3ccacd54647_83150824',
+  'unifunc' => 'content_60c6454a6662a5_68993715',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'aa6b46b5b9aba7da2bfa92daa8ca9a24b2acd6d3' => 
     array (
       0 => '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/report-damage.tpl',
-      1 => 1623444650,
+      1 => 1623606593,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_60c3ccacd54647_83150824 (Smarty_Internal_Template $_smarty_tpl) {
+function content_60c6454a6662a5_68993715 (Smarty_Internal_Template $_smarty_tpl) {
 ?><section class="section">
     <h1 class="section__title">Prijava na javni poziv "<?php echo $_smarty_tpl->tpl_vars['publicCallInfo']->value["naziv"];?>
 "</h1>
@@ -34,14 +34,23 @@ function content_60c3ccacd54647_83150824 (Smarty_Internal_Template $_smarty_tpl)
 
 <section class="section" style="padding-top: 64px;">
     <h1 class="section__title">Prijavi svoju štetu</h1>
+
+    <button id="button-help" title="Pomoć pri korištenju">?</button>
+    <div id="global-help" style="display:none; margin-top:200px;left:30%;right:100px;">
+        <p id="global-help-text"></p>
+        <button id="button-help__next">Nastavi</button>
+    </div>
+    
     <form id="register" name="register" method="POST" class="section-form"
         action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>
 " enctype="multipart/form-data">
         <input name="public-call-identifier" type="hidden" value=<?php echo $_smarty_tpl->tpl_vars['publicCallInfo']->value["id_javni_poziv"];?>
  />
 
+
         <label for="name">Naslov prijave: </label>
-        <input id="name" name="name" autofocus type="text" <?php if ((isset($_smarty_tpl->tpl_vars['newDamage']->value))) {?> value="<?php echo $_smarty_tpl->tpl_vars['newDamage']->value["name"];?>
+        <input id="name" name="name" autofocus type="text" <?php if ((isset($_smarty_tpl->tpl_vars['newDamage']->value))) {?>
+            value="<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['newDamage']->value["name"]);?>
 " <?php }?> />
 
         <span id="error-name" class="error"><?php if ((isset($_smarty_tpl->tpl_vars['mistakeField']->value["name"]))) {
@@ -61,7 +70,7 @@ echo $_smarty_tpl->tpl_vars['mistakeField']->value["description"];
 
         <label for="tags">Oznake: </label>
         <input id="tags" name="tags" type="text" placeholder="poplava pomoć ..." <?php if ((isset($_smarty_tpl->tpl_vars['newDamage']->value))) {?>
-            value="<?php echo $_smarty_tpl->tpl_vars['newDamage']->value["tags"];?>
+            value="<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['newDamage']->value["tags"]);?>
 " <?php }?> />
 
         <span id="error-tags" class="error"><?php if ((isset($_smarty_tpl->tpl_vars['mistakeField']->value["tags"]))) {

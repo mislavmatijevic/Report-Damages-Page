@@ -47,7 +47,7 @@
     <h2 class="section__admin-controls__title">Konfiguracija sustava</h2>
 
     <button id="button-help" title="Pomoć pri korištenju">?</button>
-    <div id="global-help">
+    <div id="global-help" style="display: none;">
         <p id="global-help-text">Nakon ovoliko puta korisniku se račun blokira i na ovoj stranici treba ga se
             odblokirati.</p>
         <button id="button-help__next">Nastavi</button>
