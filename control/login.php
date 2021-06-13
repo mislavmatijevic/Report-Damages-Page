@@ -22,10 +22,11 @@ if ($isValidCaptcha) {
     if ($isLoggedIn === USER_CONTROL_SUCCESS) {
         if (isset($_POST["remember"])) {
             $maxSeconds = $config["cookieDurationDays"]*24*60*60;
-            setcookie("user", $loginUser['username'], time()+$maxSeconds);
+            setcookie('user', $loginUser['username'], time()+$maxSeconds, '/');
         } elseif (isset($_COOKIE["user"])) { // Ako nije kvačica na "Zapamti me".
+            echo '{}';
+            setcookie('user', '', time() - 60*60*24, '/');
             unset($_COOKIE["user"]);
-            setcookie("user", "", "expires = Thu, 01 Jan 1970 00:00:00 GMT");
         }
 
         header("Location: {$relativePath}index.php");

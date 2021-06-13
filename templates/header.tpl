@@ -12,7 +12,7 @@
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script type="text/javascript" src="{$relativePath}js/jquery.js"></script>
     <script type="text/javascript" src="{$relativePath}js/script.js"></script>
-    {if ($smarty.server.PHP_SELF == "/administration.php")}
+    {if ($fullScriptName == "administration.php")}
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
         <script type="text/javascript" src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
     {/if}

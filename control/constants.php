@@ -1,5 +1,5 @@
 <?php
-error_reporting(E_ALL);
+error_reporting(0);
 
 define("ERROR_MESSAGE", 0);
 define("INFO_MESSAGE", 1);

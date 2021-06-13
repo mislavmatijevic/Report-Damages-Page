@@ -100,7 +100,7 @@ class UserControl
         $maxHoursToAccept = $config["maxHoursToAccept"];
         $dbObj = new DB();
         $newlyActivatedUser = $dbObj->ConfirmUser($activateId, $username, $maxHoursToAccept);
-        self::LogIn($newlyActivatedUser->korisnicko_ime, $newlyActivatedUser->lozinka_citljiva);
+        self::LogIn($newlyActivatedUser["korisnicko_ime"], $newlyActivatedUser["lozinka_citljiva"]);
     }
 
     public static function RegisterUser($newUser)

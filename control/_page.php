@@ -1,4 +1,5 @@
 <?php
+error_reporting(0);
 require_once dirname(__DIR__)."/control/constants.php";
 
 require_once dirname(__DIR__)."/control/UserControl.php";
@@ -22,7 +23,7 @@ if (!isset($pageTitle)) {
 }
 $pageTitle .= " | Stranica za štete";
 $smarty->assign("pageTitle", $pageTitle);
-
+$smarty->assign("fullScriptName", $fullScriptName);
 
 if (!function_exists('str_contains')) {
     function str_contains($haystack, $needle) {

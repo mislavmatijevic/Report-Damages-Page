@@ -7,6 +7,7 @@ $(() => {
     }
 
     $("#header__access").on("click", () => {
+        lastAjax = 'AJAXCall("config.php", { getCookieDuration: "1" }, changeAccessibility);';
         AJAXCall("config.php", { getCookieDuration: "1" }, changeAccessibility);
     });
 
@@ -27,6 +28,8 @@ $(() => {
             $("#stylesheet-element").attr("href", $("#stylesheet-element").attr("href").replace(/(.*)\/.*(\.css$)/i, '$1/style$2'));
         }
     }
+
+    var lastAjax;
 
 
     // Oblačić za pomoć:
@@ -114,6 +117,7 @@ $(() => {
 
             var filter = {};
 
+            lastAjax = 'AJAXCall("table-management.php", { getTableList: "1" }, tableListReceived);';
             AJAXCall("table-management.php", { getTableList: "1" }, tableListReceived);
 
             function tableListReceived(tableList) {
@@ -128,7 +132,7 @@ $(() => {
                     tableListHTML += `
                     <li class="table__row">
                         <button class="table-list__name"
-                            tableName="${table.TABLE_NAME}">${table.TABLE_NAME}</button>
+                            tableName="${table.table_name}">${table.table_name}</button>
                     </li>
                 `
                 });
@@ -143,7 +147,9 @@ $(() => {
             function requestEntireTable() {
                 filter = {};
                 lastAjax = [{ dataManipulation: 1, max_page: 1 }, { getTableHeader: SelectedTable }];
+                lastAjax = 'AJAXCall("table-management.php", { dataManipulation: 1, max_page: 1 }, newNumberOfPagesTable)';
                 AJAXCall("table-management.php", { dataManipulation: 1, max_page: 1 }, newNumberOfPagesTable)
+                lastAjax = 'AJAXCall("table-management.php", { getTableHeader: SelectedTable }, tableHeaderReceived);';
                 AJAXCall("table-management.php", { getTableHeader: SelectedTable }, tableHeaderReceived);
             }
 
@@ -188,16 +194,18 @@ $(() => {
                             break;
                         }
                     }
-                    filter = {dataManipulation: 1, rowName: sortRowName, sortDir: sortDirection};
-                    AJAXCall("table-management.php", {page: 0, ...filter}, tableDataReceived);
+                    filter = { dataManipulation: 1, rowName: sortRowName, sortDir: sortDirection };
+                    lastAjax = 'AJAXCall("table-management.php", {page: 0, ...filter}, tableDataReceived);';
+                    AJAXCall("table-management.php", { page: 0, ...filter }, tableDataReceived);
                     tableCurrentPage = 1;
                     $(e.target).html(sortDirection);
                 });
                 $(".searchButton").on("click", (e) => {
                     var currentSearchRow = e.target.getAttribute("rowName");
                     var currentSearchString = $(`#search-${currentSearchRow}`).val();
-                    filter = {dataManipulation: 1, searchString: currentSearchString, searchRow: currentSearchRow};
-                    AJAXCall("table-management.php", {page: 0, ...filter }, tableDataReceived);
+                    filter = { dataManipulation: 1, searchString: currentSearchString, searchRow: currentSearchRow };
+                    lastAjax = 'AJAXCall("table-management.php", {page: 0, ...filter }, tableDataReceived);';
+                    AJAXCall("table-management.php", { page: 0, ...filter }, tableDataReceived);
                 });
 
                 // ZAGLAVLJE //
@@ -241,7 +249,7 @@ $(() => {
                             currentRowId = tableDataInfo[tableHeaderInfo.Field];
                             TableDataArray[parseInt(currentRowId)] = new Array();
                         }
-                        TableDataArray[currentRowId].push(`${tableHeaderInfo.Field}-${currentRowId}`);
+                        TableDataArray[parseInt(currentRowId)].push(`${tableHeaderInfo.Field}-${currentRowId}`);
                         tableRowHTML += `
                         <td class="table__row-data">
                             <input ${index == 0 ? "disabled" : ``}
@@ -300,6 +308,7 @@ $(() => {
                     newRowData[thisRowRealName] = $(`#${rowElement}`).val();
                 });
                 let preparedJSONData = JSON.stringify(newRowData);
+                lastAjax = 'AJAXCall("table-management.php", { newRowData: preparedJSONData }, tableDataChanged);';
                 AJAXCall("table-management.php", { newRowData: preparedJSONData }, tableDataChanged);
             }
 
@@ -316,6 +325,7 @@ $(() => {
                     }
                 });
                 let preparedJSONData = JSON.stringify(thisRowData);
+                lastAjax = 'AJAXCall("table-management.php", { rowId: thisRowIdValue, updateRow: preparedJSONData }, tableDataChanged);';
                 AJAXCall("table-management.php", { rowId: thisRowIdValue, updateRow: preparedJSONData }, tableDataChanged);
             }
 
@@ -323,6 +333,7 @@ $(() => {
                 let identifier = firstElement.split("-")[0];
                 let id = firstElement.split("-")[1];
                 if (confirm(`Potvrdite brisanje retka sa šifrom ${id}?`)) {
+                    lastAjax = 'AJAXCall("table-management.php", { deleteFieldIdentifier: identifier, deleteRowId: id }, tableDataChanged);';
                     AJAXCall("table-management.php", { deleteFieldIdentifier: identifier, deleteRowId: id }, tableDataChanged);
                 }
             }
@@ -350,8 +361,9 @@ $(() => {
                     tableMaxNumberOfPages = numberOfPages + 1;
                 }
                 if (tableCurrentPage < 1) tableCurrentPage = 1;
+                lastAjax = 'AJAXCall("table-management.php", { dataManipulation: 1, page: (tableCurrentPage - 1) }, tableDataReceived, "POST");';
                 AJAXCall("table-management.php", { dataManipulation: 1, page: (tableCurrentPage - 1) }, tableDataReceived, "POST");
-                
+
                 if (tableCurrentPage > tableMaxNumberOfPages) {
                     tableCurrentPage = tableMaxNumberOfPages;
                 }
@@ -399,6 +411,7 @@ $(() => {
         case 'administration.php': {
 
             $("#virtual-button").on("click", () => {
+                lastAjax = 'AJAXCall("https://barka.foi.hr/WebDiP/pomak_vremena/pomak.php", { format: "json" }, newHourDiff, "GET", true);';
                 AJAXCall("https://barka.foi.hr/WebDiP/pomak_vremena/pomak.php", { format: "json" }, newHourDiff, "GET", true);
             });
 
@@ -406,8 +419,9 @@ $(() => {
 
             function newHourDiff(value) {
                 timeDiff = value.WebDiP.vrijeme.pomak.brojSati;
-                lastAjax ={ newConfig: JSON.stringify({ virtualTimeOffsetSeconds: timeDiff }) };
-                AJAXCall("virtual-time.php", { newConfig: JSON.stringify({ virtualTimeOffsetSeconds: timeDiff }) }, informNewTime);
+                lastAjax = { newConfig: JSON.stringify({ virtualTimeOffsetSeconds: timeDiff }) };
+                lastAjax = 'AJAXCall("virtual-time.php", { newConfig: JSON.stringify({ virtualTimeOffsetSeconds: timeDiff }) }, informNewTime);';
+                AJAXCall("config.php", { newConfig: JSON.stringify({ virtualTimeOffsetSeconds: timeDiff }) }, informNewTime);
             }
 
             function informNewTime(value) {
@@ -427,12 +441,14 @@ $(() => {
 
 
 
+            lastAjax = 'AJAXCall("block-user.php", { get_blocked: "1" }, fillTableBlocked);';
             AJAXCall("block-user.php", { get_blocked: "1" }, fillTableBlocked);
 
             let lastBlockActionType = 0;
 
             function blockedUser(value) {
                 if (value == true) {
+                    lastAjax = 'AJAXCall("block-user.php", { get_blocked: "1" }, fillTableBlocked);';
                     AJAXCall("block-user.php", { get_blocked: "1" }, fillTableBlocked);
                     $("#global-info-text").html(lastBlockActionType ? `Korisnik blokiran!` : `Korisnik odblokiran!`);
                     $("#global-info").show();
@@ -453,6 +469,7 @@ $(() => {
                         alert("Niste unijeli korisničko ime!");
                     } else {
                         lastBlockActionType = 1;
+                        lastAjax = 'AJAXCall("block-user.php", { username: usernameValue, action: 1 }, blockedUser);';
                         AJAXCall("block-user.php", { username: usernameValue, action: 1 }, blockedUser);
                     }
                 }
@@ -460,6 +477,7 @@ $(() => {
 
             $("#block-button").on("click", () => {
                 var usernameValue = $("#block-input").val();
+                lastAjax = 'AJAXCall("check-username.php", { checkUsername: usernameValue }, preformBlock);';
                 AJAXCall("check-username.php", { checkUsername: usernameValue }, preformBlock);
             });
 
@@ -485,6 +503,7 @@ $(() => {
                     $(".button-unblock").on("click", (e) => {
                         let selectedUsername = e.target.getAttribute("username");
                         lastBlockActionType = 0;
+                        lastAjax = 'AJAXCall("block-user.php", { username: selectedUsername, action: 0 }, blockedUser);';
                         AJAXCall("block-user.php", { username: selectedUsername, action: 0 }, blockedUser);
                     });
                 } else {
@@ -498,7 +517,8 @@ $(() => {
 
             firstHelpText = "Nakon ovoliko puta neuspješnih unosa lozinke korisniku se račun blokira i na ovoj stranici treba ga se odblokirati.";
 
-            lastAjax =  { get_current_config: "1" };
+            lastAjax = { get_current_config: "1" };
+            lastAjax = 'AJAXCall("config.php", { get_current_config: "1" }, displayCurrentConfig);';
             AJAXCall("config.php", { get_current_config: "1" }, displayCurrentConfig);
 
             function displayCurrentConfig(value) {
@@ -512,7 +532,8 @@ $(() => {
             }
 
             function appliedNewConfig(value) {
-                lastAjax =  { get_current_config: "1" };
+                lastAjax = { get_current_config: "1" };
+                lastAjax = 'AJAXCall("config.php", { get_current_config: "1" }, displayCurrentConfig);';
                 AJAXCall("config.php", { get_current_config: "1" }, displayCurrentConfig);
             }
 
@@ -527,7 +548,9 @@ $(() => {
                     captchaSecretKey: $("#captchaSecretKey").val()
                 });
                 lastAjax = [{ newConfig: newConfigJSON }, { all: 1, max_page: 1 }];
+                lastAjax = 'AJAXCall("config.php", { newConfig: newConfigJSON }, appliedNewConfig);';
                 AJAXCall("config.php", { newConfig: newConfigJSON }, appliedNewConfig);
+                lastAjax = 'AJAXCall("retrieve-logs.php", { all: 1, max_page: 1 }, getLogData); // Novo učitavnje dnevnika.';
                 AJAXCall("retrieve-logs.php", { all: 1, max_page: 1 }, getLogData); // Novo učitavnje dnevnika.
             });
 
@@ -572,6 +595,7 @@ $(() => {
             getLogData(); // Dohvati dnevnik odmah po učitavanju.
 
             function getLogData() {
+                lastAjax = 'AJAXCall("retrieve-logs.php", { ...filter, max_page: 1 }, newNumberOfPagesLog);';
                 AJAXCall("retrieve-logs.php", { ...filter, max_page: 1 }, newNumberOfPagesLog);
             }
 
@@ -584,6 +608,7 @@ $(() => {
                     logMaxNumberOfPages = numberOfPages + 1;
                 }
                 if (logCurrentPage < 1) logCurrentPage = 1;
+                lastAjax = 'AJAXCall("retrieve-logs.php", { ...filter, page: (logCurrentPage - 1) }, logDataReceived);';
                 AJAXCall("retrieve-logs.php", { ...filter, page: (logCurrentPage - 1) }, logDataReceived);
             }
 
@@ -713,12 +738,14 @@ $(() => {
 
 
 
-            
 
+
+            lastAjax = 'AJAXCall("config.php", { get_categories: "1" }, fillCategories);';
             AJAXCall("config.php", { get_categories: "1" }, fillCategories);
 
             function fillCategories(value) {
                 damageCategories = value;
+                lastAjax = 'AJAXCall("config.php", { get_moderators: "1" }, fillTableModerators);';
                 AJAXCall("config.php", { get_moderators: "1" }, fillTableModerators);
             }
 
@@ -726,6 +753,7 @@ $(() => {
 
             function changeModerator(value) {
                 if (value == true) {
+                    lastAjax = 'AJAXCall("config.php", { get_categories: "1" }, fillCategories);';
                     AJAXCall("config.php", { get_categories: "1" }, fillCategories);
                     $("#global-info-text").html("Situacija promijenjena!");
                     $("#global-info").show();
@@ -781,11 +809,13 @@ $(() => {
                     $("#body-moderators").html(tableInnerHTML);
                     $(".button-remove-moderator").on("click", (e) => {
                         let identificator = e.target.getAttribute("identificator");
+                        lastAjax = 'AJAXCall("config.php", { username: identificator, action: 0 }, changeModerator);';
                         AJAXCall("config.php", { username: identificator, action: 0 }, changeModerator);
                     });
                     $(".button-add-moderator-to-category").on("click", (e) => {
                         let identificator = e.target.getAttribute("identificator");
                         let selectedCategories = $(`#select-categories-${identificator}`).val();
+                        lastAjax = 'AJAXCall("config.php", { id_moderator: identificator, new_categories: selectedCategories }, changeModerator);';
                         AJAXCall("config.php", { id_moderator: identificator, new_categories: selectedCategories }, changeModerator);
                     });
                 } else {
@@ -798,6 +828,7 @@ $(() => {
                 if (usernameValue == "") {
                     alert("Unesite korisničko ime novog moderatora!");
                 } else {
+                    lastAjax = 'AJAXCall("config.php", { username: usernameValue, action: 1 }, changeModerator);';
                     AJAXCall("config.php", { username: usernameValue, action: 1 }, changeModerator);
                 }
             });
@@ -827,17 +858,22 @@ $(() => {
                 $("#global-info").show();
 
                 // Novo učitavnje svega.
+                lastAjax = 'AJAXCall("config.php", { get_categories: "1" }, fillCategories);';
                 AJAXCall("config.php", { get_categories: "1" }, fillCategories);
+                lastAjax = 'AJAXCall("block-user.php", { get_blocked: "1" }, fillTableBlocked);';
                 AJAXCall("block-user.php", { get_blocked: "1" }, fillTableBlocked);
+                lastAjax = 'AJAXCall("retrieve-logs.php", { all: 1, max_page: 1 }, getLogData);';
                 AJAXCall("retrieve-logs.php", { all: 1, max_page: 1 }, getLogData);
             }
 
 
             $("#copy_create").on("click", () => {
+                lastAjax = 'AJAXCall("config.php", { backupCreate: 1 }, backupCreated);';
                 AJAXCall("config.php", { backupCreate: 1 }, backupCreated);
             });
 
             $("#copy_retrieve").on("click", () => {
+                lastAjax = 'AJAXCall("config.php", { backupRestore: 1 }, backupRestored);';
                 AJAXCall("config.php", { backupRestore: 1 }, backupRestored);
             });
 
@@ -847,6 +883,7 @@ $(() => {
 
 
 
+            lastAjax = 'AJAXCall("config.php", { stats: 1 }, displayStats);';
             AJAXCall("config.php", { stats: 1 }, displayStats);
             var urlsByUsage = null;
 
@@ -986,7 +1023,7 @@ $(() => {
                 if (isCheckedRememberMe != "1") {
                     let cookies = document.cookie;
                     let cookieStart = cookies.indexOf("user=");
-            
+
                     if (cookieStart == -1) {
                         currentAccessValue = true;
                         document.cookie = "user= ; expires = Thu, 01 Jan 1970 00:00:00 GMT;";
@@ -997,6 +1034,8 @@ $(() => {
         }
 
         case 'register.php': {
+
+            var notSubmited = true;
 
             function validateUsernameRegister(isTaken) {
                 if (isTaken) {
@@ -1048,7 +1087,10 @@ $(() => {
                     formItemList["username"] = "Korisničko ime je prekratko";
                     checker();
                 } else {
-                    AJAXCall("check-username.php", { checkUsername: value }, validateUsernameRegister);
+                    lastAjax = 'AJAXCall("check-username.php", { checkUsername: value }, validateUsernameRegister);';
+                    if (notSubmited) {
+                        AJAXCall("check-username.php", { checkUsername: value }, validateUsernameRegister);
+                    }
                 }
             }
             function checkPasswordInput() {
@@ -1118,6 +1160,7 @@ $(() => {
             $("#email").on("change", checkEmail);
 
             $("#register").on("submit", (e) => {
+                notSubmited = false;
                 checkName();
                 checkSurname();
                 checkUsernameInput();
@@ -1132,12 +1175,14 @@ $(() => {
                 if (Object.keys(formItemList).length != 6) {
                     alert("Popunite obrazac do kraja!");
                     e.preventDefault();
+                    notSubmited = true;
                     return;
                 }
 
                 if (!ok) {
                     alert("Ispravite unose po naputcima!");
                     e.preventDefault();
+                    notSubmited = true;
                     return;
                 }
             });
@@ -1154,7 +1199,7 @@ $(() => {
      * @param {string} argType GET/POST
      * @param {boolean} foolURL Je li prvi parametar nešto drugo umjesto naziva skripte u folderu control.
      */
-    function AJAXCall(scriptName, argData, successCallback, method = 'POST', fullURL = false) {
+    function AJAXCall(scriptName, argData, successCallback, method = "POST", fullURL = false) {
         if (!fullURL) {
             scriptName = "./control/" + scriptName;
         }
@@ -1167,6 +1212,7 @@ $(() => {
             error: function (xhr, status, error) {
                 console.log("AJAX PROBLEM\nStatus: " + status + "\nError: " + error + " \nXHR: ");
                 console.log(xhr);
+                console.log(lastAjax);
                 $("#global-error-text").html("AJAX problem: provjerite konzolu.");
                 $("#global-error").show();
             }

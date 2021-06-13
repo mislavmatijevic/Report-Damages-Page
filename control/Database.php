@@ -136,6 +136,9 @@ class DB
         }
 
         if ($prepared->execute() == false) {
+            var_dump($preparedQuery);
+            var_dump($argumentsString);
+            var_dump(...$argumentsArray);
             throw new Exception("Problem s bazom podataka (" . __LINE__ . ")", DBError);
         };
 
@@ -257,8 +260,9 @@ class DB
      */
     public function ConfirmUser(string $sha256password, string $username, int $maxHoursToAccept)
     {
+        $userObject = null;
         try {
-            $userResult = $this->ExecutePrepared("SELECT * FROM `korisnik` WHERE `lozinka_sha256` = ? AND `korisnicko_ime` = ?", "ss", [$sha256password, $username]);
+            $userObject = $this->SelectPrepared("SELECT * FROM `korisnik` WHERE `lozinka_sha256` = ? AND `korisnicko_ime` = ?", "ss", [$sha256password, $username])[0];
         } catch (Exception $e) {
             if ($e->getCode() == DBEmpty) {
                 throw new Exception("Ovaj je link nevažeći", DBUserError);
@@ -267,18 +271,16 @@ class DB
             }
         }
 
-        $userObject = Prevent::XSS($userResult->fetch_object());
-
         global $confFilePath;
         $config = parse_ini_file($confFilePath);
         $currentTime = date("Y-m-d H:i:s", time() + $config["virtualTimeOffsetSeconds"]);
         
         // Ako je aktiviran prihvaćeni:
-        if ($userObject->datum_aktivacije != null) {
+        if ($userObject["datum_aktivacije"] != null) {
             $this->logObj->New("SELECT * FROM `korisnik` WHERE `lozinka_sha256` = $sha256password AND `korisnicko_ime` = $username", "Prilikom pokušaja aktivacije korisnik $username je označen kao već aktiviran.", Log::registracija);
             throw new Exception('Račun već aktiviran. U slučaju pogreške kontaktirajte administratora.', DBPassError);
         } else {
-            if ((time() + $config["virtualTimeOffsetSeconds"] - strtotime($userObject->datum_registracije)) / 60 / 60 > $maxHoursToAccept) {
+            if (($currentTime - strtotime($userObject["datum_registracije"])) / 60 / 60 > $maxHoursToAccept) {
                 // Izbriši nevažećeg korisnika.
                 $this->ExecutePrepared("DELETE FROM `WebDiP2020x057`.`korisnik` WHERE `korisnicko_ime` = ?", "s", [$username]);
 
@@ -289,12 +291,12 @@ class DB
             
 
             // Sve ok, označi da je korisnik aktiviran.
-            $this->ExecutePrepared("UPDATE `WebDiP2020x057`.`korisnik` SET `datum_aktivacije` = ? WHERE (`id_korisnik` = ?)", "si", [$currentTime, $userObject->id_korisnik]);
+            $this->ExecutePrepared("UPDATE `WebDiP2020x057`.`korisnik` SET `datum_aktivacije` = ? WHERE (`id_korisnik` = ?)", "si", [$currentTime, $userObject["id_korisnik"]]);
         }
 
-        $this->logObj->New("UPDATE `WebDiP2020x057`.`korisnik` SET `datum_aktivacije` = {$currentTime} WHERE (`id_korisnik` = {$userObject->id_korisnik})", "Aktiviran je korisnik $userObject->id_korisnik $username s identifikatorom $sha256password.", Log::registracija);
+        $this->logObj->New("UPDATE `WebDiP2020x057`.`korisnik` SET `datum_aktivacije` = $currentTime WHERE (`id_korisnik` = {$userObject["id_korisnik"]})", "Aktiviran je korisnik $username s identifikatorom šifrom {$userObject["id_korisnik"]}.", Log::registracija);
 
-        return Prevent::XSS($userObject);
+        return $userObject;
     }
 
 
