@@ -10,6 +10,6 @@ UserControl::startSession();
 UserControl::stopSession();
 
 
-header('Location: /index.php');
+header("Location: {$relativePath}index.php");
 
 exit();

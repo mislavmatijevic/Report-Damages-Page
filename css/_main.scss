@@ -85,7 +85,7 @@ main {
         }
 
         &__hamburger {
-            overflow: scroll;
+            overflow: auto;
             &-active {
                 top: 25px;
                 width: 300px;
@@ -420,7 +420,7 @@ input {
     border-color: $transparent;
     background-color: $transparent;
 
-    overflow-y:scroll;
+    overflow-x: auto;
     display:block;
     white-space: nowrap;
     background-color: $transparent;

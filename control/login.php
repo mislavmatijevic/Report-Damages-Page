@@ -18,18 +18,17 @@ if ($isValidCaptcha) {
     } catch (Exception $e) {
         $smarty->assign("message", $e->getMessage());
         $isLoggedIn = false;
-    } finally {
-        if ($isLoggedIn === USER_CONTROL_SUCCESS) {
-
-            if (isset($_POST["remember"])) {
-                setcookie("user", $loginUser['username']);
-            } else if (isset($_COOKIE["user"])) { // Ako nije settan cookie.
-                unset($_COOKIE["user"]);
-                setcookie("user", null, -1, '/');
-            }
-
-            header("Location: index.php");
-            exit();
+    }
+    if ($isLoggedIn === USER_CONTROL_SUCCESS) {
+        if (isset($_POST["remember"])) {
+            $maxSeconds = $config["cookieDurationDays"]*24*60*60;
+            setcookie("user", $loginUser['username'], time()+$maxSeconds);
+        } elseif (isset($_COOKIE["user"])) { // Ako nije kvačica na "Zapamti me".
+            unset($_COOKIE["user"]);
+            setcookie("user", "", "expires = Thu, 01 Jan 1970 00:00:00 GMT");
         }
+
+        header("Location: {$relativePath}index.php");
+        exit();
     }
 }

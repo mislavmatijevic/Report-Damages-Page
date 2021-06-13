@@ -270,7 +270,7 @@ class UserControl
                 </p>
                 <p style="font-family: sans-serif;font-size: 16px;">
                     <strong>
-                    Preporuka je poduzeti nužne radnje na linku ispod što prije!
+                    Ako niste zahtjevali novu lozinku na stranici, ignorirajte ovaj mail i obrišite ga!
                     </strong>
                 </p>
                 <br>

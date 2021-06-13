@@ -12,6 +12,7 @@ if (isset($_GET["activateId"]) && isset($_GET["username"])) {
 
     try {
         UserControl::ConfirmUserAndLogin($activateId, $username);
+        $_SESSION["infoGlobal"] = "Dobro nam došli, $username!";
     } catch (Exception $e) {
         if ($e->getCode()) {
             $smarty->assign("message", $e->getMessage());

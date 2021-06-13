@@ -19,7 +19,7 @@ $publicCallId;
 $isViewable = false;
 
 if (!isset($_SESSION["requestedCallId"])) {
-    header("Location: index.php");
+    header("Location: {$relativePath}index.php");
     exit();
 } else {
     $publicCallId = $_SESSION["requestedCallId"];

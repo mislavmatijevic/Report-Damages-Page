@@ -126,7 +126,7 @@ if (isset($_POST["public-call-identifier"]) && isset($_POST["submit"])) {
                 $categoryId = $publicCallInfo = $dbObj->SelectPrepared("SELECT id_kategorija_stete FROM javni_poziv WHERE id_javni_poziv = ?", "i", [$publicCallId])[0]["id_kategorija_stete"];
                 $newIndex = $dbObj->InsertDamage($publicCallId, $_SESSION["user"]->id_korisnik, $categoryId, $newDamage);
                 $_SESSION["infoGlobal"] = "Vaša je šteta zabilježena pod šifrom $newIndex";
-                header("Location: /index.php");
+                header("Location: {$relativePath}index.php");
                 exit();
             } catch (Exception $e) {
                 $smarty->assign("errorGlobal", $e->getMessage());
@@ -134,7 +134,7 @@ if (isset($_POST["public-call-identifier"]) && isset($_POST["submit"])) {
         }
     }
 } elseif (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
-    header("Location: /index.php");
+    header("Location: {$relativePath}index.php");
     exit();
 } else {
     $publicCallId = Prevent::Injection("GET", 'id');

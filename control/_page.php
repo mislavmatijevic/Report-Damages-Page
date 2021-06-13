@@ -77,7 +77,8 @@ if (isset($_COOKIE["cookies"])) {
         $maxSeconds = $config["cookieDurationDays"]*24*60*60;
         setcookie("cookies", "true", time()+$maxSeconds);
         $termsAccepted = true;
-        header("Location: index.php");
+        header("Location: {$relativePath}index.php");
+        die();
     }
 } 
 if (!$termsAccepted) {

@@ -25,7 +25,7 @@ if (isset($_POST['testing'])) {
         $smarty->assign("message", $e->getMessage());
     } finally {
         if ($isLoggedIn === USER_CONTROL_SUCCESS) {
-            header("Location: moderation.php");
+            header("Location: {$relativePath}moderation.php");
             exit();
         }
     }

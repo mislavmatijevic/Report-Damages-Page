@@ -54,7 +54,7 @@ if (isset($_POST["fund"]) && !empty($_POST["damageId"]) && !empty($_POST["amount
 
         if ($closeCall == true) {
             $_SESSION["infoGlobal"] = "Sredstva su potrošena!<br>Javni poziv \"{$currentCall["naziv"]}\" je zatvoren!";
-            header("Location: moderation.php");
+            header("Location: {$relativePath}moderation.php");
             exit();
         }
     } catch (Exception $e) {
@@ -86,7 +86,7 @@ if (isset($_SESSION['currentPublicCallDamageId'])) {
     }
 } else {
     $_SESSION["infoGlobal"] = "Niste odabrali javni poziv!";
-    header("Location: moderation.php");
+    header("Location: {$relativePath}moderation.php");
     exit();
 }
 

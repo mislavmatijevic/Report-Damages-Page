@@ -1,4 +1,4 @@
-<table class="table">
+<table class="table" style="display: table;">
     <caption>Stanje kategorija</caption>
     <thead>
         <tr>

@@ -106,7 +106,7 @@ main {
 }
 
 .header__nav__hamburger {
-  overflow: scroll;
+  overflow: auto;
 }
 
 .header__nav__hamburger-active {
@@ -481,7 +481,7 @@ input:focus {
   font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
   border-color: black;
   background-color: black;
-  overflow-y: scroll;
+  overflow-x: auto;
   display: block;
   white-space: nowrap;
   background-color: black;

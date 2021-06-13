@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.39, created on 2021-06-08 11:50:36
+/* Smarty version 3.1.39, created on 2021-06-13 16:21:39
   from '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/acceptanceStats.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.39',
-  'unifunc' => 'content_60bf3d6c3d45b6_50471620',
+  'unifunc' => 'content_60c6147358ac33_46689627',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '82dd7793a3b2583ab88f92b35aad5656f7ff2bbe' => 
     array (
       0 => '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/acceptanceStats.tpl',
-      1 => 1623088134,
+      1 => 1623593977,
       2 => 'file',
     ),
   ),
@@ -20,8 +20,8 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_60bf3d6c3d45b6_50471620 (Smarty_Internal_Template $_smarty_tpl) {
-?><table class="table">
+function content_60c6147358ac33_46689627 (Smarty_Internal_Template $_smarty_tpl) {
+?><table class="table" style="display: table;">
     <caption>Stanje kategorija</caption>
     <thead>
         <tr>

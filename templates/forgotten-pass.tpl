@@ -1,4 +1,4 @@
-<section class="section">
+<section class="section" style="margin-top: 175px; margin-bottom: auto">
     {if $requestSent}
         <h1 class="section__title">{$message}</h1>
         <p>Ako ste zaboravili Vašu e-poštu, molimo da se javite administratoru ili otvorite novi račun.</p>
@@ -12,10 +12,10 @@
             <label for="username">Korisničko ime: </label>
             <input id="username" name="username" type="text" size="15" {if isset($username)} value="{$username}" {/if} />
             <span id="error-username" class="error">{if isset($message)}{$message}{/if}</span>
-            <div style="position:relative; grid-area: 7 / 3 / span 2 / span 3; display: flex; flex-direction: column">
+            <div style="position:relative; grid-area: 7 / 3 / span 2 / span 3; display: flex; flex-direction: column; align-items: center;">
                 <div class="g-recaptcha" data-sitekey="6Lf1IQwbAAAAANr0dqL1d4BFHSNrquwodjOfunFW"></div>
                 {if isset($messageCaptcha)}<span class="error-captcha">{$messageCaptcha}</span>{/if}
-                <input class="form_button" name="submit" type="submit" value="Želim novu zaporku!" />
+                <input class="button form_button" name="submit" type="submit" value="Želim novu zaporku!" />
             </div>
         </form>
     {/if}

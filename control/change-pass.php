@@ -60,7 +60,7 @@ if (isset($_GET['identifier'])) {
 }
 
 if (!isset($identifier)) { // U slučaju da je netko slučajno nabasao na stranicu.
-    header("Location: ../index.php");
+    header("Location: {$relativePath}index.php");
     exit();
 } else {
     $smarty->assign("identifier", $identifier);

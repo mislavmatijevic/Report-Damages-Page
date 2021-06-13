@@ -33,7 +33,7 @@ if (isset($_POST["public-call-identifier"]) && isset($_POST["amount"])) {
         }
     }
 } elseif (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
-    header("Location: /index.php");
+    header("Location: {$relativePath}index.php");
     exit();
 } else {
     $publicCallId = Prevent::Injection("GET", 'id');
