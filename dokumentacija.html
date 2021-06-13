@@ -6,6 +6,11 @@
     <title>Dokumentacija</title>
     <link type="text/css" rel="stylesheet" href="./css/style.css">
     <style>
+        h1 {
+            padding: 16px 0;
+            border-bottom: 2px grey solid;
+        }
+
         section {
             display: flex;
             flex-direction: column;
@@ -31,9 +36,9 @@
         h5 {
             margin: 16px 0;
             text-align: center;
-            color: orange;
+            color: red;
             font-size: large;
-            border: 1px orange solid;
+            border: 1px red solid;
             border-left: none;
             border-right: none;
             max-width: 95%;
@@ -55,7 +60,7 @@
         }
 
         .scripts {
-            color: orangered;
+            color: darkred;
             font-weight: 1000;
         }
     </style>
@@ -145,26 +150,35 @@
             </h2>
             <p>
             <h4>Dizajn</h4>
-            Dizajn rješenja uvelike je potpomognut korištenjem "scss" skriptni jezik. Odabrao sam ovaj jezik jer mi je
-            <strong>uvelike</strong> olakšao rad s medija querijima. Također, "scss" mi je omogućio jednostavno
-            korištenje varijabli u "css" kodu. Tim varijablama sam ostvario jednakost boja na svim pogledima, a i
-            vremenski u vrlo kratkom roku vrlo jednostavno - ali kvaliteno - implementirao pogled za disleksične osobe.
-            <br>
-            Dizajn je uglavnom izrađivan po "mobile-first" pristupu, odnosno (s)css kod je definiran za mobitele, a
-            medija querijima prilagođen tabletima/desktopima. Uglavnom jer sam na par mjesta "pribjegao" inline
-            stylingu.
-            <br>
-            <br>
-            Odabrao sam primarnu boju bijelu i sekundarnu boju crnu kako bih stvorio ugodan kontrast na svakom pogledu.
-            Kao naglašenu boju koristim narančastu jer ukazuje na problematiku (štete, problematična situacija, nije sve
-            u redu, odnosno "zeleno"), a ipak za razliku od npr. crvene boje narančasta je boja koja je ugodna oku
-            (aludira na naranču kao na ukusno voće).
+            <p>
+                Dizajn rješenja uvelike je potpomognut korištenjem "scss" skriptni jezik. Odabrao sam ovaj jezik jer mi
+                je
+                <strong>uvelike</strong> olakšao rad s medija querijima. Također, "scss" mi je omogućio jednostavno
+                korištenje varijabli u "css" kodu. Tim varijablama sam ostvario jednakost boja na svim pogledima, a i
+                vremenski u vrlo kratkom roku vrlo jednostavno - ali kvaliteno - implementirao pogled za disleksične
+                osobe.
+                <br>
+                Dizajn je uglavnom izrađivan po "mobile-first" pristupu, odnosno (s)css kod je definiran za mobitele, a
+                medija querijima prilagođen tabletima/desktopima. Uglavnom jer sam na par mjesta "pribjegao" inline
+                stylingu.
+                <br>
+                <br>
+                Odabrao sam primarnu boju bijelu i sekundarnu boju crnu kako bih stvorio ugodan kontrast na svakom
+                pogledu.
+                Kao naglašenu boju koristim narančastu jer ukazuje na problematiku (štete, problematična situacija, nije
+                sve
+                u redu, odnosno "zeleno"), a ipak za razliku od npr. crvene boje narančasta je boja koja je ugodna oku
+                (aludira na naranču kao na ukusno voće).
+            </p>
             <h4>Baza podataka</h4>
-            Kičmu rješenja čini pomno osmišljena i dobro organizirana bazi podataka. Temelje za bazu postavio sam
-            tijekom 2. zadaće na kolegiju, no od tada sam ju mnogo puta promijenio i prilagodio baš ovome rješenju.
-            Koristeći alat MySQL Workbench generirao sam sve upite
+            <p>
+                Kičmu rješenja čini pomno osmišljena i dobro organizirana bazi podataka. Temelje za bazu postavio sam
+                tijekom 2. zadaće na kolegiju, no od tada sam ju mnogo puta promijenio i prilagodio baš ovome rješenju.
+                Koristeći alat MySQL Workbench generirao sam sve upite.
+            </p>
             <h4>Programski kod na strani poslužitelja</h4>
-            U PHP-u sam napravio tri osnovne PHP datoteke:
+            <p>
+                U PHP-u sam napravio tri osnovne PHP datoteke:
             <ol style="margin-left: 30px;">
                 <li>Database.php</li>
                 <li>UserControl.php</li>
@@ -177,16 +191,21 @@
             Postoje PHP datoteke koje generiraju sučelje i one se nalaze u "root" direktoriju rješenja. PHP datoteke
             koje se bave nekom specifičnom funkcionalnosti koja ne spada pod upraviteljstvo niti jedne od gornjih triju
             datoteka nalaze se u "control" direktoriju.
+            </p>
             <h4>Programski kod na strani klijenta</h4>
-            Web mjesto ne bi funkcioniralo u potpunosti bez programskog koda na strani klijenta. Ovaj kod bavi se
-            osnovnim provjerama unesenih podataka i animacijama, a ono najbitnije - sadrži brojne funkcije koje AJAX
-            pozivima omogućavaju jednostavno i direktno funkcioniranje administratorskog panela.
+            <p>
+                Web mjesto ne bi funkcioniralo u potpunosti bez programskog koda na strani klijenta. Ovaj kod bavi se
+                osnovnim provjerama unesenih podataka i animacijama, a ono najbitnije - sadrži brojne funkcije koje AJAX
+                pozivima omogućavaju jednostavno i direktno funkcioniranje administratorskog panela.
+            </p>
             <h4>Sigurnost</h4>
-            Posebna pažnja posvećena je sigurnosti sustava. U datoteci "OutputControl.php" postoji posebna klasa
-            "Prevent" (implementacija objašnjena ispod) koja osigurava da su <strong>SVI</strong> podaci koji idu na
-            ekran očišćeni od posebnih HTML znakova i time učinkovito (rekurzivno za PHP polja) onemogućava XSS tip
-            napada. Također osigurava da podaci koji idu u bazu budu potpuno sigurni za bazu (iako svi podaci prolaze
-            kroz "prepared" MySQL funkcije).
+            <p>
+                Posebna pažnja posvećena je sigurnosti sustava. U datoteci "OutputControl.php" postoji posebna klasa
+                "Prevent" (implementacija objašnjena ispod) koja osigurava da su <strong>SVI</strong> podaci koji idu na
+                ekran očišćeni od posebnih HTML znakova i time učinkovito (rekurzivno za PHP polja) onemogućava XSS tip
+                napada. Također osigurava da podaci koji idu u bazu budu potpuno sigurni za bazu (iako svi podaci
+                prolaze
+                kroz "prepared" MySQL funkcije).
             </p>
         </section>
         <section class="section" id="Napadi">
@@ -197,11 +216,13 @@
             <h4>Siege</h4>
             Alatom siege dobio sam dobre rezultate (15 sekundi) na sve skripte u "root" direktoriju.
             <br>
-            <a target="_blank" href="./documentation_files/urls.txt">U datoteku "urls.txt" postavio sam sve linkove na skripte u "root"
+            <a target="_blank" href="./documentation_files/urls.txt">U datoteku "urls.txt" postavio sam sve linkove na
+                skripte u "root"
                 direktoriju i usmjerio alat siege na njih.</a><br>
             <iframe width="500px" height="250px" src="./documentation_files/urls.txt"></iframe>
             <div style="height: 50px;"></div>
-            <a target="_blank" href="./documentation_files/siege_output.txt">Rezultati su dostupni u drugoj datoteci "siege_output.txt"
+            <a target="_blank" href="./documentation_files/siege_output.txt">Rezultati su dostupni u drugoj datoteci
+                "siege_output.txt"
                 na koju se može baciti pogled i ispod.</a><br>
             <iframe width="500px" height="250px" src="./documentation_files/siege_output.txt"></iframe>
             <br>
@@ -230,7 +251,8 @@
             <div style="height: 64px;"></div>
 
             <h5 id="Slike_nakon_napada">Slike nakon napada</h5>
-            <span>Statistika korištenja</span>
+            <span>Statistika korištenja nakon napada daje sliku korištenosti web mjesta neke Fortune 300
+                korporacije</span>
             <img src="./documentation_files/OWASP_ZAP_statistika.png"
                 alt="Slika ekrana napada na stranicu alatom OWASP ZAP"></img>
             <span>Obavijesti informativne prirode</span>
@@ -270,8 +292,8 @@
             <h2>
                 Navigacijski dijagram
             </h2>
-            <img src="./documentation_files/navigacijski.png" style="max-width: 100%;max-height: 100%;width: 100%;height: 100%;"
-                alt="Navigacijski dijagram"></img>
+            <img src="./documentation_files/navigacijski.png"
+                style="max-width: 100%;max-height: 100%;width: 100%;height: 100%;" alt="Navigacijski dijagram"></img>
         </section>
         <section class="section" id="Popis_skripata">
             <h2>
@@ -362,7 +384,7 @@
                 <li class="scripts">Database.php</li>
                 <p>Sadrži dvije vrlo bitne klase: "Log" i "DB".
                 <ol>
-                    <li style="margin-left: 16px;">DB
+                    <li style="margin-left: 16px;"><strong>DB</strong>
                         <p>Objekt ove klase u svom konstruktoru ponajprije uspostavlja vezu s bazom. Tu vezu tada pamti
                             u privatnom atributu "$mysqli_object". Sam objekt tada nudi dvije osnovne javne metode:
                             "ExecutePrepared" i "SelectPrepared", gdje prva proširuje funkcionalnost druge, a druga
@@ -374,7 +396,7 @@
                             apstrakcija
                         </p>
                     </li>
-                    <li style="margin-left: 16px;">Log
+                    <li style="margin-left: 16px;"><strong>Log</strong>
                         <p>Omogućava rad s dnevnikom. Objekt ove klase u konstruktor prima objekt klase DB koji onda Log
                             objekt koristi za komuniciranje s bazom i upisivanje u dnevnik.<br>
                             Bitno je napomenuti da objekti ove klasa ne smiju alocirati DB objekte jer bi to dovelo do
@@ -421,7 +443,9 @@
             </p>
             <ol style="margin-left: 30px;">
                 <li class="scripts">_page.php</li>
-                <p>Osnovna datoteka, uključuje se na svim tablicama, uključuje gornje tri skripte, kao i "smarty"
+                <p>Osnovna datoteka, uključuje se na svim tablicama. Prefix "_" mi je pomogao uvijek imati oko na ovoj
+                    skripti ističući ju od ostatka.<br>
+                    Uključuje gornje tri skripte, kao i "smarty"
                     dodatak, usklađuje putanje, osigurava HTTPS protokol na svim stranicama, provjerava sve globalne
                     postavke i namješta razne globalne varijable
                 </p>
@@ -498,9 +522,10 @@
                 ispitu vožnje nakon odrađenih sati opet koristiti Zastava 101 nije smisleno.<br>
                 Summa summarum, razmislite o korištenju VSCode-a u budućim semestrima.
             </p>
-            <h4><a target="_blank" href="https://en.wikipedia.org/wiki/Siege_(software)">Siege</a></h4>
+            <h4><a target="_blank" href="https://www.mysql.com/products/workbench/">MySQL Workbench</a></h4>
             <p>
-                Alatom siege testirano je opterećenje poslužitelja (lokalno, naravno), a njegovi rezultati u čistom tekstualnom obliku su navedeni ranije u dokumentaciji.
+                Program MySQL Workbench (Linux verzija) služio mi je vrlo dobro kao generator SQL upita koje bih u grafičkom sučelju ili u konzoli pomoću nadopunjavajućih prijedloga logički definirao, a potom jednostavno prekopirao u PHP skripte i prilagodio "prepared" upitima.<br>
+                Vrlo korisna funkcionalnost mi je bila "Server -> Data Export" koja mi je omogućavala redovito "backupiranje" baze sa sadržajem.
             </p>
             <h4><a target="_blank" href="https://owasp.org/www-project-zap/">OWASP ZAP</a></h4>
             <p>
@@ -509,9 +534,16 @@
                 Konačni preostali sigurnosni nedostaci koje je ova aplikacija ispravno prijavila već su ranije u
                 dokumentaciji objašnjeni i dokazani da su "false-flag".
             </p>
+            <h4><a target="_blank" href="https://en.wikipedia.org/wiki/Siege_(software)">Siege</a></h4>
+            <p>
+                Alatom siege testirano je opterećenje poslužitelja (lokalno, naravno), a njegovi rezultati u čistom
+                tekstualnom obliku su navedeni ranije u dokumentaciji.
+            </p>
             <h4><a target="_blank" href="https://owasp.org/www-project-zap/">Git/GitHub</a></h4>
             <p>
-                Za kontrolu verzija koristio sam posebni privatni repozitorij. To mi je omogućilo efektivno pregledavanje i vraćanje na ranije verzije aplikacija, a i sigurnosne kopije sigurnosnih kopija baze podataka (u obliku SQL naredbi).
+                Za kontrolu verzija koristio sam posebni privatni repozitorij. To mi je omogućilo efektivno
+                pregledavanje i vraćanje na ranije verzije aplikacija, a i sigurnosne kopije sigurnosnih kopija baze
+                podataka (u obliku SQL naredbi).
             </p>
         </section>
         <section class="section" id="Vanjski_moduli">
