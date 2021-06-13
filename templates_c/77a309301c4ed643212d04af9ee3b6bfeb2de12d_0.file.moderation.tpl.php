@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.39, created on 2021-06-12 02:03:06
+/* Smarty version 3.1.39, created on 2021-06-13 11:15:40
   from '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/moderation.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.39',
-  'unifunc' => 'content_60c3f9badf8a28_27472999',
+  'unifunc' => 'content_60c5ccbc8a5fb0_78658921',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '77a309301c4ed643212d04af9ee3b6bfeb2de12d' => 
     array (
       0 => '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/moderation.tpl',
-      1 => 1623456186,
+      1 => 1623575739,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_60c3f9badf8a28_27472999 (Smarty_Internal_Template $_smarty_tpl) {
+function content_60c5ccbc8a5fb0_78658921 (Smarty_Internal_Template $_smarty_tpl) {
 ?><section class="section" style="display: block">
     <h2 class="section__title">
         Uređivanje javnih poziva
@@ -48,21 +48,25 @@ $_smarty_tpl->tpl_vars['damage']->do_else = false;
             <div>
                 <div class="damages__damage-info">
                     <p class="damages__damage-dates<?php if ($_smarty_tpl->tpl_vars['damage']->value["zatvoren"] == 1) {?>-ended<?php }?>">
-                        <strong>Broj prijava:</strong>
-
+                        <?php if ($_smarty_tpl->tpl_vars['damage']->value["zatvoren"] != 1) {?>
                         <strong>Otvoren:</strong>
                         <?php echo date("d.m.y. H:i:s",strtotime(htmlspecialchars($_smarty_tpl->tpl_vars['damage']->value["datum_otvaranja"])));?>
 
+                        <?php } else { ?>
+                            <strong>Ovaj javni poziv je zatvoren.</strong>
+                        <?php }?>
                         <br>
                         <strong>Rok prijava:</strong>
                         <?php echo date("d.m.y. H:i:s",strtotime(htmlspecialchars($_smarty_tpl->tpl_vars['damage']->value["datum_zatvaranja"])));?>
 
                     </p>
                 </div>
-                <a class="button-damage" href="./edit-public-call.php?id=<?php echo $_smarty_tpl->tpl_vars['damage']->value["id_javni_poziv"];?>
+                <?php if ($_smarty_tpl->tpl_vars['damage']->value["zatvoren"] != 1) {?>
+                    <a class="button-damage" href="./edit-public-call.php?id=<?php echo $_smarty_tpl->tpl_vars['damage']->value["id_javni_poziv"];?>
 ">Uredi</a>
-                <a class="button-damage" href="./fund-damages.php?id=<?php echo $_smarty_tpl->tpl_vars['damage']->value["id_javni_poziv"];?>
+                    <a class="button-damage" href="./fund-damages.php?id=<?php echo $_smarty_tpl->tpl_vars['damage']->value["id_javni_poziv"];?>
 ">Pregledaj prijave</a>
+                <?php }?>
             </div>
         </div>
     <?php

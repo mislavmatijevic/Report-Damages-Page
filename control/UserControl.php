@@ -42,10 +42,10 @@ class UserControl
 
     public static function LogIn($username, $password)
     {
-        global $conf;
+        global $confFilePath;
 
         $fullUser = null;
-        $configuration = parse_ini_file($conf);
+        $configuration = parse_ini_file($confFilePath);
 
         $dbObj = new DB();
 
@@ -95,8 +95,8 @@ class UserControl
      */
     public static function ConfirmUserAndLogin(string $activateId, string $username)
     {
-        global $conf;
-        $config = parse_ini_file($conf);
+        global $confFilePath;
+        $config = parse_ini_file($confFilePath);
         $maxHoursToAccept = $config["maxHoursToAccept"];
         $dbObj = new DB();
         $newlyActivatedUser = $dbObj->ConfirmUser($activateId, $username, $maxHoursToAccept);
@@ -131,12 +131,12 @@ class UserControl
 
     public static function CheckCaptcha($captcha_response)
     {
-        global $conf;
+        global $confFilePath;
         if (empty($captcha_response)) {
             throw new Exception("Označice kvačicu<br>\"I'm not a robot\"!");
         }
         
-        $config = parse_ini_file($conf);
+        $config = parse_ini_file($confFilePath);
         $secretKey = $config["captchaSecretKey"];
         
         $url = 'https://www.google.com/recaptcha/api/siteverify?secret=' . urlencode($secretKey) .  '&response=' . urlencode($captcha_response);

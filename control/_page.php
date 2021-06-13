@@ -66,7 +66,7 @@ require_once dirname(__DIR__)."/control/OutputControl.php";
 
 $smarty->assign("userHelloMessage", $userHelloMessage);
 
-$config = parse_ini_file($conf);
+$config = parse_ini_file($confFilePath);
 
 $termsAccepted = false;
 
@@ -86,4 +86,8 @@ if (!$termsAccepted) {
     die();
 }
 
+if (isset($_SESSION["infoGlobal"])) {
+    $smarty->assign("infoGlobal", $_SESSION["infoGlobal"]);
+    unset($_SESSION["infoGlobal"]);
+}
 ?>

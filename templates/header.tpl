@@ -52,7 +52,7 @@
                     {/if}
                     {if $smarty.session.lvl <= 2}
                         <!-- Neregistrirani -->
-                        <a href="{$relativePath}moderation.php" class="header__nav-item">Moderiranje kategorija</a>
+                        <a href="{$relativePath}moderation.php" class="header__nav-item">Moji javni pozivi</a>
                     {/if}
                     {if $smarty.session.lvl == 1}
                         <!-- Neregistrirani -->

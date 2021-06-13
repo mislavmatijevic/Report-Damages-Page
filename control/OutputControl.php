@@ -56,13 +56,13 @@ class PagingControl
 
     public function __construct(string $tableName, string $tableData, string $additional = "")
     {
-        global $conf;
+        global $confFilePath;
         global $smarty;
         $this->smarty = $smarty;
         $this->tableData = $tableData;
         $this->tableName = $tableName . " " . $additional;
 
-        $config = parse_ini_file($conf);
+        $config = parse_ini_file($confFilePath);
         $this->configItemsPerPage = $config["maxItemsPerPage"];
         $this->dbObj = new DB();
 

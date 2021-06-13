@@ -1994,7 +1994,7 @@ textarea {
   #admin_control_panel {
     position: fixed;
     line-height: 30px;
-    font-size: 30px;
+    font-size: 20px;
     border: 2px white solid;
     border-radius: 15px;
     top: 100px;

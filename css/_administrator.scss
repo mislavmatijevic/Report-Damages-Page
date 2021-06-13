@@ -168,7 +168,7 @@
     @media screen and ($desktop) {
         position: fixed;
         line-height: 30px;
-        font-size: $largeFontSize;
+        font-size: $defaultFontSize;
         border: 2px $lightHighlightColor solid;
 
         border-radius: 15px;

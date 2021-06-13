@@ -18,17 +18,21 @@
             <div>
                 <div class="damages__damage-info">
                     <p class="damages__damage-dates{if $damage["zatvoren"] == 1}-ended{/if}">
-                        <strong>Broj prijava:</strong>
-
+                        {if $damage["zatvoren"] != 1}
                         <strong>Otvoren:</strong>
                         {date("d.m.y. H:i:s", strtotime(htmlspecialchars($damage["datum_otvaranja"])))}
+                        {else}
+                            <strong>Ovaj javni poziv je zatvoren.</strong>
+                        {/if}
                         <br>
                         <strong>Rok prijava:</strong>
                         {date("d.m.y. H:i:s", strtotime(htmlspecialchars($damage["datum_zatvaranja"])))}
                     </p>
                 </div>
-                <a class="button-damage" href="./edit-public-call.php?id={$damage["id_javni_poziv"]}">Uredi</a>
-                <a class="button-damage" href="./fund-damages.php?id={$damage["id_javni_poziv"]}">Pregledaj prijave</a>
+                {if $damage["zatvoren"] != 1}
+                    <a class="button-damage" href="./edit-public-call.php?id={$damage["id_javni_poziv"]}">Uredi</a>
+                    <a class="button-damage" href="./fund-damages.php?id={$damage["id_javni_poziv"]}">Pregledaj prijave</a>
+                {/if}
             </div>
         </div>
     {/foreach}

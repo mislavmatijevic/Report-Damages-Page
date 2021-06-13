@@ -9,8 +9,8 @@ require_once dirname(__DIR__)."/control/Database.php";
 require_once dirname(__DIR__)."/control/OutputControl.php";
 require_once dirname(__DIR__)."/control/UserControl.php";
 
-$conf = dirname(__DIR__)."/privatno/config/manage.conf";
-$config = parse_ini_file($conf);
+$confFilePath = dirname(__DIR__)."/privatno/config/manage.conf";
+$config = parse_ini_file($confFilePath);
 
 if (isset($_POST["getCookieDuration"])) {
     die(json_encode($config["cookieDurationDays"]));
@@ -74,7 +74,7 @@ if (isset($_POST['newConfig'])) {
 
         $changesMessage = "Promijenjene su konfiguracijske postavke sljedećim vrijednostima:";
 
-        $fileConfig = fopen($conf, "w");
+        $fileConfig = fopen($confFilePath, "w");
         foreach ($newConfig as $key => $newValue) {
             if ($newValue !== $config[$key]) {
                 $changesMessage .= "\n($key) $config[$key] -> $newValue";

@@ -15,8 +15,8 @@ try {
     die(json_encode(-1)); // -1, a ne false, jer 0==false :(
 }
 
-$conf = dirname(__DIR__)."/privatno/config/manage.conf";
-$config = parse_ini_file($conf);
+$confFilePath = dirname(__DIR__)."/privatno/config/manage.conf";
+$config = parse_ini_file($confFilePath);
 $configItemsPerPage = $config["maxItemsPerPage"];
 
 if (isset($_POST['all'])) {

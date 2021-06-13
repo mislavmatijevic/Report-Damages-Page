@@ -6,11 +6,6 @@ require_once './control/_page.php';
 $isLoggedIn = false;
 $loginUser = null;
 
-if (isset($_SESSION["infoGlobal"])) {
-    $smarty->assign("infoGlobal", $_SESSION["infoGlobal"]);
-    unset($_SESSION["infoGlobal"]);
-}
-
 if (isset($_COOKIE["user"])) {
     $loginUser["username"] = $_COOKIE["user"];
     $smarty->assign("setRemember", true);
@@ -30,7 +25,7 @@ if (isset($_POST['testing'])) {
         $smarty->assign("message", $e->getMessage());
     } finally {
         if ($isLoggedIn === USER_CONTROL_SUCCESS) {
-            header("Location: index.php");
+            header("Location: moderation.php");
             exit();
         }
     }

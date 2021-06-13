@@ -29,13 +29,13 @@ class Log
     public const otvaranje_javnog_poziva = 8;
     public const zatvaranje_javnog_poziva = 9;
     public const prijava_na_javni_poziv = 10;
-    public const novi_status_javnog_poziva = 11;
+    public const subvencioniranje = 11;
     public const prijava_štete = 12;
     public const neuspješna_prijava = 13;
     public const blokiranje = 14;
     public const zahtjev_nove_lozinke = 15;
     public const promjena_lozinke = 16;
-    public const promjena_podataka = 17;
+    public const odbijanje_prijave = 17;
     public const mail_za_registraciju = 18;
     public const mail_za_lozinku = 19;
     public const mail_za_blokiranje = 20;
@@ -53,7 +53,7 @@ class Log
     public function New($query, $description, $activity, $id_user = null)
     {
         global $fullScriptName;
-        global $conf;
+        global $confFilePath;
 
         if ($id_user === null) {
             isset($_SESSION["user"]->id_korisnik) ? $executor = $_SESSION["user"]->id_korisnik : $executor = "1";
@@ -61,7 +61,7 @@ class Log
             $executor = $id_user;
         }
 
-        $config = parse_ini_file($conf);
+        $config = parse_ini_file($confFilePath);
         $this->dbObjLog->ExecutePrepared("INSERT INTO dnevnik (`url`, `datum_vrijeme`, `upit`, `opis_radnje`, `id_radnja`, `id_izvrsitelj`) VALUES (?, ?, ?, ?, ?, ?)", "ssssii", [$fullScriptName, date("Y-m-d H:i:s", time() + $config["virtualTimeOffsetSeconds"]), $query, $description, $activity, $executor]);
     }
 
@@ -239,10 +239,10 @@ class DB
      */
     public function InsertUser($newUser, $salt)
     {
-        global $conf;
+        global $confFilePath;
         $pass_sha256 = hash("sha256", $salt . $newUser["password"]);
 
-        $config = parse_ini_file($conf);
+        $config = parse_ini_file($confFilePath);
         $currentTime = date("Y-m-d H:i:s", time() + $config["virtualTimeOffsetSeconds"]);
 
         $this->ExecutePrepared("INSERT INTO `korisnik` (`ime`, `prezime`, `korisnicko_ime`, `email`, `lozinka_citljiva`, `sol`, `lozinka_sha256`, `datum_registracije`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", "ssssssss", [$newUser["name"], $newUser["surname"], $newUser["username"], $newUser["email"], $newUser["password"], $salt, $pass_sha256, $currentTime]);
@@ -269,8 +269,8 @@ class DB
 
         $userObject = Prevent::XSS($userResult->fetch_object());
 
-        global $conf;
-        $config = parse_ini_file($conf);
+        global $confFilePath;
+        $config = parse_ini_file($confFilePath);
         $currentTime = date("Y-m-d H:i:s", time() + $config["virtualTimeOffsetSeconds"]);
         
         // Ako je aktiviran prihvaćeni:
@@ -396,6 +396,61 @@ class DB
         $this->logObj->New("INSERT INTO `WebDiP2020x057`.`steta` (`naziv`, `opis`, `oznake`, `id_kategorija_stete`, `id_prijavitelj`, `id_javni_poziv`) VALUES ({$newDamageInfo["name"]}, {$newDamageInfo["description"]}, {$newDamageInfo["tags"]}, $idCategory, $idUser, $idJavniPoziv); INSERT INTO `WebDiP2020x057`.`dokazni_materijali` (`naziv`, `id_vrsta_materijala`) VALUES ({$newDamageInfo["files"]->fileName}, {$newDamageInfo["files"]->fileType}); INSERT INTO `WebDiP2020x057`.`steta_dokazi` (`id_steta`, `id_materijala`) VALUES ({$newDamageId}, {$lastEvidenceIndex})", "Prijavljena je nova šteta!", Log::prijava_štete);
 
         return $newDamageId;
+    }
+
+    public function FundDamage(int $callId, int $damageId, float $amount, bool $isDepleted)
+    {
+        // Trenutno stanje
+        $currentPublicCallFunds = $this->SelectPrepared("SELECT skupljeno_sredstava FROM javni_poziv WHERE id_javni_poziv = ?", "i", [$callId]);
+        // Novo stanje
+        $currentPublicCallFunds = $currentPublicCallFunds[0]["skupljeno_sredstava"] - $amount;
+
+        // Još jednanput provjere.
+        if ($currentPublicCallFunds < 0) {
+            throw new Exception("Nedovoljno sredstava!", DBLogicError);
+        } else if ($currentPublicCallFunds == 0) {
+            $isDepleted = true;
+        }
+        // Oduzmi pozivu:
+        $this->ExecutePrepared("UPDATE javni_poziv SET skupljeno_sredstava = ? WHERE id_javni_poziv = ?", "di", [$currentPublicCallFunds, $callId]);
+        
+        $firstQuery = "UPDATE javni_poziv SET skupljeno_sredstava = $currentPublicCallFunds WHERE id_javni_poziv = $callId";
+
+        if ($isDepleted) {
+            $status = 1;
+            $this->ExecutePrepared("UPDATE javni_poziv SET zatvoren = ? WHERE id_javni_poziv = ?", "ii", [$status, $callId]);
+        }
+
+        // Dodaj prijavi
+
+        global $confFilePath;
+        $config = parse_ini_file($confFilePath);
+        $virtualDate = date("Y-m-d H:i:s", time() + $config["virtualTimeOffsetSeconds"]);
+
+        $newStatus = 2; // Status "obrađeno"
+
+        $this->ExecutePrepared("UPDATE steta SET id_status_stete = ?, datum_potvrde = ?, subvencija_hrk = ? WHERE id_steta = ?", "isdi", [$newStatus, $virtualDate, $amount, $damageId]);
+
+        if ($isDepleted) {
+            $this->logObj->New("$firstQuery; UPDATE javni_poziv SET zatvoren = $status WHERE id_javni_poziv = $callId; UPDATE steta SET id_status_stete = $newStatus, datum_potvrde = $virtualDate, subvencija_hrk = $amount WHERE id_steta = $damageId",
+            "Moderator " . $_SESSION["user"]->korisnicko_ime . " potrošio je sva sredstva javnog poziva sa šifrom $callId (bilo preostalo $currentPublicCallFunds) i time ga zatvorio. Zadnja sredstva su pretočena na prijavu štete s oznakom $damageId.", Log::zatvaranje_javnog_poziva);
+        } else {
+            $this->logObj->New($firstQuery,
+            "Moderator " . $_SESSION["user"]->korisnicko_ime . " uplatio je sredstva javnog poziva sa šifrom $callId na prijavu štete s oznakom $damageId.", Log::subvencioniranje);
+        }
+    }
+
+    public function CloseDamage(int $damageId)
+    {
+        global $confFilePath;
+        $config = parse_ini_file($confFilePath);
+        $virtualDate = date("Y-m-d H:i:s", time() + $config["virtualTimeOffsetSeconds"]);
+
+        $newStatus = 3;
+        $this->ExecutePrepared("UPDATE steta SET id_status_stete = ?, datum_potvrde = ? WHERE id_steta = ?", "isi", [$newStatus, $virtualDate, $damageId]);
+
+        $this->logObj->New("UPDATE steta SET id_status_stete = $newStatus, datum_potvrde = $virtualDate, WHERE id_steta = $damageId",
+        "Moderator " . $_SESSION["user"]->korisnicko_ime . " zatvorio je prijavu štete s oznakom $damageId.", Log::odbijanje_prijave);
     }
 
     public function GetModerators()
