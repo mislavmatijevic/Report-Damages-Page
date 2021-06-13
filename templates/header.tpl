@@ -54,6 +54,10 @@
                         <!-- Neregistrirani -->
                         <a href="{$relativePath}moderation.php" class="header__nav-item">Moji javni pozivi</a>
                     {/if}
+                    {if $smarty.session.lvl <= 3}
+                        <!-- Neregistrirani -->
+                        <a href="{$relativePath}search.php?all=1" class="header__nav-item">Pretraži štete</a>
+                    {/if}
                     {if $smarty.session.lvl == 1}
                         <!-- Neregistrirani -->
                         <a href="{$relativePath}administration.php" class="header__nav-item">Administriranje stranice</a>

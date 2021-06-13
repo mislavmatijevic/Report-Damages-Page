@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.39, created on 2021-06-13 10:03:11
+/* Smarty version 3.1.39, created on 2021-06-13 13:20:49
   from '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/header.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.39',
-  'unifunc' => 'content_60c5bbbf026537_79252932',
+  'unifunc' => 'content_60c5ea11906250_28024584',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'bd9a97a98b5629b7e5c4a56e57e6db1e56e753aa' => 
     array (
       0 => '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/header.tpl',
-      1 => 1623571390,
+      1 => 1623583249,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_60c5bbbf026537_79252932 (Smarty_Internal_Template $_smarty_tpl) {
+function content_60c5ea11906250_28024584 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!DOCTYPE html>
 <html lang="hr">
 
@@ -96,6 +96,11 @@ register.php" class="header__nav-item">Registracija</a>
                         <!-- Neregistrirani -->
                         <a href="<?php echo $_smarty_tpl->tpl_vars['relativePath']->value;?>
 moderation.php" class="header__nav-item">Moji javni pozivi</a>
+                    <?php }?>
+                    <?php if ($_SESSION['lvl'] <= 3) {?>
+                        <!-- Neregistrirani -->
+                        <a href="<?php echo $_smarty_tpl->tpl_vars['relativePath']->value;?>
+search.php?all=1" class="header__nav-item">Pretraži štete</a>
                     <?php }?>
                     <?php if ($_SESSION['lvl'] == 1) {?>
                         <!-- Neregistrirani -->
