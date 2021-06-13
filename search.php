@@ -13,6 +13,7 @@ if (isset($_GET["all"])) {
 
 if (isset($_GET["id"])) {
     $_SESSION["requestedCallId"] = Prevent::Injection("GET", "id");
+    settype($_SESSION["requestedCallId"], "integer");
 }
 
 $publicCallId;
@@ -64,7 +65,7 @@ if ($isViewable) {
         if ($publicCallId == false) {
             $paging = new PagingControl("steta as s", "k.korisnicko_ime, s.id_steta, s.naziv, s.opis, s.oznake, s.datum_prijave, s.datum_potvrde, s.subvencija_hrk, s.id_status_stete", "INNER JOIN korisnik k ON k.id_korisnik = s.id_prijavitelj $searchCriteria ORDER BY datum_prijave DESC");
         } else {
-            $paging = new PagingControl("steta as s", "k.korisnicko_ime, s.id_steta, s.naziv, s.opis, s.oznake, s.datum_prijave, s.datum_potvrde, s.subvencija_hrk, s.id_status_stete", "INNER JOIN korisnik k ON k.id_korisnik = s.id_prijavitelj WHERE s.id_javni_poziv = $publicCallId $searchCriteria");
+            $paging = new PagingControl("steta as s", "k.korisnicko_ime, s.id_steta, s.naziv, s.opis, s.oznake, s.datum_prijave, s.datum_potvrde, s.subvencija_hrk, s.id_status_stete", "INNER JOIN korisnik k ON k.id_korisnik = s.id_prijavitelj WHERE s.id_javni_poziv = ? $searchCriteria", "i", [$publicCallId]);
         }
 
         $reportedDamages = $paging->getData();

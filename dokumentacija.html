@@ -6,14 +6,57 @@
     <title>Dokumentacija</title>
     <link type="text/css" rel="stylesheet" href="./css/style.css">
     <style>
+        section {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
         p {
             line-height: 1.5em;
+            text-align: left;
         }
+
+        span {
+            text-align: center;
+            font-style: italic;
+            margin-top: 40px;
+            margin-bottom: 0;
+        }
+
         h4 {
             margin: 16px;
         }
+
+        h5 {
+            margin: 16px 0;
+            text-align: center;
+            color: orange;
+            font-size: large;
+            border: 1px orange solid;
+            border-left: none;
+            border-right: none;
+            max-width: 95%;
+        }
+
         .section {
             padding: 64px;
+        }
+
+        img {
+            align-self: center;
+            width: 1000px;
+            max-width: 80%;
+            height: auto;
+            max-height: 500px;
+            object-fit: contain;
+            margin: 32px 0;
+            border-radius: 15px;
+        }
+
+        .scripts {
+            color: orangered;
+            font-weight: 1000;
         }
     </style>
 </head>
@@ -31,7 +74,43 @@
     </header>
 
     <main>
-        <section class="section" style="display: block;padding-top: 128px">
+        <section class="section">
+            <section class="section" style="padding-top: 64px">
+                <h2>
+                    Legenda
+                </h2>
+                <ul>
+                    <li>
+                        <a href="#Opis_projektnog_rješenja">Opis projektnog rješenja</a>
+                    </li>
+                    <li>
+                        <a href="#Napadi">Napadi</a>
+                        <div>
+                            <ul>
+                                <li style="margin-left: 16px;"><a href="#Slike_tijekom_napada">Slike tijekom napada</a>
+                                </li>
+                                <li style="margin-left: 16px;"><a href="#Slike_nakon_napada">Slike nakon napada</a></li>
+                                <li style="margin-left: 16px;"><a href="#Moj_komentar">Moj komentar</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="#ERA_model">ERA model</a>
+                    </li>
+                    <li>
+                        <a href="#Navigacijski_dijagram">Navigacijski dijagram</a>
+                    </li>
+                    <li>
+                        <a href="#Popis_skripata">Popis skripata</a>
+                    </li>
+                    <li>
+                        <a href="#Tehnologije">Korištene tehnologije i alati</a>
+                    </li>
+                    <li>
+                        <a href="#Vanjski_moduli">Vanjski moduli</a>
+                    </li>
+                </ul>
+            </section>
             <h1 class="section__title">
                 Dokumentacija projekta
             </h1>
@@ -39,63 +118,436 @@
                 Opis projektnog zadatka
             </h2>
             <p>
-                <h4>Općenito</h4>
-                Ovaj projektni zadatak bavi se problematikom stranice za prijavu šteta. Nužno je kreirati web mjesto koje omogućava otvaranje javnih poziva za prijave nastalih šteta. Registrirani korisnici se prijavljuju sa svojim štetama na te javne pozive u nadi da će dobiti subvenciju za oporavak. Javne pozive stvaraju održavaju moderatori. Moderatori su također zaduženi za kontrolu prijava za štete.
-                <h4>Javni poziv</h4>
-                Svaki javni poziv nudi mogućnost donacije kako registriranim, tako i neregistriranim korisnicima, za vrijeme svojeg trajanja. Kada mu prođe rok, nisu više moguće donacije. Kada moderatori raspodijele sredstva na prijave šteta, javni poziv se zatvara. Svojim zatvaranjem javni poziv omogućuje i neregistriranim korisnicima pregled prijavljenih šteta.
-                <h4>Prijava štete</h4>
-                Prijavljene štete opisuju podaci "naziv", "opis" i "oznake". Naziv je korisnikov naziv svoje štete, u opisu detaljnije opisuje zašto mu je subvencija potrebna, a oznake su riječi odvojene razmakom koje omogućuju neregistriranim korisnicima jednostavnije pretraživanje već gotovih šteta.
-                <h4>Administriranje</h4>
-                Administrator je samo jedan i ima mogućnost upravljanja cijelim sustavom.
-                Njegove najveće ovlasti su upravljanje moderatorima, blokiranim korisnicima i konfiguracijom cijelog sustava.
-                Konfiguracija uključuje broj stavki po ispisu/tablici, trajanje kolačića, trajanje sesije itd.
+            <h4>Općenito</h4>
+            Ovaj projektni zadatak bavi se problematikom stranice za prijavu šteta. Nužno je kreirati web mjesto koje
+            omogućava otvaranje javnih poziva za prijave nastalih šteta. Registrirani korisnici se prijavljuju sa svojim
+            štetama na te javne pozive u nadi da će dobiti subvenciju za oporavak. Javne pozive stvaraju održavaju
+            moderatori. Moderatori su također zaduženi za kontrolu prijava za štete.
+            <h4>Javni poziv</h4>
+            Svaki javni poziv nudi mogućnost donacije kako registriranim, tako i neregistriranim korisnicima, za vrijeme
+            svojeg trajanja. Kada mu prođe rok, nisu više moguće donacije. Kada moderatori raspodijele sredstva na
+            prijave šteta, javni poziv se zatvara. Svojim zatvaranjem javni poziv omogućuje i neregistriranim
+            korisnicima pregled prijavljenih šteta.
+            <h4>Prijava štete</h4>
+            Prijavljene štete opisuju podaci "naziv", "opis" i "oznake". Naziv je korisnikov naziv svoje štete, u opisu
+            detaljnije opisuje zašto mu je subvencija potrebna, a oznake su riječi odvojene razmakom koje omogućuju
+            neregistriranim korisnicima jednostavnije pretraživanje već gotovih šteta.
+            <h4>Administriranje</h4>
+            Administrator je samo jedan i ima mogućnost upravljanja cijelim sustavom.
+            Njegove najveće ovlasti su upravljanje moderatorima, blokiranim korisnicima i konfiguracijom cijelog
+            sustava.
+            Konfiguracija uključuje broj stavki po ispisu/tablici, trajanje kolačića, trajanje sesije itd.
             </p>
         </section>
-        <section class="section" style="display: block;">
+        <section class="section" id="Opis_projektnog_rješenja">
             <h2>
                 Opis projektnog rješenja
             </h2>
             <p>
-                <h4>Dizajn</h4>
-                Dizajn rješenja uvelike je potpomognut korištenjem "scss" skriptni jezik. Odabrao sam ovaj jezik jer mi je <strong>uvelike</strong> olakšao rad s medija querijima. Također, "scss" mi je omogućio jednostavno korištenje varijabli u "css" kodu. Tim varijablama sam ostvario jednakost boja na svim pogledima.
-                <br>
-                Dizajn je uglavnom izrađivan po "mobile-first" pristupu, odnosno (s)css kod je definiran za mobitele, a medija querijima prilagođen tabletima/desktopima. Uglavnom jer sam na par mjesta "pribjegao" inline stylingu.
-                <br>
-                <br>
-                Odabrao sam primarnu boju bijelu i sekundarnu boju crnu kako bih stvorio ugodan kontrast na svakom pogledu. Kao naglašenu boju koristim narančastu jer ukazuje na problematiku (štete, problematična situacija, nije sve u redu, odnosno "zeleno"), a ipak za razliku od npr. crvene boje narančasta je boja koja je ugodna oku (aludira na naranču kao na ukusno voće).
-                <h4>Baza podataka</h4>
-                Kičmu rješenja čini pomno osmišljena i dobro organizirana bazi podataka. Temelje za bazu postavio sam tijekom 2. zadaće na kolegiju, no od tada sam ju mnogo puta promijenio i prilagodio baš ovome rješenju. Koristeći alat MySQL Workbench generirao sam sve upite 
-                <h4>Programski kod na strani poslužitelja</h4>
-                U PHP-u sam napravio tri osnovne PHP datoteke:
-                <ol style="margin-left: 30px;">
-                    <li>Database.php</li>
-                    <li>UserControl.php</li>
-                    <li>OutputControl.php</li>
-                </ol>
-                <br>
-                Implementacija ovih klasa detaljnije je opisana u poglavlju ispod. One kontroliraju i diktiraju tokove podataka i programsku logiku iza cijelog rješenja.
-                <br>
-                Postoje PHP datoteke koje generiraju sučelje i one se nalaze u "root" direktoriju rješenja. PHP datoteke koje se bave nekom specifičnom funkcionalnosti koja ne spada pod upraviteljstvo niti jedne od gornjih triju datoteka nalaze se u "control" direktoriju.
-                <h4>Programski kod na strani klijenta</h4>
-                Web mjesto ne bi funkcioniralo u potpunosti bez programskog koda na strani klijenta. Ovaj kod bavi se osnovnim provjerama unesenih podataka i animacijama, a ono najbitnije - sadrži brojne funkcije koje AJAX pozivima omogućavaju jednostavno i direktno funkcioniranje administratorskog panela. 
-                <h4>Sigurnost</h4>
-                Posebna pažnja posvećena je sigurnosti sustava. U datoteci "OutputControl.php" postoji posebna klasa "Prevent" (implementacija objašnjena ispod) koja osigurava da su <strong>SVI</strong> podaci koji idu na ekran očišćeni od posebnih HTML znakova i time učinkovito (rekurzivno za PHP polja) onemogućava XSS tip napada. Također osigurava da podaci koji idu u bazu budu potpuno sigurni za bazu (iako svi podaci prolaze kroz "prepared" MySQL funkcije).
+            <h4>Dizajn</h4>
+            Dizajn rješenja uvelike je potpomognut korištenjem "scss" skriptni jezik. Odabrao sam ovaj jezik jer mi je
+            <strong>uvelike</strong> olakšao rad s medija querijima. Također, "scss" mi je omogućio jednostavno
+            korištenje varijabli u "css" kodu. Tim varijablama sam ostvario jednakost boja na svim pogledima, a i
+            vremenski u vrlo kratkom roku vrlo jednostavno - ali kvaliteno - implementirao pogled za disleksične osobe.
+            <br>
+            Dizajn je uglavnom izrađivan po "mobile-first" pristupu, odnosno (s)css kod je definiran za mobitele, a
+            medija querijima prilagođen tabletima/desktopima. Uglavnom jer sam na par mjesta "pribjegao" inline
+            stylingu.
+            <br>
+            <br>
+            Odabrao sam primarnu boju bijelu i sekundarnu boju crnu kako bih stvorio ugodan kontrast na svakom pogledu.
+            Kao naglašenu boju koristim narančastu jer ukazuje na problematiku (štete, problematična situacija, nije sve
+            u redu, odnosno "zeleno"), a ipak za razliku od npr. crvene boje narančasta je boja koja je ugodna oku
+            (aludira na naranču kao na ukusno voće).
+            <h4>Baza podataka</h4>
+            Kičmu rješenja čini pomno osmišljena i dobro organizirana bazi podataka. Temelje za bazu postavio sam
+            tijekom 2. zadaće na kolegiju, no od tada sam ju mnogo puta promijenio i prilagodio baš ovome rješenju.
+            Koristeći alat MySQL Workbench generirao sam sve upite
+            <h4>Programski kod na strani poslužitelja</h4>
+            U PHP-u sam napravio tri osnovne PHP datoteke:
+            <ol style="margin-left: 30px;">
+                <li>Database.php</li>
+                <li>UserControl.php</li>
+                <li>OutputControl.php</li>
+            </ol>
+            <br>
+            Implementacija ovih klasa detaljnije je opisana u poglavlju ispod. One kontroliraju i diktiraju tokove
+            podataka i programsku logiku iza cijelog rješenja.
+            <br>
+            Postoje PHP datoteke koje generiraju sučelje i one se nalaze u "root" direktoriju rješenja. PHP datoteke
+            koje se bave nekom specifičnom funkcionalnosti koja ne spada pod upraviteljstvo niti jedne od gornjih triju
+            datoteka nalaze se u "control" direktoriju.
+            <h4>Programski kod na strani klijenta</h4>
+            Web mjesto ne bi funkcioniralo u potpunosti bez programskog koda na strani klijenta. Ovaj kod bavi se
+            osnovnim provjerama unesenih podataka i animacijama, a ono najbitnije - sadrži brojne funkcije koje AJAX
+            pozivima omogućavaju jednostavno i direktno funkcioniranje administratorskog panela.
+            <h4>Sigurnost</h4>
+            Posebna pažnja posvećena je sigurnosti sustava. U datoteci "OutputControl.php" postoji posebna klasa
+            "Prevent" (implementacija objašnjena ispod) koja osigurava da su <strong>SVI</strong> podaci koji idu na
+            ekran očišćeni od posebnih HTML znakova i time učinkovito (rekurzivno za PHP polja) onemogućava XSS tip
+            napada. Također osigurava da podaci koji idu u bazu budu potpuno sigurni za bazu (iako svi podaci prolaze
+            kroz "prepared" MySQL funkcije).
             </p>
         </section>
-        <section class="section" style="display: block;">
+        <section class="section" id="Napadi">
+            <h2>
+                Napadi
+            </h2>
+            <p>
+            <h4>Siege</h4>
+            Alatom siege dobio sam dobre rezultate (15 sekundi) na sve skripte u "root" direktoriju.
+            <br>
+            <a target="_blank" href="./documentation_files/urls.txt">U datoteku "urls.txt" postavio sam sve linkove na skripte u "root"
+                direktoriju i usmjerio alat siege na njih.</a><br>
+            <iframe width="500px" height="250px" src="./documentation_files/urls.txt"></iframe>
+            <div style="height: 50px;"></div>
+            <a target="_blank" href="./documentation_files/siege_output.txt">Rezultati su dostupni u drugoj datoteci "siege_output.txt"
+                na koju se može baciti pogled i ispod.</a><br>
+            <iframe width="500px" height="250px" src="./documentation_files/siege_output.txt"></iframe>
+            <br>
+            </p>
+            <p>
+            <h4>OWASP ZAP</h4>
+            Alatom OWASP ZAP simulirao sam napade sa svim ulogama na stranicu. Slike ekrana uzetih tijekom tih napada
+            vidljive su u nastavku.
+
+            <h5 id="Slike_tijekom_napada">Slike tijekom napada</h5>
+            <span>Prikaz početka napada</span>
+            <img src="./documentation_files/OWASP_ZAP_start.png"
+                alt="Slika ekrana napada na stranicu alatom OWASP ZAP"></img>
+            <span>Tijekom napada</span>
+            <img src="./documentation_files/OWASP_ZAP_progress.png"
+                alt="Slika ekrana napada na stranicu alatom OWASP ZAP"></img>
+            <span>Napad iz perspektive korisnika</span>
+            <img src="./documentation_files/OWASP_ZAP_korisnik.png"
+                alt="Slika ekrana napada na stranicu alatom OWASP ZAP"></img>
+            <span>Napad iz perspektive moderatora</span>
+            <img src="./documentation_files/OWASP_ZAP_moderator.png"
+                alt="Slika ekrana napada na stranicu alatom OWASP ZAP"></img>
+            <span>Napad iz perspektive administratora</span>
+            <img src="./documentation_files/OWASP_ZAP_admin.png"
+                alt="Slika ekrana napada na stranicu alatom OWASP ZAP"></img>
+            <div style="height: 64px;"></div>
+
+            <h5 id="Slike_nakon_napada">Slike nakon napada</h5>
+            <span>Statistika korištenja</span>
+            <img src="./documentation_files/OWASP_ZAP_statistika.png"
+                alt="Slika ekrana napada na stranicu alatom OWASP ZAP"></img>
+            <span>Obavijesti informativne prirode</span>
+            <img src="./documentation_files/OWASP_ZAP_info.png"
+                alt="Slika ekrana napada na stranicu alatom OWASP ZAP"></img>
+            <span>Obavijesti niske važnosti</span>
+            <img src="./documentation_files/OWASP_ZAP_low.png"
+                alt="Slika ekrana napada na stranicu alatom OWASP ZAP"></img>
+            <span>Obavijesti srednje važnosti</span>
+            <img src="./documentation_files/OWASP_ZAP_medium.png"
+                alt="Slika ekrana napada na stranicu alatom OWASP ZAP"></img>
+            <span>Obavijesti visoke važnosti</span>
+            <img src="./documentation_files/OWASP_ZAP_high.png"
+                alt="Slika ekrana napada na stranicu alatom OWASP ZAP"></img>
+
+            <h5 id="Moj_komentar">Moj komentar na obavijesti visoke važnosti</h5>
+            <p>Zatekle su me obavijesti da je moguć SQL Injection na mojoj stranici. Ipak, detaljnijim uvidom,
+                shvatio sam da je riječ o "false-flag" upozorenju, odnosno kako je "OWASP ZAP" modificirao parametre GET
+                i POST metoda, moja stranica je odgovarala uhvaćenim problemima iz baze logičke prirode (npr. "Nemate
+                pristup ovoj stranici")<br>
+                "OWASP ZAP" je takve poruke shvatio kao različito ponašanje SQL baze i zaključio da baza odgovara na
+                mutirane parametre, dok je ona zapravo samo obavještavala korisnike o nedozvoljenim operacijama.
+            </p>
+            <span>Modificirani link koji je prijavljen kao SQL Injection u biti je samo rezultirao porukom "iz dubine
+                PHP-a" da ovlasti ne odgovaraju. 🙂</span>
+            <img src="./documentation_files/OWASP_ZAP_false-flag.png"
+                alt="Slika ekrana napada na stranicu alatom OWASP ZAP"></img>
+
+        </section>
+        <section class="section" id="ERA_model">
             <h2>
                 ERA model
             </h2>
+            <img src="./documentation_files/era.png" style="max-height: 100%;" alt="ERA model"></img>
         </section>
-        <section class="section" style="display: block;">
+        <section class="section" id="Navigacijski_dijagram">
             <h2>
                 Navigacijski dijagram
             </h2>
+            <img src="./documentation_files/navigacijski.png" style="max-width: 100%;max-height: 100%;width: 100%;height: 100%;"
+                alt="Navigacijski dijagram"></img>
+        </section>
+        <section class="section" id="Popis_skripata">
+            <h2>
+                Popis i opis skripata
+            </h2>
+            <h4>Općenito</h4>
+            Sav PHP kod pisan je držajući smisao i dobre prakse objektno orijentiranog pristupa na pameti. Najbitnije
+            funkcionalnosti grupirane su u klase čiji su objekti samodostatni, ali ne i međusobno nezavisni. Zato pri
+            svakoj pogrešci objekti bacaju iznimke sa točno definiranim šiframa te opisima koji se potom ispisuju
+            korisnicima. Tako je onemogućena pojava "tajanstvene" pogreške koja ruši cijeli sustav pri običnoj pogreški
+            u SQL upitu bez komentara.
+            <span>Ilustracija stabilne implementacije aplikacije pomoću iznimaka.</span>
+            <img src="./documentation_files/iznimke_ilustracija.png" style="max-height: 1000px;"
+                alt="Ilustracija hvatanja iznimaka" />
+            <br>
+            PHP skripte su podijeljene u dva direktorija:
+            <h4>Root direktorij</h4>
+            Sve skripte kojima je namijenjeno da se puno koriste (definiraju sučelja) nalaze se u "root" direktoriju. To
+            su iduće skripte.
+            <ol style="margin-left: 30px;">
+                <li class="scripts">administration.php</li>
+                <p>Omogućava administratoru upravljanje cijelim sustavom. Funkcionalnosti koje pruža u potpunosti su
+                    omogućene preko Javascripta i AJAX poziva. Ova stranica samo poziva "Smarty" objekt koji definira
+                    sučelje
+                </p>
+                <li class="scripts">fund-damages.php</li>
+                <p>Omogućava moderatoru upravljanje prijavama šteta na odabranom javnom pozivu (GET parametar "id" koji
+                    se potom sprema u sesiju kako bi se šifra javnog poziva mogla očuvati i tijekom obnove stranice
+                    (koja se često odvija zbog PHP implementacije svih funkcionalnosti)
+                </p>
+                <li class="scripts">moderation.php</li>
+                <p>Omogućava moderatoru upravljanje javnim pozivima kojima ima pristup. Također nudi mogućnost stvaranja
+                    novog javnog poziva
+                </p>
+                <li class="scripts">rss.php</li>
+                <p>Omogućava bilo kojem korisniku praćenje 10 posljednjih šteta preko RSS kanala
+                </p>
+                <li class="scripts">admin-table-management.php</li>
+                <p>Omogućava administratoru potpunu CRUD kontrolu nad bazom podataka ovog rješenja (osim izmjene
+                    primarnih ključeva redaka). Implementacija je obavljena putem AJAX-a. U pregledu se obavlja
+                    straničenje. Stupce tablice moguće je sortirati (ASC/DESC) te pretraživati po nekoj odabranoj
+                    vrijednosti.<br>
+                    Funkcionalnost je implementirana tako da Javascript AJAX-om prvo pošalje zahtjev za nazivima svih
+                    tablica, potom - nakon korisnikova odabira tablice - šalje naziv tablice i kao odgovor dobiva
+                    zaglavlje tablice. Nadalje poslužitelj pamti o kojoj je tablici riječ u sesiji pa nema potrebe da se
+                    AJAX-om stalno šalju nazivi te iste tablice u daljnim zahtjevima. AJAX-om se nadalje samo zahtjeva
+                    tijelo tablice i šalju iz redaka koji se žele mijenjati (dosta cool, ponosan sam na ovo 😁)
+                </p>
+                <li class="scripts">donate.php</li>
+                <p>Omogućava bilo kojem korisniku doniranje u sredstva odabranog javnog poziva
+                </p>
+                <li class="scripts">index.php</li>
+                <p>Početna stranica. Stranica nudi kratki pregled statistike prihvaćenosti šteta, a i pregled svih
+                    javnih poziva. Pri "desktop" rezoluciji nudi funkcionalnost prijave (s ponuđenom testnom mogućnošću
+                    prijave u sve uloge), a pri manjim rezolucijama ta je mogućnsost na odvojenoj stranici
+                </p>
+                <li class="scripts">register.php</li>
+                <p>Stranica koja neregistrianim korisnicima omogućava funkcionalnost registracije. Provjere podataka
+                    obavljene su kako na korisničkoj, tako i na poslužiteljevoj strani.<br>
+                    Prilikom registracije šalje se (novonastalo) korisničko ime kao GET parametar u linku na uređeni
+                    html mail.
+                    U dnevnik sustava se ne upisuje čitljiva šifra iz upita i administrator nema pregled čitljive
+                    lozinke u dnevniku u upitu
+                </p>
+                <li class="scripts">search.php</li>
+                <p>Omogućava u potpunosti pregled svih šteta registriranim korisnicima ili neregistriranim pregled šteta
+                    na već gotovim javnim pozivima (pretraga po oznakama)
+                </p>
+                <li class="scripts">create-public-call.php</li>
+                <p>Omogućava moderatorima sučelje za kreiranje javnog poziva s rokom završetka
+                </p>
+                <li class="scripts">edit-public-call.php</li>
+                <p>Omogućava moderatorima sučelje za uređivanje javnog poziva s mogućnošću zatvaranja istog
+                </p>
+                <li class="scripts">login-page.php</li>
+                <p>Omogućava prijavu u sustav korisnicima mobilnih uređaja i tableta
+                </p>
+                <li class="scripts">report-damage.php</li>
+                <p>Omogućava registriranim korisnicima prijavu nove štete moderatorima na pregled
+                </p>
+            </ol>
+            <h4>Control direktorij - osnovne datoteke</h4>
+            <p>Sve skripte kojima je smisao kontrolirati sigurnost i stablinost aplikacije nalaze se u "/control"
+                direktoriju.<br>
+                Tri osnovne PHP skripte ove aplikacije nalaze se u ovom direktoriju
+            </p>
+            <ol style="margin-left: 30px;">
+                <li class="scripts">Database.php</li>
+                <p>Sadrži dvije vrlo bitne klase: "Log" i "DB".
+                <ol>
+                    <li style="margin-left: 16px;">DB
+                        <p>Objekt ove klase u svom konstruktoru ponajprije uspostavlja vezu s bazom. Tu vezu tada pamti
+                            u privatnom atributu "$mysqli_object". Sam objekt tada nudi dvije osnovne javne metode:
+                            "ExecutePrepared" i "SelectPrepared", gdje prva proširuje funkcionalnost druge, a druga
+                            uključuje prvu. Prva metoda samo izvršava "prepared" upit, dok ga druga izvršava, čita
+                            objekt u asocijativno polje te u slučaju da je dohvat bio prazan, baca iznimku.<br>
+                            U ostatku raznolike ponude metoda koje nudi uglavom su metode koje ovise o gornje dvije, a
+                            nude kompleksnije implementacije logika pri radu s bazom koje nije imalo smisla
+                            implementirati u nekim "višim" dijelovima aplikacije, već je ovako obavljena svojevrsna
+                            apstrakcija
+                        </p>
+                    </li>
+                    <li style="margin-left: 16px;">Log
+                        <p>Omogućava rad s dnevnikom. Objekt ove klase u konstruktor prima objekt klase DB koji onda Log
+                            objekt koristi za komuniciranje s bazom i upisivanje u dnevnik.<br>
+                            Bitno je napomenuti da objekti ove klasa ne smiju alocirati DB objekte jer bi to dovelo do
+                            rekurzivnog alociranja. Riječ je o tome da DB objekt, koji je daleko više korišten od Log
+                            objekta, već inicijalizira Log objekt u vlastitom konstruktoru, a proslijeđuje mu u
+                            konstruktor samoga sebe! Time DB klasa uvijek može upisivati stvari u bazu. Ovo sam ovako
+                            implementirao jer objekti DB klase ionako najviše koriste dnevnik, odnosno većina zapisa u
+                            dnevniku je vezana uz rad sa samom bazom.<br>
+                            Nije nadomak reći da ova klasa sadržava konstante prepisane iz baze podataka koje opisuju
+                            vrste zapisa u dnevniku
+                        </p>
+                    </li>
+                </ol>
+                </p>
+                <li class="scripts">UserControl.php</li>
+                <p>Sadržava istoimenu statičku klasu koja omogućava kontrolu korisnika. Primajući (očišćene od
+                    malicioznih znakova) podatke svoje raznolike <strong>statičke</strong> metode, obavlja svu logiku
+                    registracije, prijave, blokiranja, slanja mailova itd.<br>
+                    Iznad opisane skripte u root direktoriju, koje implementiraju sučelja, uglavnom ovise o UserControl
+                    klasi ne samo zbog pozadinske logike, već i zbog komuniciranja s bazom preko ove klase. Tu objektno
+                    orijentirani pristup u izradi ove aplikacije uistinu dolazi do izražaja. Naime, ako primjerice dođe
+                    do problema u bazi podataka, bacanjem i hvatanjem iznimaka ta pogreška se uredno ispisuje na ekranu
+                    (najčešće u globalnom balončiću za probleme, "errorGlobal").<br>
+                    Za kraj, implementira provjeru Googlove ReCaptche i time omogućava jednostavnu implementaciju i
+                    korištenje tog veoma korisnog sustava blokiranja napada u cijeloj aplikaciji.
+                </p>
+                <li class="scripts">OutputControl.php</li>
+                <p>Osigurava "čistoću" podataka. Konkretno, statičkom klasom "Prevent" i njenim statičkim metodama "XSS"
+                    i "Injection" spriječava napade. Pri svakom upitu za bazu ili čitanjem iz baze podaci u pitanju
+                    prolaze kroz te metode. U slučaju statičke metode "XSS", svi podaci (rekurzivno kod polja) prolaze
+                    kroz funkciju "htmlspecialchars". U slučaju statičke metode "Injection", podaci se "filter_input"
+                    funkcijom čiste od opasnih znakova, a njenu funkcionalnost dodatno proširuje "XSS" metoda.<br>
+                    Neovisno o ovoj funkcionalnosti, svi korisnički podaci koji se ispisuju se u "smarty" proširenju
+                    (opisano kasnije) dodatno čiste "htmlspecialchars" funkcijom.<br><br>
+                    Nadalje, ova skripta sadržava klasu "PagingControl" čiji objekt ima mogućnost pomoću GET parametara
+                    obavljati straničenje na način da baza uistinu šalje samo one podatke koji se na odabranoj stranici
+                    trebaju pokazati.<br>
+                    Kod AJAX-a posrednik bude neka druga skripta koja onda Javascriptu šalje podatku od objekta ove
+                    klase
+                </p>
+            </ol>
+            <h4>Control direktorij - pomoćne datoteke</h4>
+            <p>Ostale pomoćne PHP skripte (nimalo manje bitne!) ove aplikacije nalaze se također u ovom direktoriju
+            </p>
+            <ol style="margin-left: 30px;">
+                <li class="scripts">_page.php</li>
+                <p>Osnovna datoteka, uključuje se na svim tablicama, uključuje gornje tri skripte, kao i "smarty"
+                    dodatak, usklađuje putanje, osigurava HTTPS protokol na svim stranicama, provjerava sve globalne
+                    postavke i namješta razne globalne varijable
+                </p>
+                <li class="scripts">activate.php</li>
+                <p>Omogućava aktiviranje računa preko UserControl::ConfirmUserAndLogin metode koristeći SHA256 hash
+                    deriviran iz čitljive lozinke i soli korisnika te korisničkog imena
+                </p>
+                <li class="scripts">change-pass.php</li>
+                <p>Omogućava promjenu lozinke korisnika.<br>
+                    Baza preko pseudoslučajnog niza pronalazi korisnika kada on preko maila dođe
+                    na formu ove skripte za upisivanje nove šifre (korisnik se pronalazi tek nakon što upiše šifru, iz
+                    sigurnosnih razloga)
+                </p>
+                <li class="scripts">constants.php</li>
+                <p>Sadržava definicije jednostavnih konstanti poput putanje konfiguracijske datoteke, punog url-a do
+                    trenutne skripte, relativnu putanju do root direktorija itd.<br>
+                    Ovu skriptu druge skripte uključuju (najčešće već unutar "_page.php" skripte)
+                </p>
+                <li class="scripts">login.php</li>
+                <p>Omogućava jedinstveno "iskustvo" prijave kako na početnoj stranici za desktop korisnike, tako i na
+                    stranici za prijavu za mobilne/tablet korisnike. Datoteka se uključuje tako da je njezin kod
+                    praktički prekopiran na mjesta gdje je funkcionalnost prijave zahtjevana.<br>
+                    Prilikom uspješnog logiranja se resetira brojač neuspješnih prijava.
+                    Prilikom uspješnog logiranja se postavlja brojač neuspješnih prijava
+                </p>
+                <li class="scripts">block-user.php</li>
+                <p>Vraća JSON, omogućava administratoru blokiranje korisnika AJAX-om. Vraća odgovor o uspješnosti
+                    provedbe, a to kao odgovor na POST argumente "username" i "action", gdje je "action" 0 za
+                    odblokiranje ili 1 za blokiranje
+                </p>
+                <li class="scripts">check-username.php</li>
+                <p>Vraća JSON neregistriranom korisniku prilikom registracije. AJAX-om se provjerava zauzeće korisničkog
+                    imena i ovisno o odgovoru ove skripte, na sučelje se ispisuje poruka. Provjera se odvija još jednom
+                    na poslužiteljskoj strani, naravno
+                </p>
+                <li class="scripts">logout.php</li>
+                <p>Obavlja uništavanje sesije i povratak na glavnu stranicu
+                </p>
+                <li class="scripts">retrieve-logs.php</li>
+                <p>Vraća JSON, omogućava administratoru pregled dnevnika po stranicama.<br>
+                    Nadalje, omogućava filtriranje po korisniku, vrsti akcije, ili pregled frekvencije rada korisnika.
+                </p>
+                <li class="scripts">config.php</li>
+                <p>Funkcionira kao API za administratoreve AJAX upite (vraća JSON) omogućava administratoru potpunu
+                    kontrolu nad sustavom i konfiguracijskim postavkama. Zbog visokog sigurnosnog rizika, ova skripta
+                    zahtjeva da je u sesiju kao trenutni korisnik upisan administrator
+                </p>
+                <li class="scripts">forgotten-pass.php</li>
+                <p>Prilikom resetiranja šifre, mailom se šalje poseban link koji sadržava identificirajući niz za
+                    korisnika. Identificirajući niz nastaje pretvorbom 25 pseudoslučajnih bajtova u heksadecimalnu
+                    notaciju (točno 50 znakova koliko je predviđeno za najveću <strong>čitljivu</strong> lozinku). Taj
+                    niz se sprema u već postojeći stupac "lozinka čitljiva" koji ionako postoji samo za potrebe
+                    testiranja rješenja ovog projekta
+                </p>
+                <li class="scripts">table-management.php</li>
+                <p>Funkcionira kao API za administratoreve AJAX upite vezane uz rad (CRUD operacije) nad tablicama
+                    (vraća JSON), a omogućava administratoru potpunu kontrolu nad svim tablicama.<br>
+                    Sama funkcionalnost upravljanja tablicama opisana pod skriptom "admin-table-management.php"<br>
+                    Omogućava straničenje zahtjevanih tablica
+                </p>
+            </ol>
+        </section>
+        <section class="section" id="Tehnologije">
+            <h2>
+                Popis i opis korištenih tehnologija i alata
+            </h2>
+            <h4><a target="_blank" href="https://code.visualstudio.com/">Visual Studio Code</a></h4>
+            <p>
+                Izrada ove aplikacije je odrađena u VSCode-u - meni kao osobi koja programira više sati dnevno - a i po
+                svim statistikama - najboljeg IDE-ja proteklih godina, na svijetu.<br>
+                Tu bih volio izraziti svoje negodovanje na guranju NetBeans okruženja studentima na laboratorijskim
+                vježbama pod izlikom da će se on kasnije koristiti. To je kao da u autoškoli možete birati (besplatno!)
+                učiti polaznike voziti na Zastavi 101 i na Mercedesu A klase. Odabrati Zastavu zato što će se i na
+                ispitu vožnje nakon odrađenih sati opet koristiti Zastava 101 nije smisleno.<br>
+                Summa summarum, razmislite o korištenju VSCode-a u budućim semestrima.
+            </p>
+            <h4><a target="_blank" href="https://en.wikipedia.org/wiki/Siege_(software)">Siege</a></h4>
+            <p>
+                Alatom siege testirano je opterećenje poslužitelja (lokalno, naravno), a njegovi rezultati u čistom tekstualnom obliku su navedeni ranije u dokumentaciji.
+            </p>
+            <h4><a target="_blank" href="https://owasp.org/www-project-zap/">OWASP ZAP</a></h4>
+            <p>
+                Za testiranje sigurnosti aplikacije, korišten je moćan alat OWASP ZAP. Ovim alatom stranica je napadnuta
+                i pronađeno je više sigurnosnih nedostataka koji su potom zakrpani.<br>
+                Konačni preostali sigurnosni nedostaci koje je ova aplikacija ispravno prijavila već su ranije u
+                dokumentaciji objašnjeni i dokazani da su "false-flag".
+            </p>
+            <h4><a target="_blank" href="https://owasp.org/www-project-zap/">Git/GitHub</a></h4>
+            <p>
+                Za kontrolu verzija koristio sam posebni privatni repozitorij. To mi je omogućilo efektivno pregledavanje i vraćanje na ranije verzije aplikacija, a i sigurnosne kopije sigurnosnih kopija baze podataka (u obliku SQL naredbi).
+            </p>
+        </section>
+        <section class="section" id="Vanjski_moduli">
+            <h2>
+                Popis i opis vanjskih (tuđih)Tehnologije
+                Vanjski_modulimodula/biblioteka
+            </h2>
+            <h4><a target="_blank" href="https://jquery.com/">jQuery</a></h4>
+            <p>
+                Za lakše programiranje na strani korisnika koristio sam dodatak za Javascript, jQuery. Pomoću njega sam
+                ostvario mnoštvo kompliciranih funkcionalnosti, od koji je daleko najkompleksnija upravljanje (CRUD)
+                tablicama u bazi podataka, sve unutar "sitnih" 1310 linija koda.
+            </p>
+            <h4><a target="_blank" href="https://www.smarty.net/">Smarty</a></h4>
+            <p>
+                Za lakše programiranje na strani poslužitelja, konkretno za jednostavno upravljanje mogućnostima i
+                prikazom podataka na sučelju, upotrijebio sam dodatak za PHP "Smarty". Taj dodatak uvelike mi je olakšao
+                posao kod iteriranja kroz podatke i njihovo efikasno
+                ispisivanje.
+            </p>
+            <h4><a target="_blank" href="https://sass-lang.com/">SCSS</a></h4>
+            <p>
+                Za kraj, ni slučajno najmanje bitan vanjski modul jest "SCSS", glavna sintaksa za "SASS" pre-procesor.
+                "SCSS" datoteke se kompajliraju u "CSS" datoteke, no uvelike su lakše za pisanje. Posebna prednost
+                korištenja SCSS-a u ovome radu (mislim nad većinom tuđih studentskih radova) jest jednostavnost
+                implementiranja različitih izgleda svih klasa i stilova po identifikatorima na različitim
+                rezolucijama.<br>
+                Nadalje, olakšna mi je izrada pogleda za disleksične osobe. Korištenjem varijabli u SCSS-u,
+                implementacija drugačijeg pogleda istih stilskih datoteka nije bila ništa kompleksnija od promjena
+                vrijednosti tih varijabli (boja, veličina itd.).
+            </p>
         </section>
     </main>
     <footer class="footer">
-        <p>Stranica za prijavu šteta</p>
-        <p>Mislav Matijević | 2021.</p>
+        Stranica za prijavu šteta <br>
+        Mislav Matijević | 2021
     </footer>
 </body>
 

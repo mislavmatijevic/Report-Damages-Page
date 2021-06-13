@@ -89,9 +89,9 @@ class UserControl
     }
 
     /**
-     * Activates user with their sha256 hash derived from password.
-     * @param string $activateId SHA256 from password, got in mail link as GET parameter for activation.
-     * @param string $activateId SHA256 from password, got in mail link as GET parameter for activation.
+     * Aktivira korisnika
+     * @param string $activateId SHA256 iz lozinke i soli, dobiven u mail linku kao GET parametar
+     * @param string $username također GET parametar
      */
     public static function ConfirmUserAndLogin(string $activateId, string $username)
     {

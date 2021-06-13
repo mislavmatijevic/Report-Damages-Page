@@ -49,6 +49,9 @@ try {
     }
     $smarty->assign("publicCallInfo", $publicCallInfo);
 } catch (Exception $e) {
+    if ($e->getCode() == DBEmpty) {
+        unset($publicCallId);
+    }
     $smarty->assign("errorGlobal", $e->getMessage());
 }
 

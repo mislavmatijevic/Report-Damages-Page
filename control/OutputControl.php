@@ -53,20 +53,28 @@ class PagingControl
     private $dbObj;
     private $smarty;
     private $currentPage;
+    private $stringPreparedArgs;
+    private $argumentsArray;
 
-    public function __construct(string $tableName, string $tableData, string $additional = "")
+    public function __construct(string $tableName, string $tableData, string $additional = "", string $stringPrepArgs = null, array $preparedArguments = null)
     {
         global $confFilePath;
         global $smarty;
         $this->smarty = $smarty;
         $this->tableData = $tableData;
+        $this->stringPreparedArgs = $stringPrepArgs;
+        $this->argumentsArray = $preparedArguments;
         $this->tableName = $tableName . " " . $additional;
 
         $config = parse_ini_file($confFilePath);
         $this->configItemsPerPage = $config["maxItemsPerPage"];
         $this->dbObj = new DB();
 
-        $databaseData = $this->dbObj->SelectPrepared("SELECT COUNT(*) FROM $this->tableName");
+        if ($this->stringPreparedArgs !== null && $this->argumentsArray !== null) {
+            $databaseData = $this->dbObj->SelectPrepared("SELECT COUNT(*) FROM $this->tableName", $this->stringPreparedArgs, $this->argumentsArray);
+        } else {
+            $databaseData = $this->dbObj->SelectPrepared("SELECT COUNT(*) FROM $this->tableName");
+        }
         $numberOfRows = $databaseData[0]["COUNT(*)"];
         $highestPage = ceil($numberOfRows / $this->configItemsPerPage) - 1;
         $smarty->assign("maxPage", $highestPage);
@@ -89,7 +97,11 @@ class PagingControl
     {
         $this->smarty->assign("currentPage", $this->currentPage);
         $offset = $this->currentPage * $this->configItemsPerPage;
-        return $this->dbObj->SelectPrepared("SELECT $this->tableData FROM $this->tableName LIMIT {$offset}, {$this->configItemsPerPage}");
+        if ($this->stringPreparedArgs !== null && $this->argumentsArray !== null) {
+            return $this->dbObj->SelectPrepared("SELECT $this->tableData FROM $this->tableName LIMIT {$offset}, {$this->configItemsPerPage}", $this->stringPreparedArgs, $this->argumentsArray);
+        } else {
+            return $this->dbObj->SelectPrepared("SELECT $this->tableData FROM $this->tableName LIMIT {$offset}, {$this->configItemsPerPage}");
+        }
     }
 
     public function displayControls()

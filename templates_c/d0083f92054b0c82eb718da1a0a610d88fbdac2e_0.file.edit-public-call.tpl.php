@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.39, created on 2021-06-12 01:57:37
+/* Smarty version 3.1.39, created on 2021-06-13 22:59:32
   from '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/edit-public-call.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.39',
-  'unifunc' => 'content_60c3f871e89501_43557501',
+  'unifunc' => 'content_60c671b45903d0_28669346',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'd0083f92054b0c82eb718da1a0a610d88fbdac2e' => 
     array (
       0 => '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/edit-public-call.tpl',
-      1 => 1623455307,
+      1 => 1623602156,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_60c3f871e89501_43557501 (Smarty_Internal_Template $_smarty_tpl) {
+function content_60c671b45903d0_28669346 (Smarty_Internal_Template $_smarty_tpl) {
 ?><section class="section">
     <h1 class="section__title">Uređivanje javnog poziva "<?php echo $_smarty_tpl->tpl_vars['currentCall']->value["naziv"];?>
 "</h1>
@@ -34,7 +34,7 @@ function content_60c3f871e89501_43557501 (Smarty_Internal_Template $_smarty_tpl)
  />
 
         <label for="name">Naziv: </label>
-        <input id="name" name="name" autofocus type="text" value="<?php echo $_smarty_tpl->tpl_vars['currentCall']->value["naziv"];?>
+        <input id="name" name="name" autofocus type="text" value="<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['currentCall']->value["naziv"]);?>
 " />
 
         <label for="description">Opis: </label>

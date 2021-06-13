@@ -8,6 +8,10 @@ http_response_code(200);
 require_once dirname(__DIR__)."/control/Database.php";
 require_once dirname(__DIR__)."/control/OutputControl.php";
 
+session_start();
+if ($_SESSION["lvl"] != 1) {
+    die(json_encode("Nedovoljne ovlasti!"));
+}
 
 try {
     $dbObj = new DB;
