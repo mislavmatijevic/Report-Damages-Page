@@ -80,7 +80,7 @@ class UserControl
         $maxSessionDurationSeconds = $configuration["maxSessionLengthMinutes"]*60;
 
         self::startSession();
-        setcookie(session_name(),session_id(),time()+$maxSessionDurationSeconds);
+        setcookie(session_name(), session_id(), time()+$maxSessionDurationSeconds);
         
         $_SESSION["user"] = $fullUser;
         $_SESSION["lvl"] = $fullUser->id_uloga;
@@ -354,6 +354,7 @@ class UserControl
                 </p>
 
                 <br>';
+                break;
             }
             default: throw new Exception("Neispravno postavljeno slanje mailova!", USER_CONTROL_MAIL_ERROR);
         }
@@ -368,6 +369,27 @@ class UserControl
         if (mail($emailReceiver, $mailTitle .  " | Stranice štete", $message, $headers) == false) {
             throw new Exception("Mail nije mogao biti poslan!", USER_CONTROL_MAIL_ERROR);
         } else {
+            $dbObj = new DB();
+            $logObj = new Log($dbObj);
+
+            switch ($type) {
+                case self::MAIL_WELCOME: {
+                    $logObj->New("", "Poslan je email dobrodošlice na adresu $emailReceiver.", Log::mail_za_registraciju);
+                    break;
+                }
+                case self::MAIL_PASSWORD: {
+                    $logObj->New("", "Poslan je email zbog zahtjeva nove lozinke na adresu $emailReceiver.", Log::mail_za_lozinku);
+                    break;
+                }
+                case self::MAIL_BLOCK: {
+                    $logObj->New("", "Poslan je email obavijesti o blokiranju na adresu $emailReceiver.", Log::mail_za_blokiranje);
+                    break;
+                }
+                case self::MAIL_FILE_MISSING: {
+                    $logObj->New("", "Poslan je mail o nedostajanju datoteke na adresu $emailReceiver.", Log::općenit_upit);
+                    break;
+                }
+            }
             return USER_CONTROL_SUCCESS;
         }
     }

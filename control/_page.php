@@ -26,7 +26,8 @@ $smarty->assign("pageTitle", $pageTitle);
 $smarty->assign("fullScriptName", $fullScriptName);
 
 if (!function_exists('str_contains')) {
-    function str_contains($haystack, $needle) {
+    function str_contains($haystack, $needle)
+    {
         return $needle !== '' && mb_strpos($haystack, $needle) !== false;
     }
 }
@@ -71,25 +72,32 @@ $config = parse_ini_file($confFilePath);
 
 $termsAccepted = false;
 
-if (isset($_COOKIE["cookies"])) {
-    $termsAccepted = true;
-} else if (isset($_POST["accept-cookies"])) {
-    if ($_POST["accept-cookies"] == "true") {
-        $maxSeconds = $config["cookieDurationDays"]*24*60*60;
-        setcookie("cookies", "true", time()+$maxSeconds);
+try {
+    $dbObj = new DB();
+    $logObj = new Log($dbObj);
+    $logObj->New("", "Korištenje skripte " . $fullScriptName, Log::pristup_stranici);
+
+    if (isset($_COOKIE["cookies"])) {
         $termsAccepted = true;
-        header("Location: {$relativePath}index.php");
+    } elseif (isset($_POST["accept-cookies"])) {
+        if ($_POST["accept-cookies"] == "true") {
+            $maxSeconds = $config["cookieDurationDays"]*24*60*60;
+            setcookie("cookies", "true", time()+$maxSeconds);
+            $termsAccepted = true;
+            $logObj->New("", "Prihvaćanje uvjeta (" . $fullScriptName . ")", Log::prihvaćanje_uvjeta);
+            header("Location: {$relativePath}index.php");
+            die();
+        }
+    }
+    if (!$termsAccepted) {
+        $smarty->assign("messageCookie", $termsAccepted);
+        $smarty->display("header.tpl");
         die();
     }
-} 
-if (!$termsAccepted) {
-    $smarty->assign("messageCookie", $termsAccepted);
-    $smarty->display("header.tpl");
-    die();
-}
 
-if (isset($_SESSION["infoGlobal"])) {
-    $smarty->assign("infoGlobal", $_SESSION["infoGlobal"]);
-    unset($_SESSION["infoGlobal"]);
+    if (isset($_SESSION["infoGlobal"])) {
+        $smarty->assign("infoGlobal", $_SESSION["infoGlobal"]);
+        unset($_SESSION["infoGlobal"]);
+    }
+} catch (Exception $e) {
 }
-?>

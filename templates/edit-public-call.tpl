@@ -8,7 +8,7 @@
         <input name="public-call-identifier" type="hidden" value={$currentCall["id_javni_poziv"]} />
 
         <label for="name">Naziv: </label>
-        <input id="name" name="name" autofocus type="text" value="{$currentCall["naziv"]}" />
+        <input id="name" name="name" autofocus type="text" value="{htmlspecialchars($currentCall["naziv"])}" />
 
         <label for="description">Opis: </label>
         <textarea id="description" name="description" type="text" rows="10" cols="10">{$currentCall["opis"]}</textarea>

@@ -18,7 +18,7 @@
         </select>
 
         <label for="name">Naziv: </label>
-        <input id="name" name="name" autofocus type="text" value="{$newCall["name"]}" />
+        <input id="name" name="name" autofocus type="text" value="{htmlspecialchars($newCall["name"])}" />
 
         <label for="description">Opis: </label>
         <textarea id="description" name="description" type="text" rows="10"
@@ -26,8 +26,8 @@
 
         <label>Rok:</label>
         <div class="date-time__wrapper">
-            <input name="deadline-date" type="date" name="deadline" value={$newCall["deadlineDate"]} />
-            <input name="deadline-time" type="time" name="deadline" value={$newCall["deadlineTime"]} />
+            <input name="deadline-date" type="date" name="deadline" value={htmlspecialchars($newCall["deadlineDate"])} />
+            <input name="deadline-time" type="time" name="deadline" value={htmlspecialchars($newCall["deadlineTime"])} />
         </div>
 
         <input class="button" id="submit_button" name="submit" type="submit" value="Otvori javni poziv" />

@@ -7,15 +7,15 @@
         <form id="newPassword" name="newPassword" method="POST" class="section-form"
             action="{htmlspecialchars($smarty.server.PHP_SELF)}">
 
-            <input name="identifier" type="hidden" value={$identifier} />
+            <input name="identifier" type="hidden" value={htmlspecialchars($identifier)} />
 
             <label for="newPassword">Nova lozinka: </label>
             <input id="newPassword" name="newPassword" type="password" size="15" {if isset($newPassword)}
-                value="{$newPassword}" {/if} />
+                value="{htmlspecialchars($newPassword)}" {/if} />
 
             <label for="newPasswordRepeat">Ponovi novu lozinku: </label>
             <input id="newPasswordRepeat" name="newPasswordRepeat" type="password" size="15" {if isset($newPasswordRepeat)}
-            value="{$newPasswordRepeat}" {/if} />
+            value="{htmlspecialchars($newPasswordRepeat)}" {/if} />
 
             {if isset($message)} <span class="error">{$message}</span> {/if}
             <div style="position:relative; grid-area: 7 / 3 / span 2 / span 3; display: flex; flex-direction: column">

@@ -10,7 +10,7 @@
         <h1 class="section__title">Zaboravljena lozinka</h1>
         <form id="register" name="register" method="POST" class="section-form" action="{htmlspecialchars($smarty.server.PHP_SELF)}">
             <label for="username">Korisničko ime: </label>
-            <input id="username" name="username" type="text" size="15" {if isset($username)} value="{$username}" {/if} />
+            <input id="username" name="username" type="text" size="15" {if isset($username)} value="{htmlspecialchars($username)}" {/if} />
             <span id="error-username" class="error">{if isset($message)}{$message}{/if}</span>
             <div style="position:relative; grid-area: 7 / 3 / span 2 / span 3; display: flex; flex-direction: column; align-items: center;">
                 <div class="g-recaptcha" data-sitekey="6Lf1IQwbAAAAANr0dqL1d4BFHSNrquwodjOfunFW"></div>

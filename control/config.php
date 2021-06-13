@@ -83,6 +83,8 @@ if (isset($_POST['newConfig'])) {
         }
         fclose($fileConfig);
 
+        $config = parse_ini_file($confFilePath);
+        
         $returnMe = [
             'realTime' => date("d.m.Y H:i:s", time()),
             'virtualTime' => date("d.m.Y H:i:s", time() + $config["virtualTimeOffsetSeconds"]),

@@ -13,7 +13,7 @@
         <input name="public-call-identifier" type="hidden" value={$publicCallInfo["id_javni_poziv"]} />
 
         <label for="name">Naslov prijave: </label>
-        <input id="name" name="name" autofocus type="text" {if isset($newDamage)} value="{$newDamage["name"]}" {/if} />
+        <input id="name" name="name" autofocus type="text" {if isset($newDamage)} value="{htmlspecialchars($newDamage["name"])}" {/if} />
 
         <span id="error-name" class="error">{if isset($mistakeField["name"])}{$mistakeField["name"]}{/if}</span>
 
@@ -26,7 +26,7 @@
 
         <label for="tags">Oznake: </label>
         <input id="tags" name="tags" type="text" placeholder="poplava pomoć ..." {if isset($newDamage)}
-            value="{$newDamage["tags"]}" {/if} />
+            value="{htmlspecialchars($newDamage["tags"])}" {/if} />
 
         <span id="error-tags" class="error">{if isset($mistakeField["tags"])}{$mistakeField["tags"]}{/if}</span>
 

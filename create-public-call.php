@@ -48,7 +48,12 @@ if (isset($_POST["submit"])) {
         $argArray = [$newCall["name"], $newCall["name"], $startTime, $deadline, $_SESSION["user"]->id_korisnik, $newCall["category"]];
 
         $dbObj = new DB();
-        $dbObj->ExecutePrepared("INSERT INTO `WebDiP2020x057`.`javni_poziv` (`naziv`, `opis`, `datum_otvaranja`, `datum_zatvaranja`, `id_odgovorna_osoba`, `id_kategorija_stete`) VALUES (?, ?, ?, ?, ?, ?)", "ssssii", $argArray);
+        $newCallId = $dbObj->ExecutePrepared("INSERT INTO `WebDiP2020x057`.`javni_poziv` (`naziv`, `opis`, `datum_otvaranja`, `datum_zatvaranja`, `id_odgovorna_osoba`, `id_kategorija_stete`) VALUES (?, ?, ?, ?, ?, ?)", "ssssii", $argArray, true);
+
+        $dbObj = new DB();
+        $logObj = new Log($dbObj);
+        $logObj->New("", "Moderator {$_SESSION["user"]->korisnicko_ime} je otvorio javni poziv pod šifrom $newCallId.", Log::otvaranje_javnog_poziva);
+
         $smarty->assign("infoGlobal", "Poziv dodan!");
     } catch (Exception $e) {
         $smarty->assign("errorGlobal", $e->getMessage());

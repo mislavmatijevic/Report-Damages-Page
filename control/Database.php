@@ -41,11 +41,9 @@ class Log
     public const mail_za_blokiranje = 20;
     public const općenit_upit = 21;
     public const promjena_konfiguracije = 22;
-    
-    // Tipovi radnji
 
     private $dbObjLog;
-    public function __construct(DB $activeDbObj) // OBJEKT NE SMIJE sadržavati objekt baze jer bi se rekurzivno sadržavali!
+    public function __construct(DB $activeDbObj) // OBJEKT NE SMIJE inicijalizirati objekt baze jer bi se rekurzivno sadržavali!
     {
         $this->dbObjLog = $activeDbObj;
     }
@@ -277,14 +275,14 @@ class DB
         
         // Ako je aktiviran prihvaćeni:
         if ($userObject["datum_aktivacije"] != null) {
-            $this->logObj->New("SELECT * FROM `korisnik` WHERE `lozinka_sha256` = $sha256password AND `korisnicko_ime` = $username", "Prilikom pokušaja aktivacije korisnik $username je označen kao već aktiviran.", Log::registracija);
+            $this->logObj->New("SELECT * FROM `korisnik` WHERE `lozinka_sha256` = $sha256password AND `korisnicko_ime` = $username", "Prilikom pokušaja aktivacije korisnik $username je označen kao već aktiviran.", Log::aktivacija);
             throw new Exception('Račun već aktiviran. U slučaju pogreške kontaktirajte administratora.', DBPassError);
         } else {
             if (($currentTime - strtotime($userObject["datum_registracije"])) / 60 / 60 > $maxHoursToAccept) {
                 // Izbriši nevažećeg korisnika.
                 $this->ExecutePrepared("DELETE FROM `WebDiP2020x057`.`korisnik` WHERE `korisnicko_ime` = ?", "s", [$username]);
 
-                $this->logObj->New("DELETE FROM `WebDiP2020x057`.`korisnik` WHERE `korisnicko_ime` = $username", "Prilikom pokušaja aktivacije izbrisan je nevažeći korisnik $username koji se nije bio aktivirao na vrijeme.", Log::registracija);
+                $this->logObj->New("DELETE FROM `WebDiP2020x057`.`korisnik` WHERE `korisnicko_ime` = $username", "Prilikom pokušaja aktivacije izbrisan je nevažeći korisnik $username koji se nije bio aktivirao na vrijeme.", Log::aktivacija);
 
                 throw new Exception("Rok za aktivaciju je istekao ({$maxHoursToAccept}h).<br>Možete otvoriti novi račun s istim korisničkim imenom.", DBError);
             }
@@ -294,7 +292,7 @@ class DB
             $this->ExecutePrepared("UPDATE `WebDiP2020x057`.`korisnik` SET `datum_aktivacije` = ? WHERE (`id_korisnik` = ?)", "si", [$currentTime, $userObject["id_korisnik"]]);
         }
 
-        $this->logObj->New("UPDATE `WebDiP2020x057`.`korisnik` SET `datum_aktivacije` = $currentTime WHERE (`id_korisnik` = {$userObject["id_korisnik"]})", "Aktiviran je korisnik $username s identifikatorom šifrom {$userObject["id_korisnik"]}.", Log::registracija);
+        $this->logObj->New("UPDATE `WebDiP2020x057`.`korisnik` SET `datum_aktivacije` = $currentTime WHERE (`id_korisnik` = {$userObject["id_korisnik"]})", "Aktiviran je korisnik $username s identifikatorom šifrom {$userObject["id_korisnik"]}.", Log::aktivacija);
 
         return $userObject;
     }
@@ -379,7 +377,7 @@ class DB
      */
     public function InsertDamage(int $idJavniPoziv, int $idUser, int $idCategory, $newDamageInfo)
     {
-        $currentPublicCallStatus = $this->SelectPrepared("SELECT zatvoren FROM javni_poziv WHERE id_javni_poziv = ?", "i", [$idJavniPoziv]);
+        $currentPublicCallStatus = $this->SelectPrepared("SELECT naziv, zatvoren FROM javni_poziv WHERE id_javni_poziv = ?", "i", [$idJavniPoziv])[0];
         $isClosed = $currentPublicCallStatus["zatvoren"];
         if ($isClosed == 1) {
             throw new Exception("Ovaj javni poziv je zatvoren!", DBLogicError);
@@ -396,6 +394,7 @@ class DB
         }
 
         $this->logObj->New("INSERT INTO `WebDiP2020x057`.`steta` (`naziv`, `opis`, `oznake`, `id_kategorija_stete`, `id_prijavitelj`, `id_javni_poziv`) VALUES ({$newDamageInfo["name"]}, {$newDamageInfo["description"]}, {$newDamageInfo["tags"]}, $idCategory, $idUser, $idJavniPoziv); INSERT INTO `WebDiP2020x057`.`dokazni_materijali` (`naziv`, `id_vrsta_materijala`) VALUES ({$newDamageInfo["files"]->fileName}, {$newDamageInfo["files"]->fileType}); INSERT INTO `WebDiP2020x057`.`steta_dokazi` (`id_steta`, `id_materijala`) VALUES ({$newDamageId}, {$lastEvidenceIndex})", "Prijavljena je nova šteta!", Log::prijava_štete);
+        $this->logObj->New("", "Nova šteta prijavljena je na javni poziv \"{$currentPublicCallStatus["naziv"]}\"!", Log::prijava_na_javni_poziv);
 
         return $newDamageId;
     }

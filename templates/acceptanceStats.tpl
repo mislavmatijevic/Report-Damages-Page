@@ -15,9 +15,9 @@
                             {if isset($acceptanceStats[$key+2]["naziv"]) && $acceptanceStats[$key+2]["naziv"] == $row["naziv"]}
                             rowspan="3" {else} rowspan="2" 
                             {/if} 
-                        {/if}>{$row["naziv"]}</td>
+                        {/if}>{htmlspecialchars($row["naziv"])}</td>
                 {/if}
-                <td class="table__row-data">{$row["count"]} {$row["status"]}</td>
+                <td class="table__row-data">{htmlspecialchars($row["count"])} {htmlspecialchars($row["status"])}</td>
             </tr>
         {/foreach}
     </tbody>

@@ -22,15 +22,15 @@ $(() => {
             $("#stylesheet-element").attr("href", $("#stylesheet-element").attr("href").replace(/(.*)\/.*(\.css$)/i, '$1/style_accesibillity$2'));
             var date = new Date();
             date.setTime(date.getTime() + (value * 24 * 60 * 60 * 1000));
-            document.cookie = `accessibility=${currentAccessValue}; expires=${date.toUTCString()}; path=/`;
+            document.cookie = `accessibility=${currentAccessValue}; expires=${date.toUTCString()}; path='/'`;
         } else {
-            document.cookie = `accessibility=; expires=; path=`;
+            document.cookie = `accessibility=; expires=-1; path='/'`;
             $("#stylesheet-element").attr("href", $("#stylesheet-element").attr("href").replace(/(.*)\/.*(\.css$)/i, '$1/style$2'));
         }
     }
 
+    
     var lastAjax;
-
 
     // Oblačić za pomoć:
     var helpShown = false;

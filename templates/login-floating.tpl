@@ -1,11 +1,11 @@
 <section class="section-login">
     <form id="login" name="login" method="POST" class="section-login_popup" action="{htmlspecialchars($smarty.server.PHP_SELF)}">
         <h1 class="section-login_popup-header">Prijava u sustav</h1>
-        <input id="username" name="username" placeholder="Korisničko ime" {if isset($loginUser["username"])} value="{$loginUser["username"]}"
+        <input id="username" name="username" placeholder="Korisničko ime" {if isset($loginUser["username"])} value="{htmlspecialchars($loginUser["username"])}"
             {/if} />
         <span id="error-username" class="error"></span>
         <input id="password" name="password" type="password" placeholder="Password" {if isset($loginUser["password"])}
-            value="{$loginUser["password"]}" {/if} />
+            value="{htmlspecialchars($loginUser["password"])}" {/if} />
         <span id="error-password" class="error">{if isset($message)}{$message}{/if}</span>
         <div class="g-recaptcha" data-sitekey="6Lf1IQwbAAAAANr0dqL1d4BFHSNrquwodjOfunFW"></div>
         {if isset($messageCaptcha)}<span class="error-captcha">{$messageCaptcha}</span>{/if}
