@@ -176,12 +176,20 @@ if (isset($_POST["backupRestore"])) {
 
         // Provjera postoje li sve datoteke.
         try {
+            $missingDamagesArray = [];
             $images = scandir(dirname(__DIR__)."/media/evidence/");
-            $allDamages = $dbObj->SelectPrepared("SELECT st.naziv, st.datum_prijave, k.korisnicko_ime, k.email, dm.putanja_disk FROM steta st INNER JOIN korisnik k ON k.id_korisnik = st.id_prijavitelj INNER JOIN steta_dokazi sd ON sd.id_steta = st.id_steta INNER JOIN dokazni_materijali dm WHERE dm.id_materijala = sd.id_materijala");
+            $missingImagesCount = 0;
+            $allDamages = $dbObj->SelectPrepared("SELECT st.naziv, st.datum_prijave, k.korisnicko_ime, k.email, dm.naziv FROM steta st INNER JOIN korisnik k ON k.id_korisnik = st.id_prijavitelj INNER JOIN steta_dokazi sd ON sd.id_steta = st.id_steta INNER JOIN dokazni_materijali dm ON dm.id_materijala = sd.id_materijala");
             foreach ($allDamages as $key => $damage) {
-                if (!in_array($damage["putanja_disk"], $images)) {
-                    UserControl::SendMailAboutMissingDamageFiles($damage["korisnicko_ime"], $damage["naziv"], $damage["datum_prijave"], $damage["email"], $damage["putanja_disk"]);
+                if (!in_array($damage["naziv"], $images)) {
+                    $missingDamagesArray[$damage["email"]]["username"] = $damage["korisnicko_ime"];
+                    $missingDamagesArray[$damage["email"]]["damage"][$missingImagesCount]["name"] = $damage["naziv"];
+                    $missingDamagesArray[$damage["email"]]["damage"][$missingImagesCount]["date"] = $damage["datum_prijave"];
+                    $missingImagesCount++;
                 }
+            }
+            foreach ($missingDamagesArray as $email => $data) {
+                UserControl::SendMailAboutMissingDamageFiles($data["username"], $data["damage"], $email);
             }
         } catch (Exception $e){}
 

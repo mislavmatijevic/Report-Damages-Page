@@ -9,7 +9,9 @@ try {
     $javniPozivi = $paging->getData();
     $smarty->assign("javniPozivi", $javniPozivi);
 } catch (Exception $e) {
-    $smarty->assign("errorGlobal", $e->getMessage());
+    if ($e->getCode() !== DBEmpty) { // Nemoj javljati pogrešku da ništa nije dohvaćeno.
+        $smarty->assign("errorGlobal", $e->getMessage());
+    }
 }
 
 $smarty->display("header.tpl");

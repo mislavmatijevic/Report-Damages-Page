@@ -45,7 +45,7 @@ try {
     $smarty->assign("errorGlobal", $e->getMessage());
 }
 
-$paging = new PagingControl("javni_poziv as jp", "jp.id_javni_poziv, jp.naziv, jp.opis, jp.datum_otvaranja, jp.datum_zatvaranja, jp.zatvoren, k.ilustracija as kategorija_ilustracija, k.naziv as kategorija_naziv", "INNER JOIN kategorija_stete k ON jp.id_kategorija_stete = k.id_kategorija_stete ORDER BY jp.datum_otvaranja DESC");
+$paging = new PagingControl("javni_poziv as jp", "jp.id_javni_poziv, jp.naziv, jp.opis, jp.datum_otvaranja, jp.datum_zatvaranja, jp.zatvoren, k.ilustracija as kategorija_ilustracija, k.naziv as kategorija_naziv", "INNER JOIN kategorija_stete k ON jp.id_kategorija_stete = k.id_kategorija_stete ORDER BY jp.zatvoren ASC, jp.datum_otvaranja DESC");
 
 try {
     $javniPozivi = $paging->getData();

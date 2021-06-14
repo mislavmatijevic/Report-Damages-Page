@@ -168,13 +168,17 @@ class UserControl
         return $email;
     }
 
-    public static function SendMailAboutMissingDamageFiles($username, $damageName, $damageDateReported, $email, $missingFilename)
+    public static function SendMailAboutMissingDamageFiles($username, $missingDamageArray, $email)
     {
-        $message = `
-        <p><strong>
-        Molimo ponovno priložite datoteku $missingFilename za štetu $damageName prijavljenu $damageDateReported.
-        </strong></p>
-        `;
+        $missingDamagesString = "";
+        foreach ($missingDamageArray as $key => $value) {
+            $missingDamagesString .= "<li> {$value["name"]} (datoteka bila priložena {$value["date"]}) </li>";
+        }
+        $message = "
+        <p>
+        <strong>Molimo administratoru pošaljite iduće datoteke:</strong><br><ol> {$missingDamagesString} </ol>
+        </p>
+        ";
         self::sendUserMail(self::MAIL_FILE_MISSING, $email, $message, $username);
     }
 
