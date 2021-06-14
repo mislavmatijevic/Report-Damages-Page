@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.39, created on 2021-06-13 19:52:03
+/* Smarty version 3.1.39, created on 2021-06-14 18:36:01
   from '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/administrator.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.39',
-  'unifunc' => 'content_60c645c3a4da94_96616328',
+  'unifunc' => 'content_60c78571c08a31_37582878',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '65f568e62aa2002d6ff971dc00c148edb9526300' => 
     array (
       0 => '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/administrator.tpl',
-      1 => 1623606723,
+      1 => 1623684155,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_60c645c3a4da94_96616328 (Smarty_Internal_Template $_smarty_tpl) {
+function content_60c78571c08a31_37582878 (Smarty_Internal_Template $_smarty_tpl) {
 ?><section class="section">
     <h1 class="section__title">Administriranje stranice</h1>
     <nav id="admin_control_panel">
@@ -128,7 +128,7 @@ function content_60c645c3a4da94_96616328 (Smarty_Internal_Template $_smarty_tpl)
     <table id="log-entire" class="table">
         <input id="log-entire__input-date" type="date" class="input-text" placeholder="Filtriraj po datumu..." />
         <button id="log-entire__button-filter-date" class="button">Filtriraj po datumu</button>
-        <p>Držati miš nad url-om ili akcijom za pregled detalja.</p>
+        <p>Držati miš nad nazivom datoteke ili akcijom za pregled detalja.</p>
         <caption>Cijeli dnevnik</caption>
         <thead>
             <tr>

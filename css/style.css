@@ -2356,6 +2356,16 @@ textarea {
   color: red;
 }
 
+.reported-damage__content-warning {
+  text-align: center;
+  color: orange;
+}
+
+.reported-damage__content-success {
+  text-align: center;
+  color: green;
+}
+
 .reported-damage__evidence {
   position: relative;
   -ms-flex-item-align: center;

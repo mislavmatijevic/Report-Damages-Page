@@ -96,6 +96,14 @@
             text-align: center;
             color: $error;
         }
+        &-warning {
+            text-align: center;
+            color: $highlightColor;
+        }
+        &-success {
+            text-align: center;
+            color: $success;
+        }
     }
 
     &__evidence {

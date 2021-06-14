@@ -60,7 +60,9 @@ if (isset($_POST["public-call-identifier"]) && isset($_POST["submit"])) {
 
         $newDamage["files"] = array();
         foreach ($_FILES as $fileIdentificator => $fileInfoArray) {
-            if (empty($fileInfoArray["name"])) continue;
+            if (empty($fileInfoArray["name"][0])) {
+                continue;
+            }
 
             $fileMistakesString = "";
             $thisFileMaterial = explode("-", $fileIdentificator)[1]; // Prvo upišem oznaku datoteke "id_vrsta_materijal" koja je originalno pročitana iz baze.
@@ -70,15 +72,18 @@ if (isset($_POST["public-call-identifier"]) && isset($_POST["submit"])) {
                 }
             }
 
-            $maxAllowdSizeB = round($thisFileMaterial["najveca_velicina_mb"]*1024*1024);
-            $thisFileSizeMb = round($fileInfoArray["size"]/1024/1024, 3);
+            $filesOfThisTypeCount = count($fileInfoArray["name"]);
 
-            if ($fileInfoArray["size"] > $maxAllowdSizeB) {
-                $fileMistakesString .=  "Veličina datoteke iznosi {$thisFileSizeMb}MB, a najviše dopušteno je {$thisFileMaterial["najveca_velicina_mb"]}";
-            }
+            for ($i=0; $i < $filesOfThisTypeCount; $i++) {
+                $maxAllowdSizeB = round($thisFileMaterial["najveca_velicina_mb"]*1024*1024);
+                $thisFileSizeMb = round($fileInfoArray["size"][$i]/1024/1024, 3);
 
-            if ($fileInfoArray["error"] > 0) {
-                switch ($fileInfoArray["error"]) {
+                if ($fileInfoArray["size"][$i] > $maxAllowdSizeB) {
+                    $fileMistakesString .=  "Veličina datoteke iznosi {$thisFileSizeMb}MB, a najviše dopušteno je {$thisFileMaterial["najveca_velicina_mb"]}";
+                }
+
+                if ($fileInfoArray["error"][$i] > 0) {
+                    switch ($fileInfoArray["error"][$i]) {
                     case 1:
                         $fileMistakesString .=  'Veličina veća od serverski definirane najveće: ' . ini_get('upload_max_filesize');
                         break;
@@ -92,23 +97,24 @@ if (isset($_POST["public-call-identifier"]) && isset($_POST["submit"])) {
                         $fileMistakesString .=  'Datoteka nije prenesena.';
                         break;
                 }
-            }
+                }
 
-            if (strlen($fileMistakesString[$fileIdentificator]) !== 0) {
-                $mistakeField[$fileIdentificator] = $fileMistakesString . " ({$fileInfoArray["name"]})";
-            }
+                if (strlen($fileMistakesString[$fileIdentificator]) !== 0) {
+                    $mistakeField[$fileIdentificator] = $fileMistakesString . " ({$fileInfoArray["name"][$i]})";
+                }
 
-            if (is_uploaded_file($fileInfoArray["tmp_name"])) {
-                if ($fileInfoArray["type"] != $thisFileMaterial["ekstenzija"]) {
-                    $mistakeField[$fileIdentificator] = $thisFileMaterial["naziv"] . " mora biti vrste " . $thisFileMaterial["ekstenzija"] . ", a ne " . $fileInfoArray["type"] . "!";
-                } else {
-                    $location = './media/evidence/';
-                    if (move_uploaded_file($fileInfoArray["tmp_name"], $location . basename($fileInfoArray["name"])) == false) {
-                        $mistakeField[$fileIdentificator] =  "Nije moguće prenijeti datoteku {$fileInfoArray["name"]} na odredište. ";
+                if (is_uploaded_file($fileInfoArray["tmp_name"][$i])) {
+                    if ($fileInfoArray["type"][$i] != $thisFileMaterial["ekstenzija"]) {
+                        $mistakeField[$fileIdentificator] = $thisFileMaterial["naziv"] . " mora biti vrste " . $thisFileMaterial["ekstenzija"] . ", a ne " . $fileInfoArray["type"][$i] . "!";
                     } else {
-                        $newFieldObject->fileName= $fileInfoArray["name"];
-                        $newFieldObject->fileType= $thisFileMaterial["id_vrsta_materijala"];
-                        $newDamage["files"][] = $newFieldObject; // Datoteke se upisuju u polje "files", gdje svaka datoteka ima svoje polje s imenom i tipom.
+                        $location = './media/evidence/';
+                        if (move_uploaded_file($fileInfoArray["tmp_name"][$i], $location . basename($fileInfoArray["name"][$i])) == false) {
+                            $mistakeField[$fileIdentificator] =  "Nije moguće prenijeti datoteku {$fileInfoArray["name"][$i]} na odredište. ";
+                        } else {
+                            $newFieldObject["fileName"] = $fileInfoArray["name"][$i];
+                            $newFieldObject["fileType"] = $thisFileMaterial["id_vrsta_materijala"];
+                            array_push($newDamage["files"], $newFieldObject); // Datoteke se upisuju u polje "files", gdje svaka datoteka ima svoje polje s imenom i tipom.
+                        }
                     }
                 }
             }
@@ -118,9 +124,10 @@ if (isset($_POST["public-call-identifier"]) && isset($_POST["submit"])) {
             $mistakeField["files"] = "Nijedna datoteka nije prenesena! Morate prenijeti barem jedan dokazni materijal o Vašoj šteti.";
         }
 
-        if (!empty($mistakeField)) { // Sve je ok, treba unijeti nove podatke u bazu!
+        if (!empty($mistakeField)) {
             $smarty->assign("mistakeField", Prevent::XSS($mistakeField));
-        } else {
+            $smarty->assign("errorGlobal", "Provjerite pogreške ispod na formi!");
+        } else { // Sve je ok, treba unijeti nove podatke u bazu!
             try {
                 $dbObj = new DB();
                 $categoryId = $publicCallInfo = $dbObj->SelectPrepared("SELECT id_kategorija_stete FROM javni_poziv WHERE id_javni_poziv = ?", "i", [$publicCallId])[0]["id_kategorija_stete"];

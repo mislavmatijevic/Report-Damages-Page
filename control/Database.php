@@ -271,18 +271,18 @@ class DB
 
         global $confFilePath;
         $config = parse_ini_file($confFilePath);
-        $currentTime = date("Y-m-d H:i:s", time() + $config["virtualTimeOffsetSeconds"]);
+        $currentTime = time() + $config["virtualTimeOffsetSeconds"];
         
         // Ako je aktiviran prihvaćeni:
         if ($userObject["datum_aktivacije"] != null) {
-            $this->logObj->New("SELECT * FROM `korisnik` WHERE `lozinka_sha256` = $sha256password AND `korisnicko_ime` = $username", "Prilikom pokušaja aktivacije korisnik $username je označen kao već aktiviran.", Log::aktivacija);
+            $this->logObj->New("SELECT * FROM `WebDiP2020x057`.`korisnik` WHERE `lozinka_sha256` = $sha256password AND `korisnicko_ime` = $username", "Prilikom pokušaja aktivacije korisnik $username je označen kao već aktiviran.", Log::aktivacija);
             throw new Exception('Račun već aktiviran. U slučaju pogreške kontaktirajte administratora.', DBPassError);
         } else {
             if (($currentTime - strtotime($userObject["datum_registracije"])) / 60 / 60 > $maxHoursToAccept) {
                 // Izbriši nevažećeg korisnika.
-                $this->ExecutePrepared("DELETE FROM `WebDiP2020x057`.`korisnik` WHERE `korisnicko_ime` = ?", "s", [$username]);
+                $this->ExecutePrepared("UPDATE `WebDiP2020x057`.`korisnik` SET `korisnicko_ime` = '[izbrisan]' WHERE id_korisnik = ?", "i", [$userObject["id_korisnik"]]);
 
-                $this->logObj->New("DELETE FROM `WebDiP2020x057`.`korisnik` WHERE `korisnicko_ime` = $username", "Prilikom pokušaja aktivacije izbrisan je nevažeći korisnik $username koji se nije bio aktivirao na vrijeme.", Log::aktivacija);
+                $this->logObj->New("UPDATE `WebDiP2020x057`.`korisnik` SET `korisnicko_ime` = '[izbrisan]' WHERE `id_korisnik` = {$userObject["id_korisnik"]}", "Prilikom pokušaja aktivacije izbrisan je nevažeći korisnik $username koji se nije bio aktivirao na vrijeme.", Log::aktivacija);
 
                 throw new Exception("Rok za aktivaciju je istekao ({$maxHoursToAccept}h).<br>Možete otvoriti novi račun s istim korisničkim imenom.", DBError);
             }
@@ -386,10 +386,8 @@ class DB
         $argArray = [$newDamageInfo["name"], $newDamageInfo["description"], $newDamageInfo["tags"], $idCategory, $idUser, $idJavniPoziv];
 
         $newDamageId = $this->ExecutePrepared("INSERT INTO steta (naziv, opis, oznake, id_kategorija_stete, id_prijavitelj, id_javni_poziv) VALUES (?, ?, ?, ?, ?, ?)", "sssiii", $argArray, true);
-
-
-        foreach ($newDamageInfo["files"] as $key => $thisFile) {            
-            $lastEvidenceIndex = $this->ExecutePrepared("INSERT INTO `WebDiP2020x057`.`dokazni_materijali` (`naziv`, `id_vrsta_materijala`) VALUES (?, ?)", "si", [$thisFile->fileName, $thisFile->fileType], true);
+        foreach ($newDamageInfo["files"] as $key => $thisFile) {
+            $lastEvidenceIndex = $this->ExecutePrepared("INSERT INTO `WebDiP2020x057`.`dokazni_materijali` (`naziv`, `id_vrsta_materijala`) VALUES (?, ?)", "si", [$thisFile["fileName"], $thisFile["fileType"]], true);
             $this->ExecutePrepared("INSERT INTO `WebDiP2020x057`.`steta_dokazi` (`id_steta`, `id_materijala`) VALUES (?, ?)", "ii", [$newDamageId, $lastEvidenceIndex]);
         }
 

@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.39, created on 2021-06-13 19:50:02
+/* Smarty version 3.1.39, created on 2021-06-14 19:11:45
   from '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/report-damage.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.39',
-  'unifunc' => 'content_60c6454a6662a5_68993715',
+  'unifunc' => 'content_60c78dd19c1370_04619516',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'aa6b46b5b9aba7da2bfa92daa8ca9a24b2acd6d3' => 
     array (
       0 => '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/report-damage.tpl',
-      1 => 1623606593,
+      1 => 1623690694,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_60c6454a6662a5_68993715 (Smarty_Internal_Template $_smarty_tpl) {
+function content_60c78dd19c1370_04619516 (Smarty_Internal_Template $_smarty_tpl) {
 ?><section class="section">
     <h1 class="section__title">Prijava na javni poziv "<?php echo $_smarty_tpl->tpl_vars['publicCallInfo']->value["naziv"];?>
 "</h1>
@@ -92,7 +92,7 @@ $_smarty_tpl->tpl_vars['type']->do_else = false;
 <br>(max <?php echo $_smarty_tpl->tpl_vars['type']->value["najveca_velicina_mb"];?>
 MB): </label>
             <input name="file-<?php echo $_smarty_tpl->tpl_vars['type']->value["id_vrsta_materijala"];?>
-" type="file" multiple="multiple" />
+[]" type="file" multiple="multiple" />
             <span id="error-file-<?php echo $_smarty_tpl->tpl_vars['type']->value["id_vrsta_materijala"];?>
 "
                 class="error"><?php ob_start();
@@ -110,7 +110,7 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
 
         <div class="section-form__submit-wrapper">
             <div class="g-recaptcha" data-sitekey="6Lf1IQwbAAAAANr0dqL1d4BFHSNrquwodjOfunFW"></div>
-            <?php if ((isset($_smarty_tpl->tpl_vars['message']->value))) {?><span class=<?php if ($_smarty_tpl->tpl_vars['messageOK']->value) {?> "info" <?php } else { ?> "error-captcha" <?php }?>><?php echo $_smarty_tpl->tpl_vars['message']->value;?>
+        <?php if ((isset($_smarty_tpl->tpl_vars['messageCaptcha']->value))) {?><span class=<?php if ($_smarty_tpl->tpl_vars['messageOK']->value) {?> "info" <?php } else { ?> "error-captcha" <?php }?>><?php echo $_smarty_tpl->tpl_vars['messageCaptcha']->value;?>
 </span><?php }?>
             <input id="registerButton" class="button" name="submit" type="submit" value="Prijavi štetu" />
         </div>

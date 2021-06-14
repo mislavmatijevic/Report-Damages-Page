@@ -44,14 +44,14 @@
         <label id="error-files" class="error">{if isset($mistakeField["files"])}{$mistakeField["files"]}{/if}</label>
         {foreach from=$materialTypes item=$type key=$key}
             <label for="file">{$type["naziv"]}<br>(max {$type["najveca_velicina_mb"]}MB): </label>
-            <input name="file-{$type["id_vrsta_materijala"]}" type="file" multiple="multiple" />
+            <input name="file-{$type["id_vrsta_materijala"]}[]" type="file" multiple="multiple" />
             <span id="error-file-{$type["id_vrsta_materijala"]}"
                 class="error">{if isset($mistakeField["file-"+{$type["id_vrsta_materijala"]}])}{$mistakeField["file-"+{$type["id_vrsta_materijala"]}]}{/if}</span>
         {/foreach}
 
         <div class="section-form__submit-wrapper">
             <div class="g-recaptcha" data-sitekey="6Lf1IQwbAAAAANr0dqL1d4BFHSNrquwodjOfunFW"></div>
-            {if isset($message)}<span class={if $messageOK} "info" {else} "error-captcha" {/if}>{$message}</span>{/if}
+        {if isset($messageCaptcha)}<span class={if $messageOK} "info" {else} "error-captcha" {/if}>{$messageCaptcha}</span>{/if}
             <input id="registerButton" class="button" name="submit" type="submit" value="Prijavi štetu" />
         </div>
     </form>

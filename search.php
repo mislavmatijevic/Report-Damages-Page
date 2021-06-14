@@ -65,7 +65,7 @@ if ($isViewable) {
         if ($publicCallId == false) {
             $paging = new PagingControl("steta as s", "k.korisnicko_ime, s.id_steta, s.naziv, s.opis, s.oznake, s.datum_prijave, s.datum_potvrde, s.subvencija_hrk, s.id_status_stete", "INNER JOIN korisnik k ON k.id_korisnik = s.id_prijavitelj $searchCriteria ORDER BY datum_prijave DESC");
         } else {
-            $paging = new PagingControl("steta as s", "k.korisnicko_ime, s.id_steta, s.naziv, s.opis, s.oznake, s.datum_prijave, s.datum_potvrde, s.subvencija_hrk, s.id_status_stete", "INNER JOIN korisnik k ON k.id_korisnik = s.id_prijavitelj WHERE s.id_javni_poziv = ? $searchCriteria", "i", [$publicCallId]);
+            $paging = new PagingControl("steta as s", "k.korisnicko_ime, s.id_steta, s.naziv, s.opis, s.oznake, s.datum_prijave, s.datum_potvrde, s.subvencija_hrk, s.id_status_stete", "INNER JOIN korisnik k ON k.id_korisnik = s.id_prijavitelj WHERE s.id_javni_poziv = ? $searchCriteria ORDER BY datum_prijave DESC", "i", [$publicCallId]);
         }
 
         $reportedDamages = $paging->getData();
@@ -73,7 +73,15 @@ if ($isViewable) {
         $dbObj = new DB();
 
         foreach ($reportedDamages as $key => $value) {
-            $reportedDamages[$key]["dokazni_materijali"] = $dbObj->SelectPrepared("SELECT * FROM dokazni_materijali as dm INNER JOIN steta_dokazi as sd ON sd.id_materijala = dm.id_materijala AND sd.id_steta = ?", "i", [$value["id_steta"]]);
+            try {
+                $reportedDamages[$key]["dokazni_materijali"] = $dbObj->SelectPrepared("SELECT * FROM dokazni_materijali as dm INNER JOIN steta_dokazi as sd ON sd.id_materijala = dm.id_materijala AND sd.id_steta = ?", "i", [$value["id_steta"]]);
+            } catch (Exception $e) {
+                if ($e->getCode() === DBEmpty) {
+                    $smarty->assign("errorGlobal", "Dokazni materijali za štetu {$value["id_steta"]} nisu uspješno pronađeni.");
+                } else {
+                    throw new Exception($e->getMessage(), $e->getCode());
+                }
+            }
         }
 
         $smarty->assign("reportedDamages", $reportedDamages);

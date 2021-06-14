@@ -45,7 +45,7 @@ if (isset($_POST["submit"])) {
         $startTime = date("Y-m-d H:i:s", time() + $config["virtualTimeOffsetSeconds"]);
         $deadline = date("Y-m-d H:i:s", $newCall["deadline"]);
 
-        $argArray = [$newCall["name"], $newCall["name"], $startTime, $deadline, $_SESSION["user"]->id_korisnik, $newCall["category"]];
+        $argArray = [$newCall["name"], $newCall["description"], $startTime, $deadline, $_SESSION["user"]->id_korisnik, $newCall["category"]];
 
         $dbObj = new DB();
         $newCallId = $dbObj->ExecutePrepared("INSERT INTO `WebDiP2020x057`.`javni_poziv` (`naziv`, `opis`, `datum_otvaranja`, `datum_zatvaranja`, `id_odgovorna_osoba`, `id_kategorija_stete`) VALUES (?, ?, ?, ?, ?, ?)", "ssssii", $argArray, true);
@@ -54,7 +54,9 @@ if (isset($_POST["submit"])) {
         $logObj = new Log($dbObj);
         $logObj->New("", "Moderator {$_SESSION["user"]->korisnicko_ime} je otvorio javni poziv pod šifrom $newCallId.", Log::otvaranje_javnog_poziva);
 
-        $smarty->assign("infoGlobal", "Poziv dodan!");
+        $_SESSION["infoGlobal"] = "Poziv dodan pod šifrom $newCallId!";
+        header("Location: {$relativePath}moderation.php");
+        exit();
     } catch (Exception $e) {
         $smarty->assign("errorGlobal", $e->getMessage());
     }

@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.39, created on 2021-06-13 13:54:44
+/* Smarty version 3.1.39, created on 2021-06-14 18:11:34
   from '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/search.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.39',
-  'unifunc' => 'content_60c5f204cfa3f8_12335788',
+  'unifunc' => 'content_60c77fb6c32984_42604483',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '785618af439df969e4549d8855feae71055bc24f' => 
     array (
       0 => '/mnt/14BC98A7696799CA/FOI/FOI Materijali/6. semestar/Web dizajn i programiranje/Projekt/templates/search.tpl',
-      1 => 1623585284,
+      1 => 1623687080,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_60c5f204cfa3f8_12335788 (Smarty_Internal_Template $_smarty_tpl) {
+function content_60c77fb6c32984_42604483 (Smarty_Internal_Template $_smarty_tpl) {
 ?><section class="section-search">
     <form class="section-search__form" method="GET" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>
 ">
@@ -72,10 +72,13 @@ $_smarty_tpl->tpl_vars['damage']->do_else = false;
                     </div>
                     <div>
                         <p class="reported-damage__descriptor">Dodijeljeno sredstava:</p>
-                        <p class="reported-damage__content"><?php echo $_smarty_tpl->tpl_vars['damage']->value["subvencija_hrk"];?>
+                        <p class="reported-damage__content-success"><?php echo $_smarty_tpl->tpl_vars['damage']->value["subvencija_hrk"];?>
  HRK</p>
                     </div>
                 </div>
+            <?php } elseif ($_smarty_tpl->tpl_vars['damage']->value["id_status_stete"] == "1") {?>
+                </div>
+                <p class="reported-damage__content-warning">Još nije pregledano!</p>
             <?php } else { ?>
             </div>
             <p class="reported-damage__content-error">Nije prihvaćeno!</p>

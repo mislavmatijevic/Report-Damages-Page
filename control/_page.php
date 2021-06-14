@@ -47,15 +47,15 @@ require_once dirname(__DIR__)."/control/Database.php";
 
 switch ($_SESSION["lvl"]) {
     case LVL_ADMINISTRATOR: {
-            $userHelloMessage = "Administrator";
+            $userHelloMessage = $_SESSION["user"]->korisnicko_ime . " (admin)";
             break;
         }
     case LVL_MODERATOR: {
-            $userHelloMessage = "Moderator";
+            $userHelloMessage = $_SESSION["user"]->korisnicko_ime . " (mod)";
             break;
         }
     case LVL_REGISTRIRANI: {
-            $userHelloMessage = "Pozdrav, " . (!empty($_SESSION["user"]->ime) ? $_SESSION["user"]->ime : $korisnik["user"]->korisnicko_ime) . "!";
+            $userHelloMessage = $_SESSION["user"]->korisnicko_ime;
             break;
         }
     case LVL_NEREGISTRIRANI: {

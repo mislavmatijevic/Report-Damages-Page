@@ -36,9 +36,12 @@
                     </div>
                     <div>
                         <p class="reported-damage__descriptor">Dodijeljeno sredstava:</p>
-                        <p class="reported-damage__content">{$damage["subvencija_hrk"]} HRK</p>
+                        <p class="reported-damage__content-success">{$damage["subvencija_hrk"]} HRK</p>
                     </div>
                 </div>
+            {elseif $damage["id_status_stete"] == "1"}
+                </div>
+                <p class="reported-damage__content-warning">Još nije pregledano!</p>
             {else}
             </div>
             <p class="reported-damage__content-error">Nije prihvaćeno!</p>
